@@ -137,16 +137,73 @@ void MediaFlyout::animateOut(QRect trayIconGeometry)
 
 void MediaFlyout::updateUi(MediaSession session)
 {
-    ui->title->setText(session.title);
+    // Enable word wrap for the title QLabel
+    ui->title->setWordWrap(true);
+
+    // Limit the title to 2 lines
+    QString fullTitle = session.title;
+    QFontMetrics metrics(ui->title->font());
+    int maxLines = 2;
+    int lineHeight = metrics.lineSpacing(); // Height of a single line of text
+    int maxHeight = maxLines * lineHeight;  // Maximum height for 2 lines
+
+    // Calculate text that fits within the QLabel's width and max height
+    QString truncatedTitle;
+    QStringList words = fullTitle.split(' '); // Split title into words for manual wrapping
+    QString currentLine;
+    int currentHeight = 0;
+
+    for (const QString& word : words) {
+        // Test appending the word to the current line
+        QString testLine = currentLine.isEmpty() ? word : currentLine + ' ' + word;
+
+        // Check if the current line exceeds the QLabel's width
+        if (metrics.horizontalAdvance(testLine) > ui->title->width()) {
+            // Line is too wide, add it as a completed line
+            if (!truncatedTitle.isEmpty()) {
+                truncatedTitle += '\n';
+            }
+            truncatedTitle += currentLine;
+            currentHeight += lineHeight;
+
+            // Start a new line with the current word
+            currentLine = word;
+
+            // Stop if we've reached the maximum number of lines
+            if (currentHeight >= maxHeight) {
+                truncatedTitle.chop(3); // Remove last characters if needed
+                truncatedTitle += "..."; // Add ellipsis
+                break;
+            }
+        } else {
+            // Line is still within width, keep building it
+            currentLine = testLine;
+        }
+    }
+
+    // Add the last line, if there's space left
+    if (currentHeight < maxHeight && !currentLine.isEmpty()) {
+        if (!truncatedTitle.isEmpty()) {
+            truncatedTitle += '\n';
+        }
+        truncatedTitle += currentLine;
+    }
+
+    // Set the processed title text
+    ui->title->setText(truncatedTitle);
+
+    // Update other UI elements
     ui->artist->setText(session.artist);
     ui->prev->setEnabled(session.canGoPrevious);
     ui->next->setEnabled(session.canGoNext);
     ui->pause->setEnabled(true);
 
+    // Update media icon
     QPixmap originalIcon = session.icon.pixmap(64, 64);
     QPixmap roundedIcon = roundPixmap(originalIcon, 8);
     ui->icon->setPixmap(roundedIcon);
 
+    // Set play/pause icon
     QString playPause;
     if (session.playbackState == "Playing") {
         playPause = "pause";
@@ -154,6 +211,9 @@ void MediaFlyout::updateUi(MediaSession session)
         playPause = "play";
     }
     ui->pause->setIcon(Utils::getButtonsIcon(playPause));
+
+    // Adjust size of the widget
+    this->adjustSize();
 }
 
 QPixmap MediaFlyout::roundPixmap(const QPixmap &src, int radius) {
