@@ -15,6 +15,23 @@ MediaSessionWorker::MediaSessionWorker(QObject* parent)
 {
 }
 
+MediaSessionWorker::~MediaSessionWorker()
+{
+    qDebug() << "pass dest";
+    // Deinitialize the COM apartment when the object is destroyed
+    try
+    {
+        winrt::uninit_apartment();  // Clean up the COM apartment
+    }
+    catch (const std::exception& ex)
+    {
+        qDebug() << "Error during COM deinitialization:" << ex.what();
+    }
+
+    CoUninitialize();
+
+}
+
 void MediaSessionWorker::process()
 {
     try
@@ -123,11 +140,13 @@ void MediaSessionWorker::process()
                            else
                            {
                                emit sessionError("Failed to request media session.");
+                               winrt::uninit_apartment();
                            }
                        });
     }
     catch (const std::exception& ex)
     {
         emit sessionError(QString("Error initializing COM: %1").arg(ex.what()));
+        winrt::uninit_apartment();
     }
 }

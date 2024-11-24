@@ -10,7 +10,8 @@ class MediaSessionWorker : public QObject
 
 public:
     explicit MediaSessionWorker(QObject* parent = nullptr);
-    void process();  // Worker function to handle the media session retrieval
+    ~MediaSessionWorker();
+    void process();
 
 signals:
     void sessionReady(const MediaSession& session);

@@ -11,9 +11,6 @@
 MediaFlyout::MediaFlyout(QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::MediaFlyout)
-    , workerThread(nullptr)
-    , worker(nullptr)
-    , mediaSessionTimer(nullptr)
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::Tool | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::WindowDoesNotAcceptFocus);
@@ -32,7 +29,6 @@ MediaFlyout::MediaFlyout(QWidget* parent)
 
 MediaFlyout::~MediaFlyout()
 {
-    stopMonitoringMediaSession();
     delete ui;
 }
 
@@ -139,66 +135,6 @@ void MediaFlyout::animateOut(QRect trayIconGeometry)
     });
 }
 
-void MediaFlyout::startMonitoringMediaSession()
-{
-    if (!mediaSessionTimer) {
-        mediaSessionTimer = new QTimer(this);
-        connect(mediaSessionTimer, &QTimer::timeout, this, &MediaFlyout::getMediaSession);
-        mediaSessionTimer->start(1000);  // 1000 milliseconds = 1 second
-        qDebug() << "Started media session monitoring.";
-    }
-}
-
-void MediaFlyout::stopMonitoringMediaSession()
-{
-    // Stop the timer and delete it if it's not null
-    if (mediaSessionTimer) {
-        mediaSessionTimer->stop();
-        delete mediaSessionTimer;  // Timer will be deleted
-        mediaSessionTimer = nullptr;  // Set to null to avoid dangling pointer
-        qDebug() << "Stopped media session monitoring.";
-    }
-}
-
-void MediaFlyout::getMediaSession()
-{
-    // Create a new worker thread and worker object every second
-    workerThread = new QThread(this);
-    worker = new MediaSessionWorker();
-
-    // Move worker to a separate thread
-    worker->moveToThread(workerThread);
-
-    // Connect signals and slots
-    connect(workerThread, &QThread::started, worker, &MediaSessionWorker::process);
-    connect(worker, &MediaSessionWorker::sessionReady, this, &MediaFlyout::onSessionReady);
-    connect(worker, &MediaSessionWorker::sessionError, this, &MediaFlyout::onSessionError);
-    connect(workerThread, &QThread::finished, worker, &QObject::deleteLater);
-
-    // Start the worker thread
-    workerThread->start();
-}
-
-void MediaFlyout::onSessionReady(const MediaSession& session)
-{
-    workerThread->quit();
-    workerThread->wait();
-
-    if (!this->isVisible()) {
-        emit sessionActive();
-    }
-
-    updateUi(session);
-}
-
-void MediaFlyout::onSessionError(const QString& error)
-{
-    workerThread->quit();
-    workerThread->wait();
-
-    emit sessionInactive();
-}
-
 void MediaFlyout::updateUi(MediaSession session)
 {
     ui->title->setText(session.title);
@@ -243,16 +179,19 @@ QPixmap MediaFlyout::roundPixmap(const QPixmap &src, int radius) {
 
 void MediaFlyout::onPrevClicked()
 {
-    Utils::sendPrevKey();
+    emit requestPrev();
+    //Utils::sendPrevKey();
 }
 
 void MediaFlyout::onNextClicked()
 {
-    Utils::sendNextKey();
+    emit requestNext();
+    //Utils::sendNextKey();
 }
 
 void MediaFlyout::onPauseClicked()
 {
-    Utils::sendPlayPauseKey();
+    emit requestPause();
+    //Utils::sendPlayPauseKey();
 }
 
