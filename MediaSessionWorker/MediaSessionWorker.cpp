@@ -29,7 +29,6 @@ MediaSessionWorker::~MediaSessionWorker()
     }
 
     CoUninitialize();
-
 }
 
 void MediaSessionWorker::process()
@@ -149,4 +148,6 @@ void MediaSessionWorker::process()
         emit sessionError(QString("Error initializing COM: %1").arg(ex.what()));
         winrt::uninit_apartment();
     }
+    winrt::uninit_apartment();
+    CoUninitialize();
 }

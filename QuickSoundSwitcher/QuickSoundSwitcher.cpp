@@ -46,6 +46,7 @@ QuickSoundSwitcher::~QuickSoundSwitcher()
     delete panel;
     delete overlaySettings;
     delete overlayWidget;
+    stopMonitoringMediaSession();
     instance = nullptr;
 }
 
@@ -135,6 +136,10 @@ void QuickSoundSwitcher::showPanel()
     panel->animateIn(trayIcon->geometry());
 
     mediaFlyout = new MediaFlyout(this);
+    connect(mediaFlyout, &MediaFlyout::requestNext, this, &QuickSoundSwitcher::onRequestNext);
+    connect(mediaFlyout, &MediaFlyout::requestPrev, this, &QuickSoundSwitcher::onRequestPrev);
+    connect(mediaFlyout, &MediaFlyout::requestPause, this, &QuickSoundSwitcher::onRequestPause);
+
     getMediaSession();
 }
 
@@ -159,6 +164,8 @@ void QuickSoundSwitcher::onPanelClosed()
         delete mediaFlyout;
         mediaFlyout = nullptr;
     }
+
+    stopMonitoringMediaSession();
 }
 
 void QuickSoundSwitcher::onSoundOverlayClosed()
@@ -491,7 +498,7 @@ void QuickSoundSwitcher::startMonitoringMediaSession()
     if (!mediaSessionTimer) {
         mediaSessionTimer = new QTimer(this);
         connect(mediaSessionTimer, &QTimer::timeout, this, &QuickSoundSwitcher::getMediaSession);
-        mediaSessionTimer->start(1000);  // 1000 milliseconds = 1 second
+        mediaSessionTimer->start(500);
         qDebug() << "Started media session monitoring.";
     }
 }
@@ -537,30 +544,26 @@ void QuickSoundSwitcher::getMediaSession()
 
 void QuickSoundSwitcher::onSessionReady(const MediaSession& session)
 {
-    disconnect(worker, &MediaSessionWorker::sessionReady, this, &QuickSoundSwitcher::onSessionReady);
-    disconnect(worker, &MediaSessionWorker::sessionError, this, &QuickSoundSwitcher::onSessionError);
+    qDebug() << "pass";
 
     workerThread->quit();
     workerThread->wait();
 
     MediaSession mediaSession = session;
+    qDebug() << session.playbackState;
+    qDebug() << session.title;
+
     if (mediaFlyout) {
         if (!mediaFlyout->isVisible()){
             mediaFlyout->animateIn(trayIcon->geometry(), panel->height());
         }
+        startMonitoringMediaSession();
         mediaFlyout->updateUi(mediaSession);
-
-        connect(mediaFlyout, &MediaFlyout::requestNext, this, &QuickSoundSwitcher::onRequestNext);
-        connect(mediaFlyout, &MediaFlyout::requestPrev, this, &QuickSoundSwitcher::onRequestPrev);
-        connect(mediaFlyout, &MediaFlyout::requestPause, this, &QuickSoundSwitcher::onRequestPause);
     }
 }
 
 void QuickSoundSwitcher::onSessionError(const QString& error)
 {
-    disconnect(worker, &MediaSessionWorker::sessionReady, this, &QuickSoundSwitcher::onSessionReady);
-    disconnect(worker, &MediaSessionWorker::sessionError, this, &QuickSoundSwitcher::onSessionError);
-
     workerThread->quit();
     workerThread->wait();
 
@@ -586,9 +589,6 @@ void QuickSoundSwitcher::onRequestNext()
 
     CoInitialize(nullptr);
     Utils::sendNextKey();
-
-    CoUninitialize();
-    getMediaSession();
     startMonitoringMediaSession();
 }
 
@@ -598,9 +598,6 @@ void QuickSoundSwitcher::onRequestPrev()
 
     CoInitialize(nullptr);
     Utils::sendPrevKey();
-
-    CoUninitialize();
-    getMediaSession();
     startMonitoringMediaSession();
 }
 
@@ -610,8 +607,5 @@ void QuickSoundSwitcher::onRequestPause()
 
     CoInitialize(nullptr);
     Utils::sendPlayPauseKey();
-
-    CoUninitialize();
-    getMediaSession();
     startMonitoringMediaSession();
 }

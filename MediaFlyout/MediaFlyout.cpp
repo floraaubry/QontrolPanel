@@ -141,6 +141,7 @@ void MediaFlyout::updateUi(MediaSession session)
     ui->artist->setText(session.artist);
     ui->prev->setEnabled(session.canGoPrevious);
     ui->next->setEnabled(session.canGoNext);
+    ui->pause->setEnabled(true);
 
     QPixmap originalIcon = session.icon.pixmap(64, 64);
     QPixmap roundedIcon = roundPixmap(originalIcon, 8);
@@ -180,18 +181,24 @@ QPixmap MediaFlyout::roundPixmap(const QPixmap &src, int radius) {
 void MediaFlyout::onPrevClicked()
 {
     emit requestPrev();
-    //Utils::sendPrevKey();
+    ui->next->setEnabled(false);
+    ui->prev->setEnabled(false);
+    ui->pause->setEnabled(false);
 }
 
 void MediaFlyout::onNextClicked()
 {
     emit requestNext();
-    //Utils::sendNextKey();
+    ui->next->setEnabled(false);
+    ui->prev->setEnabled(false);
+    ui->pause->setEnabled(false);
 }
 
 void MediaFlyout::onPauseClicked()
 {
     emit requestPause();
-    //Utils::sendPlayPauseKey();
+    ui->next->setEnabled(false);
+    ui->prev->setEnabled(false);
+    ui->pause->setEnabled(false);
 }
 
