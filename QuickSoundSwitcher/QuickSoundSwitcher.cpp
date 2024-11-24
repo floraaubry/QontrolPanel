@@ -139,14 +139,12 @@ void QuickSoundSwitcher::showPanel()
 
 void QuickSoundSwitcher::onMediaSessionActive()
 {
-    qDebug() << "active";
     mediaFlyout->animateIn(trayIcon->geometry(), panel->height());
     mediaFlyout->startMonitoringMediaSession();
 }
 
 void QuickSoundSwitcher::onMediaSessionInactive()
 {
-    qDebug() << "inactive";
 
     delete mediaFlyout;
     mediaFlyout = nullptr;
@@ -158,7 +156,9 @@ void QuickSoundSwitcher::hidePanel()
     hiding = true;
 
     panel->animateOut(trayIcon->geometry());
-    mediaFlyout->animateOut(trayIcon->geometry());
+    if (mediaFlyout) {
+        mediaFlyout->animateOut(trayIcon->geometry());
+    }
 }
 
 void QuickSoundSwitcher::onPanelClosed()
@@ -380,6 +380,8 @@ void QuickSoundSwitcher::uninstallKeyboardHook()
 LRESULT CALLBACK QuickSoundSwitcher::MouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
     if (nCode == HC_ACTION) {
         MSLLHOOKSTRUCT *hookStruct = reinterpret_cast<MSLLHOOKSTRUCT*>(lParam);
+
+        // Mouse Wheel Detection (previous logic)
         if (wParam == WM_MOUSEWHEEL) {
             int zDelta = GET_WHEEL_DELTA_WPARAM(hookStruct->mouseData);  // Check the scroll direction
             QPoint cursorPos = QCursor::pos();  // Get current cursor position
@@ -393,7 +395,27 @@ LRESULT CALLBACK QuickSoundSwitcher::MouseProc(int nCode, WPARAM wParam, LPARAM 
                 }
             }
         }
+
+        // Mouse Click Detection (added logic)
+        if (wParam == WM_LBUTTONDOWN || wParam == WM_RBUTTONDOWN) {  // Check for left or right mouse click
+            QPoint cursorPos = QCursor::pos();  // Get current cursor position
+
+            // Get the bounding rectangles for the panel and mediaFlyout
+            QRect panelRect = instance->panel ? instance->panel->geometry() : QRect();
+            QRect mediaFlyoutRect = instance->mediaFlyout ? instance->mediaFlyout->geometry() : QRect();
+
+            // Check if the click is outside both the panel and mediaFlyout
+            if (!panelRect.contains(cursorPos) && !mediaFlyoutRect.contains(cursorPos)) {
+                if (instance->panel) {
+                    emit instance->panel->lostFocus();
+                }
+                //if (instance->mediaFlyout) {
+                //    instance->onMediaSessionInactive();  // Or handle flyout visibility
+                //}
+            }
+        }
     }
+
     return CallNextHookEx(NULL, nCode, wParam, lParam);
 }
 
@@ -448,11 +470,9 @@ void QuickSoundSwitcher::adjustOutputVolume(bool up)
     emit volumeChangedWithTray();
 
     if (!soundOverlay) {
-        qDebug() << "pass";
         soundOverlay = new SoundOverlay(this);
         connect(soundOverlay, &SoundOverlay::overlayClosed, this, &QuickSoundSwitcher::onSoundOverlayClosed);
     }
-    qDebug() << "pass2";
 
     soundOverlay->toggleOverlay();
     soundOverlay->updateVolumeIconAndLabel(Utils::getIcon(1, newVolume, NULL), newVolume);

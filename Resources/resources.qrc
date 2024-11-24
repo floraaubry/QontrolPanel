@@ -20,5 +20,15 @@
         <file>icons/overlay_dark.png</file>
         <file>icons/overlay_light.png</file>
         <file>icons/w11_icon.png</file>
+        <file>icons/placeholder_dark.png</file>
+        <file>icons/placeholder_light.png</file>
+        <file>icons/pause_dark.png</file>
+        <file>icons/pause_light.png</file>
+        <file>icons/play_dark.png</file>
+        <file>icons/play_light.png</file>
+        <file>icons/next_dark.png</file>
+        <file>icons/next_light.png</file>
+        <file>icons/prev_dark.png</file>
+        <file>icons/prev_light.png</file>
     </qresource>
 </RCC>

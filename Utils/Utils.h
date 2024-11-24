@@ -14,6 +14,11 @@ namespace Utils {
     QString getTheme();
     void playSoundNotification(bool enabled);
     QPixmap createIconWithAccentBackground();
+    QIcon getPlaceholderIcon();
+    QIcon getButtonsIcon(QString button);
+    void sendPlayPauseKey();
+    void sendNextKey();
+    void sendPrevKey();
 }
 
 #endif // UTILS_H

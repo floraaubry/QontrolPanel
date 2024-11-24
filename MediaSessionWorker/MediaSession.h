@@ -2,6 +2,7 @@
 #define MEDIASESSION_H
 
 #include <QString>
+#include <QIcon>
 
 struct MediaSession
 {
@@ -12,6 +13,7 @@ struct MediaSession
     bool canGoPrevious;
     int duration;
     int currentTime;
+    QIcon icon;
 };
 
 #endif // MEDIASESSION_H

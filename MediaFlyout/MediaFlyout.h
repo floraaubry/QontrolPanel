@@ -25,6 +25,9 @@ public:
 
 public slots:
     void getMediaSession();
+    void onPrevClicked();
+    void onNextClicked();
+    void onPauseClicked();
 
 private slots:
     void onSessionReady(const MediaSession& session);
@@ -40,6 +43,7 @@ private:
     QTimer* mediaSessionTimer;
     QColor borderColor;
     void updateUi(MediaSession session);
+    QPixmap roundPixmap(const QPixmap &src, int radius);
 
 signals:
     void sessionActive();

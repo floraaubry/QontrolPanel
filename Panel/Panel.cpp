@@ -28,7 +28,7 @@ Panel::Panel(QWidget *parent)
     borderColor = Utils::getTheme() == "light" ? QColor(255, 255, 255, 32) : QColor(0, 0, 0, 52);
     panelInstance = this;
     hwndPanel = reinterpret_cast<HWND>(this->winId());
-    installMouseHook();
+    //installMouseHook();
     populateComboBoxes();
     setSliders();
     setButtons();
@@ -486,8 +486,6 @@ void Panel::populateApplications()
                     continue;
                 }
                 groupedApps[app.executableName].append(app);
-                qDebug() << app.name;
-                qDebug() << app.executableName;
             }
 
             for (QMap<QString, QList<Application>>::iterator it = groupedApps.begin(); it != groupedApps.end(); ++it) {

@@ -1,10 +1,12 @@
 #include "MediaSessionWorker.h"
+#include "Utils.h"
+#include <QPixmap>
 #include <windows.h>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Media.Control.h>
+#include <winrt/Windows.Storage.Streams.h>
 #include <winrt/Windows.System.h>
 #include <QDebug>
-#include <stdexcept>
 
 #pragma comment(lib, "runtimeobject.lib")
 
@@ -23,7 +25,6 @@ void MediaSessionWorker::process()
         // Start asynchronous media session processing
         auto task = winrt::Windows::Media::Control::GlobalSystemMediaTransportControlsSessionManager::RequestAsync();
 
-        // Use a completion handler to process the result
         task.Completed([this](winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Media::Control::GlobalSystemMediaTransportControlsSessionManager> const& sender, winrt::Windows::Foundation::AsyncStatus status)
                        {
                            if (status == winrt::Windows::Foundation::AsyncStatus::Completed)
@@ -42,6 +43,47 @@ void MediaSessionWorker::process()
                                        session.title = QString::fromStdWString(mediaProperties.Title().c_str());
                                        session.artist = QString::fromStdWString(mediaProperties.Artist().c_str());
 
+                                       // Get album art (icon)
+                                       auto thumbnail = mediaProperties.Thumbnail();
+                                       if (thumbnail)
+                                       {
+                                           auto stream = thumbnail.OpenReadAsync().get(); // Open the thumbnail stream
+                                           if (stream)
+                                           {
+                                               // Create DataReader from the input stream
+                                               auto inputStream = stream.GetInputStreamAt(0);
+                                               winrt::Windows::Storage::Streams::DataReader reader(inputStream);
+                                               uint32_t size = stream.Size();
+                                               reader.LoadAsync(size).get(); // Load data into the reader
+
+                                               // Convert to QByteArray
+                                               QByteArray imageData;
+                                               for (uint32_t i = 0; i < size; ++i)
+                                               {
+                                                   imageData.append(static_cast<char>(reader.ReadByte()));
+                                               }
+
+                                               // Load into QPixmap
+                                               QPixmap pixmap;
+                                               if (pixmap.loadFromData(imageData))
+                                               {
+                                                   session.icon = pixmap;  // Set the icon if loading is successful
+                                               }
+                                               else
+                                               {
+                                                   session.icon = Utils::getPlaceholderIcon();  // Fallback icon
+                                               }
+                                           }
+                                           else
+                                           {
+                                               session.icon = Utils::getPlaceholderIcon();  // No stream available
+                                           }
+                                       }
+                                       else
+                                       {
+                                           session.icon = Utils::getPlaceholderIcon();  // No thumbnail available
+                                       }
+
                                        // Get playback control information
                                        auto playbackInfo = currentSession.GetPlaybackInfo();
                                        auto playbackControls = playbackInfo.Controls();
@@ -50,7 +92,6 @@ void MediaSessionWorker::process()
 
                                        // Get the playback state (Playing, Paused, Stopped)
                                        auto playbackStatus = playbackInfo.PlaybackStatus();
-
                                        switch (playbackStatus)
                                        {
                                        case winrt::Windows::Media::Control::GlobalSystemMediaTransportControlsSessionPlaybackStatus::Playing:
@@ -67,7 +108,7 @@ void MediaSessionWorker::process()
                                            break;
                                        }
 
-                                       emit sessionReady(session);  // Send session data to main thread
+                                       emit sessionReady(session);
                                    }
                                    else
                                    {
@@ -84,11 +125,6 @@ void MediaSessionWorker::process()
                                emit sessionError("Failed to request media session.");
                            }
                        });
-
-        // Do not wait manually, the callback will handle the result
-        // Uninitialize COM when done
-        // winrt::uninit_apartment() will now be handled when `process()` exits
-
     }
     catch (const std::exception& ex)
     {

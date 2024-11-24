@@ -20,6 +20,14 @@ MediaFlyout::MediaFlyout(QWidget* parent)
     this->setAttribute(Qt::WA_TranslucentBackground);
     setFixedWidth(width());
     borderColor = Utils::getTheme() == "light" ? QColor(255, 255, 255, 32) : QColor(0, 0, 0, 52);
+
+    ui->prev->setIcon(Utils::getButtonsIcon("prev"));
+    ui->next->setIcon(Utils::getButtonsIcon("next"));
+    ui->pause->setIcon(Utils::getButtonsIcon("pause"));
+
+    connect(ui->next, &QToolButton::clicked, this, &MediaFlyout::onNextClicked);
+    connect(ui->prev, &QToolButton::clicked, this, &MediaFlyout::onPrevClicked);
+    connect(ui->pause, &QToolButton::clicked, this, &MediaFlyout::onPauseClicked);
 }
 
 MediaFlyout::~MediaFlyout()
@@ -197,4 +205,54 @@ void MediaFlyout::updateUi(MediaSession session)
     ui->artist->setText(session.artist);
     ui->prev->setEnabled(session.canGoPrevious);
     ui->next->setEnabled(session.canGoNext);
+
+    QPixmap originalIcon = session.icon.pixmap(64, 64);
+    QPixmap roundedIcon = roundPixmap(originalIcon, 8);
+    ui->icon->setPixmap(roundedIcon);
+
+    QString playPause;
+    if (session.playbackState == "Playing") {
+        playPause = "pause";
+    } else {
+        playPause = "play";
+    }
+    ui->pause->setIcon(Utils::getButtonsIcon(playPause));
 }
+
+QPixmap MediaFlyout::roundPixmap(const QPixmap &src, int radius) {
+    if (src.isNull()) {
+        return QPixmap();
+    }
+
+    QPixmap dest(src.size());
+    dest.fill(Qt::transparent);
+
+    QPainter painter(&dest);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+
+    QPainterPath path;
+    path.addRoundedRect(QRectF(0, 0, src.width(), src.height()), radius, radius);
+
+    painter.setClipPath(path);
+    painter.drawPixmap(0, 0, src);
+    painter.end();
+
+    return dest;
+}
+
+void MediaFlyout::onPrevClicked()
+{
+    Utils::sendPrevKey();
+}
+
+void MediaFlyout::onNextClicked()
+{
+    Utils::sendNextKey();
+}
+
+void MediaFlyout::onPauseClicked()
+{
+    Utils::sendPlayPauseKey();
+}
+

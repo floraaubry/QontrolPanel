@@ -188,7 +188,8 @@ void Utils::playSoundNotification(bool enabled)
     PlaySound(soundFile, NULL, SND_FILENAME | SND_ASYNC);
 }
 
-QPixmap Utils::createIconWithAccentBackground() {
+QPixmap Utils::createIconWithAccentBackground()
+{
     QString theme = Utils::getTheme();
     QString accentColorStr;
     if (theme == "light") {
@@ -213,4 +214,82 @@ QPixmap Utils::createIconWithAccentBackground() {
     painter.end();
 
     return background;
+}
+
+QIcon Utils::getPlaceholderIcon()
+{
+    QString theme = Utils::getTheme();
+    return QIcon(QString(":/icons/placeholder_%1.png").arg(theme));
+}
+
+QIcon Utils::getButtonsIcon(QString button)
+{
+    QString theme = Utils::getTheme();
+    return QIcon(QString(":/icons/%1_%2.png").arg(button, theme));
+}
+
+void Utils::sendPlayPauseKey()
+{
+    // Simulate the play/pause key press using the SendInput function
+    INPUT input[1] = {};
+    input[0].type = INPUT_KEYBOARD;
+    input[0].ki.wVk = VK_MEDIA_PLAY_PAUSE;  // Key for Media Play/Pause
+
+    // Send key press
+    SendInput(1, input, sizeof(INPUT));
+
+    // Sleep to simulate key release
+    ZeroMemory(input, sizeof(INPUT));
+    input[0].type = INPUT_KEYBOARD;
+    input[0].ki.wVk = VK_MEDIA_PLAY_PAUSE;
+
+    // Send key release
+    input[0].ki.dwFlags = KEYEVENTF_KEYUP;
+    SendInput(1, input, sizeof(INPUT));
+
+    qDebug() << "Play/Pause key sent!";
+}
+
+void Utils::sendNextKey()
+{
+    // Simulate the next track key press using the SendInput function
+    INPUT input[1] = {};
+    input[0].type = INPUT_KEYBOARD;
+    input[0].ki.wVk = VK_MEDIA_NEXT_TRACK;  // Key for Next Track
+
+    // Send key press
+    SendInput(1, input, sizeof(INPUT));
+
+    // Sleep to simulate key release
+    ZeroMemory(input, sizeof(INPUT));
+    input[0].type = INPUT_KEYBOARD;
+    input[0].ki.wVk = VK_MEDIA_NEXT_TRACK;
+
+    // Send key release
+    input[0].ki.dwFlags = KEYEVENTF_KEYUP;
+    SendInput(1, input, sizeof(INPUT));
+
+    qDebug() << "Next Track key sent!";
+}
+
+void Utils::sendPrevKey()
+{
+    // Simulate the previous track key press using the SendInput function
+    INPUT input[1] = {};
+    input[0].type = INPUT_KEYBOARD;
+    input[0].ki.wVk = VK_MEDIA_PREV_TRACK;  // Key for Previous Track
+
+    // Send key press
+    SendInput(1, input, sizeof(INPUT));
+
+    // Sleep to simulate key release
+    ZeroMemory(input, sizeof(INPUT));
+    input[0].type = INPUT_KEYBOARD;
+    input[0].ki.wVk = VK_MEDIA_PREV_TRACK;
+
+    // Send key release
+    input[0].ki.dwFlags = KEYEVENTF_KEYUP;
+    SendInput(1, input, sizeof(INPUT));
+
+    qDebug() << "Previous Track key sent!";
 }
