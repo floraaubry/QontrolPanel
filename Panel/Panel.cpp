@@ -85,7 +85,7 @@ void Panel::animateIn(QRect trayIconGeometry)
 
     animationTimer->start(refreshRate);
 
-    connect(animationTimer, &QTimer::timeout, this, [=]() mutable {
+    connect(animationTimer, &QTimer::timeout, this, [=, this]() mutable {
         if (currentStep >= totalSteps) {
             animationTimer->stop();
             animationTimer->deleteLater();
@@ -124,7 +124,7 @@ void Panel::animateOut(QRect trayIconGeometry)
 
     animationTimer->start(refreshRate);
 
-    connect(animationTimer, &QTimer::timeout, this, [=]() mutable {
+    connect(animationTimer, &QTimer::timeout, this, [=, this]() mutable {
         if (currentStep >= totalSteps) {
             animationTimer->stop();
             animationTimer->deleteLater();

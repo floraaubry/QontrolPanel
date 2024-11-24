@@ -18,6 +18,7 @@ QuickSoundSwitcher::QuickSoundSwitcher(QWidget *parent)
     : QMainWindow(parent)
     , trayIcon(new QSystemTrayIcon(this))
     , panel(nullptr)
+    , mediaFlyout(nullptr)
     , soundOverlay(nullptr)
     , hiding(false)
     , overlayWidget(nullptr)
@@ -118,6 +119,11 @@ void QuickSoundSwitcher::showPanel()
         return;
     }
 
+    mediaFlyout = new MediaFlyout(this);
+    connect(mediaFlyout, &MediaFlyout::sessionActive, this, &QuickSoundSwitcher::onMediaSessionActive);
+    connect(mediaFlyout, &MediaFlyout::sessionInactive, this, &QuickSoundSwitcher::onMediaSessionInactive);
+    mediaFlyout->getMediaSession();
+
     panel = new Panel(this);
     panel->mergeApps = mergeSimilarApps;
     panel->populateApplications();
@@ -131,12 +137,28 @@ void QuickSoundSwitcher::showPanel()
     panel->animateIn(trayIcon->geometry());
 }
 
+void QuickSoundSwitcher::onMediaSessionActive()
+{
+    qDebug() << "active";
+    mediaFlyout->animateIn(trayIcon->geometry(), panel->height());
+    mediaFlyout->startMonitoringMediaSession();
+}
+
+void QuickSoundSwitcher::onMediaSessionInactive()
+{
+    qDebug() << "inactive";
+
+    delete mediaFlyout;
+    mediaFlyout = nullptr;
+}
+
 void QuickSoundSwitcher::hidePanel()
 {
     if (!panel) return;
     hiding = true;
 
     panel->animateOut(trayIcon->geometry());
+    mediaFlyout->animateOut(trayIcon->geometry());
 }
 
 void QuickSoundSwitcher::onPanelClosed()
@@ -144,6 +166,11 @@ void QuickSoundSwitcher::onPanelClosed()
     delete panel;
     panel = nullptr;
     hiding = false;
+
+    if (mediaFlyout) {
+        delete mediaFlyout;
+        mediaFlyout = nullptr;
+    }
 }
 
 void QuickSoundSwitcher::onSoundOverlayClosed()

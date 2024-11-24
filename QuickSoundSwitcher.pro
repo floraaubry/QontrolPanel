@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17 silent lrelease embed_translations
+CONFIG += c++20 silent lrelease embed_translations
 
 QM_FILES_RESOURCE_PREFIX = /translations
 
@@ -15,8 +15,12 @@ INCLUDEPATH +=                                      \
     OverlaySettings/                                \
     OverlayWidget/                                  \
     SoundOverlay/                                   \
+    MediaFlyout/                                    \
+    MediaSessionWorker/                             \
 
 SOURCES +=                                          \
+    MediaFlyout/MediaFlyout.cpp                     \
+    MediaSessionWorker/MediaSessionWorker.cpp       \
     SoundOverlay/SoundOverlay.cpp                   \
     main.cpp                                        \
     Panel/Panel.cpp                                 \
@@ -28,6 +32,9 @@ SOURCES +=                                          \
     OverlayWidget/OverlayWidget.cpp                 \
 
 HEADERS +=                                          \
+    MediaFlyout/MediaFlyout.h                       \
+    MediaSessionWorker/MediaSession.h               \
+    MediaSessionWorker/MediaSessionWorker.h         \
     Panel/Panel.h                                   \
     QuickSoundSwitcher/QuickSoundSwitcher.h         \
     SoundOverlay/SoundOverlay.h                     \
@@ -39,6 +46,7 @@ HEADERS +=                                          \
     OverlayWidget/OverlayWidget.h                   \
 
 FORMS +=                                            \
+    MediaFlyout/MediaFlyout.ui                      \
     Panel/Panel.ui                                  \
     OverlaySettings/OverlaySettings.ui              \
     SoundOverlay/SoundOverlay.ui                    \
@@ -52,4 +60,4 @@ RESOURCES +=                                        \
 
 RC_FILE = Resources/appicon.rc
 
-LIBS += -luser32 -ladvapi32 -lwinmm -lole32 -lgdi32
+LIBS += -luser32 -ladvapi32 -lwinmm -lole32 -lgdi32 -lwindowsapp
