@@ -119,6 +119,7 @@ void setVolume(EDataFlow dataFlow, int volume) {
 }
 
 int getVolume(EDataFlow dataFlow) {
+    AudioManager::initialize();
     CComPtr<IMMDeviceEnumerator> pEnumerator;
     CComPtr<IMMDevice> pDevice;
     CComPtr<IAudioEndpointVolume> pVolumeControl;
@@ -134,6 +135,7 @@ int getVolume(EDataFlow dataFlow) {
     if (SUCCEEDED(hr)) {
         pVolumeControl->GetMasterVolumeLevelScalar(&volume);
     }
+    AudioManager::cleanup();
     return static_cast<int>(std::round(volume * 100.0f));
 }
 

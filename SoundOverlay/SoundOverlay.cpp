@@ -79,8 +79,9 @@ void SoundOverlay::animateIn()
     this->setWindowOpacity(0.0);
     this->show();
 
-    QObject::connect(animation, &QPropertyAnimation::finished, [=]() {
+    QObject::connect(animation, &QPropertyAnimation::finished, this, [=, this]() {
         animation->deleteLater();
+        expireTimer->start(3000);
     });
 
     animation->start();
