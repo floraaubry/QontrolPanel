@@ -1,6 +1,5 @@
 #include "SoundOverlay.h"
 #include "ui_SoundOverlay.h"
-#include "Utils.h"
 #include <QTimer>
 #include <QApplication>
 #include <QPainter>
