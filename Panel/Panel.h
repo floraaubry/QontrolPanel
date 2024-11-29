@@ -48,15 +48,9 @@ private slots:
     void onInputMuteButtonPressed();
     void outputAudioMeter();
     void inputAudioMeter();
-    void onMuteStateChanged();
-    void onOutputMuteStateChanged(bool state);
-    void onVolumeChangedWithTray();
 
 signals:
-    void volumeChanged();
     void lostFocus();
-    void fadeOutFinished();
-    void outputMuteChanged();
     void panelClosed();
 };
 

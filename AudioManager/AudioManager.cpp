@@ -30,11 +30,13 @@ QString extractShortName(const QString& fullName) {
 }
 
 void enumerateDevices(EDataFlow dataFlow, QList<AudioDevice>& devices) {
+    CoInitialize(nullptr);
     CComPtr<IMMDeviceEnumerator> pEnumerator;
     HRESULT hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_ALL, __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator);
 
     if (FAILED(hr)) {
         qDebug() << "Failed to create device enumerator";
+        CoUninitialize();
         return;
     }
 
@@ -42,6 +44,7 @@ void enumerateDevices(EDataFlow dataFlow, QList<AudioDevice>& devices) {
     hr = pEnumerator->EnumAudioEndpoints(dataFlow, DEVICE_STATE_ACTIVE, &pCollection);
     if (FAILED(hr)) {
         qDebug() << "Failed to enumerate devices";
+        CoUninitialize();
         return;
     }
 
@@ -50,6 +53,7 @@ void enumerateDevices(EDataFlow dataFlow, QList<AudioDevice>& devices) {
     hr = pEnumerator->GetDefaultAudioEndpoint(dataFlow, eConsole, &pDefaultDevice);
     if (FAILED(hr)) {
         qDebug() << "Failed to get default audio endpoint";
+        CoUninitialize();
         return;
     }
 
@@ -57,6 +61,7 @@ void enumerateDevices(EDataFlow dataFlow, QList<AudioDevice>& devices) {
     hr = pDefaultDevice->GetId(&pwszDefaultID);
     if (FAILED(hr)) {
         qDebug() << "Failed to get default device ID";
+        CoUninitialize();
         return;
     }
 
@@ -91,6 +96,7 @@ void enumerateDevices(EDataFlow dataFlow, QList<AudioDevice>& devices) {
     }
 
     CoTaskMemFree(pwszDefaultID);
+    CoUninitialize();
 }
 
 void AudioManager::enumeratePlaybackDevices(QList<AudioDevice>& playbackDevices) {
@@ -102,6 +108,7 @@ void AudioManager::enumerateRecordingDevices(QList<AudioDevice>& recordingDevice
 }
 
 void setVolume(EDataFlow dataFlow, int volume) {
+    CoInitialize(nullptr);
     CComPtr<IMMDeviceEnumerator> pEnumerator;
     CComPtr<IMMDevice> pDevice;
     CComPtr<IAudioEndpointVolume> pVolumeControl;
@@ -116,9 +123,11 @@ void setVolume(EDataFlow dataFlow, int volume) {
     if (SUCCEEDED(hr)) {
         pVolumeControl->SetMasterVolumeLevelScalar(static_cast<float>(volume) / 100.0f, nullptr);
     }
+    CoUninitialize();
 }
 
 int getVolume(EDataFlow dataFlow) {
+    CoInitialize(nullptr);
     AudioManager::initialize();
     CComPtr<IMMDeviceEnumerator> pEnumerator;
     CComPtr<IMMDevice> pDevice;
@@ -135,11 +144,13 @@ int getVolume(EDataFlow dataFlow) {
     if (SUCCEEDED(hr)) {
         pVolumeControl->GetMasterVolumeLevelScalar(&volume);
     }
-    AudioManager::cleanup();
+
+    CoUninitialize();
     return static_cast<int>(std::round(volume * 100.0f));
 }
 
 void setMute(EDataFlow dataFlow, bool mute) {
+    CoInitialize(nullptr);
     CComPtr<IMMDeviceEnumerator> pEnumerator;
     CComPtr<IMMDevice> pDevice;
     CComPtr<IAudioEndpointVolume> pVolumeControl;
@@ -154,9 +165,12 @@ void setMute(EDataFlow dataFlow, bool mute) {
     if (SUCCEEDED(hr)) {
         pVolumeControl->SetMute(mute, nullptr);
     }
+
+    CoUninitialize();
 }
 
 bool getMute(EDataFlow dataFlow) {
+    CoInitialize(nullptr);
     CComPtr<IMMDeviceEnumerator> pEnumerator;
     CComPtr<IMMDevice> pDevice;
     CComPtr<IAudioEndpointVolume> pVolumeControl;
@@ -172,6 +186,8 @@ bool getMute(EDataFlow dataFlow) {
     if (SUCCEEDED(hr)) {
         pVolumeControl->GetMute(&mute);
     }
+
+    CoUninitialize();
     return mute;
 }
 
@@ -208,6 +224,7 @@ bool AudioManager::getRecordingMute() {
 }
 
 int getAudioLevelPercentage(EDataFlow dataFlow) {
+    CoInitialize(nullptr);
     CComPtr<IMMDeviceEnumerator> pEnumerator;
     CComPtr<IMMDevice> pDevice;
     CComPtr<IAudioMeterInformation> pMeterInfo;
@@ -224,13 +241,18 @@ int getAudioLevelPercentage(EDataFlow dataFlow) {
         hr = pMeterInfo->GetPeakValue(&peakLevel);
         if (FAILED(hr)) {
             qDebug() << "Failed to get audio peak level";
+            CoUninitialize();
+
             return 0;
         }
     } else {
         qDebug() << "Failed to activate IAudioMeterInformation";
+        CoUninitialize();
+
         return 0;
     }
 
+    CoUninitialize();
     return static_cast<int>(peakLevel * 100);
 }
 
@@ -293,9 +315,11 @@ bool AudioManager::setDefaultEndpoint(const QString &deviceId)
 
     if (FAILED(hr)) {
         qDebug() << "Failed to set default audio output device";
+        CoUninitialize();
         return false;
     }
 
+    CoUninitialize();
     return true;
 }
 
@@ -358,6 +382,7 @@ QIcon getAppIcon(const QString &executablePath) {
 }
 
 QList<Application> AudioManager::enumerateAudioApplications() {
+    CoInitialize(nullptr);
     QList<Application> applications;
 
     CComPtr<IMMDeviceEnumerator> pEnumerator;
@@ -365,6 +390,7 @@ QList<Application> AudioManager::enumerateAudioApplications() {
                                   __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator);
     if (FAILED(hr)) {
         qDebug() << "Failed to create device enumerator";
+        CoUninitialize();
         return applications;
     }
 
@@ -372,6 +398,7 @@ QList<Application> AudioManager::enumerateAudioApplications() {
     hr = pEnumerator->GetDefaultAudioEndpoint(eRender, eConsole, &pDevice);
     if (FAILED(hr)) {
         qDebug() << "Failed to get default audio endpoint";
+        CoUninitialize();
         return applications;
     }
 
@@ -379,6 +406,7 @@ QList<Application> AudioManager::enumerateAudioApplications() {
     hr = pDevice->Activate(__uuidof(IAudioSessionManager2), CLSCTX_ALL, nullptr, (void**)&pSessionManager);
     if (FAILED(hr)) {
         qDebug() << "Failed to get audio session manager";
+        CoUninitialize();
         return applications;
     }
 
@@ -386,6 +414,7 @@ QList<Application> AudioManager::enumerateAudioApplications() {
     hr = pSessionManager->GetSessionEnumerator(&pSessionEnumerator);
     if (FAILED(hr)) {
         qDebug() << "Failed to get session enumerator";
+        CoUninitialize();
         return applications;
     }
 
@@ -473,10 +502,12 @@ QList<Application> AudioManager::enumerateAudioApplications() {
         applications.append(app);
     }
 
+    CoUninitialize();
     return applications;
 }
 
 bool AudioManager::setApplicationMute(const QString& appId, bool mute) {
+    CoInitialize(nullptr);
     CComPtr<IMMDeviceEnumerator> pEnumerator;
     CComPtr<IMMDevice> pDevice;
     CComPtr<IAudioSessionManager2> pSessionManager;
@@ -490,6 +521,7 @@ bool AudioManager::setApplicationMute(const QString& appId, bool mute) {
     }
     if (FAILED(hr)) {
         qDebug() << "Failed to initialize audio session manager";
+        CoUninitialize();
         return false;
     }
 
@@ -497,6 +529,7 @@ bool AudioManager::setApplicationMute(const QString& appId, bool mute) {
     hr = pSessionManager->GetSessionEnumerator(&pSessionEnumerator);
     if (FAILED(hr)) {
         qDebug() << "Failed to get session enumerator";
+        CoUninitialize();
         return false;
     }
 
@@ -528,11 +561,14 @@ bool AudioManager::setApplicationMute(const QString& appId, bool mute) {
             }
         }
     }
+
+    CoUninitialize();
     return false;
 }
 
 
 bool AudioManager::setApplicationVolume(const QString& appId, int volume) {
+    CoInitialize(nullptr);
     CComPtr<IMMDeviceEnumerator> pEnumerator;
     CComPtr<IMMDevice> pDevice;
     CComPtr<IAudioSessionManager2> pSessionManager;
@@ -546,6 +582,7 @@ bool AudioManager::setApplicationVolume(const QString& appId, int volume) {
     }
     if (FAILED(hr)) {
         qDebug() << "Failed to initialize audio session manager";
+        CoUninitialize();
         return false;
     }
 
@@ -553,6 +590,7 @@ bool AudioManager::setApplicationVolume(const QString& appId, int volume) {
     hr = pSessionManager->GetSessionEnumerator(&pSessionEnumerator);
     if (FAILED(hr)) {
         qDebug() << "Failed to get session enumerator";
+        CoUninitialize();
         return false;
     }
 
@@ -581,15 +619,19 @@ bool AudioManager::setApplicationVolume(const QString& appId, int volume) {
             if (SUCCEEDED(hr)) {
                 float volumeScalar = static_cast<float>(volume) / 100.0f;
                 pAudioVolume->SetMasterVolume(volumeScalar, nullptr);
+                CoUninitialize();
                 return true;
             }
         }
     }
+
+    CoUninitialize();
     return false;
 }
 
 
 bool AudioManager::getApplicationMute(const QString &appId) {
+    CoInitialize(nullptr);
     DWORD processId = appId.toULong();
 
     CComPtr<IMMDeviceEnumerator> pEnumerator;
@@ -597,6 +639,7 @@ bool AudioManager::getApplicationMute(const QString &appId) {
                                   __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator);
     if (FAILED(hr)) {
         qDebug() << "Failed to create device enumerator";
+        CoUninitialize();
         return false;
     }
 
@@ -605,6 +648,7 @@ bool AudioManager::getApplicationMute(const QString &appId) {
     hr = pEnumerator->GetDefaultAudioEndpoint(eRender, eConsole, &pDevice);
     if (FAILED(hr)) {
         qDebug() << "Failed to get default audio endpoint";
+        CoUninitialize();
         return false;
     }
 
@@ -613,6 +657,7 @@ bool AudioManager::getApplicationMute(const QString &appId) {
     hr = pDevice->Activate(__uuidof(IAudioSessionManager2), CLSCTX_ALL, nullptr, (void**)&pSessionManager);
     if (FAILED(hr)) {
         qDebug() << "Failed to get audio session manager";
+        CoUninitialize();
         return false;
     }
 
@@ -621,6 +666,7 @@ bool AudioManager::getApplicationMute(const QString &appId) {
     hr = pSessionManager->GetSessionEnumerator(&pSessionEnumerator);
     if (FAILED(hr)) {
         qDebug() << "Failed to get session enumerator";
+        CoUninitialize();
         return false;
     }
 
@@ -651,9 +697,11 @@ bool AudioManager::getApplicationMute(const QString &appId) {
             hr = pSimpleAudioVolume->GetMute(&isMuted);
             if (FAILED(hr)) continue;
 
+            CoUninitialize();
             return isMuted == TRUE;  // Return true if muted, false otherwise
         }
     }
 
+    CoUninitialize();
     return false;  // Default return value if not found
 }

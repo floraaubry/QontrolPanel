@@ -23,7 +23,6 @@ Panel::Panel(QWidget *parent)
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->setAttribute(Qt::WA_AlwaysShowToolTips);
     setFixedWidth(width());
-    AudioManager::initialize();
     borderColor = Utils::getTheme() == "light" ? QColor(255, 255, 255, 32) : QColor(0, 0, 0, 52);
     populateComboBoxes();
     setSliders();
@@ -39,19 +38,12 @@ Panel::Panel(QWidget *parent)
     connect(ui->inputComboBox, &QComboBox::currentIndexChanged, this, &Panel::onInputComboBoxIndexChanged);
     connect(ui->outputVolumeSlider, &QSlider::valueChanged, this, &Panel::onOutputValueChanged);
     connect(ui->inputVolumeSlider, &QSlider::valueChanged, this, &Panel::onInputValueChanged);
-    connect(ui->outputMuteButton, &QPushButton::pressed, this, &Panel::onOutputMuteButtonPressed);
-    connect(ui->inputMuteButton, &QPushButton::pressed, this, &Panel::onInputMuteButtonPressed);
-    connect(static_cast<QuickSoundSwitcher*>(parent), &QuickSoundSwitcher::muteStateChanged,
-            this, &Panel::onMuteStateChanged);
-    connect(static_cast<QuickSoundSwitcher*>(parent), &QuickSoundSwitcher::outputMuteStateChanged,
-            this, &Panel::onOutputMuteStateChanged);
-    connect(static_cast<QuickSoundSwitcher*>(parent), &QuickSoundSwitcher::volumeChangedWithTray,
-            this, &Panel::onVolumeChangedWithTray);
+    connect(ui->outputMuteButton, &QPushButton::clicked, this, &Panel::onOutputMuteButtonPressed);
+    connect(ui->inputMuteButton, &QPushButton::clicked, this, &Panel::onInputMuteButtonPressed);
 }
 
 Panel::~Panel()
 {
-    AudioManager::cleanup();
     delete ui;
 }
 
@@ -220,11 +212,9 @@ void Panel::onOutputValueChanged()
     if (playbackMute) {
         AudioManager::setPlaybackMute(false);
         ui->outputMuteButton->setIcon(Utils::getIcon(2, NULL, !playbackMute));
-        emit outputMuteChanged();
     }
 
     AudioManager::setPlaybackVolume(ui->outputVolumeSlider->value());
-    emit volumeChanged();
 }
 
 void Panel::onInputValueChanged()
@@ -243,7 +233,6 @@ void Panel::onOutputMuteButtonPressed()
     bool playbackMute = AudioManager::getPlaybackMute();
     AudioManager::setPlaybackMute(!playbackMute);
     ui->outputMuteButton->setIcon(Utils::getIcon(2, NULL, !playbackMute));
-    emit outputMuteChanged();
 }
 
 void Panel::onInputMuteButtonPressed()
@@ -251,24 +240,6 @@ void Panel::onInputMuteButtonPressed()
     bool recordingMute = AudioManager::getRecordingMute();
     AudioManager::setRecordingMute(!recordingMute);
     ui->inputMuteButton->setIcon(Utils::getIcon(3, NULL, !recordingMute));
-}
-
-void Panel::onMuteStateChanged()
-{
-    bool recordingMute = AudioManager::getRecordingMute();
-    ui->inputMuteButton->setIcon(Utils::getIcon(3, NULL, recordingMute));
-}
-
-void Panel::onOutputMuteStateChanged(bool state)
-{
-    ui->outputMuteButton->setIcon(Utils::getIcon(2, NULL, state));
-}
-
-void Panel::onVolumeChangedWithTray()
-{
-    ui->outputVolumeSlider->blockSignals(true);
-    ui->outputVolumeSlider->setValue(AudioManager::getPlaybackVolume());
-    ui->outputVolumeSlider->blockSignals(false);
 }
 
 void Panel::outputAudioMeter() {

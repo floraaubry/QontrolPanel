@@ -18,7 +18,6 @@ SettingsPage::SettingsPage(QWidget *parent)
     this->setFixedSize(this->size());
     loadSettings();
 
-    connect(ui->volumeIncrementSpinBox, &QSpinBox::valueChanged, this, &SettingsPage::saveSettings);
     connect(ui->mergeSimilarCheckBox, &QCheckBox::checkStateChanged, this, &SettingsPage::saveSettings);
 }
 
@@ -30,13 +29,11 @@ SettingsPage::~SettingsPage()
 
 void SettingsPage::loadSettings()
 {
-    ui->volumeIncrementSpinBox->setValue(settings.value("volumeIncrement", 2).toInt());
     ui->mergeSimilarCheckBox->setChecked(settings.value("mergeSimilarApps", true).toBool());
 }
 
 void SettingsPage::saveSettings()
 {
-    settings.setValue("volumeIncrement", ui->volumeIncrementSpinBox->value());
     settings.setValue("mergeSimilarApps", ui->mergeSimilarCheckBox->isChecked());
 
     emit settingsChanged();

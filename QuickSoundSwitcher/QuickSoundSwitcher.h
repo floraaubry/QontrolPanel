@@ -3,7 +3,6 @@
 
 #include "Panel.h"
 #include "SettingsPage.h"
-#include "SoundOverlay.h"
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 #include <QSettings>
@@ -24,16 +23,12 @@ protected:
 
 private slots:
     void onPanelClosed();
-    void onSoundOverlayClosed();
     void onRunAtStartupStateChanged();
-    void onVolumeChanged();
-    void onOutputMuteChanged();
 
 private:
     QSystemTrayIcon *trayIcon;
     QSettings settings;
     Panel* panel;
-    SoundOverlay* soundOverlay;
     void createTrayIcon();
     void showPanel();
     void showMediaFlyout();
@@ -45,8 +40,6 @@ private:
     static HHOOK keyboardHook;
     void installGlobalMouseHook();
     void uninstallGlobalMouseHook();
-    void installKeyboardHook();
-    void uninstallKeyboardHook();
 
     static const int HOTKEY_ID = 1;
     void loadSettings();
@@ -59,9 +52,8 @@ private:
     SettingsPage *settingsPage;
 
 signals:
-    void muteStateChanged();
     void outputMuteStateChanged(bool state);
-    void volumeChangedWithTray();
+    void volumeChangedWithTray(int newVolume);
 };
 
 #endif // QUICKSOUNDSWITCHER_H
