@@ -8,8 +8,6 @@ QM_FILES_RESOURCE_PREFIX=/translations/tr
 
 INCLUDEPATH += \
     AudioManager \
-    MediaFlyout \
-    MediaSessionWorker \
     SettingsPage \
     Panel \
     QuickSoundSwitcher \
@@ -19,8 +17,6 @@ INCLUDEPATH += \
 
 SOURCES += \
     AudioManager/AudioManager.cpp \
-    MediaFlyout/MediaFlyout.cpp \
-    MediaSessionWorker/MediaSessionWorker.cpp \
     SettingsPage/SettingsPage.cpp \
     Panel/Panel.cpp \
     QuickSoundSwitcher/QuickSoundSwitcher.cpp \
@@ -32,9 +28,6 @@ SOURCES += \
 HEADERS += \
     AudioManager/AudioManager.h \
     AudioManager/PolicyConfig.h \
-    MediaFlyout/MediaFlyout.h \
-    MediaSessionWorker/MediaSession.h \
-    MediaSessionWorker/MediaSessionWorker.h \
     SettingsPage/SettingsPage.h \
     Panel/Panel.h \
     QuickSoundSwitcher/QuickSoundSwitcher.h \
@@ -43,13 +36,12 @@ HEADERS += \
     Utils/Utils.h
 
 FORMS += \
-    MediaFlyout/MediaFlyout.ui \
     SettingsPage/SettingsPage.ui \
     Panel/Panel.ui \
     SoundOverlay/SoundOverlay.ui
 
 RESOURCES += Resources/resources.qrc
 
-LIBS += -lgdi32 -lwinmm
+LIBS += -lgdi32
 
 RC_FILE = Resources/appicon.rc

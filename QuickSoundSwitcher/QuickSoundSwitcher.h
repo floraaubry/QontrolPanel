@@ -1,8 +1,6 @@
 #ifndef QUICKSOUNDSWITCHER_H
 #define QUICKSOUNDSWITCHER_H
 
-#include "MediaFlyout.h"
-#include "MediaSessionWorker.h"
 #include "Panel.h"
 #include "SettingsPage.h"
 #include "SoundOverlay.h"
@@ -28,8 +26,6 @@ private slots:
     void onPanelClosed();
     void onSoundOverlayClosed();
     void onRunAtStartupStateChanged();
-    void onSessionReady(const MediaSession& session);
-    void onSessionError();
     void onVolumeChanged();
     void onOutputMuteChanged();
 
@@ -37,7 +33,6 @@ private:
     QSystemTrayIcon *trayIcon;
     QSettings settings;
     Panel* panel;
-    MediaFlyout* mediaFlyout;
     SoundOverlay* soundOverlay;
     void createTrayIcon();
     void showPanel();
@@ -62,9 +57,6 @@ private:
     bool mergeSimilarApps;
     int volumeIncrement;
     SettingsPage *settingsPage;
-    QThread* workerThread;
-    MediaSessionWorker* worker;
-    void getMediaSession();
 
 signals:
     void muteStateChanged();

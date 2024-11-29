@@ -166,13 +166,6 @@ QIcon Utils::getButtonsIcon(QString button)
     return QIcon(QString(":/icons/%1_%2.png").arg(button, theme));
 }
 
-void Utils::setAlwaysOnTopState(QWidget *widget, bool state) {
-    HWND hwnd = (HWND)widget->winId();
-    HWND position = state ? HWND_TOPMOST : HWND_NOTOPMOST;
-
-    SetWindowPos(hwnd, position, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-}
-
 QString Utils::truncateTitle(QString title, QFontMetrics metrics, int labelWidth)
 {
     int maxLines = 2;
