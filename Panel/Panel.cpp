@@ -1,63 +1,39 @@
 #include "Panel.h"
-#include "ui_Panel.h"
-#include "Utils.h"
-#include "QuickSoundSwitcher.h"
-#include <QKeyEvent>
-#include <QComboBox>
+#include <QQmlContext>
+#include <QQuickItem>
 #include <QList>
 #include <QScreen>
 #include <QPainter>
 #include <QPainterPath>
 #include <QTimer>
-#include <QFont>
-#include <QLabel>
-#include <QPropertyAnimation>
+#include <QPalette>
+#include <QApplication>
 
-Panel::Panel(QWidget *parent, MediaFlyout* mediaFlyout)
-    : QWidget(parent)
+Panel::Panel(QObject *parent, MediaFlyout* mediaFlyout)
+    : QObject(parent)
     , isAnimating(false)
     , visible(false)
-    , ui(new Ui::Panel)
     , m_mediaFlyout(mediaFlyout)
 {
-    ui->setupUi(this);
-    this->setWindowFlags(Qt::Tool | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::WindowDoesNotAcceptFocus | Qt::WindowStaysOnTopHint);
-    this->setAttribute(Qt::WA_TranslucentBackground);
-    this->setAttribute(Qt::WA_AlwaysShowToolTips);
-    setFixedWidth(width());
-    borderColor = Utils::getTheme() == "light" ? QColor(255, 255, 255, 32) : QColor(0, 0, 0, 52);
-    populateComboBoxes();
-    setSliders();
-    setButtons();
-    setFrames();
-    isAnimating = false;
+    engine = new QQmlApplicationEngine(this);
+    engine->rootContext()->setContextProperty("panel", this);
 
-    QTimer *audioMeterTimer = new QTimer(this);
-    connect(audioMeterTimer, &QTimer::timeout, this, &Panel::outputAudioMeter);
-    connect(audioMeterTimer, &QTimer::timeout, this, &Panel::inputAudioMeter);
-    audioMeterTimer->start(32);
+    QColor windowColor = QGuiApplication::palette().color(QPalette::Window);
+    // Expose the native window color to QML
+    engine->rootContext()->setContextProperty("nativeWindowColor", windowColor);
 
-    connect(ui->outputComboBox, &QComboBox::currentIndexChanged, this, &Panel::onOutputComboBoxIndexChanged);
-    connect(ui->inputComboBox, &QComboBox::currentIndexChanged, this, &Panel::onInputComboBoxIndexChanged);
-    connect(ui->outputVolumeSlider, &QSlider::valueChanged, this, &Panel::onOutputValueChanged);
-    connect(ui->inputVolumeSlider, &QSlider::valueChanged, this, &Panel::onInputValueChanged);
-    connect(ui->outputMuteButton, &QPushButton::pressed, this, &Panel::onOutputMuteButtonPressed);
-    connect(ui->inputMuteButton, &QPushButton::pressed, this, &Panel::onInputMuteButtonPressed);
+    engine->load(QUrl(QStringLiteral("qrc:/qml/Panel.qml")));
 
-    connect(static_cast<QuickSoundSwitcher*>(parent), &QuickSoundSwitcher::outputMuteStateChanged,
-            this, &Panel::onOutputMuteStateChanged);
-    connect(static_cast<QuickSoundSwitcher*>(parent), &QuickSoundSwitcher::volumeChangedWithTray,
-            this, &Panel::onVolumeChangedWithTray);
+    panelWindow = qobject_cast<QWindow*>(engine->rootObjects().first());
 }
 
 Panel::~Panel()
 {
-    delete ui;
 }
 
 void Panel::setDynamicMask()
 {
-    QRect windowRect = this->geometry();
+    QRect windowRect = this->panelWindow->geometry();
     QRect availableGeometry = QApplication::primaryScreen()->availableGeometry();
 
     availableGeometry.adjust(0, 0, -12, 0);
@@ -65,12 +41,12 @@ void Panel::setDynamicMask()
 
     if (!visiblePart.isEmpty()) {
         QRegion mask(visiblePart.translated(-windowRect.topLeft()));
-        this->setMask(mask);
+        this->panelWindow->setMask(mask);
         m_mediaFlyout->mediaFlyoutWindow->setMask(mask);
-        this->show();
+        this->panelWindow->setVisible(true);
         m_mediaFlyout->mediaFlyoutWindow->setVisible(true);
     } else {
-        this->hide();
+        this->panelWindow->setVisible(false);
         m_mediaFlyout->mediaFlyoutWindow->setVisible(false);
     }
 }
@@ -82,11 +58,11 @@ void Panel::animateIn()
     QRect availableGeometry = QApplication::primaryScreen()->availableGeometry();
     int margin = 12;
     int startX = availableGeometry.right();
-    int targetX = availableGeometry.right() - this->width() - margin;
-    int panelY = availableGeometry.bottom() - margin - this->height();
-    int flyoutY = availableGeometry.bottom() - margin - this->height() - margin - m_mediaFlyout->mediaFlyoutWindow->height();
+    int targetX = availableGeometry.right() - this->panelWindow->width() - margin;
+    int panelY = availableGeometry.bottom() - margin - this->panelWindow->height();
+    int flyoutY = availableGeometry.bottom() - margin - this->panelWindow->height() - margin - m_mediaFlyout->mediaFlyoutWindow->height();
 
-    this->move(startX, panelY);
+    this->panelWindow->setPosition(startX, panelY);
     m_mediaFlyout->mediaFlyoutWindow->setPosition(startX, flyoutY);
 
     const int durationMs = 60;
@@ -104,14 +80,12 @@ void Panel::animateIn()
         if (currentX == targetX) {
             animationTimer->stop();
             animationTimer->deleteLater();
-            this->clearMask();
-            //m_mediaFlyout->mediaFlyoutWindow->setMask(QRegion());
             visible = true;
             isAnimating = false;
             return;
         }
         setDynamicMask();
-        this->move(currentX, panelY);
+        this->panelWindow->setPosition(currentX, panelY);
         m_mediaFlyout->mediaFlyoutWindow->setPosition(currentX, flyoutY);
         ++currentStep;
     });
@@ -125,9 +99,9 @@ void Panel::animateOut()
     isAnimating = true;
 
     QRect availableGeometry = QApplication::primaryScreen()->availableGeometry();
-    int startX = this->x();
+    int startX = this->panelWindow->x();
     int targetX = availableGeometry.right();
-    int panelY = this->y();
+    int panelY = this->panelWindow->y();
     int flyoutY = m_mediaFlyout->mediaFlyoutWindow->y();
 
     const int durationMs = 60;
@@ -145,359 +119,16 @@ void Panel::animateOut()
         if (currentX == targetX) {
             animationTimer->stop();
             animationTimer->deleteLater();
-            this->hide();
+            this->panelWindow->setVisible(false);
             m_mediaFlyout->mediaFlyoutWindow->setVisible(false);
-            this->clearMask();
-            m_mediaFlyout->mediaFlyoutWindow->setMask(QRegion());
             visible = false;
             isAnimating = false;
             return;
         }
         setDynamicMask();
-        this->move(currentX, panelY);
+        this->panelWindow->setPosition(currentX, panelY);
         m_mediaFlyout->mediaFlyoutWindow->setPosition(currentX, flyoutY);
         ++currentStep;
     });
 }
 
-void Panel::paintEvent(QPaintEvent *event)
-{
-    Q_UNUSED(event);
-    QPainter painter(this);
-
-    painter.setBrush(this->palette().color(QPalette::Window));
-    painter.setPen(Qt::NoPen);
-
-    QPainterPath path;
-    path.addRoundedRect(this->rect().adjusted(1, 1, -1, -1), 8, 8);
-    painter.drawPath(path);
-
-    QPen borderPen(borderColor);
-    borderPen.setWidth(1);
-    painter.setPen(borderPen);
-    painter.setBrush(Qt::NoBrush);
-
-    QPainterPath borderPath;
-    borderPath.addRoundedRect(this->rect().adjusted(0, 0, -1, -1), 8, 8);
-    painter.drawPath(borderPath);
-}
-
-void Panel::populateComboBoxes()
-{
-    ui->outputComboBox->blockSignals(true);
-    ui->inputComboBox->blockSignals(true);
-
-    playbackDevices.clear();
-    recordingDevices.clear();
-
-    AudioManager::enumeratePlaybackDevices(playbackDevices);
-    AudioManager::enumerateRecordingDevices(recordingDevices);
-
-    ui->outputComboBox->clear();
-    ui->inputComboBox->clear();
-
-    int defaultPlaybackIndex = -1;
-    int defaultRecordingIndex = -1;
-
-    for (const AudioDevice &device : playbackDevices) {
-        ui->outputComboBox->addItem(device.shortName);
-
-        if (device.isDefault) {
-            defaultPlaybackIndex = ui->outputComboBox->count() - 1;
-        }
-    }
-
-    if (defaultPlaybackIndex != -1) {
-        ui->outputComboBox->setCurrentIndex(defaultPlaybackIndex);
-    }
-
-    for (const AudioDevice &device : recordingDevices) {
-        ui->inputComboBox->addItem(device.shortName);
-
-        if (device.isDefault) {
-            defaultRecordingIndex = ui->inputComboBox->count() - 1;
-        }
-    }
-
-    if (defaultRecordingIndex != -1) {
-        ui->inputComboBox->setCurrentIndex(defaultRecordingIndex);
-    }
-
-    ui->outputComboBox->blockSignals(false);
-    ui->inputComboBox->blockSignals(false);
-}
-
-void Panel::setSliders()
-{
-    ui->outputVolumeSlider->setValue(AudioManager::getPlaybackVolume());
-    ui->inputVolumeSlider->setValue(AudioManager::getRecordingVolume());
-}
-
-void Panel::setButtons()
-{
-    ui->outputMuteButton->setIcon(Utils::getIcon(2, NULL, AudioManager::getPlaybackMute()));
-    ui->outputMuteButton->setIconSize(QSize(16, 16));
-    ui->inputMuteButton->setIcon(Utils::getIcon(3, NULL, AudioManager::getRecordingMute()));
-    ui->inputMuteButton->setIconSize(QSize(16, 16));
-}
-
-void Panel::setFrames()
-{
-    Utils::setFrameColorBasedOnWindow(this, ui->outputFrame);
-    Utils::setFrameColorBasedOnWindow(this, ui->inputFrame);
-    Utils::setFrameColorBasedOnWindow(this, ui->appFrame);
-}
-
-void Panel::onOutputComboBoxIndexChanged(int index)
-{
-    if (index < 0 || index >= playbackDevices.size()) return;
-
-
-    const AudioDevice &selectedDevice = playbackDevices[index];
-    AudioManager::setDefaultEndpoint(selectedDevice.id);
-
-    updateUi();
-}
-
-void Panel::onInputComboBoxIndexChanged(int index)
-{
-    if (index < 0 || index >= recordingDevices.size()) return;
-
-    const AudioDevice &selectedDevice = recordingDevices[index];
-    AudioManager::setDefaultEndpoint(selectedDevice.id);
-
-    updateUi();
-}
-
-void Panel::onOutputValueChanged()
-{
-    bool playbackMute = AudioManager::getPlaybackMute();
-    if (playbackMute) {
-        AudioManager::setPlaybackMute(false);
-        ui->outputMuteButton->setIcon(Utils::getIcon(2, NULL, !playbackMute));
-        emit outputMuteChanged();
-    }
-
-    AudioManager::setPlaybackVolume(ui->outputVolumeSlider->value());
-    emit volumeChanged();
-}
-
-void Panel::onInputValueChanged()
-{
-    bool recordingMute = AudioManager::getRecordingMute();
-    if (recordingMute) {
-        ui->inputMuteButton->setIcon(Utils::getIcon(3, NULL, !recordingMute));
-        AudioManager::setRecordingMute(false);
-    }
-
-    AudioManager::setRecordingVolume(ui->inputVolumeSlider->value());
-}
-
-void Panel::onOutputMuteButtonPressed()
-{
-    bool playbackMute = AudioManager::getPlaybackMute();
-    AudioManager::setPlaybackMute(!playbackMute);
-    ui->outputMuteButton->setIcon(Utils::getIcon(2, NULL, !playbackMute));
-    emit outputMuteChanged();
-}
-
-void Panel::onInputMuteButtonPressed()
-{
-    bool recordingMute = AudioManager::getRecordingMute();
-    AudioManager::setRecordingMute(!recordingMute);
-    ui->inputMuteButton->setIcon(Utils::getIcon(3, NULL, !recordingMute));
-}
-
-void Panel::onOutputMuteStateChanged(bool state)
-{
-    ui->outputMuteButton->setIcon(Utils::getIcon(2, NULL, state));
-}
-
-void Panel::onVolumeChangedWithTray()
-{
-    ui->outputVolumeSlider->blockSignals(true);
-    ui->outputVolumeSlider->setValue(AudioManager::getPlaybackVolume());
-    ui->outputVolumeSlider->blockSignals(false);
-}
-
-void Panel::outputAudioMeter() {
-    int level = AudioManager::getPlaybackAudioLevel();
-    ui->outputAudioMeter->setValue(level);
-}
-
-void Panel::inputAudioMeter() {
-    int level = AudioManager::getRecordingAudioLevel();
-    ui->inputAudioMeter->setValue(level);
-}
-
-void Panel::updateUi()
-{
-    ui->outputVolumeSlider->setValue(AudioManager::getPlaybackVolume());
-    ui->inputVolumeSlider->setValue(AudioManager::getRecordingVolume());
-
-    bool playbackMute = AudioManager::getPlaybackMute();
-    bool recordingMute = AudioManager::getRecordingMute();
-
-    ui->outputMuteButton->setIcon(Utils::getIcon(2, NULL, playbackMute));
-    ui->inputMuteButton->setIcon(Utils::getIcon(3, NULL, recordingMute));
-}
-
-void Panel::addApplicationControls(QVBoxLayout *vBoxLayout, const QList<Application> &apps)
-{
-    QGridLayout *gridLayout = new QGridLayout;
-    gridLayout->setVerticalSpacing(0);
-    gridLayout->setHorizontalSpacing(6);
-
-    QPushButton *muteButton = new QPushButton(ui->appFrame);
-    muteButton->setFixedSize(30, 30);
-
-    // Tooltip logic: use app.name if it's not empty, otherwise use executableName
-    QString tooltip = apps.first().name.isEmpty() ? apps.first().executableName : apps.first().name;
-    muteButton->setToolTip(tooltip);
-
-    QIcon originalIcon = apps.first().icon;
-    QPixmap originalPixmap = originalIcon.pixmap(16, 16);
-
-    // Determine if any app in the group is muted
-    bool isMuted = std::any_of(apps.begin(), apps.end(), [](const Application &app) {
-        return app.isMuted;
-    });
-
-    if (isMuted) {
-        QIcon mutedIcon = Utils::generateMutedIcon(originalPixmap);
-        muteButton->setIcon(mutedIcon);
-    } else {
-        muteButton->setIcon(originalIcon);
-    }
-
-    connect(muteButton, &QPushButton::clicked, [apps, muteButton, originalPixmap]() mutable {
-        bool newMuteState = !AudioManager::getApplicationMute(apps.first().id);
-        for (int i = 0; i < apps.size(); ++i) {
-            AudioManager::setApplicationMute(apps[i].id, newMuteState);
-        }
-
-        if (newMuteState) {
-            QIcon mutedIcon = Utils::generateMutedIcon(originalPixmap);
-            muteButton->setIcon(mutedIcon);
-        } else {
-            muteButton->setIcon(QIcon(originalPixmap));
-        }
-    });
-
-    // Determine the lowest volume in the group
-    int minVolume = std::min_element(apps.begin(), apps.end(), [](const Application &a, const Application &b) {
-                        return a.volume < b.volume;
-                    })->volume;
-
-    QSlider *slider = new QSlider(Qt::Horizontal, ui->appFrame);
-    slider->setRange(0, 100);
-    slider->setValue(minVolume);
-
-    connect(slider, &QSlider::valueChanged, [apps](int value) {
-        for (int i = 0; i < apps.size(); ++i) {
-            AudioManager::setApplicationVolume(apps[i].id, value);
-        }
-    });
-
-    gridLayout->addWidget(muteButton, 0, 0, 1, 1);
-    gridLayout->addWidget(slider, 0, 1, 1, 1);
-
-    gridLayout->setColumnStretch(1, 1);
-    vBoxLayout->addLayout(gridLayout);
-}
-
-void Panel::clearLayout(QLayout *layout)
-{
-    if (!layout)
-        return;
-
-    // Remove and delete all items in the layout
-    while (QLayoutItem *item = layout->takeAt(0)) {
-        if (item->widget()) {
-            item->widget()->deleteLater(); // Properly delete widgets
-        } else if (item->layout()) {
-            clearLayout(item->layout()); // Recursively clear nested layouts
-        }
-        delete item; // Delete the QLayoutItem itself
-    }
-}
-
-void Panel::populateApplications()
-{
-    // Delete any existing layout in ui->appFrame
-    if (ui->appFrame->layout()) {
-        clearLayout(ui->appFrame->layout());
-        QLayout *oldLayout = ui->appFrame->layout();
-        delete oldLayout; // Delete safely to avoid memory leaks
-    }
-
-    // Create a new QVBoxLayout with margins and spacing
-    QVBoxLayout *vBoxLayout = new QVBoxLayout();
-    vBoxLayout->setContentsMargins(9, 9, 9, 9);
-    vBoxLayout->setSpacing(9);
-
-    // Set the new layout to the appFrame
-    ui->appFrame->setLayout(vBoxLayout);
-
-    QList<Application> applications = AudioManager::enumerateAudioApplications();
-
-    std::sort(applications.begin(), applications.end(), [](const Application &a, const Application &b) {
-        return a.executableName.toLower() < b.executableName.toLower();
-    });
-
-    bool shouldDisplayLabel = applications.isEmpty() || (applications.size() == 1 && applications[0].name == "@%SystemRoot%\\System32\\AudioSrv.Dll,-202");
-
-    if (shouldDisplayLabel) {
-        QLabel *label = new QLabel(tr("All quiet for now."), ui->appFrame);
-        label->setAlignment(Qt::AlignCenter);
-
-        QFont labelFont = label->font();
-        labelFont.setItalic(true);
-        label->setFont(labelFont);
-
-        vBoxLayout->addWidget(label);
-    } else {
-        // Handle "Windows system sounds" first
-        QList<Application> systemSoundsApps;
-        for (const Application &app : applications) {
-            if (app.name == "Windows system sounds") {
-                systemSoundsApps.append(app);
-            }
-        }
-        if (!systemSoundsApps.isEmpty()) {
-            addApplicationControls(vBoxLayout, systemSoundsApps);
-        }
-
-        // Grouping and adding other applications
-        if (mergeApps) {
-            QMap<QString, QList<Application>> groupedApps;
-
-            for (int i = 0; i < applications.size(); ++i) {
-                const Application &app = applications[i];
-                if (app.executableName == "QuickSoundSwitcher" || app.name == "Windows system sounds") {
-                    continue;
-                }
-
-                groupedApps[app.executableName].append(app);
-            }
-
-            for (QMap<QString, QList<Application>>::iterator it = groupedApps.begin(); it != groupedApps.end(); ++it) {
-                addApplicationControls(vBoxLayout, it.value());
-            }
-        } else {
-            for (int i = 0; i < applications.size(); ++i) {
-                const Application &app = applications[i];
-                if (app.executableName == "QuickSoundSwitcher" || app.name == "Windows system sounds") {
-                    continue;
-                }
-                QList<Application> singleApp;
-                singleApp.append(app);
-                addApplicationControls(vBoxLayout, singleApp);
-            }
-        }
-    }
-
-    ui->appFrame->adjustSize();
-    ui->appFrame->updateGeometry();
-    this->adjustSize();
-}

@@ -33,5 +33,6 @@
         <file>qml/SettingsPage.qml</file>
         <file>qml/SoundOverlay.qml</file>
         <file>qml/MediaFlyout.qml</file>
+        <file>qml/Panel.qml</file>
     </qresource>
 </RCC>

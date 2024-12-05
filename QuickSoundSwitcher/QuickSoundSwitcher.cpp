@@ -32,8 +32,8 @@ QuickSoundSwitcher::QuickSoundSwitcher(QWidget *parent)
 
     connect(worker, &MediaSessionWorker::sessionReady, this, &QuickSoundSwitcher::onSessionReady);
     connect(worker, &MediaSessionWorker::sessionError, this, &QuickSoundSwitcher::onSessionError);
-    connect(panel, &Panel::volumeChanged, this, &QuickSoundSwitcher::onVolumeChanged);
-    connect(panel, &Panel::outputMuteChanged, this, &QuickSoundSwitcher::onOutputMuteChanged);
+    //connect(panel, &Panel::volumeChanged, this, &QuickSoundSwitcher::onVolumeChanged);
+    //connect(panel, &Panel::outputMuteChanged, this, &QuickSoundSwitcher::onOutputMuteChanged);
 
     connect(settingsPage, &SettingsPage::settingsChanged, this, &QuickSoundSwitcher::onSettingsChanged);
 }
@@ -218,7 +218,7 @@ LRESULT CALLBACK QuickSoundSwitcher::MouseProc(int nCode, WPARAM wParam, LPARAM 
         if (wParam == WM_LBUTTONUP || wParam == WM_RBUTTONUP) {
             QPoint cursorPos = QCursor::pos();
             QRect trayIconRect = instance->trayIcon->geometry();
-            QRect panelRect = instance->panel ? instance->panel->geometry() : QRect();
+            QRect panelRect = instance->panel ? instance->panel->panelWindow->geometry() : QRect();
             QRect mediaFlyoutRect = instance->mediaFlyout->mediaFlyoutWindow ? instance->mediaFlyout->mediaFlyoutWindow->geometry() : QRect();
 
             if (!trayIconRect.contains(cursorPos) &&
@@ -333,11 +333,11 @@ void QuickSoundSwitcher::showPanel()
     if (panel->isAnimating) return;
 
     if (!panel->visible) {
-        panel->mergeApps = mergeSimilarApps;
-        panel->populateComboBoxes();
-        panel->setButtons();
-        panel->setSliders();
-        panel->populateApplications();
+        //panel->mergeApps = mergeSimilarApps;
+        //panel->populateComboBoxes();
+        //panel->setButtons();
+        //panel->setSliders();
+        //panel->populateApplications();
 
         worker->process();
         panel->animateIn();

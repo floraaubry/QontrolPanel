@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls.FluentWinUI3 2.15
+
 ApplicationWindow {
     width: 330
     height: 180

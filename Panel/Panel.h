@@ -1,63 +1,34 @@
 #ifndef PANEL_H
 #define PANEL_H
 
-#include "AudioManager.h"
-#include <QVBoxLayout>
-#include <QMainWindow>
 #include "MediaFlyout.h"
+#include <QObject>
+#include <QQmlApplicationEngine>
+#include <QWindow>
 
-namespace Ui {
-class Panel;
-}
-
-class Panel : public QWidget
+class Panel : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Panel(QWidget *parent = nullptr, MediaFlyout* mediaFlyout = nullptr);
+    explicit Panel(QObject *parent = nullptr, MediaFlyout* mediaFlyout = nullptr);
     ~Panel() override;
     void animateIn();
     void animateOut();
-    bool mergeApps;
-    void populateApplications();
-    void populateComboBoxes();
-    void setSliders();
-    void setButtons();
     bool isAnimating;
     bool visible;
-
-protected:
-    void paintEvent(QPaintEvent *event) override;
+    QWindow* panelWindow;
 
 private:
-    Ui::Panel *ui;
-    QList<AudioDevice> playbackDevices;
-    QList<AudioDevice> recordingDevices;
-
-    void setFrames();
-    void updateUi();
-    void addApplicationControls(QVBoxLayout *vBoxLayout, const QList<Application> &apps);
-    QColor borderColor;
-    void clearLayout(QLayout *layout);
     void setDynamicMask();
     MediaFlyout* m_mediaFlyout;
+    QQmlApplicationEngine* engine;
 
 private slots:
-    void onOutputComboBoxIndexChanged(int index);
-    void onInputComboBoxIndexChanged(int index);
-    void onOutputValueChanged();
-    void onInputValueChanged();
-    void onOutputMuteButtonPressed();
-    void onInputMuteButtonPressed();
-    void outputAudioMeter();
-    void inputAudioMeter();
-    void onOutputMuteStateChanged(bool state);
-    void onVolumeChangedWithTray();
+
 
 signals:
-    void volumeChanged();
-    void outputMuteChanged();
+
 };
 
 #endif // PANEL_H
