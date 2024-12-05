@@ -91,20 +91,16 @@ bool QuickSoundSwitcher::event(QEvent *event)
 
 void QuickSoundSwitcher::updateApplicationColorScheme()
 {
-    QString mode = Utils::getTheme();
-    QString color;
     QPalette palette = QApplication::palette();
 
-    if (mode == "light") {
-        color = Utils::getAccentColor("light1");
-    } else {
-        color = Utils::getAccentColor("dark1");
-    }
+    // Set the inactive palette to be the same as the active palette
+    palette.setColor(QPalette::Inactive, QPalette::Window, palette.color(QPalette::Active, QPalette::Window));
+    palette.setColor(QPalette::Inactive, QPalette::WindowText, palette.color(QPalette::Active, QPalette::WindowText));
+    palette.setColor(QPalette::Inactive, QPalette::Button, palette.color(QPalette::Active, QPalette::Button));
+    palette.setColor(QPalette::Inactive, QPalette::ButtonText, palette.color(QPalette::Active, QPalette::ButtonText));
 
-    QColor highlightColor(color);
-
-    palette.setColor(QPalette::Highlight, highlightColor);
-    qApp->setPalette(palette);
+    // Apply the updated palette to the entire application
+    QApplication::setPalette(palette);
 }
 
 void QuickSoundSwitcher::trayIconActivated(QSystemTrayIcon::ActivationReason reason)

@@ -43,11 +43,11 @@ void Panel::setDynamicMask()
         QRegion mask(visiblePart.translated(-windowRect.topLeft()));
         this->panelWindow->setMask(mask);
         m_mediaFlyout->mediaFlyoutWindow->setMask(mask);
-        this->panelWindow->setVisible(true);
-        m_mediaFlyout->mediaFlyoutWindow->setVisible(true);
+        //this->panelWindow->setVisible(true);
+        //m_mediaFlyout->mediaFlyoutWindow->setVisible(true);
     } else {
-        this->panelWindow->setVisible(false);
-        m_mediaFlyout->mediaFlyoutWindow->setVisible(false);
+        //this->panelWindow->setVisible(false);
+        //m_mediaFlyout->mediaFlyoutWindow->setVisible(false);
     }
 }
 
@@ -64,6 +64,10 @@ void Panel::animateIn()
 
     this->panelWindow->setPosition(startX, panelY);
     m_mediaFlyout->mediaFlyoutWindow->setPosition(startX, flyoutY);
+
+    this->m_mediaFlyout->mediaFlyoutWindow->show();
+    this->panelWindow->show();
+
 
     const int durationMs = 60;
     const int refreshRate = 1;

@@ -18,8 +18,18 @@ bool isAnotherInstanceRunning(const QString& processName)
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setStyle("fusion");
     a.setQuitOnLastWindowClosed(false);
+
+    QPalette palette = QApplication::palette();
+
+    // Set the inactive palette to be the same as the active palette
+    palette.setColor(QPalette::Inactive, QPalette::Window, palette.color(QPalette::Active, QPalette::Window));
+    palette.setColor(QPalette::Inactive, QPalette::WindowText, palette.color(QPalette::Active, QPalette::WindowText));
+    palette.setColor(QPalette::Inactive, QPalette::Button, palette.color(QPalette::Active, QPalette::Button));
+    palette.setColor(QPalette::Inactive, QPalette::ButtonText, palette.color(QPalette::Active, QPalette::ButtonText));
+
+    // Apply the updated palette to the entire application
+    QApplication::setPalette(palette);
 
     const QString processName = "QuickSoundSwitcher.exe";
     if (isAnotherInstanceRunning(processName)) {
