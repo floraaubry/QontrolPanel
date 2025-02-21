@@ -110,6 +110,18 @@ jobs:
           name: QuickSoundSwitcher_msvc_64
           path: build/QuickSoundSwitcher_msvc_64.zip
 
+      - name: Create Installer 
+        shell: pwsh
+        run: |
+          $env:Path += ";${env:ProgramFiles(x86)}\Inno Setup 6"
+          iscc.exe installer.iss
+
+      - name: Upload Installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: QuickSoundSwitcher_Installer
+          path: Output/QuickSoundSwitcher_Installer.exe
+
   release:
     runs-on: ubuntu-latest
     needs: build
@@ -123,6 +135,12 @@ jobs:
         with:
           name: QuickSoundSwitcher_msvc_64
 
+      - name: Download Windows Installer
+        uses: actions/download-artifact@v4
+        with:
+          name: QuickSoundSwitcher_Installer
+          path: installer
+          
       - name: Bump version and create release
         id: bump_release
         run: |
@@ -168,5 +186,15 @@ jobs:
           asset_path: QuickSoundSwitcher_msvc_64.zip
           asset_name: QuickSoundSwitcher_msvc_64.zip
           asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Windows Installer asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: installer/QuickSoundSwitcher_Installer.exe 
+          asset_name: QuickSoundSwitcher_Installer.exe  
+          asset_content_type: application/vnd.microsoft.portable-executable
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

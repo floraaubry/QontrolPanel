@@ -23,6 +23,17 @@ QuickSoundSwitcher::QuickSoundSwitcher(QWidget *parent)
     createTrayIcon();
     installGlobalMouseHook();
     installKeyboardHook();
+
+    bool firstRun = settings.value("firstRun", true).toBool();
+
+    if (firstRun) {
+        settings.setValue("firstRun", false);
+        trayIcon->showMessage(
+            "Access sound panel from the system tray",
+            "This notification won't show again",
+            QSystemTrayIcon::NoIcon
+            );
+    }
 }
 
 QuickSoundSwitcher::~QuickSoundSwitcher()

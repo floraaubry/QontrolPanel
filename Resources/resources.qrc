@@ -8,18 +8,12 @@
         <file>icons/tray_dark_66.png</file>
         <file>icons/tray_light_100.png</file>
         <file>icons/tray_dark_100.png</file>
-        <file>icons/mic_light.png</file>
-        <file>icons/mic_dark.png</file>
-        <file>icons/mic_light_muted.png</file>
-        <file>icons/mic_dark_muted.png</file>
-        <file>icons/panel_volume_100_dark.png</file>
-        <file>icons/panel_volume_66_dark.png</file>
-        <file>icons/panel_volume_33_dark.png</file>
-        <file>icons/panel_volume_0_dark.png</file>
-        <file>icons/panel_volume_100_light.png</file>
-        <file>icons/panel_volume_66_light.png</file>
-        <file>icons/panel_volume_33_light.png</file>
-        <file>icons/panel_volume_0_light.png</file>
+        <file>icons/mic.png</file>
+        <file>icons/mic_muted.png</file>
+        <file>icons/panel_volume_100.png</file>
+        <file>icons/panel_volume_66.png</file>
+        <file>icons/panel_volume_33.png</file>
+        <file>icons/panel_volume_0.png</file>
         <file>icons/system_light.png</file>
         <file>icons/system_dark.png</file>
         <file>qml/SoundPanel10.qml</file>

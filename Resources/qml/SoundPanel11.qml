@@ -156,20 +156,9 @@ ApplicationWindow {
             Layout.preferredHeight: 40
             Layout.preferredWidth: 40
             flat: true
+            icon.source: outputIcon
             onClicked: {
                 soundPanel.onOutputMuteButtonClicked()
-            }
-
-            Image {
-                id: outputImage
-                width: 16
-                height: 16
-                anchors.margins: 0
-                anchors.centerIn: parent
-                source: outputIcon
-                fillMode: Image.PreserveAspectFit
-                sourceSize.width: 16
-                sourceSize.height: 16
             }
         }
 
@@ -228,19 +217,9 @@ ApplicationWindow {
             Layout.preferredWidth: 40
             Layout.preferredHeight: 40
             flat: true
+            icon.source: inputIcon
             onClicked: {
                 soundPanel.onInputMuteButtonClicked()
-            }
-            Image {
-                id: inputImage
-                width: 16
-                height: 16
-                anchors.margins: 0
-                anchors.centerIn: parent
-                source: inputIcon
-                fillMode: Image.PreserveAspectFit
-                sourceSize.width: 16
-                sourceSize.height: 16
             }
         }
 
@@ -291,20 +270,14 @@ ApplicationWindow {
                     ToolTip.text: model.name
                     ToolTip.visible: hovered
                     ToolTip.delay: 1000
+                    icon.source: model.name === "Windows system sounds" ? systemSoundsIcon : model.icon
+                    icon.color: model.name === "Windows system sounds" ? undefined : "transparent"
+
                     onClicked: {
                         let appIDs = model.appID.split(";");
                         appIDs.forEach(function(appID) {
                             soundPanel.onApplicationMuteButtonClicked(appID, muteButton.checked);
                         });
-                    }
-
-                    Image {
-                        source: model.name === "Windows system sounds" ? systemSoundsIcon : model.icon
-                        anchors.centerIn: parent
-                        width: 16
-                        height: 16
-                        sourceSize.width: 16
-                        sourceSize.height: 16
                     }
                 }
 

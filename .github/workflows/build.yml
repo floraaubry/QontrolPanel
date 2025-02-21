@@ -111,3 +111,15 @@ jobs:
         with:
           name: QuickSoundSwitcher_msvc_64
           path: build/QuickSoundSwitcher_msvc_64.zip
+
+      - name: Create Installer 
+        shell: pwsh
+        run: |
+          $env:Path += ";${env:ProgramFiles(x86)}\Inno Setup 6"
+          iscc.exe installer.iss
+
+      - name: Upload Installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: QuickSoundSwitcher_Installer
+          path: Output/QuickSoundSwitcher_Installer.exe

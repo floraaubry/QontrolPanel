@@ -50,12 +50,12 @@ QString Utils::getIcon(int type, int volume, bool muted)
         } else {
             volumeSymbol = "0";
         }
-        return QString(":/icons/panel_volume_" + volumeSymbol + "_" + theme + ".png");
+        return QString(":/icons/panel_volume_" + volumeSymbol + ".png");
     } else {
         if (muted) {
-            return QString(":/icons/mic_" + theme + "_muted.png");
+            return QString(":/icons/mic_muted.png");
         } else {
-            return QString(":/icons/mic_" + theme + ".png");
+            return QString(":/icons/mic.png");
         }
     }
 }
