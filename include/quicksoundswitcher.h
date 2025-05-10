@@ -1,7 +1,7 @@
 #ifndef QUICKSOUNDSWITCHER_H
 #define QUICKSOUNDSWITCHER_H
 
-#include "SoundPanel.h"
+#include "soundpanel.h"
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 #include <QSettings>
@@ -41,7 +41,7 @@ private:
     static const int HOTKEY_ID = 1;
 
 signals:
-    void outputMuteStateChanged(int volumeIcon);
+    void outputMuteStateChanged(bool mutedState);
     void volumeChangedWithTray(int volume);
 };
 

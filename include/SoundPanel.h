@@ -1,7 +1,7 @@
 #ifndef MEDIASFLYOUT_H
 #define MEDIASFLYOUT_H
 
-#include "AudioManager.h"
+#include "audiomanager.h"
 #include <QObject>
 #include <QQmlApplicationEngine>
 #include <QWindow>
@@ -14,6 +14,8 @@ class SoundPanel : public QObject
     Q_OBJECT
     Q_PROPERTY(int playbackVolume READ playbackVolume WRITE setPlaybackVolume NOTIFY playbackVolumeChanged)
     Q_PROPERTY(int recordingVolume READ recordingVolume WRITE setRecordingVolume NOTIFY recordingVolumeChanged)
+    Q_PROPERTY(bool playbackMuted READ playbackMuted WRITE setPlaybackMuted NOTIFY playbackMutedChanged)
+    Q_PROPERTY(bool recordingMuted READ recordingMuted WRITE setRecordingMuted NOTIFY recordingMutedChanged)
 
 public:
     explicit SoundPanel(QObject* parent = nullptr);
@@ -27,10 +29,11 @@ public:
     int recordingVolume() const;
     void setRecordingVolume(int volume);
 
-    void setOutputButtonImage(int volume);
-    void setInputButtonImage(bool muted);
+    bool playbackMuted() const;
+    void setPlaybackMuted(bool muted);
 
-    void setSystemSoundsIcon();
+    bool recordingMuted() const;
+    void setRecordingMuted(bool muted);
 
     void animateOut();
 
@@ -51,11 +54,13 @@ public slots:
 
 private slots:
     void onVolumeChangedWithTray(int volume);
-    void onOutputMuteStateChanged(int volumeIcon);
+    void onOutputMuteStateChanged(bool mutedState);
 
 signals:
     void playbackVolumeChanged();
     void recordingVolumeChanged();
+    void playbackMutedChanged();
+    void recordingMutedChanged();
 
     void shouldUpdateTray();
     void panelClosed();
@@ -67,6 +72,8 @@ private:
     QList<Application> applications;
     int m_playbackVolume = 0;
     int m_recordingVolume = 0;
+    bool m_playbackMuted = false;
+    bool m_recordingMuted = false;
 
     void animateIn();
     void configureQML();
@@ -79,8 +86,6 @@ private:
     QSettings settings;
     bool mixerOnly;
     bool systemSoundsMuted;
-
-    void animateOpacity();
 };
 
 #endif // MEDIASFLYOUT_H

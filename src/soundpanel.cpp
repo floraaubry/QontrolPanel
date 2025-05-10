@@ -1,5 +1,6 @@
-#include "SoundPanel.h"
-#include "Utils.h"
+#include "soundpanel.h"
+#include "utils.h"
+#include "quicksoundswitcher.h"
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QIcon>
@@ -7,7 +8,6 @@
 #include <QBuffer>
 #include <QApplication>
 #include <QTimer>
-#include "QuickSoundSwitcher.h"
 #include <QPropertyAnimation>
 
 SoundPanel::SoundPanel(QObject* parent)
@@ -24,11 +24,11 @@ SoundPanel::SoundPanel(QObject* parent)
     configureQML();
     populateApplicationModel();
 
-    soundPanelWindow = qobject_cast<QWindow*>(engine->rootObjects().first());
+    soundPanelWindow = qobject_cast<QWindow*>(engine->rootObjects().value(0));
     hWnd = reinterpret_cast<HWND>(soundPanelWindow->winId());
 
+    setupUI();
     animateIn();
-    setupUI(); //setup components while animating window since components are hidden until animation completes
 
     connect(static_cast<QuickSoundSwitcher*>(parent), &QuickSoundSwitcher::outputMuteStateChanged,
             this, &SoundPanel::onOutputMuteStateChanged);
@@ -42,114 +42,53 @@ SoundPanel::~SoundPanel()
     delete engine;
 }
 
-void SoundPanel::animateOpacity()
-{
-    constexpr int fps = 60;
-    constexpr int duration = 200;
-    constexpr int interval = 1000 / fps;
-    constexpr int steps = duration / interval;
-    double currentOpacity = 0.0;
-    double stepSize = 1.0 / steps;
-
-    QTimer *timer = new QTimer();
-    QObject::connect(timer, &QTimer::timeout, [=]() mutable {
-        currentOpacity += stepSize;
-        if (currentOpacity >= 1.0) {
-            currentOpacity = 1.0;
-            engine->rootContext()->setContextProperty("componentsOpacity", currentOpacity);
-            timer->stop();
-            timer->deleteLater();
-        }
-        engine->rootContext()->setContextProperty("componentsOpacity", currentOpacity);
-    });
-
-    timer->start(interval);
-}
-
 void SoundPanel::configureQML() {
-    QColor windowColor, borderColor, contrastedColor, contrastedBorderColor, windowBorderColor, textColor;
-    if (Utils::getTheme() == "dark") {
-        windowColor = QColor(242, 242, 242);
-        contrastedColor = QColor(238,238,238);
-        borderColor = QColor(1, 1, 1, 31);
-        windowBorderColor = QColor(1, 1, 1, 51);
-        contrastedBorderColor = QColor(224, 224, 224);
-        textColor = QColor(0, 0, 0);
-    } else {
-        windowColor = QColor(36, 36, 36);
-        if (isWindows10) windowColor = QColor(39, 39, 39);
-        contrastedColor = QColor(28, 28, 28);
-        borderColor = QColor(255, 255, 255, 31);
-        windowBorderColor = QColor(255, 255, 255, 31);
-        contrastedBorderColor = QColor(25, 25, 25);
-        textColor = QColor(255, 255, 255);
-    }
-
-    QColor accentColor(Utils::getAccentColor("normal"));
-
     engine->rootContext()->setContextProperty("soundPanel", this);
-    engine->rootContext()->setContextProperty("accentColor", accentColor.name());
-    engine->rootContext()->setContextProperty("borderColor", borderColor);
-    engine->rootContext()->setContextProperty("nativeWindowColor", windowColor);
-    engine->rootContext()->setContextProperty("windowBorderColor", windowBorderColor);
-    engine->rootContext()->setContextProperty("contrastedColor", contrastedColor);
-    engine->rootContext()->setContextProperty("contrastedBorderColor", contrastedBorderColor);
-    engine->rootContext()->setContextProperty("textColor", textColor);
     engine->rootContext()->setContextProperty("mixerOnly", mixerOnly);
     engine->rootContext()->setContextProperty("componentsOpacity", 0);
 
-    QString uiFile = isWindows10 ? "qrc:/qml/SoundPanel10.qml" : "qrc:/qml/SoundPanel11.qml";
-    engine->load(QUrl(uiFile));
+    engine->loadFromModule("Odizinne.QuickSoundSwitcher", "SoundPanel");
 }
 
 void SoundPanel::setupUI() {
-    setSystemSoundsIcon();
-
     if (mixerOnly) return;
 
     populateComboBoxes();
     setPlaybackVolume(AudioManager::getPlaybackVolume());
     setRecordingVolume(AudioManager::getRecordingVolume());
-
-    int volume = AudioManager::getPlaybackVolume();
-    bool isOutputMuted = AudioManager::getPlaybackMute();
-
-    if (isOutputMuted || volume == 0) {
-        setOutputButtonImage(0);
-    } else {
-        setOutputButtonImage(volume);
-    }
-
-    bool isInputMuted = AudioManager::getRecordingMute();
-    setInputButtonImage(isInputMuted);
+    setPlaybackMuted(AudioManager::getPlaybackMute());
+    setRecordingMuted(AudioManager::getRecordingMute());
 }
 
 void SoundPanel::onVolumeChangedWithTray(int volume) {
     setPlaybackVolume(volume);
-    setOutputButtonImage(volume);
 }
 
-void SoundPanel::onOutputMuteStateChanged(int volumeIcon) {
-    setOutputButtonImage(volumeIcon);
+void SoundPanel::onOutputMuteStateChanged(bool mutedState) {
+    setPlaybackMuted(mutedState);
 }
 
 void SoundPanel::animateIn()
 {
     if (isAnimating) return;
-
     isAnimating = true;
 
     QRect availableGeometry = QApplication::primaryScreen()->availableGeometry();
 
-    int engineHeight = engine->rootObjects().first()->property("height").toInt();
-    soundPanelWindow->resize(330, engineHeight);
-    int margin = isWindows10 ? margin = -1 : margin = 12;
-    int panelX = availableGeometry.right() - soundPanelWindow->width() + 1 - margin;
+    QList<QObject*> rootObjects = engine->rootObjects();
+    int engineHeight = 0;
+    if (!rootObjects.isEmpty()) {
+        engineHeight = rootObjects[0]->property("height").toInt();
+    }
 
+    soundPanelWindow->resize(330, engineHeight);
+
+    int margin = isWindows10 ? -1 : 12;
+    int panelX = availableGeometry.right() - soundPanelWindow->width() + 1 - margin;
     int scalingFactor = isWindows10 ? 70 : 0;
     int startY = availableGeometry.bottom() - (soundPanelWindow->height() * scalingFactor / 100);
-
     int targetY = availableGeometry.bottom() - soundPanelWindow->height() - margin;
+
     soundPanelWindow->setPosition(panelX, startY);
 
     QPropertyAnimation *animation = new QPropertyAnimation(soundPanelWindow, "y", this);
@@ -159,7 +98,6 @@ void SoundPanel::animateIn()
     animation->setEasingCurve(QEasingCurve::OutQuad);
 
     connect(animation, &QPropertyAnimation::finished, this, [this, animation]() {
-        animateOpacity();
         SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
         isAnimating = false;
         animation->deleteLater();
@@ -224,7 +162,6 @@ void SoundPanel::onPlaybackVolumeChanged(int volume) {
     if (AudioManager::getPlaybackMute()) {
         AudioManager::setPlaybackMute(false);
     }
-    setOutputButtonImage(volume);
     emit shouldUpdateTray();
 }
 
@@ -239,16 +176,23 @@ void SoundPanel::populateComboBoxes() {
     AudioManager::enumeratePlaybackDevices(playbackDevices);
     AudioManager::enumerateRecordingDevices(recordingDevices);
 
-    QMetaObject::invokeMethod(engine->rootObjects().first(), "clearPlaybackDevices");
+    QList<QObject*> rootObjects = engine->rootObjects();
+    if (rootObjects.isEmpty()) {
+        return;
+    }
+
+    QObject* rootObject = rootObjects[0];
+
+    QMetaObject::invokeMethod(rootObject, "clearPlaybackDevices");
 
     int defaultPlaybackIndex = -1;
     for (int i = 0; i < playbackDevices.size(); ++i) {
         const AudioDevice& device = playbackDevices[i];
         if (device.shortName == "") {
-            QMetaObject::invokeMethod(engine->rootObjects().first(), "addPlaybackDevice",
+            QMetaObject::invokeMethod(rootObject, "addPlaybackDevice",
                                       Q_ARG(QVariant, QVariant::fromValue(device.name)));
         } else {
-            QMetaObject::invokeMethod(engine->rootObjects().first(), "addPlaybackDevice",
+            QMetaObject::invokeMethod(rootObject, "addPlaybackDevice",
                                       Q_ARG(QVariant, QVariant::fromValue(device.shortName)));
         }
 
@@ -258,16 +202,16 @@ void SoundPanel::populateComboBoxes() {
     }
 
     if (defaultPlaybackIndex != -1) {
-        QMetaObject::invokeMethod(engine->rootObjects().first(), "setPlaybackDeviceCurrentIndex",
+        QMetaObject::invokeMethod(rootObject, "setPlaybackDeviceCurrentIndex",
                                   Q_ARG(QVariant, defaultPlaybackIndex));
     }
 
-    QMetaObject::invokeMethod(engine->rootObjects().first(), "clearRecordingDevices");
+    QMetaObject::invokeMethod(rootObject, "clearRecordingDevices");
 
     int defaultRecordingIndex = -1;
     for (int i = 0; i < recordingDevices.size(); ++i) {
         const AudioDevice& device = recordingDevices[i];
-        QMetaObject::invokeMethod(engine->rootObjects().first(), "addRecordingDevice",
+        QMetaObject::invokeMethod(rootObject, "addRecordingDevice",
                                   Q_ARG(QVariant, QVariant::fromValue(device.shortName)));
 
         if (device.isDefault) {
@@ -276,13 +220,14 @@ void SoundPanel::populateComboBoxes() {
     }
 
     if (defaultRecordingIndex != -1) {
-        QMetaObject::invokeMethod(engine->rootObjects().first(), "setRecordingDeviceCurrentIndex",
+        QMetaObject::invokeMethod(rootObject, "setRecordingDeviceCurrentIndex",
                                   Q_ARG(QVariant, defaultRecordingIndex));
     }
 }
 
 void SoundPanel::onPlaybackDeviceChanged(const QString &deviceName) {
-    for (const AudioDevice& device : playbackDevices) {
+    const auto& devices = playbackDevices;
+    for (const AudioDevice& device : devices) {
         if (device.shortName == deviceName) {
             AudioManager::setDefaultEndpoint(device.id);
             setPlaybackVolume(AudioManager::getPlaybackVolume());
@@ -292,7 +237,8 @@ void SoundPanel::onPlaybackDeviceChanged(const QString &deviceName) {
 }
 
 void SoundPanel::onRecordingDeviceChanged(const QString &deviceName) {
-    for (const AudioDevice& device : recordingDevices) {
+    const auto& devices = recordingDevices;
+    for (const AudioDevice& device : devices) {
         if (device.shortName == deviceName) {
             AudioManager::setDefaultEndpoint(device.id);
             setRecordingVolume(AudioManager::getRecordingVolume());
@@ -301,41 +247,18 @@ void SoundPanel::onRecordingDeviceChanged(const QString &deviceName) {
     }
 }
 
-void SoundPanel::setOutputButtonImage(int volume) {
-    QString icon;
-    if (isWindows10) {
-        icon = Utils::getIcon(1, volume, NULL);
-    } else {
-        icon = Utils::getIcon(2, volume, NULL);
-    }
-
-    engine->rootContext()->setContextProperty("outputIcon", QStringLiteral("qrc") + icon);
-}
-
-void SoundPanel::setInputButtonImage(bool muted) {
-    QString icon = Utils::getIcon(3, NULL, muted);
-
-    engine->rootContext()->setContextProperty("inputIcon", QStringLiteral("qrc") + icon);
-}
-
 void SoundPanel::onOutputMuteButtonClicked() {
     bool isMuted = AudioManager::getPlaybackMute();
-    int volume = AudioManager::getPlaybackVolume();
     AudioManager::setPlaybackMute(!isMuted);
-
-    if (!isMuted || volume == 0) {
-        setOutputButtonImage(0);
-    } else {
-        setOutputButtonImage(volume);
-    }
+    setPlaybackMuted(!isMuted);
 
     emit shouldUpdateTray();
-
 }
+
 void SoundPanel::onInputMuteButtonClicked() {
     bool isMuted = AudioManager::getRecordingMute();
     AudioManager::setRecordingMute(!isMuted);
-    setInputButtonImage(!isMuted);
+    setRecordingMuted(!isMuted);
 }
 
 void SoundPanel::onOutputSliderReleased() {
@@ -345,13 +268,16 @@ void SoundPanel::onOutputSliderReleased() {
 void SoundPanel::populateApplicationModel() {
     applications = AudioManager::enumerateAudioApplications();
 
-    // Group applications by executable name
     QMap<QString, QVector<Application>> groupedApps;
     QVector<Application> systemSoundApps;
-    for (const Application &app : applications) {
-        if (app.executableName.compare("QuickSoundSwitcher", Qt::CaseInsensitive) == 0) {
+
+    const auto& localApplications = applications;
+    for (const Application &app : localApplications) {
+        if (app.executableName.isEmpty() ||
+            app.executableName.compare("QuickSoundSwitcher", Qt::CaseInsensitive) == 0) {
             continue;
         }
+
         if (app.name == "Windows system sounds") {
             systemSoundApps.append(app);
             continue;
@@ -359,15 +285,23 @@ void SoundPanel::populateApplicationModel() {
         groupedApps[app.executableName].append(app);
     }
 
-    QMetaObject::invokeMethod(engine->rootObjects().first(), "clearApplicationModel");
+    QList<QObject*> rootObjects = engine->rootObjects();
+    if (rootObjects.isEmpty()) {
+        return;
+    }
+    QObject* rootObject = rootObjects[0];
 
-    int addedAppsCount = 0;
-    // Process other grouped applications first
+    QMetaObject::invokeMethod(rootObject, "clearApplicationModel");
+
     for (auto it = groupedApps.begin(); it != groupedApps.end(); ++it) {
         QString executableName = it.key();
         QVector<Application> appGroup = it.value();
 
-        QString displayName = appGroup.first().name.isEmpty() ? executableName : appGroup.first().name;
+        if (appGroup.isEmpty()) {
+            continue;
+        }
+
+        QString displayName = appGroup[0].name.isEmpty() ? executableName : appGroup[0].name;
 
         bool isMuted = std::any_of(appGroup.begin(), appGroup.end(), [](const Application &app) {
             return app.isMuted;
@@ -379,7 +313,7 @@ void SoundPanel::populateApplicationModel() {
                      })->volume;
         }
 
-        QPixmap iconPixmap = appGroup.first().icon.pixmap(16, 16);
+        QPixmap iconPixmap = appGroup[0].icon.pixmap(16, 16);
         QByteArray byteArray;
         QBuffer buffer(&byteArray);
         buffer.open(QIODevice::WriteOnly);
@@ -387,22 +321,21 @@ void SoundPanel::populateApplicationModel() {
         QString base64Icon = QString::fromUtf8(byteArray.toBase64());
 
         QStringList appIDs;
-        for (const Application &app : appGroup) {
+        const auto& localAppGroup = appGroup;
+        for (const Application &app : localAppGroup) {
             appIDs.append(app.id);
         }
 
-        QMetaObject::invokeMethod(engine->rootObjects().first(), "addApplication",
+        QMetaObject::invokeMethod(rootObject, "addApplication",
                                   Q_ARG(QVariant, QVariant::fromValue(appIDs.join(";"))),
                                   Q_ARG(QVariant, QVariant::fromValue(displayName)),
                                   Q_ARG(QVariant, QVariant::fromValue(isMuted)),
                                   Q_ARG(QVariant, QVariant::fromValue(volume)),
                                   Q_ARG(QVariant, QVariant::fromValue(base64Icon)));
-        addedAppsCount++;
     }
 
-    // Process system sounds last
     if (!systemSoundApps.isEmpty()) {
-        QString displayName = systemSoundApps.first().name.isEmpty() ? "Windows system sounds" : systemSoundApps.first().name;
+        QString displayName = systemSoundApps[0].name.isEmpty() ? "Windows system sounds" : systemSoundApps[0].name;
 
         bool isMuted = std::any_of(systemSoundApps.begin(), systemSoundApps.end(), [](const Application &app) {
             return app.isMuted;
@@ -414,7 +347,7 @@ void SoundPanel::populateApplicationModel() {
                      })->volume;
         }
 
-        QPixmap iconPixmap = systemSoundApps.first().icon.pixmap(16, 16);
+        QPixmap iconPixmap = systemSoundApps[0].icon.pixmap(16, 16);
         QByteArray byteArray;
         QBuffer buffer(&byteArray);
         buffer.open(QIODevice::WriteOnly);
@@ -422,11 +355,12 @@ void SoundPanel::populateApplicationModel() {
         QString base64Icon = QString::fromUtf8(byteArray.toBase64());
 
         QStringList appIDs;
-        for (const Application &app : systemSoundApps) {
+        const auto& localSystemSoundApps = systemSoundApps;
+        for (const Application &app : localSystemSoundApps) {
             appIDs.append(app.id);
         }
 
-        QMetaObject::invokeMethod(engine->rootObjects().first(), "addApplication",
+        QMetaObject::invokeMethod(rootObject, "addApplication",
                                   Q_ARG(QVariant, QVariant::fromValue(appIDs.join(";"))),
                                   Q_ARG(QVariant, QVariant::fromValue(displayName)),
                                   Q_ARG(QVariant, QVariant::fromValue(isMuted)),
@@ -434,15 +368,7 @@ void SoundPanel::populateApplicationModel() {
                                   Q_ARG(QVariant, QVariant::fromValue(base64Icon)));
 
         systemSoundsMuted = isMuted;
-        addedAppsCount++;
     }
-    bool singleApp;
-    if (addedAppsCount == 1 || mixerOnly) {
-        singleApp = true;
-    } else {
-        singleApp = false;
-    }
-    engine->rootContext()->setContextProperty("singleApp", singleApp);
 }
 
 void SoundPanel::onApplicationVolumeSliderValueChanged(QString appID, int volume) {
@@ -455,10 +381,24 @@ void SoundPanel::onApplicationMuteButtonClicked(QString appID, bool state) {
     AudioManager::setApplicationMute(appID, state);
 }
 
-void SoundPanel::setSystemSoundsIcon() {
-    if (Utils::getTheme() == "light") {
-        engine->rootContext()->setContextProperty("systemSoundsIcon", QStringLiteral("qrc") + ":/icons/system_light.png");
-    } else {
-        engine->rootContext()->setContextProperty("systemSoundsIcon", QStringLiteral("qrc") + ":/icons/system_dark.png");
+bool SoundPanel::playbackMuted() const {
+    return m_playbackMuted;
+}
+
+void SoundPanel::setPlaybackMuted(bool muted) {
+    if (m_playbackMuted != muted) {
+        m_playbackMuted = muted;
+        emit playbackMutedChanged();
+    }
+}
+
+bool SoundPanel::recordingMuted() const {
+    return m_recordingMuted;
+}
+
+void SoundPanel::setRecordingMuted(bool muted) {
+    if (m_recordingMuted != muted) {
+        m_recordingMuted = muted;
+        emit recordingMutedChanged();
     }
 }

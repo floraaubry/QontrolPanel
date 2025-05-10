@@ -1,7 +1,7 @@
-#include "QuickSoundSwitcher.h"
-#include "Utils.h"
-#include "AudioManager.h"
-#include "ShortcutManager.h"
+#include "quicksoundswitcher.h"
+#include "utils.h"
+#include "audiomanager.h"
+#include "shortcutmanager.h"
 #include <QMenu>
 #include <QApplication>
 #include <QScreen>
@@ -11,6 +11,7 @@
 HHOOK QuickSoundSwitcher::keyboardHook = NULL;
 HHOOK QuickSoundSwitcher::mouseHook = NULL;
 QuickSoundSwitcher* QuickSoundSwitcher::instance = nullptr;
+static bool validMouseDown = false;
 
 QuickSoundSwitcher::QuickSoundSwitcher(QWidget *parent)
     : QWidget(parent)
@@ -140,7 +141,7 @@ void QuickSoundSwitcher::uninstallKeyboardHook()
 
 LRESULT CALLBACK QuickSoundSwitcher::MouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
     if (nCode == HC_ACTION) {
-        if (wParam == WM_LBUTTONUP || wParam == WM_RBUTTONUP) {
+        if (wParam == WM_LBUTTONDOWN || wParam == WM_RBUTTONDOWN) {
             QPoint cursorPos = QCursor::pos();
             QRect trayIconRect = instance->trayIcon->geometry();
             QRect soundPanelRect;
@@ -150,6 +151,21 @@ LRESULT CALLBACK QuickSoundSwitcher::MouseProc(int nCode, WPARAM wParam, LPARAM 
             } else {
                 soundPanelRect = QRect();
             }
+
+            validMouseDown = !soundPanelRect.contains(cursorPos) && !trayIconRect.contains(cursorPos);
+        }
+        else if ((wParam == WM_LBUTTONUP || wParam == WM_RBUTTONUP) && validMouseDown) {
+            QPoint cursorPos = QCursor::pos();
+            QRect trayIconRect = instance->trayIcon->geometry();
+            QRect soundPanelRect;
+
+            if (instance->soundPanel && instance->soundPanel->soundPanelWindow) {
+                soundPanelRect = instance->soundPanel->soundPanelWindow->geometry();
+            } else {
+                soundPanelRect = QRect();
+            }
+
+            validMouseDown = false;
 
             if (!soundPanelRect.contains(cursorPos) && !trayIconRect.contains(cursorPos)) {
                 if (instance->soundPanel) {
@@ -218,7 +234,7 @@ void QuickSoundSwitcher::toggleMuteWithKey()
     }
 
     trayIcon->setIcon(QIcon(Utils::getIcon(1, volumeIcon, NULL)));
-    emit outputMuteStateChanged(volumeIcon);
+    emit outputMuteStateChanged(muted);
 }
 
 void QuickSoundSwitcher::togglePanel()

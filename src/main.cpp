@@ -1,4 +1,4 @@
-#include "QuickSoundSwitcher.h"
+#include "quicksoundswitcher.h"
 #include <QApplication>
 #include <QTranslator>
 #include <QLocale>
@@ -17,8 +17,11 @@ bool isAnotherInstanceRunning(const QString& processName)
 
 int main(int argc, char *argv[])
 {
+    qputenv("QT_QUICK_CONTROLS_MATERIAL_VARIANT", "Dense");
     QApplication a(argc, argv);
     a.setQuitOnLastWindowClosed(false);
+    a.setOrganizationName("Odizinne");
+    a.setApplicationName("Boxy");
 
     const QString processName = "QuickSoundSwitcher.exe";
     if (isAnotherInstanceRunning(processName)) {
@@ -28,9 +31,16 @@ int main(int argc, char *argv[])
 
     QLocale locale;
     QString languageCode = locale.name().section('_', 0, 0);
+
     QTranslator translator;
 
-    if (translator.load(":/translations/QuickSoundSwitcher_" + languageCode + ".qm")) {
+    if (languageCode == "zh") {
+        // Try loading specific Chinese variant (zh_CN, zh_TW...)
+        if (translator.load(":/i18n/QuickSoundSwitcher_" + locale.name() + ".qm")) {
+            a.installTranslator(&translator);
+        }
+    }
+    else if (translator.load(":/i18n/QuickSoundSwitcher_" + languageCode + ".qm")) {
         a.installTranslator(&translator);
     }
 

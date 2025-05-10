@@ -1,4 +1,4 @@
-#include "Utils.h"
+#include "utils.h"
 #include <QPainter>
 #include <windows.h>
 #include <QSettings>

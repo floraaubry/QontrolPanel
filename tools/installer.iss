@@ -3,7 +3,7 @@
 #define AppPublisher "Odizinne"
 #define AppURL "https://github.com/Odizinne/QuickSoundSwitcher"
 #define AppExeName "QuickSoundSwitcher.exe"
-#define AppIcon "Resources\icons\icon.ico"
+#define AppIcon "..\Resources\icons\icon.ico"
 
 [Setup]
 AppId={{8A9C6942-5CA3-4A02-B701-E7B4E862D635}}
@@ -33,7 +33,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "build\QuickSoundSwitcher\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\build\install\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"; IconFilename: "{app}\{#AppExeName}"
@@ -41,4 +41,4 @@ Name: "{group}\{cm:UninstallProgram,{#AppName}}"; Filename: "{uninstallexe}"
 Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon; IconFilename: "{app}\{#AppExeName}"
 
 [Run]
-Filename: "{app}\{#AppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\bin\{#AppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent

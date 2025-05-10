@@ -1,5 +1,5 @@
-#include "AudioManager.h"
-#include "PolicyConfig.h"
+#include "audiomanager.h"
+#include "policyconfig.h"
 #include <Audiopolicy.h>
 #include <atlbase.h>
 #include <Functiondiscoverykeys_devpkey.h>
@@ -131,7 +131,6 @@ void setVolume(EDataFlow dataFlow, int volume) {
 
 int getVolume(EDataFlow dataFlow) {
 
-    AudioManager::initialize();
     CComPtr<IMMDeviceEnumerator> pEnumerator;
     CComPtr<IMMDevice> pDevice;
     CComPtr<IAudioEndpointVolume> pVolumeControl;

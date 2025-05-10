@@ -1,12 +1,14 @@
-name: Build and Release
+name: Build and release
 
 on:
   workflow_dispatch:
 
+env:
+  QT_VERSION: '6.9.0'
+
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -17,91 +19,27 @@ jobs:
           arch: x64
 
       - name: Install Qt
+        id: qt
         uses: jurplel/install-qt-action@v4
         with:
-          version: '6.8.0'
+          version: ${{ env.QT_VERSION }}
           add-tools-to-path: true
           cache: true
 
-      - name: Install jom
-        id: jom-setup
+      - name: Generate and Build with CMake
         shell: pwsh
         run: |
-          $url = "https://download.qt.io/official_releases/jom/jom_1_1_4.zip"
-          $outputPath = "jom_1_1_4.zip"
-          Invoke-WebRequest -Uri $url -OutFile $outputPath
-          $extractPath = "jom"
-          if (-not (Test-Path $extractPath)) {
-            New-Item -ItemType Directory -Path $extractPath | Out-Null
-          }
-          Expand-Archive -Path $outputPath -DestinationPath $extractPath
-          $jomDir = "$(pwd)\jom"
-          $jomExe = "$jomDir\jom.exe"
-          if (Test-Path $jomExe) {
-            Write-Output "JOM Path: $jomDir"
-            Write-Output "::set-output name=jom_path::$jomDir"
-          } else {
-            Write-Error "jom.exe not found in $jomDir"
-            exit 1
-          }
-
-      - name: Build with qmake and jom
-        shell: pwsh
-        run: |
-          mkdir build
+          mkdir -p build
           cd build
-          qmake ..\QuickSoundSwitcher.pro CONFIG+=release
-          $jomPath = "${{ steps.jom-setup.outputs.jom_path }}"
-          & "$jomPath\jom.exe"
-          
-      - name: Remove source and object files
-        shell: pwsh
-        run: |
-          $buildDir = "build/release"
-          if (Test-Path $buildDir) {
-              Get-ChildItem -Path $buildDir -Include *.cpp, *.h, *.obj, *.res, *.qm -Recurse | Remove-Item -Force
-          } else {
-              Write-Host "Directory not found: $buildDir"
-          }
-
-      - name: Deploy Qt
-        shell: pwsh
-        run: |
-          cd build
-          $windeployqtPath = "D:\a\QuickSoundSwitcher\Qt\6.8.0\msvc2022_64\bin\windeployqt6.exe"
-          $qmlDir = "D:\a\QuickSoundSwitcher\QuickSoundSwitcher\Resources\qml"
-          if (Test-Path $windeployqtPath) {
-              & $windeployqtPath `
-                  --exclude-plugins qsvgicon,qsvg,qico,qjpeg,qgif,qnetworklistmanager,qtuiotouchplugin `
-                  --no-opengl-sw `
-                  --no-system-dxc-compiler `
-                  --no-compiler-runtime `
-                  --no-translations `
-                  --no-system-d3d-compiler `
-                  --qmldir $qmlDir `
-                  D:\a\QuickSoundSwitcher\QuickSoundSwitcher\build\release\QuickSoundSwitcher.exe
-          } else {
-              Write-Error "windeployqt not found at the expected path!"
-              exit 1
-          }
-
-      - name: Rename release folder
-        shell: pwsh
-        run: |
-          $releaseDir = "build/release"
-          $newDir = "QuickSoundSwitcher"
-          if (Test-Path $releaseDir) {
-              Rename-Item -Path $releaseDir -NewName $newDir
-          } else {
-              Write-Error "Release folder not found!"
-              exit 1
-          }
+          cmake ..
+          cmake --build . --config Release 
+          cmake --install . --config Release
 
       - name: Zip binaries folder
         shell: pwsh
         run: |
           $zipFile = "build/QuickSoundSwitcher_msvc_64.zip"
-          $folder = "build/QuickSoundSwitcher"
+          $folder = "build/install"
           Compress-Archive -Path $folder -DestinationPath $zipFile
 
       - name: Upload Artifacts
@@ -114,13 +52,13 @@ jobs:
         shell: pwsh
         run: |
           $env:Path += ";${env:ProgramFiles(x86)}\Inno Setup 6"
-          iscc.exe installer.iss
+          iscc.exe tools/installer.iss
 
       - name: Upload Installer
         uses: actions/upload-artifact@v4
         with:
           name: QuickSoundSwitcher_Installer
-          path: Output/QuickSoundSwitcher_Installer.exe
+          path: tools/Output/QuickSoundSwitcher_Installer.exe
 
   release:
     runs-on: ubuntu-latest
