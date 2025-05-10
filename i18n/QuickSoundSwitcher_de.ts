@@ -6,7 +6,7 @@
     <message>
         <location filename="../QuickSoundSwitcher/QuickSoundSwitcher.cpp" line="63"/>
         <source>Use volume mixer only</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur Lautstärkemixer verwenden</translation>
     </message>
     <message>
         <location filename="../QuickSoundSwitcher/QuickSoundSwitcher.cpp" line="68"/>
@@ -24,12 +24,12 @@
     <message>
         <location filename="../Resources/qml/SoundPanel.qml" line="78"/>
         <source>Audio devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Audiogeräte</translation>
     </message>
     <message>
         <location filename="../Resources/qml/SoundPanel.qml" line="223"/>
         <source>Applications</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwendungen</translation>
     </message>
 </context>
 </TS>
