@@ -1,5 +1,5 @@
 #define AppName       "QuickSoundSwitcher"
-#define AppSourceDir  "..\build\install\"
+#define AppSourceDir  "..\build\QuickSoundSwitcher\"
 #define AppExeName    "QuickSoundSwitcher.exe"
 #define AppVersion    "1.0.0"
 #define AppPublisher  "Odizinne"
