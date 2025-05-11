@@ -1,47 +1,70 @@
-#define AppName "QuickSoundSwitcher"
-#define AppVersion "1.0.0"
-#define AppPublisher "Odizinne"
-#define AppURL "https://github.com/Odizinne/QuickSoundSwitcher"
-#define AppExeName "QuickSoundSwitcher.exe"
-#define AppIcon "..\Resources\icons\icon.ico"
+#define AppName       "QuickSoundSwitcher"
+#define AppSourceDir  "..\build\QuickSoundSwitcher\"
+#define AppExeName    "QuickSoundSwitcher.exe"
+#define AppVersion    "1.0.0"
+#define AppPublisher  "Odizinne"
+#define AppURL        "https://github.com/Odizinne/QuickSoundSwitcher"
+#define AppIcon       "..\Resources\icons\icon.ico"
+#define CurrentYear   GetDateTimeString('yyyy','','')
 
 [Setup]
 AppId={{8A9C6942-5CA3-4A02-B701-E7B4E862D635}}
 AppName={#AppName}
 AppVersion={#AppVersion}
+AppVerName={#AppName} {#AppVersion}
+
+VersionInfoDescription={#AppName} installer
+VersionInfoProductName={#AppName}
+VersionInfoVersion={#AppVersion}
+
+AppCopyright=(c) {#CurrentYear} {#AppPublisher}
+
+UninstallDisplayName={#AppName} {#AppVersion}
+UninstallDisplayIcon={app}\bin\{#AppExeName}
 AppPublisher={#AppPublisher}
+
 AppPublisherURL={#AppURL}
 AppSupportURL={#AppURL}
 AppUpdatesURL={#AppURL}
-DefaultDirName={localappdata}\Programs\{#AppName}
+
+ShowLanguageDialog=yes
+UsePreviousLanguage=no
+LanguageDetectionMethod=uilanguage
+
+WizardStyle=modern
+
+DisableProgramGroupPage=yes
+DisableWelcomePage=yes
+
+SetupIconFile={#AppIcon}
+
 DefaultGroupName={#AppName}
+DefaultDirName={localappdata}\Programs\{#AppName}
+
 PrivilegesRequired=lowest
 OutputBaseFilename=QuickSoundSwitcher_installer
 Compression=lzma
 SolidCompression=yes
-WizardStyle=modern
 UsedUserAreasWarning=no
-DisableProgramGroupPage=yes
-DisableWelcomePage=yes
-SetupIconFile={#AppIcon}
-UninstallDisplayIcon={app}\{#AppExeName}
-VersionInfoCopyright="© 2025 Odizinne"
-VersionInfoDescription="QuickSoundSwitcher Installer"
-VersionInfoVersion={#AppVersion}
 
 [Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"
+Name: "english";    MessagesFile: "compiler:Default.isl"
+Name: "french";     MessagesFile: "compiler:Languages\French.isl"
+Name: "german";     MessagesFile: "compiler:Languages\German.isl"
+Name: "italian";    MessagesFile: "compiler:Languages\Italian.isl"
+Name: "korean";     MessagesFile: "compiler:Languages\Korean.isl"
+Name: "chinese_s";  MessagesFile: "compiler:Languages\ChineseSimplified.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\build\QuickSoundSwitcher\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#AppSourceDir}*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"; IconFilename: "{app}\{#AppExeName}"
+Name: "{group}\{#AppName}"; Filename: "{app}\bin\{#AppExeName}"; IconFilename: "{app}\bin\{#AppExeName}"
 Name: "{group}\{cm:UninstallProgram,{#AppName}}"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon; IconFilename: "{app}\{#AppExeName}"
+Name: "{autodesktop}\{#AppName}"; Filename: "{app}\bin\{#AppExeName}"; Tasks: desktopicon; IconFilename: "{app}\bin\{#AppExeName}"
 
 [Run]
 Filename: "{app}\bin\{#AppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
