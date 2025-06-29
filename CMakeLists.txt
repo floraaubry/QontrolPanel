@@ -101,7 +101,7 @@ qt_add_translations(${CMAKE_PROJECT_NAME}
         i18n/QuickSoundSwitcher_it.ts
         i18n/QuickSoundSwitcher_zh_CN.ts
     RESOURCE_PREFIX "/i18n"
-    LUPDATE_OPTIONS "-no-obsolete"
+    LUPDATE_OPTIONS "-no-obsolete -no-ui-lines -locations none"
 )
 
 add_dependencies(${CMAKE_PROJECT_NAME} update_translations)
