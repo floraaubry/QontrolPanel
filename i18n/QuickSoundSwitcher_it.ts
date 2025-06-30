@@ -5,7 +5,7 @@
     <name>QuickSoundSwitcher</name>
     <message>
         <source>Exit</source>
-        <translation>Esci</translation>
+        <translation>Esci da QuickSoundSwitcher</translation>
     </message>
 </context>
 <context>
@@ -136,11 +136,11 @@
     </message>
     <message>
         <source>Applications and devices label</source>
-        <translation type="unfinished"></translation>
+        <translation>Etichetta applicazioni e dispositivi</translation>
     </message>
     <message>
         <source>Close device list after changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Dopo la modifica chiudi elenco dispositivi</translation>
     </message>
 </context>
 </TS>
