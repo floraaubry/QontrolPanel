@@ -124,19 +124,19 @@
     </message>
     <message>
         <source>Display currently playing media</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza media attualmente in riproduzione</translation>
     </message>
     <message>
         <source>Currently playing media display mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo visualizzazione media attuualmente in riproduzione</translation>
     </message>
     <message>
         <source>Flyout (interactive)</source>
-        <translation type="unfinished"></translation>
+        <translation>Flottante (interattivo)</translation>
     </message>
     <message>
         <source>Panel (informative)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pannello (informativo)</translation>
     </message>
 </context>
 </TS>
