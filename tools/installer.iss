@@ -1,7 +1,7 @@
 #define AppName       "QuickSoundSwitcher"
 #define AppSourceDir  "..\build\QuickSoundSwitcher\"
 #define AppExeName    "QuickSoundSwitcher.exe"
-#define AppVersion    "1.0.0"
+#define AppVersion    GetFileVersion("..\build\QuickSoundSwitcher\QuickSoundSwitcher.exe")
 #define AppPublisher  "Odizinne"
 #define AppURL        "https://github.com/Odizinne/QuickSoundSwitcher"
 #define AppIcon       "..\Resources\icons\icon.ico"
