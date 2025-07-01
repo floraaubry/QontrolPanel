@@ -9,11 +9,11 @@
     </message>
     <message>
         <source>Output: Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento output...</translation>
     </message>
     <message>
         <source>Input: Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento input...</translation>
     </message>
 </context>
 <context>
@@ -152,23 +152,23 @@
     </message>
     <message>
         <source>Translation author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autore traduzione</translation>
     </message>
     <message>
         <source>Translation last updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Ultimo aggiornamento traduzione</translation>
     </message>
     <message>
         <source>Unknow author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autore sconosciuto</translation>
     </message>
     <message>
         <source>Unknow date</source>
-        <translation type="unfinished"></translation>
+        <translation>Data sconosciuta</translation>
     </message>
     <message>
         <source>Group applications by executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Raggruppa applicazioni per l&apos;eseguibile</translation>
     </message>
 </context>
 </TS>
