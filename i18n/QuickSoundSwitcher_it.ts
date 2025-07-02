@@ -6,108 +6,108 @@
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="10"/>
         <source>Appearance &amp; Position</source>
-        <translation type="unfinished">Apparenza e posizione</translation>
+        <translation>Apparenza e posizione</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="24"/>
         <source>Panel position</source>
-        <translation type="unfinished">Posizione pannello</translation>
+        <translation>Posizione pannello</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="30"/>
         <source>Top</source>
-        <translation type="unfinished">Alto</translation>
+        <translation>Alto</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="30"/>
         <source>Bottom</source>
-        <translation type="unfinished">Basso</translation>
+        <translation>Basso</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="30"/>
         <source>Left</source>
-        <translation type="unfinished">Sinistra</translation>
+        <translation>Sinistra</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="30"/>
         <source>Right</source>
-        <translation type="unfinished">Destra</translation>
+        <translation>Destra</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="38"/>
         <source>Taskbar offset</source>
-        <translation type="unfinished">Offset barra attività</translation>
+        <translation>Offset barra attività</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="54"/>
         <source>Panel margin</source>
-        <translation type="unfinished">Margine pannello</translation>
+        <translation>Margine pannello</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="55"/>
         <source>How far the panel should be pushed from screen edge</source>
-        <translation type="unfinished"></translation>
+        <translation>Fino a che punto il pannello deve essere spinto dal bordo dello schermo</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="70"/>
         <source>Use short device names</source>
-        <translation type="unfinished">Usa nome corto dispositivo</translation>
+        <translation>Usa nome corto dispositivo</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="71"/>
         <source>Shorten device names by shrinking description</source>
-        <translation type="unfinished"></translation>
+        <translation>Accorcia nomi dispositivi riducendo la descrizione</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="81"/>
         <source>Volume value display mode</source>
-        <translation type="unfinished">Modalità visualizzazione valore volume</translation>
+        <translation>Modo visualizzazione volume</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="82"/>
         <source>Control how you want sound value to be displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlla come visualizzare il valore volume</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="87"/>
         <source>Slider tooltip</source>
-        <translation type="unfinished">Suggerimento slider</translation>
+        <translation>Suggerimento slider</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="87"/>
         <source>Label</source>
-        <translation type="unfinished">Etichetta</translation>
+        <translation>Etichetta</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="87"/>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="101"/>
         <source>Hidden</source>
-        <translation type="unfinished">Nascosto</translation>
+        <translation>Nascosto</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="95"/>
         <source>Media info display</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza info media</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="96"/>
         <source>Display currently playing media from Windows known sources</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza media in riproduzione fonti Windows conosciute</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="101"/>
         <source>Flyout (interactive)</source>
-        <translation type="unfinished"></translation>
+        <translation>Flyout (interattivo)</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="101"/>
         <source>Panel (informative)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pannello (informativo)</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="109"/>
         <source>Applications and devices label</source>
-        <translation type="unfinished"></translation>
+        <translation>Elenco applicazioni e dispositivi</translation>
     </message>
 </context>
 <context>
@@ -115,27 +115,27 @@
     <message>
         <location filename="../qml/SettingsPane/DebugPane.qml" line="10"/>
         <source>Debug and information</source>
-        <translation type="unfinished">Debug e informazioni</translation>
+        <translation>Debug e informazioni</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/DebugPane.qml" line="24"/>
         <source>Application version</source>
-        <translation type="unfinished">Versione applicazione</translation>
+        <translation>Versione applicazione</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/DebugPane.qml" line="48"/>
         <source>QT version</source>
-        <translation type="unfinished">Versione QT</translation>
+        <translation>Versione QT</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/DebugPane.qml" line="59"/>
         <source>Commit</source>
-        <translation type="unfinished"></translation>
+        <translation>Commit</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/DebugPane.qml" line="70"/>
         <source>Build date</source>
-        <translation type="unfinished"></translation>
+        <translation>data build</translation>
     </message>
 </context>
 <context>
@@ -143,82 +143,82 @@
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="10"/>
         <source>General Settings</source>
-        <translation type="unfinished">Impostazioni generali</translation>
+        <translation>Impostazioni generali</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="24"/>
         <source>Panel mode</source>
-        <translation type="unfinished">Modo pannello</translation>
+        <translation>Modo pannello</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="25"/>
         <source>Choose what should be displayed in the panel</source>
-        <translation type="unfinished"></translation>
+        <translation>Scegli cosa visualizzare nel pannello</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="30"/>
         <source>Devices + Mixer</source>
-        <translation type="unfinished">Dispositivi + mixer</translation>
+        <translation>Dispositivi + mixer</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="30"/>
         <source>Mixer only</source>
-        <translation type="unfinished">Solo mixer</translation>
+        <translation>Solo mixer</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="30"/>
         <source>Devices only</source>
-        <translation type="unfinished">Solo dispositivi</translation>
+        <translation>Solo dispositivi</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="38"/>
         <source>Link same input and output devices</source>
-        <translation type="unfinished">Collegamento stesso dispositivo ingresso/uscita</translation>
+        <translation>Collegamento stesso dispositivo ingresso/uscita</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="39"/>
         <source>Try to match input / output from the same device</source>
-        <translation type="unfinished"></translation>
+        <translation>Prova ad abbinare input/output stesso dispositivo</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="49"/>
         <source>Sound keepalive</source>
-        <translation type="unfinished">Mantieni attivo suono</translation>
+        <translation>Mantieni attivo audio</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="50"/>
         <source>Emit an inaudible sound to keep bluetooth devices awake</source>
-        <translation type="unfinished"></translation>
+        <translation>Emetti un suono impercettibile per mantenere attivi i dispositivi Bluetooth</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="60"/>
         <source>Run at system startup</source>
-        <translation type="unfinished">Esegui ad avvio del sistema</translation>
+        <translation>Esegui all&apos;avvio del sistema</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="61"/>
         <source>QSS will boot up when your computer starts</source>
-        <translation type="unfinished"></translation>
+        <translation>QSS verrà eseguito all&apos;avvio del sistema</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="71"/>
         <source>Close device list automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi automaticamente elenco dispositivi</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="72"/>
         <source>Device list will automatically close after selecting a device</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;elenco dispositivi si chiuderà automaticamente dopo aver selezionato un dispositivo</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="82"/>
         <source>Group applications by executable</source>
-        <translation type="unfinished"></translation>
+        <translation>raggruppa applicazioni per file eseguibile</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="83"/>
         <source>Control multiple stream comming from a single app with one slider</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlla stream multipli una singola app con un cursore</translation>
     </message>
 </context>
 <context>
@@ -226,42 +226,42 @@
     <message>
         <location filename="../qml/SettingsPane/LanguagePane.qml" line="10"/>
         <source>Debug and information</source>
-        <translation type="unfinished">Debug e informazioni</translation>
+        <translation>Debug e informazioni</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/LanguagePane.qml" line="25"/>
         <source>Application language</source>
-        <translation type="unfinished"></translation>
+        <translation>Lingua UI applicazione</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/LanguagePane.qml" line="29"/>
         <source>System</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistema</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/LanguagePane.qml" line="42"/>
         <source>Translation Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Stato traduzione</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/LanguagePane.qml" line="56"/>
         <source>Translation author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autore traduzione</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/LanguagePane.qml" line="60"/>
         <source>Unknow author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autore sconosciuto</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/LanguagePane.qml" line="67"/>
         <source>Translation last updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Data traduzione</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/LanguagePane.qml" line="71"/>
         <source>Unknow date</source>
-        <translation type="unfinished"></translation>
+        <translation>data sconosciuta</translation>
     </message>
 </context>
 <context>
@@ -269,28 +269,28 @@
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="146"/>
         <source>Output: Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Output: caricamento...</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="150"/>
         <source>Input: Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Input: caricamento...</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="156"/>
         <location filename="../src/quicksoundswitcher.cpp" line="478"/>
         <source>Exit</source>
-        <translation>Esci</translation>
+        <translation>Esci da QuickSoundSwitcher</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="490"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Output</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="499"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Input</translation>
     </message>
 </context>
 <context>
@@ -313,7 +313,7 @@
     <message>
         <location filename="../qml/SettingsWindow.qml" line="82"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Lingua UI</translation>
     </message>
     <message>
         <location filename="../qml/SettingsWindow.qml" line="86"/>
