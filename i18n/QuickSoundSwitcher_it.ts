@@ -398,12 +398,12 @@
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="165"/>
         <source>Windows sound settings (Legacy)</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni audio Windows (legacy)</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="168"/>
         <source>Windows sound settings (Modern)</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni audio Windows (moderne)</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="173"/>
@@ -414,17 +414,17 @@
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="487"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilitato</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="487"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabilitato</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="488"/>
         <source>ChatMix %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ChatMix: %1</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="637"/>
@@ -462,7 +462,7 @@
     <message>
         <location filename="../qml/SettingsWindow.qml" line="86"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Collegamenti</translation>
     </message>
     <message>
         <location filename="../qml/SettingsWindow.qml" line="90"/>
@@ -480,76 +480,76 @@
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="12"/>
         <source>Global Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Scorciatoie globali</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="27"/>
         <source>Enable global shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita scorciatoie globali</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="28"/>
         <source>Allow QuickSoundSwitcher to respond to keyboard shortcuts globally</source>
-        <translation type="unfinished"></translation>
+        <translation>Consenti a QuickSoundSwitcher di rispondere alle scorciatoie tastiera a livello globale</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="38"/>
         <source>Notification on ChatMix toggle</source>
-        <translation type="unfinished"></translation>
+        <translation>Notifica abilitazione/disabilitazione ChatMix</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="48"/>
         <source>Show/Hide Panel</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza/nascondi pannello</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="49"/>
         <source>Shortcut to toggle the main panel visibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Scorciatoia on/off visibilità pannello principale</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="61"/>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="82"/>
         <source>Change</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="70"/>
         <source>Toggle ChatMix</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita/disabilita ChatMix</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="71"/>
         <source>Shortcut to enable/disable ChatMix feature</source>
-        <translation type="unfinished"></translation>
+        <translation>Scorciatoia on/off funzione ChatMix</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="123"/>
         <source>Set Panel Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta scorciatoia pannello</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="144"/>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="234"/>
         <source>Press the desired key combination</source>
-        <translation type="unfinished"></translation>
+        <translation>Premi la combinazione di tasti desiderata</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="191"/>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="281"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annulla</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="197"/>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="287"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Applica</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="213"/>
         <source>Set ChatMix Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta scorciatoia ChatMix</translation>
     </message>
 </context>
 <context>
