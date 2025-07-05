@@ -85,7 +85,7 @@
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="103"/>
         <source>Slider tooltip</source>
-        <translation>Suggerimento slider</translation>
+        <translation>Suggerimento cursore</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="103"/>
@@ -139,12 +139,12 @@
     <message>
         <location filename="../qml/ChatMixNotification.qml" line="127"/>
         <source>ChatMix Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ChatMix abilitato</translation>
     </message>
     <message>
         <location filename="../qml/ChatMixNotification.qml" line="134"/>
         <source>ChatMix Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ChatMix disabilitato</translation>
     </message>
 </context>
 <context>
@@ -198,7 +198,7 @@
     <message>
         <location filename="../qml/SettingsPane/CommAppsPane.qml" line="73"/>
         <source>ChatMix volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume ChatMix</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/CommAppsPane.qml" line="123"/>
@@ -399,7 +399,7 @@
     <message>
         <location filename="../qml/SettingsPane/LanguagePane.qml" line="71"/>
         <source>Unknow date</source>
-        <translation>03.07.2025</translation>
+        <translation>05.07.2025</translation>
     </message>
 </context>
 <context>
@@ -428,7 +428,7 @@
         <location filename="../src/quicksoundswitcher.cpp" line="173"/>
         <location filename="../src/quicksoundswitcher.cpp" line="627"/>
         <source>Exit</source>
-        <translation>Esci</translation>
+        <translation>Esci da QuickSoundSwitcher</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="487"/>
