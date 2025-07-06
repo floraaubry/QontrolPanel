@@ -45,7 +45,7 @@
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="54"/>
         <source>Panel X margin</source>
-        <translation type="unfinished"></translation>
+        <translation>面板横向边距</translation>
     </message>
     <message>
         <source>How far the panel should be pushed from screen edge</source>
@@ -54,17 +54,17 @@
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="55"/>
         <source>Control panel X axis margin</source>
-        <translation type="unfinished"></translation>
+        <translation>设置面板横向边距</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="70"/>
         <source>Panel Y margin</source>
-        <translation type="unfinished"></translation>
+        <translation>面板纵向边距</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="71"/>
         <source>Control panel Y axis margin</source>
-        <translation type="unfinished"></translation>
+        <translation>设置面板纵向边距</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/AppearancePane.qml" line="86"/>
@@ -143,12 +143,12 @@
     <message>
         <location filename="../qml/ChatMixNotification.qml" line="127"/>
         <source>ChatMix Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ChatMix 已启用</translation>
     </message>
     <message>
         <location filename="../qml/ChatMixNotification.qml" line="134"/>
         <source>ChatMix Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ChatMix 已禁用</translation>
     </message>
 </context>
 <context>
@@ -202,7 +202,7 @@
     <message>
         <location filename="../qml/SettingsPane/CommAppsPane.qml" line="73"/>
         <source>ChatMix volume</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/CommAppsPane.qml" line="123"/>
@@ -364,7 +364,7 @@
     <message>
         <location filename="../qml/SettingsPane/GeneralPane.qml" line="83"/>
         <source>Control multiple stream comming from a single app with one slider</source>
-        <translation>通过一个滑动条来控制多个 Stream 通信</translation>
+        <translation>通过单一滑动条来控制多个 Stream 通信</translation>
     </message>
 </context>
 <context>
@@ -397,7 +397,7 @@
     <message>
         <location filename="../qml/SettingsPane/LanguagePane.qml" line="60"/>
         <source>Unknow author</source>
-        <translation>未知作者</translation>
+        <translation>rampageX</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/LanguagePane.qml" line="67"/>
@@ -407,7 +407,7 @@
     <message>
         <location filename="../qml/SettingsPane/LanguagePane.qml" line="71"/>
         <source>Unknow date</source>
-        <translation>未知时间</translation>
+        <translation>2025-07-06</translation>
     </message>
 </context>
 <context>
@@ -441,17 +441,17 @@
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="487"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>已启用</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="487"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>已禁用</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="488"/>
         <source>ChatMix %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ChatMix %1</translation>
     </message>
     <message>
         <location filename="../src/quicksoundswitcher.cpp" line="639"/>
@@ -489,7 +489,7 @@
     <message>
         <location filename="../qml/SettingsWindow.qml" line="86"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>快捷键</translation>
     </message>
     <message>
         <location filename="../qml/SettingsWindow.qml" line="90"/>
@@ -507,73 +507,73 @@
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="12"/>
         <source>Global Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>全局快捷键</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="27"/>
         <source>Enable global shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>启用全局快捷键</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="28"/>
         <source>Allow QuickSoundSwitcher to respond to keyboard shortcuts globally</source>
-        <translation type="unfinished"></translation>
+        <translation>允许 QuickSoundSwitcher 响应全局快捷键</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="38"/>
         <source>Notification on ChatMix toggle</source>
-        <translation type="unfinished"></translation>
+        <translation>切换 ChatMix 时通知</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="48"/>
         <source>Show/Hide Panel</source>
-        <translation type="unfinished"></translation>
+        <translation>显示/隐藏 面板</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="49"/>
         <source>Shortcut to toggle the main panel visibility</source>
-        <translation type="unfinished"></translation>
+        <translation>切换主面板显示快捷键</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="60"/>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="82"/>
         <source>Change</source>
-        <translation type="unfinished"></translation>
+        <translation>改变</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="71"/>
         <source>Toggle ChatMix</source>
-        <translation type="unfinished"></translation>
+        <translation>切换 ChatMix</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="72"/>
         <source>Shortcut to enable/disable ChatMix feature</source>
-        <translation type="unfinished"></translation>
+        <translation>切换 ChatMix 使能快捷键</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="148"/>
         <source>Set Panel Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>设置主面板快捷键</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="168"/>
         <source>Press the desired key combination</source>
-        <translation type="unfinished"></translation>
+        <translation>按住期望的键位组合</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="230"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="236"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>应用</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPane/ShortcutsPane.qml" line="156"/>
         <source>Set ChatMix Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>设置 ChaMix 快捷键</translation>
     </message>
 </context>
 <context>
