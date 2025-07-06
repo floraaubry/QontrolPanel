@@ -1,0 +1,41 @@
+#ifndef LANGUAGES_H
+#define LANGUAGES_H
+
+#include <QString>
+#include <QStringList>
+
+struct LanguageInfo {
+    QString code;
+    QString englishName;
+    QString nativeName;
+};
+
+inline QList<LanguageInfo> getSupportedLanguages() {
+    return {
+@LANGUAGE_DATA@
+    };
+}
+
+inline QStringList getLanguageCodes() {
+    static QStringList codes;
+    if (codes.isEmpty()) {
+        auto languages = getSupportedLanguages();
+        for (const auto& lang : languages) {
+            codes << lang.code;
+        }
+    }
+    return codes;
+}
+
+inline QStringList getLanguageNativeNames() {
+    static QStringList names;
+    if (names.isEmpty()) {
+        auto languages = getSupportedLanguages();
+        for (const auto& lang : languages) {
+            names << lang.nativeName;
+        }
+    }
+    return names;
+}
+
+#endif // LANGUAGES_H

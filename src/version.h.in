@@ -1,0 +1,12 @@
+#ifndef VERSION_H
+#define VERSION_H
+
+#define APP_VERSION_MAJOR @QuickSoundSwitcher_VERSION_MAJOR@
+#define APP_VERSION_MINOR @QuickSoundSwitcher_VERSION_MINOR@
+#define APP_VERSION_PATCH @QuickSoundSwitcher_VERSION_PATCH@
+#define APP_VERSION_STRING "@QuickSoundSwitcher_VERSION@"
+#define QT_VERSION_STRING "@Qt6_VERSION@"
+#define GIT_COMMIT_HASH "@GIT_COMMIT_HASH@"
+#define BUILD_TIMESTAMP "@BUILD_TIMESTAMP@"
+
+#endif // VERSION_H

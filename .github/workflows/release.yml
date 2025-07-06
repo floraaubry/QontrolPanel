@@ -1,0 +1,78 @@
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      workflow_run_id:
+        description: 'Build workflow run ID (optional - will use latest successful run if not provided)'
+        required: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get version from CMake
+        id: cmake_version
+        uses: DarwinInnovation/cmake-project-version-action@v1.0
+
+      - name: Download Windows artifact
+        uses: dawidd6/action-download-artifact@v9
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: build.yml
+          workflow_conclusion: success
+          name: QuickSoundSwitcher_win64_msvc2022
+          run_id: ${{ inputs.workflow_run_id }}
+          if_no_artifact_found: fail
+
+      - name: Download Windows Installer
+        uses: dawidd6/action-download-artifact@v9
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: build.yml
+          workflow_conclusion: success
+          name: QuickSoundSwitcher_Installer
+          run_id: ${{ inputs.workflow_run_id }}
+          if_no_artifact_found: fail
+
+      - name: Create release and tag
+        run: |
+          VERSION="${{ steps.cmake_version.outputs.version }}"
+          echo "Creating release for version: $VERSION"
+          
+          git tag $VERSION
+          git push origin $VERSION
+          echo "new_tag=$VERSION" >> $GITHUB_ENV
+
+      - name: Create GitHub release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ env.new_tag }}
+          release_name: ${{ env.new_tag }}
+          body: ""
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Windows release asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: QuickSoundSwitcher_win64_msvc2022.zip
+          asset_name: QuickSoundSwitcher_win64_msvc2022.zip
+          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Windows Installer asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: QuickSoundSwitcher_Installer.exe 
+          asset_name: QuickSoundSwitcher_Installer.exe  
+          asset_content_type: application/vnd.microsoft.portable-executable
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

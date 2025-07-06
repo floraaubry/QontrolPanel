@@ -1,0 +1,34 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>tray_light_0.png</file>
+        <file>tray_dark_0.png</file>
+        <file>tray_light_33.png</file>
+        <file>tray_dark_33.png</file>
+        <file>tray_light_66.png</file>
+        <file>tray_dark_66.png</file>
+        <file>tray_light_100.png</file>
+        <file>tray_dark_100.png</file>
+        <file>mic.png</file>
+        <file>mic_muted.png</file>
+        <file>panel_volume_100.png</file>
+        <file>panel_volume_66.png</file>
+        <file>panel_volume_33.png</file>
+        <file>panel_volume_0.png</file>
+        <file>system_dark.png</file>
+        <file>system_light.png</file>
+        <file>settings.svg</file>
+        <file>wand.svg</file>
+        <file>chip.svg</file>
+        <file>general.svg</file>
+        <file>keyboard.svg</file>
+        <file>language.svg</file>
+        <file>headset.svg</file>
+        <file>music.svg</file>
+        <file>arrow.svg</file>
+        <file>link.png</file>
+        <file>play.png</file>
+        <file>pause.png</file>
+        <file>next.png</file>
+        <file>prev.png</file>
+    </qresource>
+</RCC>

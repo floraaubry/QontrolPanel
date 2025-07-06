@@ -6,15 +6,13 @@
 
 QuickSoundSwitcher is an enhanced audio panel for Windows.  
 It provide output and input volume / device / mute control as well as application volume mixer.  
-It is made with close to native ui for w10 or w11.
 
-![image](.assets/w11dark.png)
-![image](.assets/w11light.png)
+![image](.assets/screenshot.png)
 
 If you like my work, please consider supporting me:
 
 <a href="https://ko-fi.com/odizinne" target="_blank">
-  <img src="https://cdn.prod.website-files.com/5c14e387dab576fe667689cf/670f5a01cf2da94a032117b9_support_me_on_kofi_red-p-500.png" alt="Support me on Ko-fi" width="17%">
+  <img src="https://cdn.prod.website-files.com/5c14e387dab576fe667689cf/670f5a01cf2da94a032117b9_support_me_on_kofi_red-p-500.png" alt="Support me on Ko-fi" width="25%">
 </a>  
 
 ## Usage
@@ -22,28 +20,18 @@ If you like my work, please consider supporting me:
 Left click on the tray icon to reveal the panel.  
 Click anywhere to close the panel.
 
+## Translations
+
+Translators should have a look [here](.github/TRANSLATIONS.md).
+
 ## Installation
 
-### Using OPM
+Download latest version [here](https://github.com/Odizinne/QuickSoundSwitcher/releases/latest).  
+Use the provided installer or download the archive, extract it, and run `bin/QuickSoundSwitcher.exe`.
 
-- Install OPM  
-In windows terminal:
-```
-Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Odizinne/opm/refs/heads/main/opm_install.ps1')
-```
+## Build the project
 
-- Open a new windows terminal
+See [here](.github/BUILDING.md).
 
-- Install QuickSoundSwitcher  
-In windows terminal:
-```
-opm update
-opm install quicksoundswitcher
-```
-
-**QuickSoundSwitcher** will be available in your start menu.
-
-### Manually
-
-Download latest release, extract it, and run `QuickSoundSwitcher.exe`.
-
+## Resources
+- Used OCEAN sound effects from KDE
