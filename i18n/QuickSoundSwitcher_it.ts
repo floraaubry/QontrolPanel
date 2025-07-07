@@ -109,7 +109,7 @@
     </message>
     <message>
         <source>Windows taskbar size</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensione barra attività Windows</translation>
     </message>
 </context>
 <context>
@@ -207,7 +207,7 @@
     </message>
     <message>
         <source>The volume to set for non communication applications when ChatMix is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Il volume da impostare per applicazioni non di comunicazione quando Chatmix è abilitato</translation>
     </message>
 </context>
 <context>
@@ -328,19 +328,19 @@
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>05.07.2025</translation>
+        <translation>07.07.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiorna traduzioni</translation>
     </message>
     <message>
         <source>Download the latest translation files from GitHub</source>
-        <translation type="unfinished"></translation>
+        <translation>Download file traduzione aggiornati da GitHub</translation>
     </message>
     <message>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Download</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -348,23 +348,23 @@
     </message>
     <message>
         <source>Download completed successfully!</source>
-        <translation type="unfinished"></translation>
+        <translation>Download completato correttamente!</translation>
     </message>
     <message>
         <source>Download failed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Download fallito: %1</translation>
     </message>
     <message>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore: %1</translation>
     </message>
     <message>
         <source>Auto update translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornamento automatico traduzioni</translation>
     </message>
     <message>
         <source>Fetch for translations update at startup and every 4 hours</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornamento traduzioni all&apos;avvio e ogni 4 ore</translation>
     </message>
 </context>
 <context>
@@ -511,15 +511,15 @@
     <name>SoundPanelBridge</name>
     <message>
         <source>No translation files to download</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun file traduzione da scaricare</translation>
     </message>
     <message>
         <source>All translations downloaded successfully</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutte le traduzioni sono state scaricate correttamente</translation>
     </message>
     <message>
         <source>Downloaded %1 of %2 translation files</source>
-        <translation type="unfinished"></translation>
+        <translation>Scaricati %1 di %2 file traduzioni</translation>
     </message>
 </context>
 </TS>
