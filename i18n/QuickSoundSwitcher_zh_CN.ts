@@ -113,7 +113,7 @@
     </message>
     <message>
         <source>Windows taskbar size</source>
-        <translation type="unfinished"></translation>
+        <translation>Windiows 任务栏尺寸</translation>
     </message>
 </context>
 <context>
@@ -211,7 +211,7 @@
     </message>
     <message>
         <source>The volume to set for non communication applications when ChatMix is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>当启用 ChatMix 时, 非通讯应用程序的默认音量</translation>
     </message>
 </context>
 <context>
@@ -336,19 +336,19 @@
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>2025-07-06</translation>
+        <translation type="unfinished">2025-07-07</translation>
     </message>
     <message>
         <source>Update Translations</source>
-        <translation type="unfinished"></translation>
+        <translation>更新语言</translation>
     </message>
     <message>
         <source>Download the latest translation files from GitHub</source>
-        <translation type="unfinished"></translation>
+        <translation>从 GitHub 下载最新的语言文件</translation>
     </message>
     <message>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>下载</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -356,23 +356,23 @@
     </message>
     <message>
         <source>Download completed successfully!</source>
-        <translation type="unfinished"></translation>
+        <translation>下载完成!</translation>
     </message>
     <message>
         <source>Download failed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>下载失败: %1</translation>
     </message>
     <message>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>错误: %1</translation>
     </message>
     <message>
         <source>Auto update translations</source>
-        <translation type="unfinished"></translation>
+        <translation>自动更新语言文件</translation>
     </message>
     <message>
         <source>Fetch for translations update at startup and every 4 hours</source>
-        <translation type="unfinished"></translation>
+        <translation>在系统启动时检查语言文件更新, 之后每四小时检查一次</translation>
     </message>
 </context>
 <context>
@@ -519,15 +519,15 @@
     <name>SoundPanelBridge</name>
     <message>
         <source>No translation files to download</source>
-        <translation type="unfinished"></translation>
+        <translation>无可用语言文件下载</translation>
     </message>
     <message>
         <source>All translations downloaded successfully</source>
-        <translation type="unfinished"></translation>
+        <translation>所有语言文件下载成功</translation>
     </message>
     <message>
         <source>Downloaded %1 of %2 translation files</source>
-        <translation type="unfinished"></translation>
+        <translation>%2 所有语言文件中的 1% 已下载</translation>
     </message>
 </context>
 </TS>
