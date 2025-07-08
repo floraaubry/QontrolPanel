@@ -58,6 +58,7 @@ Name: "french";     MessagesFile: "compiler:Languages\French.isl"
 Name: "german";     MessagesFile: "compiler:Languages\German.isl"
 Name: "italian";    MessagesFile: "compiler:Languages\Italian.isl"
 Name: "korean";     MessagesFile: "compiler:Languages\Korean.isl"
+Name: "russain";    MessagesFile: "compiler:Languages\Russian.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
