@@ -6,6 +6,7 @@ set(SUPPORTED_LANGUAGES
     "de|German|deutsch"
     "it|Italian|italiano"
     "ko|Korean|한국어"
+    "ru|Russian|pусский"
     "zh_CN|Chinese (Simplified)|简体中文"
 )
 
