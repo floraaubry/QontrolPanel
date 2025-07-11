@@ -113,7 +113,7 @@
     </message>
     <message>
         <source>Opacity animations</source>
-        <translation type="unfinished"></translation>
+        <translation>Opacità animazione</translation>
     </message>
 </context>
 <context>
@@ -135,7 +135,7 @@
     </message>
     <message>
         <source>Enable ChatMix</source>
-        <translation>Abilita ChatMix</translation>
+        <translation>Attiva ChatMix</translation>
     </message>
     <message>
         <source>Control communication apps separately from other applications</source>
@@ -312,7 +312,7 @@
     </message>
     <message>
         <source>System</source>
-        <translation>Sistema</translation>
+        <translation>Sistema operativo</translation>
     </message>
     <message>
         <source>Translation Progress</source>
@@ -332,7 +332,7 @@
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>07.07.2025</translation>
+        <translation>11.07.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -434,7 +434,7 @@
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Collegamenti</translation>
+        <translation>Tasti rapidi</translation>
     </message>
     <message>
         <source>Language</source>
@@ -449,15 +449,15 @@
     <name>ShortcutsPane</name>
     <message>
         <source>Global Shortcuts</source>
-        <translation>Scorciatoie globali</translation>
+        <translation>Tasti rapidi globali</translation>
     </message>
     <message>
         <source>Enable global shortcuts</source>
-        <translation>Abilita scorciatoie globali</translation>
+        <translation>Abilita tasti rapidi globali</translation>
     </message>
     <message>
         <source>Allow QuickSoundSwitcher to respond to keyboard shortcuts globally</source>
-        <translation>Consenti a QuickSoundSwitcher di rispondere alle scorciatoie tastiera a livello globale</translation>
+        <translation>Consenti a QuickSoundSwitcher di rispondere alle combinazioni tasti a livello globale</translation>
     </message>
     <message>
         <source>Notification on ChatMix toggle</source>
@@ -469,7 +469,7 @@
     </message>
     <message>
         <source>Shortcut to toggle the main panel visibility</source>
-        <translation>Scorciatoia on/off visibilità pannello principale</translation>
+        <translation>Abilita/disabilita visibilità pannello principale</translation>
     </message>
     <message>
         <source>Change</source>
@@ -481,11 +481,11 @@
     </message>
     <message>
         <source>Shortcut to enable/disable ChatMix feature</source>
-        <translation>Scorciatoia on/off funzione ChatMix</translation>
+        <translation>Abilita/disabilita funzione ChatMix</translation>
     </message>
     <message>
         <source>Set Panel Shortcut</source>
-        <translation>Imposta scorciatoia pannello</translation>
+        <translation>Imposta combinazione tasti pannello</translation>
     </message>
     <message>
         <source>Press the desired key combination</source>
@@ -501,7 +501,7 @@
     </message>
     <message>
         <source>Set ChatMix Shortcut</source>
-        <translation>Imposta scorciatoia ChatMix</translation>
+        <translation>Imposta combinazione tasti ChatMix</translation>
     </message>
 </context>
 <context>
