@@ -179,11 +179,12 @@
     </message>
     <message>
         <source>Enable ChatMix Warning</source>
-        <translation>Abilita ChatMix</translation>
+        <translation>Attiva ChatMix</translation>
     </message>
     <message>
         <source>Activating ChatMix will initially set all non communication application volumes to 50%. This might cause loud audio output.</source>
-        <translation>L&apos;attivazione di Chatmix imposterà tutti i volumi di applicazioni non di comunicazione al 50%. Ciò potrebbe causare un forte output audio.</translation>
+        <translation>L&apos;attivazione di Chatmix imposterà tutti i volumi di applicazioni non di comunicazione al 50%. 
+		Ciò potrebbe causare un forte output audio.</translation>
     </message>
     <message>
         <source>It is recommended to lower your master volume before proceeding to avoid sudden loud sounds.</source>
