@@ -179,7 +179,7 @@
     </message>
     <message>
         <source>Enable ChatMix Warning</source>
-        <translation>Abilita ChatMix</translation>
+        <translation>Attiva ChatMix</translation>
     </message>
     <message>
         <source>Activating ChatMix will initially set all non communication application volumes to 50%. This might cause loud audio output.</source>
@@ -332,7 +332,7 @@
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>11.07.2025</translation>
+        <translation>14.07.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
