@@ -332,7 +332,7 @@
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>14.07.2025</translation>
+        <translation>17.07.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -512,7 +512,7 @@
     </message>
     <message>
         <source>System sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>Suoni sistema</translation>
     </message>
 </context>
 <context>
