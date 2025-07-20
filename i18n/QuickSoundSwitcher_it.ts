@@ -120,42 +120,42 @@
     <name>ApplicationsListView</name>
     <message>
         <source>System sounds</source>
-        <translation type="unfinished">Suoni sistema</translation>
+        <translation>Suoni sistema</translation>
     </message>
     <message>
         <source>Rename Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomin applicazione</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ripristina nome originale</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nome originale: </translation>
     </message>
     <message>
         <source>Stream index: </source>
-        <translation type="unfinished"></translation>
+        <translation>Indice stream: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome personalizzato:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annulla</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva</translation>
     </message>
 </context>
 <context>
     <name>AudioWorker</name>
     <message>
         <source>System sounds</source>
-        <translation type="unfinished">Suoni sistema</translation>
+        <translation>Suoni sistema</translation>
     </message>
 </context>
 <context>
@@ -374,7 +374,7 @@
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>17.07.2025</translation>
+        <translation>20.07.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -558,27 +558,27 @@
     </message>
     <message>
         <source>Rename Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina applicazione</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ripristina nome originale</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nome originale: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome personalizzato:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annulla</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva</translation>
     </message>
 </context>
 <context>
@@ -600,31 +600,31 @@
     <name>SystemTray</name>
     <message>
         <source>Output: </source>
-        <translation type="unfinished"></translation>
+        <translation>Output: </translation>
     </message>
     <message>
         <source>Input: </source>
-        <translation type="unfinished"></translation>
+        <translation>Ingresso: </translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished">Esci da QuickSoundSwitcher</translation>
+        <translation>Esci da QuickSoundSwitcher</translation>
     </message>
     <message>
         <source>Quick Sound Switcher</source>
-        <translation type="unfinished"></translation>
+        <translation>Quick Sound Switcher</translation>
     </message>
     <message>
         <source>Access sound panel from the system tray. This notification won&apos;t show again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Accedi al pannello audio dalla barra di sistema. Questa notifica non verrà più visualizzata.</translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>
-        <translation type="unfinished">Impostazioni audio Windows (legacy)</translation>
+        <translation>Impostazioni audio Windows (legacy)</translation>
     </message>
     <message>
         <source>Windows sound settings (Modern)</source>
-        <translation type="unfinished">Impostazioni audio Windows (moderne)</translation>
+        <translation>Impostazioni audio Windows (moderne)</translation>
     </message>
 </context>
 </TS>
