@@ -32,10 +32,6 @@
         <translation>Offset barra attività</translation>
     </message>
     <message>
-        <source>Panel margin</source>
-        <translation type="obsolete">Margine pannello</translation>
-    </message>
-    <message>
         <source>Panel X margin</source>
         <translation>Margine X pannello</translation>
     </message>
@@ -58,22 +54,6 @@
     <message>
         <source>Shorten device names by shrinking description</source>
         <translation>Accorcia nomi dispositivi riducendo la descrizione</translation>
-    </message>
-    <message>
-        <source>Volume value display mode</source>
-        <translation type="vanished">Modo visualizzazione valore volume</translation>
-    </message>
-    <message>
-        <source>Control how you want sound value to be displayed</source>
-        <translation type="vanished">Controlla come visualizzare il valore del volume</translation>
-    </message>
-    <message>
-        <source>Slider tooltip</source>
-        <translation type="vanished">Suggerimento cursore</translation>
-    </message>
-    <message>
-        <source>Label</source>
-        <translation type="vanished">Etichetta</translation>
     </message>
     <message>
         <source>Hidden</source>
@@ -152,11 +132,11 @@
     </message>
     <message>
         <source>Unlock</source>
-        <translation type="unfinished"></translation>
+        <translation>Sblocca</translation>
     </message>
     <message>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Blocca</translation>
     </message>
 </context>
 <context>
@@ -345,14 +325,6 @@
         <source>Device list will automatically close after selecting a device</source>
         <translation>L&apos;elenco dei dispositivi si chiuderà automaticamente dopo aver selezionato un dispositivo</translation>
     </message>
-    <message>
-        <source>Group applications by executable</source>
-        <translation type="vanished">Raggruppa applicazioni per eseguibile</translation>
-    </message>
-    <message>
-        <source>Control multiple stream comming from a single app with one slider</source>
-        <translation type="vanished">Controlla stream multipli con una singola app con un cursore</translation>
-    </message>
 </context>
 <context>
     <name>LanguagePane</name>
@@ -363,10 +335,6 @@
     <message>
         <source>System</source>
         <translation>Sistema operativo</translation>
-    </message>
-    <message>
-        <source>Translation Progress</source>
-        <translation type="vanished">Stato traduzione</translation>
     </message>
     <message>
         <source>Translation author</source>
@@ -382,7 +350,7 @@
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>20.07.2025</translation>
+        <translation>22.07.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -395,10 +363,6 @@
     <message>
         <source>Download</source>
         <translation>Download</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">Annulla</translation>
     </message>
     <message>
         <source>Download completed successfully!</source>
@@ -424,26 +388,6 @@
 <context>
     <name>QuickSoundSwitcher</name>
     <message>
-        <source>Output: Loading...</source>
-        <translation type="vanished">Output: caricamento...</translation>
-    </message>
-    <message>
-        <source>Input: Loading...</source>
-        <translation type="vanished">Input: caricamento...</translation>
-    </message>
-    <message>
-        <source>Windows sound settings (Legacy)</source>
-        <translation type="vanished">Impostazioni audio Windows (legacy)</translation>
-    </message>
-    <message>
-        <source>Windows sound settings (Modern)</source>
-        <translation type="vanished">Impostazioni audio Windows (moderne)</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Esci da QuickSoundSwitcher</translation>
-    </message>
-    <message>
         <source>Enabled</source>
         <translation>Abilitato</translation>
     </message>
@@ -454,14 +398,6 @@
     <message>
         <source>ChatMix %1</source>
         <translation>ChatMix: %1</translation>
-    </message>
-    <message>
-        <source>Output</source>
-        <translation type="vanished">Output</translation>
-    </message>
-    <message>
-        <source>Input</source>
-        <translation type="vanished">Input</translation>
     </message>
 </context>
 <context>
