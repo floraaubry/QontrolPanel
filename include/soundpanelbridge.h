@@ -77,6 +77,9 @@ public:
     Q_INVOKABLE void openLegacySoundSettings();
     Q_INVOKABLE void openModernSoundSettings();
 
+    Q_INVOKABLE int getAvailableDesktopWidth() const;
+    Q_INVOKABLE int getAvailableDesktopHeight() const;
+
 private slots:
     void checkForTranslationUpdates();
 

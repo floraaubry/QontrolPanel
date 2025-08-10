@@ -309,8 +309,8 @@ ApplicationWindow {
     }
 
     function positionPanelAtTarget() {
-        const screenWidth = Qt.application.screens[0].width
-        const screenHeight = Qt.application.screens[0].height
+        const screenWidth = SoundPanelBridge.getAvailableDesktopWidth()
+        const screenHeight = SoundPanelBridge.getAvailableDesktopHeight()
 
         switch (panel.taskbarPos) {
         case "top":

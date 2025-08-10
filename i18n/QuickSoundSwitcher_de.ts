@@ -80,10 +80,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Windows taskbar size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Opacity animations</source>
         <translation type="unfinished"></translation>
     </message>
@@ -109,6 +105,10 @@
     </message>
     <message>
         <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

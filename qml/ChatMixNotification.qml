@@ -187,8 +187,8 @@ ApplicationWindow {
     }
 
     function positionWindow() {
-        const screen = Qt.application.screens[0]
-        x = (screen.width - width) / 2
+        const screenWidth = SoundPanelBridge.getAvailableDesktopWidth()
+        x = (screenWidth - width) / 2
         y = SoundPanelBridge.taskbarPosition === "top" ? 60 : 12
     }
 

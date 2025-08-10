@@ -427,3 +427,19 @@ void SoundPanelBridge::openLegacySoundSettings() {
 void SoundPanelBridge::openModernSoundSettings() {
     QProcess::startDetached("explorer", QStringList() << "ms-settings:sound");
 }
+
+int SoundPanelBridge::getAvailableDesktopWidth() const
+{
+    if (QGuiApplication::primaryScreen()) {
+        return QGuiApplication::primaryScreen()->availableGeometry().width();
+    }
+    return 1920;
+}
+
+int SoundPanelBridge::getAvailableDesktopHeight() const
+{
+    if (QGuiApplication::primaryScreen()) {
+        return QGuiApplication::primaryScreen()->availableGeometry().height();
+    }
+    return 1080;
+}

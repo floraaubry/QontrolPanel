@@ -6,7 +6,7 @@ Settings {
     property int panelMode: 0
     property bool keepAlive: false
     property int panelPosition: 1
-    property int taskbarOffset: 48
+    property int taskbarOffset: 0
     property int xAxisMargin: 12
     property int yAxisMargin: 12
     property int mediaMode: 0

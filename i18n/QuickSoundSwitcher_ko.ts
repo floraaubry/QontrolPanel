@@ -104,10 +104,6 @@
         <translation>슬라이더로 오디오 레벨 값 표시</translation>
     </message>
     <message>
-        <source>Windows taskbar size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Opacity animations</source>
         <translation type="unfinished"></translation>
     </message>
@@ -133,6 +129,10 @@
     </message>
     <message>
         <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
