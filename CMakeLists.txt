@@ -125,6 +125,7 @@ set(QML_FILES
     qml/NFSlider.qml
     qml/IntroWindow.qml
     qml/DonatePopup.qml
+    qml/DebugRectangle.qml
 )
 
 set(QML_SINGLETONS

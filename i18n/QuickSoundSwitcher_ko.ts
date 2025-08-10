@@ -528,6 +528,41 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
 </context>
 <context>
+    <name>Main</name>
+    <message>
+        <source>System sounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ChatMix</source>
+        <translation type="unfinished">채팅 믹스</translation>
+    </message>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to Original Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Original name: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">취소</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QuickSoundSwitcher</name>
     <message>
         <source>Exit</source>
@@ -664,35 +699,11 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     <name>SoundPanel</name>
     <message>
         <source>ChatMix</source>
-        <translation>채팅 믹스</translation>
-    </message>
-    <message>
-        <source>System sounds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rename Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reset to Original Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Original name: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Custom name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">채팅 믹스</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">취소</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">취소</translation>
     </message>
 </context>
 <context>

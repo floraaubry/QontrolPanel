@@ -524,6 +524,41 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
 </context>
 <context>
+    <name>Main</name>
+    <message>
+        <source>System sounds</source>
+        <translation type="unfinished">Suoni sistema</translation>
+    </message>
+    <message>
+        <source>ChatMix</source>
+        <translation type="unfinished">ChatMix</translation>
+    </message>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to Original Name</source>
+        <translation type="unfinished">Ripristina nome originale</translation>
+    </message>
+    <message>
+        <source>Original name: </source>
+        <translation type="unfinished">Nome originale: </translation>
+    </message>
+    <message>
+        <source>Custom name:</source>
+        <translation type="unfinished">Nome personalizzato:</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annulla</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Salva</translation>
+    </message>
+</context>
+<context>
     <name>QuickSoundSwitcher</name>
     <message>
         <source>Enabled</source>
@@ -632,35 +667,35 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     <name>SoundPanel</name>
     <message>
         <source>ChatMix</source>
-        <translation>ChatMix</translation>
+        <translation type="vanished">ChatMix</translation>
     </message>
     <message>
         <source>System sounds</source>
-        <translation>Suoni sistema</translation>
+        <translation type="vanished">Suoni sistema</translation>
     </message>
     <message>
         <source>Rename Application</source>
-        <translation>Rinomina applicazione</translation>
+        <translation type="vanished">Rinomina applicazione</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation>Ripristina nome originale</translation>
+        <translation type="vanished">Ripristina nome originale</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation>Nome originale: </translation>
+        <translation type="vanished">Nome originale: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation>Nome personalizzato:</translation>
+        <translation type="vanished">Nome personalizzato:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation type="vanished">Annulla</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation type="vanished">Salva</translation>
     </message>
 </context>
 <context>

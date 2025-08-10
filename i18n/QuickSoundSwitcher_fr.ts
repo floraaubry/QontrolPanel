@@ -572,6 +572,41 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
 </context>
 <context>
+    <name>Main</name>
+    <message>
+        <source>System sounds</source>
+        <translation type="unfinished">Sons système</translation>
+    </message>
+    <message>
+        <source>ChatMix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished">Renommer</translation>
+    </message>
+    <message>
+        <source>Reset to Original Name</source>
+        <translation type="unfinished">Par défaut</translation>
+    </message>
+    <message>
+        <source>Original name: </source>
+        <translation type="unfinished">Nom original: </translation>
+    </message>
+    <message>
+        <source>Custom name:</source>
+        <translation type="unfinished">Nom personnalisé:</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuler</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Sauvegarder</translation>
+    </message>
+</context>
+<context>
     <name>QuickSoundSwitcher</name>
     <message>
         <source>Output: Loading...</source>
@@ -707,36 +742,32 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
 <context>
     <name>SoundPanel</name>
     <message>
-        <source>ChatMix</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>System sounds</source>
-        <translation>Sons système</translation>
+        <translation type="vanished">Sons système</translation>
     </message>
     <message>
         <source>Rename Application</source>
-        <translation>Renommer</translation>
+        <translation type="vanished">Renommer</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation>Par défaut</translation>
+        <translation type="vanished">Par défaut</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation>Nom original: </translation>
+        <translation type="vanished">Nom original: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation>Nom personnalisé:</translation>
+        <translation type="vanished">Nom personnalisé:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuler</translation>
+        <translation type="vanished">Annuler</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Sauvegarder</translation>
+        <translation type="vanished">Sauvegarder</translation>
     </message>
 </context>
 <context>

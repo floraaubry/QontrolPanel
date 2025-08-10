@@ -60,7 +60,7 @@ void QuickSoundSwitcher::initializeQMLEngine()
     }
 
     engine = new QQmlApplicationEngine(this);
-    engine->loadFromModule("Odizinne.QuickSoundSwitcher", "SoundPanel");
+    engine->loadFromModule("Odizinne.QuickSoundSwitcher", "Main");
 
     if (!engine->rootObjects().isEmpty()) {
         panelWindow = qobject_cast<QWindow*>(engine->rootObjects().first());
