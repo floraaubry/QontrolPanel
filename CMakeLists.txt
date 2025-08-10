@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(QuickSoundSwitcher VERSION 1.5.4 LANGUAGES C CXX)
+project(QuickSoundSwitcher VERSION 1.5.5 LANGUAGES C CXX)
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation directory" FORCE)
 set(CMAKE_CXX_STANDARD 20)
