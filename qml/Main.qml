@@ -10,15 +10,14 @@ import QtMultimedia
 
 ApplicationWindow {
     id: panel
+    visible: false
+    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
+    color: "#00000000"
     width: {
         let baseWidth = 360
-
-        // Add left spacer width
         if (panel.taskbarPos === "left") {
             baseWidth += UserSettings.xAxisMargin
         }
-
-        // Add right spacer width
         if (panel.taskbarPos === "top" || panel.taskbarPos === "bottom" || panel.taskbarPos === "right") {
             if (panel.taskbarPos === "right") {
                 baseWidth += UserSettings.xAxisMargin
@@ -32,20 +31,14 @@ ApplicationWindow {
     height: {
         let baseMargins = 30
         let newHeight = mainLayout.implicitHeight + baseMargins
-
         if (mediaLayout.visible) {
             newHeight += mediaLayout.implicitHeight
             newHeight += spacer.height
         }
-
         newHeight += panel.maxDeviceListSpace
-
-        // Add top spacer height
         if (panel.taskbarPos === "top") {
             newHeight += UserSettings.yAxisMargin
         }
-
-        // Add bottom spacer height
         if (panel.taskbarPos === "bottom") {
             newHeight += UserSettings.yAxisMargin
         } else if (panel.taskbarPos === "left" || panel.taskbarPos === "right") {
@@ -55,7 +48,50 @@ ApplicationWindow {
         return newHeight
     }
 
+    property bool isAnimatingIn: false
+    property bool isAnimatingOut: false
+    property string taskbarPos: SoundPanelBridge.taskbarPosition
+    property real listCompensationOffset: maxDeviceListSpace - currentUsedListSpace
+    property real maxDeviceListSpace: {
+        let outputSpace = outputDevicesRect.expandedNeededHeight || 0
+        let inputSpace = inputDevicesRect.expandedNeededHeight || 0
+
+        return outputSpace + inputSpace
+    }
+    property real currentUsedListSpace: {
+        let usedSpace = 0
+        if (outputDevicesRect.expanded) {
+            usedSpace += outputDevicesRect.expandedNeededHeight || 0
+        }
+        if (inputDevicesRect.expanded) {
+            usedSpace += inputDevicesRect.expandedNeededHeight || 0
+        }
+        return usedSpace
+    }
+
+    signal hideAnimationFinished()
+    signal showAnimationFinished()
+    signal hideAnimationStarted()
     signal globalShortcutsToggled(bool enabled)
+
+    onVisibleChanged: {
+        if (!visible) {
+            if (UserSettings.opacityAnimations) {
+                mediaLayout.opacity = 0
+                mainLayout.opacity = 0
+            }
+
+            if (UserSettings.showAudioLevel) {
+                AudioBridge.stopAudioLevelMonitoring()
+                AudioBridge.stopApplicationAudioLevelMonitoring()
+            }
+        } else {
+            if (UserSettings.showAudioLevel) {
+                AudioBridge.startAudioLevelMonitoring()
+                AudioBridge.startApplicationAudioLevelMonitoring()
+            }
+        }
+    }
 
     Component.onCompleted: {
         updateAudioFeedbackDevice()
@@ -78,6 +114,20 @@ ApplicationWindow {
 
         function onGlobalShortcutsEnabledChanged() {
             panel.globalShortcutsToggled(UserSettings.globalShortcutsEnabled)
+        }
+    }
+
+    Connections {
+        target: AudioBridge
+        function onOutputDeviceCountChanged() {
+            if (AudioBridge.outputDevices.count <= 1) {
+                outputDevicesRect.expanded = false
+            }
+        }
+        function onInputDeviceCountChanged() {
+            if (AudioBridge.inputDevices.count <= 1) {
+                inputDevicesRect.expanded = false
+            }
         }
     }
 
@@ -107,6 +157,10 @@ ApplicationWindow {
         }
     }
 
+    IntroWindow {
+        id: introWindow
+    }
+
     SystemTray {
         onTogglePanelRequested: {
             if (panel.visible) {
@@ -115,14 +169,10 @@ ApplicationWindow {
                 panel.showPanel()
             }
         }
-    }
-    MouseArea {
-        height: panel.maxDeviceListSpace - panel.currentUsedListSpace
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: UserSettings.panelPosition === 0 ? parent.bottom : undefined
-        anchors.top: UserSettings.panelPosition === 0 ? undefined : parent.top
-        onClicked: panel.hidePanel()
+
+        onShowIntroRequested: {
+            introWindow.showIntro()
+        }
     }
 
     Shortcut {
@@ -134,56 +184,15 @@ ApplicationWindow {
         }
     }
 
-    visible: false
-    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
-    color: "#00000000"
-    property bool isAnimatingIn: false
-    property bool isAnimatingOut: false
-    property string taskbarPos: SoundPanelBridge.taskbarPosition
-
-    property real maxDeviceListSpace: {
-        let outputSpace = outputDevicesRect.expandedNeededHeight || 0
-        let inputSpace = inputDevicesRect.expandedNeededHeight || 0
-
-        return outputSpace + inputSpace
-    }
-
-    property real currentUsedListSpace: {
-        let usedSpace = 0
-        if (outputDevicesRect.expanded) {
-            usedSpace += outputDevicesRect.expandedNeededHeight || 0
-        }
-        if (inputDevicesRect.expanded) {
-            usedSpace += inputDevicesRect.expandedNeededHeight || 0
-        }
-        return usedSpace
-    }
-
-    property real listCompensationOffset: maxDeviceListSpace - currentUsedListSpace
-
-    signal hideAnimationFinished()
-    signal showAnimationFinished()
-    signal hideAnimationStarted()
-
     ChatMixNotification {}
 
-    onVisibleChanged: {
-        if (!visible) {
-            if (UserSettings.opacityAnimations) {
-                mediaLayout.opacity = 0
-                mainLayout.opacity = 0
-            }
-
-            if (UserSettings.showAudioLevel) {
-                AudioBridge.stopAudioLevelMonitoring()
-                AudioBridge.stopApplicationAudioLevelMonitoring() // Add this
-            }
-        } else {
-            if (UserSettings.showAudioLevel) {
-                AudioBridge.startAudioLevelMonitoring()
-                AudioBridge.startApplicationAudioLevelMonitoring() // Add this
-            }
-        }
+    MouseArea {
+        height: panel.maxDeviceListSpace - panel.currentUsedListSpace
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: UserSettings.panelPosition === 0 ? parent.bottom : undefined
+        anchors.top: UserSettings.panelPosition === 0 ? undefined : parent.top
+        onClicked: panel.hidePanel()
     }
 
     Timer {
@@ -269,17 +278,13 @@ ApplicationWindow {
         Qt.callLater(function() {
             Qt.callLater(function() {
                 let newHeight = mainLayout.implicitHeight + 30
-
                 if (mediaLayout.visible) {
                     newHeight += mediaLayout.implicitHeight
                 }
-
                 if (spacer.visible) {
                     newHeight += spacer.height
                 }
-
                 newHeight += panel.maxDeviceListSpace
-
                 let appListView = 0
                 for (let i = 0; i < appRepeater.count; ++i) {
                     let item = appRepeater.itemAt(i)
@@ -287,21 +292,15 @@ ApplicationWindow {
                         appListView += item.applicationListHeight || 0
                     }
                 }
-
                 newHeight += appListView
-
-                // Add top spacer height
                 if (panel.taskbarPos === "top") {
                     newHeight += UserSettings.yAxisMargin
                 }
-
-                // Add bottom spacer height
                 if (panel.taskbarPos === "bottom") {
                     newHeight += UserSettings.yAxisMargin
                 } else if (panel.taskbarPos === "left" || panel.taskbarPos === "right") {
                     newHeight += UserSettings.yAxisMargin
                 }
-
                 panel.height = newHeight
                 Qt.callLater(panel.startAnimation)
             })
@@ -309,8 +308,8 @@ ApplicationWindow {
     }
 
     function positionPanelAtTarget() {
-        const screenWidth = Qt.application.screens[0].width
-        const screenHeight = Qt.application.screens[0].height
+        const screenWidth = SoundPanelBridge.getAvailableDesktopWidth()
+        const screenHeight = SoundPanelBridge.getAvailableDesktopHeight()
 
         switch (panel.taskbarPos) {
         case "top":
@@ -382,7 +381,6 @@ ApplicationWindow {
         outputDevicesRect.closeContextMenus()
         inputDevicesRect.closeContextMenus()
 
-        // Close context menus in application lists
         for (let i = 0; i < appRepeater.count; ++i) {
             let item = appRepeater.itemAt(i)
             if (item && item.children) {
@@ -475,14 +473,10 @@ ApplicationWindow {
         }
 
         width: {
-            let baseWidth = 360 + 30  // Content + cosmetic margins
-
-            // Add left spacer width
+            let baseWidth = 360 + 30
             if (panel.taskbarPos === "left") {
                 baseWidth += UserSettings.xAxisMargin + UserSettings.taskbarOffset
             }
-
-            // Add right spacer width
             if (panel.taskbarPos === "top" || panel.taskbarPos === "bottom" || panel.taskbarPos === "right") {
                 if (panel.taskbarPos === "right") {
                     baseWidth += UserSettings.xAxisMargin + UserSettings.taskbarOffset
@@ -490,31 +484,24 @@ ApplicationWindow {
                     baseWidth += UserSettings.xAxisMargin
                 }
             }
-
             return baseWidth
         }
 
         height: {
             let baseMargins = 30
             let newHeight = mainLayout.implicitHeight + baseMargins
-
             if (mediaLayout.visible) {
                 newHeight += mediaLayout.implicitHeight
                 newHeight += spacer.height
             }
-
-            // Add top spacer height
             if (panel.taskbarPos === "top") {
                 newHeight += UserSettings.yAxisMargin
             }
-
-            // Add bottom spacer height
             if (panel.taskbarPos === "bottom") {
                 newHeight += UserSettings.yAxisMargin
             } else if (panel.taskbarPos === "left" || panel.taskbarPos === "right") {
                 newHeight += UserSettings.yAxisMargin
             }
-
             return newHeight
         }
 
@@ -526,7 +513,6 @@ ApplicationWindow {
             columnSpacing: 0
             rowSpacing: 0
 
-            // Row 1: Top spacer (spans 3 columns)
             Item {
                 id: topSpacer
                 Layout.row: 0
@@ -535,9 +521,14 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.preferredHeight: (panel.taskbarPos === "top") ? UserSettings.yAxisMargin : 0
                 visible: panel.taskbarPos === "top"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        panel.hidePanel()
+                    }
+                }
             }
 
-            // Row 2, Column 1: Left spacer
             Item {
                 id: leftSpacer
                 Layout.row: 1
@@ -545,9 +536,14 @@ ApplicationWindow {
                 Layout.fillHeight: true
                 Layout.preferredWidth: (panel.taskbarPos === "left") ? UserSettings.xAxisMargin : 0
                 visible: panel.taskbarPos === "left"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        panel.hidePanel()
+                    }
+                }
             }
 
-            // Row 2, Column 2: Main content area
             Item {
                 id: contentContainer
                 Layout.row: 1
@@ -740,7 +736,7 @@ ApplicationWindow {
                             NFToolButton {
                                 icon.source: "qrc:/icons/arrow.svg"
                                 rotation: outputDevicesRect.expanded ? 90 : 0
-                                visible: AudioBridge.isReady && AudioBridge.outputDevices.rowCount() > 1
+                                visible: AudioBridge.isReady && AudioBridge.outputDevices.count > 1
                                 Layout.preferredHeight: 35
                                 Layout.preferredWidth: 35
                                 Behavior on rotation {
@@ -822,7 +818,7 @@ ApplicationWindow {
                                 rotation: inputDevicesRect.expanded ? 90 : 0
                                 Layout.preferredHeight: 35
                                 Layout.preferredWidth: 35
-                                visible: AudioBridge.isReady && AudioBridge.inputDevices.rowCount() > 1
+                                visible: AudioBridge.isReady && AudioBridge.inputDevices.count > 1
                                 Behavior on rotation {
                                     NumberAnimation {
                                         duration: 150
@@ -1183,7 +1179,6 @@ ApplicationWindow {
                 }
             }
 
-            // Row 2, Column 3: Right spacer
             Item {
                 id: rightSpacer
                 Layout.row: 1
@@ -1197,9 +1192,14 @@ ApplicationWindow {
                     }
                 }
                 visible: panel.taskbarPos === "top" || panel.taskbarPos === "bottom" || panel.taskbarPos === "right"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        panel.hidePanel()
+                    }
+                }
             }
 
-            // Row 3: Bottom spacer (spans 3 columns)
             Item {
                 id: bottomSpacer
                 Layout.row: 2
@@ -1214,6 +1214,12 @@ ApplicationWindow {
                     }
                 }
                 visible: panel.taskbarPos === "bottom" || panel.taskbarPos === "left" || panel.taskbarPos === "right"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        panel.hidePanel()
+                    }
+                }
             }
         }
     }
@@ -1238,7 +1244,6 @@ ApplicationWindow {
         }
     }
 
-    // Rename dialog for executables
     Dialog {
         id: executableRenameDialog
         title: qsTr("Rename Application")

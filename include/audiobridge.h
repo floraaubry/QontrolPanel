@@ -55,6 +55,7 @@ class FilteredDeviceModel : public QAbstractListModel
     QML_ELEMENT
     QML_UNCREATABLE("FilteredDeviceModel is only available through AudioBridge")
     Q_PROPERTY(int currentDefaultIndex READ getCurrentDefaultIndex NOTIFY currentDefaultIndexChanged)
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
 public:
     enum DeviceRoles {
@@ -81,6 +82,7 @@ public:
 
 signals:
     void currentDefaultIndexChanged();
+    void countChanged();
 
 private:
     QList<AudioDevice> m_devices;
@@ -290,6 +292,8 @@ signals:
     void inputDeviceDisplayNameChanged();
     void deviceRenameUpdated();
     void deviceIconUpdated();
+    void outputDeviceCountChanged();
+    void inputDeviceCountChanged();
 
 private slots:
     void onOutputVolumeChanged(int volume);

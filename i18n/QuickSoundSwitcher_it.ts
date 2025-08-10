@@ -89,7 +89,7 @@
     </message>
     <message>
         <source>Windows taskbar size</source>
-        <translation>Dimensione barra attività Windows</translation>
+        <translation type="vanished">Dimensione barra attività Windows</translation>
     </message>
     <message>
         <source>Opacity animations</source>
@@ -117,6 +117,26 @@
     </message>
     <message>
         <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose the color of the system tray icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tray icon style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filled</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -327,6 +347,26 @@
     </message>
 </context>
 <context>
+    <name>DonatePopup</name>
+    <message>
+        <source>Found this app useful?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This app is made with care by an independent developer and is not financed by ad revenue.
+If you&apos;d like to support my work, any contribution would be greatly appreciated!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maybe later</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GeneralPane</name>
     <message>
         <source>General Settings</source>
@@ -386,6 +426,45 @@
     </message>
 </context>
 <context>
+    <name>IntroWindow</name>
+    <message>
+        <source>Output: </source>
+        <translation type="obsolete">Output: </translation>
+    </message>
+    <message>
+        <source>Input: </source>
+        <translation type="obsolete">Ingresso: </translation>
+    </message>
+    <message>
+        <source>Windows sound settings (Legacy)</source>
+        <translation type="obsolete">Impostazioni audio Windows (legacy)</translation>
+    </message>
+    <message>
+        <source>Windows sound settings (Modern)</source>
+        <translation type="obsolete">Impostazioni audio Windows (moderne)</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="obsolete">Esci da QuickSoundSwitcher</translation>
+    </message>
+    <message>
+        <source>Welcome to Quick Sound Switcher!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get Started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The tray icon is probably hidden and can be added to the tray area by dragging it as shown in the video below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can then click on the tray icon to reveal the panel.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LanguagePane</name>
     <message>
         <source>Application language</source>
@@ -442,6 +521,41 @@
     <message>
         <source>Fetch for translations update at startup and every 4 hours</source>
         <translation>Aggiornamento traduzioni all&apos;avvio e ogni 4 ore</translation>
+    </message>
+</context>
+<context>
+    <name>Main</name>
+    <message>
+        <source>System sounds</source>
+        <translation type="unfinished">Suoni sistema</translation>
+    </message>
+    <message>
+        <source>ChatMix</source>
+        <translation type="unfinished">ChatMix</translation>
+    </message>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to Original Name</source>
+        <translation type="unfinished">Ripristina nome originale</translation>
+    </message>
+    <message>
+        <source>Original name: </source>
+        <translation type="unfinished">Nome originale: </translation>
+    </message>
+    <message>
+        <source>Custom name:</source>
+        <translation type="unfinished">Nome personalizzato:</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annulla</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Salva</translation>
     </message>
 </context>
 <context>
@@ -553,35 +667,35 @@
     <name>SoundPanel</name>
     <message>
         <source>ChatMix</source>
-        <translation>ChatMix</translation>
+        <translation type="vanished">ChatMix</translation>
     </message>
     <message>
         <source>System sounds</source>
-        <translation>Suoni sistema</translation>
+        <translation type="vanished">Suoni sistema</translation>
     </message>
     <message>
         <source>Rename Application</source>
-        <translation>Rinomina applicazione</translation>
+        <translation type="vanished">Rinomina applicazione</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation>Ripristina nome originale</translation>
+        <translation type="vanished">Ripristina nome originale</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation>Nome originale: </translation>
+        <translation type="vanished">Nome originale: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation>Nome personalizzato:</translation>
+        <translation type="vanished">Nome personalizzato:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation type="vanished">Annulla</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation type="vanished">Salva</translation>
     </message>
 </context>
 <context>
@@ -615,11 +729,11 @@
     </message>
     <message>
         <source>Quick Sound Switcher</source>
-        <translation>Quick Sound Switcher</translation>
+        <translation type="vanished">Quick Sound Switcher</translation>
     </message>
     <message>
         <source>Access sound panel from the system tray. This notification won&apos;t show again.</source>
-        <translation>Accedi al pannello audio dalla barra di sistema. Questa notifica non verrà più visualizzata.</translation>
+        <translation type="vanished">Accedi al pannello audio dalla barra di sistema. Questa notifica non verrà più visualizzata.</translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>

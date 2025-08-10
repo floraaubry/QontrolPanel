@@ -80,10 +80,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Windows taskbar size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Opacity animations</source>
         <translation type="unfinished"></translation>
     </message>
@@ -109,6 +105,26 @@
     </message>
     <message>
         <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose the color of the system tray icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tray icon style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filled</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -311,6 +327,26 @@
     </message>
 </context>
 <context>
+    <name>DonatePopup</name>
+    <message>
+        <source>Found this app useful?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This app is made with care by an independent developer and is not financed by ad revenue.
+If you&apos;d like to support my work, any contribution would be greatly appreciated!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maybe later</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GeneralPane</name>
     <message>
         <source>General Settings</source>
@@ -359,6 +395,25 @@
     <message>
         <source>Device list will automatically close after selecting a device</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>IntroWindow</name>
+    <message>
+        <source>Welcome to Quick Sound Switcher!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get Started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The tray icon is probably hidden and can be added to the tray area by dragging it as shown in the video below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can then click on the tray icon to reveal the panel.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -417,6 +472,41 @@
     </message>
     <message>
         <source>Fetch for translations update at startup and every 4 hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Main</name>
+    <message>
+        <source>System sounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ChatMix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to Original Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Original name: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -526,41 +616,6 @@
     </message>
 </context>
 <context>
-    <name>SoundPanel</name>
-    <message>
-        <source>ChatMix</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>System sounds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rename Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reset to Original Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Original name: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Custom name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>SoundPanelBridge</name>
     <message>
         <source>No translation files to download</source>
@@ -587,14 +642,6 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Quick Sound Switcher</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Access sound panel from the system tray. This notification won&apos;t show again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

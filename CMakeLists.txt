@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(QuickSoundSwitcher VERSION 1.5.5 LANGUAGES C CXX)
+project(QuickSoundSwitcher VERSION 1.5.6 LANGUAGES C CXX)
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation directory" FORCE)
 set(CMAKE_CXX_STANDARD 20)
@@ -100,11 +100,12 @@ qt_add_executable(QuickSoundSwitcher WIN32 MACOSX_BUNDLE
     ${HEADERS}
     resources/icons/icons.qrc
     resources/sounds/sounds.qrc
+    resources/videos/videos.qrc
     "${CMAKE_CURRENT_BINARY_DIR}/windows_metadata.rc"
 )
 
 set(QML_FILES
-    qml/SoundPanel.qml
+    qml/Main.qml
     qml/SettingsWindow.qml
     qml/KeepAlive.qml
     qml/DevicesListView.qml
@@ -122,6 +123,9 @@ set(QML_FILES
     qml/SystemTray.qml
     qml/NFToolButton.qml
     qml/NFSlider.qml
+    qml/IntroWindow.qml
+    qml/DonatePopup.qml
+    qml/DebugRectangle.qml
 )
 
 set(QML_SINGLETONS

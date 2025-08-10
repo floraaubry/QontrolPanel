@@ -104,10 +104,6 @@
         <translation>슬라이더로 오디오 레벨 값 표시</translation>
     </message>
     <message>
-        <source>Windows taskbar size</source>
-        <translation>Windows 작업 표시줄 크기</translation>
-    </message>
-    <message>
         <source>Opacity animations</source>
         <translation>불투명 애니메이션</translation>
     </message>
@@ -134,6 +130,26 @@
     <message>
         <source>Light</source>
         <translation>밝은</translation>
+    </message>
+    <message>
+        <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose the color of the system tray icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tray icon style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filled</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -335,6 +351,26 @@
     </message>
 </context>
 <context>
+    <name>DonatePopup</name>
+    <message>
+        <source>Found this app useful?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This app is made with care by an independent developer and is not financed by ad revenue.
+If you&apos;d like to support my work, any contribution would be greatly appreciated!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maybe later</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GeneralPane</name>
     <message>
         <source>General Settings</source>
@@ -402,6 +438,37 @@
     </message>
 </context>
 <context>
+    <name>IntroWindow</name>
+    <message>
+        <source>Windows sound settings (Legacy)</source>
+        <translation type="obsolete">Windows 사운드 설정 (레거시)</translation>
+    </message>
+    <message>
+        <source>Windows sound settings (Modern)</source>
+        <translation type="obsolete">Windows 사운드 설정 (모던)</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="obsolete">종료</translation>
+    </message>
+    <message>
+        <source>Welcome to Quick Sound Switcher!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get Started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The tray icon is probably hidden and can be added to the tray area by dragging it as shown in the video below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can then click on the tray icon to reveal the panel.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LanguagePane</name>
     <message>
         <source>Application language</source>
@@ -458,6 +525,41 @@
     <message>
         <source>Fetch for translations update at startup and every 4 hours</source>
         <translation>시작 시 및 매 4시간마다 번역 업데이트 가져오기</translation>
+    </message>
+</context>
+<context>
+    <name>Main</name>
+    <message>
+        <source>System sounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ChatMix</source>
+        <translation type="unfinished">채팅 믹스</translation>
+    </message>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to Original Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Original name: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">취소</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -656,14 +758,6 @@
     <message>
         <source>Exit</source>
         <translation>종료</translation>
-    </message>
-    <message>
-        <source>Quick Sound Switcher</source>
-        <translation>Quick Sound Switcher</translation>
-    </message>
-    <message>
-        <source>Access sound panel from the system tray. This notification won&apos;t show again.</source>
-        <translation>시스템 트레이에서 사운드 패널에 액세스합니다. 이 알림은 다시 표시되지 않습니다.</translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>

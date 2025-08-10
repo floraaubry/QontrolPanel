@@ -105,7 +105,7 @@
     </message>
     <message>
         <source>Windows taskbar size</source>
-        <translation>Размер панели задач</translation>
+        <translation type="vanished">Размер панели задач</translation>
     </message>
     <message>
         <source>Opacity animations</source>
@@ -133,6 +133,26 @@
     </message>
     <message>
         <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose the color of the system tray icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tray icon style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filled</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -335,6 +355,26 @@
     </message>
 </context>
 <context>
+    <name>DonatePopup</name>
+    <message>
+        <source>Found this app useful?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This app is made with care by an independent developer and is not financed by ad revenue.
+If you&apos;d like to support my work, any contribution would be greatly appreciated!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maybe later</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GeneralPane</name>
     <message>
         <source>General Settings</source>
@@ -402,6 +442,37 @@
     </message>
 </context>
 <context>
+    <name>IntroWindow</name>
+    <message>
+        <source>Windows sound settings (Legacy)</source>
+        <translation type="obsolete">Настройки звука Windows (Старые)</translation>
+    </message>
+    <message>
+        <source>Windows sound settings (Modern)</source>
+        <translation type="obsolete">Настройки звука Windows (Новые)</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="obsolete">Выход</translation>
+    </message>
+    <message>
+        <source>Welcome to Quick Sound Switcher!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get Started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The tray icon is probably hidden and can be added to the tray area by dragging it as shown in the video below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can then click on the tray icon to reveal the panel.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LanguagePane</name>
     <message>
         <source>Application language</source>
@@ -458,6 +529,41 @@
     <message>
         <source>Fetch for translations update at startup and every 4 hours</source>
         <translation>Поиск переводов обновляется при запуске и каждые 4 часа</translation>
+    </message>
+</context>
+<context>
+    <name>Main</name>
+    <message>
+        <source>System sounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ChatMix</source>
+        <translation type="unfinished">ChatMix</translation>
+    </message>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to Original Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Original name: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Отмена</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -596,36 +702,8 @@
 <context>
     <name>SoundPanel</name>
     <message>
-        <source>ChatMix</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>System sounds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rename Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reset to Original Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Original name: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Custom name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
-        <translation type="unfinished">Отмена</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Отмена</translation>
     </message>
 </context>
 <context>
@@ -656,14 +734,6 @@
     <message>
         <source>Exit</source>
         <translation type="unfinished">Выход</translation>
-    </message>
-    <message>
-        <source>Quick Sound Switcher</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Access sound panel from the system tray. This notification won&apos;t show again.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>

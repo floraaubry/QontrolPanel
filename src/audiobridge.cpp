@@ -181,6 +181,8 @@ QString FilteredDeviceModel::getDeviceName(int index) const
 void FilteredDeviceModel::setDevices(const QList<AudioDevice>& devices)
 {
     beginResetModel();
+
+    int oldCount = m_devices.count();
     m_devices.clear();
 
     for (const AudioDevice& device : devices) {
@@ -191,6 +193,19 @@ void FilteredDeviceModel::setDevices(const QList<AudioDevice>& devices)
 
     endResetModel();
     updateCurrentDefaultIndex();
+
+    if (oldCount != m_devices.count()) {
+        emit countChanged();
+
+        AudioBridge* audioBridge = qobject_cast<AudioBridge*>(parent());
+        if (audioBridge) {
+            if (m_isInputFilter) {
+                emit audioBridge->inputDeviceCountChanged();
+            } else {
+                emit audioBridge->outputDeviceCountChanged();
+            }
+        }
+    }
 }
 
 int FilteredDeviceModel::getCurrentDefaultIndex() const

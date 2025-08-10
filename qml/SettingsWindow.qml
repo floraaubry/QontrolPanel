@@ -17,6 +17,11 @@ ApplicationWindow {
 
     property int rowHeight: 35
 
+    DonatePopup {
+        anchors.centerIn: parent
+        id: donatePopup
+    }
+
     Popup {
         anchors.centerIn: parent
         width: mainPopupLyt.implicitWidth + 50
@@ -137,6 +142,18 @@ ApplicationWindow {
                             }
                         }
                     }
+                }
+
+                ItemDelegate {
+                    text: "Donate"
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 43
+                    spacing: 10
+                    icon.color: "#f05670"
+                    icon.source: "qrc:/icons/donate.svg"
+                    icon.width: 18
+                    icon.height: 18
+                    onClicked: donatePopup.open()
                 }
             }
         }

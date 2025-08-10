@@ -36,7 +36,7 @@ ColumnLayout {
             Card {
                 Layout.fillWidth: true
                 title: qsTr("Taskbar offset")
-                description: qsTr("Windows taskbar size")
+                description: qsTr("Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)")
 
                 additionalControl: SpinBox {
                     Layout.preferredHeight: 35
@@ -140,13 +140,26 @@ ColumnLayout {
             Card {
                 Layout.fillWidth: true
                 title: qsTr("Tray icon theme")
-                description: qsTr("Choose the appearance of the system tray icon")
+                description: qsTr("Choose the color of the system tray icon")
                 additionalControl: ComboBox {
                     Layout.preferredHeight: 35
                     Layout.preferredWidth: 160
                     model: [qsTr("Auto"), qsTr("Dark"), qsTr("Light")]
                     currentIndex: UserSettings.trayIconTheme
                     onActivated: UserSettings.trayIconTheme = currentIndex
+                }
+            }
+
+            Card {
+                Layout.fillWidth: true
+                title: qsTr("Tray icon style")
+                description: qsTr("Choose the appearance of the system tray icon")
+                additionalControl: ComboBox {
+                    Layout.preferredHeight: 35
+                    Layout.preferredWidth: 160
+                    model: [qsTr("Normal"), qsTr("Filled")]
+                    currentIndex: UserSettings.iconStyle
+                    onActivated: UserSettings.iconStyle = currentIndex
                 }
             }
         }

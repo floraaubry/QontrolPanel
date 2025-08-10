@@ -34,6 +34,8 @@ QtObject {
         } else {
             volumeLevel = "33"
         }
-        return `qrc:/icons/tray_${theme}_${volumeLevel}.png`
+
+        let filledSuffix = UserSettings.iconStyle === 1 ? "_filled" : ""
+        return `qrc:/icons/tray_${theme}_${volumeLevel}${filledSuffix}.png`
     }
 }
