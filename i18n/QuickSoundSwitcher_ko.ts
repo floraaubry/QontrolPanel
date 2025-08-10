@@ -5,7 +5,7 @@
     <name>AppearancePane</name>
     <message>
         <source>Appearance &amp; Position</source>
-        <translation>외형과 위치</translation>
+        <translation>외형 및 위치</translation>
     </message>
     <message>
         <source>Panel position</source>
@@ -77,11 +77,11 @@
     </message>
     <message>
         <source>Media info display</source>
-        <translation>Media info display</translation>
+        <translation>미디어 정보 표시</translation>
     </message>
     <message>
         <source>Display currently playing media from Windows known sources</source>
-        <translation>현재 Windows 알려진 출처에서 재생 중인 미디어 표시</translation>
+        <translation>Windows에서 알려진 소스에서 현재 재생 중인 미디어 표시</translation>
     </message>
     <message>
         <source>Flyout (interactive)</source>
@@ -113,7 +113,7 @@
     </message>
     <message>
         <source>Display device icon</source>
-        <translation>디스플레이 장치 아이콘</translation>
+        <translation>장치 아이콘 표시</translation>
     </message>
     <message>
         <source>Tray icon theme</source>
@@ -121,7 +121,7 @@
     </message>
     <message>
         <source>Choose the appearance of the system tray icon</source>
-        <translation>시스템 트레이 아이콘의 모양 선택</translation>
+        <translation>시스템 트레이 아이콘의 모양을 선택하세요</translation>
     </message>
     <message>
         <source>Auto</source>
@@ -140,7 +140,7 @@
     <name>ApplicationsListView</name>
     <message>
         <source>System sounds</source>
-        <translation>시스템 소리</translation>
+        <translation>시스템 사운드</translation>
     </message>
     <message>
         <source>Rename Application</source>
@@ -183,18 +183,18 @@
     <name>AudioWorker</name>
     <message>
         <source>System sounds</source>
-        <translation>시스템 소리</translation>
+        <translation>시스템 사운드</translation>
     </message>
 </context>
 <context>
     <name>ChatMixNotification</name>
     <message>
         <source>ChatMix Enabled</source>
-        <translation>채팅 믹스 활성화</translation>
+        <translation>채팅 믹스 사용함</translation>
     </message>
     <message>
         <source>ChatMix Disabled</source>
-        <translation>채팅 믹스 비활성화</translation>
+        <translation>채팅 믹스 사용안 함</translation>
     </message>
 </context>
 <context>
@@ -453,11 +453,11 @@
     </message>
     <message>
         <source>Auto update translations</source>
-        <translation>자동 업데이트 번역</translation>
+        <translation>번역 자동 업데이트</translation>
     </message>
     <message>
         <source>Fetch for translations update at startup and every 4 hours</source>
-        <translation>시작 시 및 매 4시간마다 번역 업데이트를 가져옵니다</translation>
+        <translation>시작 시 및 매 4시간마다 번역 업데이트 가져오기</translation>
     </message>
 </context>
 <context>
@@ -542,7 +542,7 @@
     </message>
     <message>
         <source>Enable global shortcuts</source>
-        <translation>전역 단축키 사용함</translation>
+        <translation>전역 단축키 사용</translation>
     </message>
     <message>
         <source>Allow QuickSoundSwitcher to respond to keyboard shortcuts globally</source>
@@ -601,7 +601,7 @@
     </message>
     <message>
         <source>System sounds</source>
-        <translation>시스템 소리</translation>
+        <translation>시스템 사운드</translation>
     </message>
     <message>
         <source>Rename Application</source>
