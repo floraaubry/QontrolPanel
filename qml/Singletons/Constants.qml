@@ -13,9 +13,18 @@ QtObject {
     property string systemIcon: darkMode ? "qrc:/icons/system_light.png" : "qrc:/icons/system_dark.png"
 
     function getTrayIcon(volume, muted) {
-        let theme = darkMode ? "light" : "dark"
+        let theme
+        if (UserSettings.trayIconTheme === 1) {
+            // Dark
+            theme = "dark"
+        } else if (UserSettings.trayIconTheme === 2) {
+            // Light
+            theme = "light"
+        } else {
+            // Auto
+            theme = darkMode ? "light" : "dark"
+        }
         let volumeLevel
-
         if (muted || volume === 0) {
             volumeLevel = "0"
         } else if (volume > 66) {
@@ -25,7 +34,6 @@ QtObject {
         } else {
             volumeLevel = "33"
         }
-
         return `qrc:/icons/tray_${theme}_${volumeLevel}.png`
     }
 }

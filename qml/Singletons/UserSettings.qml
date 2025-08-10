@@ -32,4 +32,5 @@ Settings {
     property bool firstRun: true
 
     property bool deviceIcon: true
+    property int trayIconTheme: 0
 }

@@ -136,6 +136,19 @@ ColumnLayout {
                     onClicked: UserSettings.deviceIcon = checked
                 }
             }
+
+            Card {
+                Layout.fillWidth: true
+                title: qsTr("Tray icon theme")
+                description: qsTr("Choose the appearance of the system tray icon")
+                additionalControl: ComboBox {
+                    Layout.preferredHeight: 35
+                    Layout.preferredWidth: 160
+                    model: [qsTr("Auto"), qsTr("Dark"), qsTr("Light")]
+                    currentIndex: UserSettings.trayIconTheme
+                    onActivated: UserSettings.trayIconTheme = currentIndex
+                }
+            }
         }
     }
 }
