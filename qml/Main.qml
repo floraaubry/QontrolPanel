@@ -83,12 +83,12 @@ ApplicationWindow {
 
             if (UserSettings.showAudioLevel) {
                 AudioBridge.stopAudioLevelMonitoring()
-                AudioBridge.stopApplicationAudioLevelMonitoring() // Add this
+                AudioBridge.stopApplicationAudioLevelMonitoring()
             }
         } else {
             if (UserSettings.showAudioLevel) {
                 AudioBridge.startAudioLevelMonitoring()
-                AudioBridge.startApplicationAudioLevelMonitoring() // Add this
+                AudioBridge.startApplicationAudioLevelMonitoring()
             }
         }
     }
@@ -278,17 +278,13 @@ ApplicationWindow {
         Qt.callLater(function() {
             Qt.callLater(function() {
                 let newHeight = mainLayout.implicitHeight + 30
-
                 if (mediaLayout.visible) {
                     newHeight += mediaLayout.implicitHeight
                 }
-
                 if (spacer.visible) {
                     newHeight += spacer.height
                 }
-
                 newHeight += panel.maxDeviceListSpace
-
                 let appListView = 0
                 for (let i = 0; i < appRepeater.count; ++i) {
                     let item = appRepeater.itemAt(i)
@@ -296,21 +292,15 @@ ApplicationWindow {
                         appListView += item.applicationListHeight || 0
                     }
                 }
-
                 newHeight += appListView
-
-                // Add top spacer height
                 if (panel.taskbarPos === "top") {
                     newHeight += UserSettings.yAxisMargin
                 }
-
-                // Add bottom spacer height
                 if (panel.taskbarPos === "bottom") {
                     newHeight += UserSettings.yAxisMargin
                 } else if (panel.taskbarPos === "left" || panel.taskbarPos === "right") {
                     newHeight += UserSettings.yAxisMargin
                 }
-
                 panel.height = newHeight
                 Qt.callLater(panel.startAnimation)
             })
@@ -391,7 +381,6 @@ ApplicationWindow {
         outputDevicesRect.closeContextMenus()
         inputDevicesRect.closeContextMenus()
 
-        // Close context menus in application lists
         for (let i = 0; i < appRepeater.count; ++i) {
             let item = appRepeater.itemAt(i)
             if (item && item.children) {
@@ -484,14 +473,10 @@ ApplicationWindow {
         }
 
         width: {
-            let baseWidth = 360 + 30  // Content + cosmetic margins
-
-            // Add left spacer width
+            let baseWidth = 360 + 30
             if (panel.taskbarPos === "left") {
                 baseWidth += UserSettings.xAxisMargin + UserSettings.taskbarOffset
             }
-
-            // Add right spacer width
             if (panel.taskbarPos === "top" || panel.taskbarPos === "bottom" || panel.taskbarPos === "right") {
                 if (panel.taskbarPos === "right") {
                     baseWidth += UserSettings.xAxisMargin + UserSettings.taskbarOffset
@@ -499,31 +484,24 @@ ApplicationWindow {
                     baseWidth += UserSettings.xAxisMargin
                 }
             }
-
             return baseWidth
         }
 
         height: {
             let baseMargins = 30
             let newHeight = mainLayout.implicitHeight + baseMargins
-
             if (mediaLayout.visible) {
                 newHeight += mediaLayout.implicitHeight
                 newHeight += spacer.height
             }
-
-            // Add top spacer height
             if (panel.taskbarPos === "top") {
                 newHeight += UserSettings.yAxisMargin
             }
-
-            // Add bottom spacer height
             if (panel.taskbarPos === "bottom") {
                 newHeight += UserSettings.yAxisMargin
             } else if (panel.taskbarPos === "left" || panel.taskbarPos === "right") {
                 newHeight += UserSettings.yAxisMargin
             }
-
             return newHeight
         }
 
@@ -535,7 +513,6 @@ ApplicationWindow {
             columnSpacing: 0
             rowSpacing: 0
 
-            // Row 1: Top spacer (spans 3 columns)
             Item {
                 id: topSpacer
                 Layout.row: 0
@@ -552,7 +529,6 @@ ApplicationWindow {
                 }
             }
 
-            // Row 2, Column 1: Left spacer
             Item {
                 id: leftSpacer
                 Layout.row: 1
@@ -568,7 +544,6 @@ ApplicationWindow {
                 }
             }
 
-            // Row 2, Column 2: Main content area
             Item {
                 id: contentContainer
                 Layout.row: 1
@@ -1204,7 +1179,6 @@ ApplicationWindow {
                 }
             }
 
-            // Row 2, Column 3: Right spacer
             Item {
                 id: rightSpacer
                 Layout.row: 1
@@ -1226,7 +1200,6 @@ ApplicationWindow {
                 }
             }
 
-            // Row 3: Bottom spacer (spans 3 columns)
             Item {
                 id: bottomSpacer
                 Layout.row: 2
@@ -1271,7 +1244,6 @@ ApplicationWindow {
         }
     }
 
-    // Rename dialog for executables
     Dialog {
         id: executableRenameDialog
         title: qsTr("Rename Application")
