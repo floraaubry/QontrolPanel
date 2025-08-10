@@ -390,6 +390,45 @@
     </message>
 </context>
 <context>
+    <name>IntroWindow</name>
+    <message>
+        <source>Output: </source>
+        <translation type="obsolete">Output: </translation>
+    </message>
+    <message>
+        <source>Input: </source>
+        <translation type="obsolete">Ingresso: </translation>
+    </message>
+    <message>
+        <source>Windows sound settings (Legacy)</source>
+        <translation type="obsolete">Impostazioni audio Windows (legacy)</translation>
+    </message>
+    <message>
+        <source>Windows sound settings (Modern)</source>
+        <translation type="obsolete">Impostazioni audio Windows (moderne)</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="obsolete">Esci da QuickSoundSwitcher</translation>
+    </message>
+    <message>
+        <source>Welcome to Quick Sound Switcher!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get Started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The tray icon is probably hidden and can be added to the tray area by dragging it as shown in the video below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can then click on the tray icon to reveal the panel.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LanguagePane</name>
     <message>
         <source>Application language</source>
@@ -619,11 +658,11 @@
     </message>
     <message>
         <source>Quick Sound Switcher</source>
-        <translation>Quick Sound Switcher</translation>
+        <translation type="vanished">Quick Sound Switcher</translation>
     </message>
     <message>
         <source>Access sound panel from the system tray. This notification won&apos;t show again.</source>
-        <translation>Accedi al pannello audio dalla barra di sistema. Questa notifica non verrà più visualizzata.</translation>
+        <translation type="vanished">Accedi al pannello audio dalla barra di sistema. Questa notifica non verrà più visualizzata.</translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>

@@ -62,6 +62,10 @@ ApplicationWindow {
         SoundPanelBridge.startMediaMonitoring()
     }
 
+    IntroWindow {
+        id: introWindow
+    }
+
     Connections {
         target: UserSettings
         function onOpacityAnimationsChanged() {
@@ -114,6 +118,10 @@ ApplicationWindow {
             } else {
                 panel.showPanel()
             }
+        }
+
+        onShowIntroRequested: {
+            introWindow.showIntro()
         }
     }
     MouseArea {

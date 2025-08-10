@@ -100,6 +100,7 @@ qt_add_executable(QuickSoundSwitcher WIN32 MACOSX_BUNDLE
     ${HEADERS}
     resources/icons/icons.qrc
     resources/sounds/sounds.qrc
+    resources/videos/videos.qrc
     "${CMAKE_CURRENT_BINARY_DIR}/windows_metadata.rc"
 )
 
@@ -122,6 +123,7 @@ set(QML_FILES
     qml/SystemTray.qml
     qml/NFToolButton.qml
     qml/NFSlider.qml
+    qml/IntroWindow.qml
 )
 
 set(QML_SINGLETONS

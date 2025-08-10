@@ -6,18 +6,15 @@ Platform.SystemTrayIcon {
     id: systemTray
     visible: true
     signal togglePanelRequested()
+    signal showIntroRequested()
     icon.source: Constants.getTrayIcon(AudioBridge.outputVolume, AudioBridge.outputMuted)
     tooltip: "Quick Sound Switcher"
 
     Component.onCompleted: {
         if (UserSettings.firstRun === undefined || UserSettings.firstRun === true) {
-            UserSettings.firstRun = false
-            systemTray.showMessage(
-                qsTr("Quick Sound Switcher"),
-                qsTr("Access sound panel from the system tray. This notification won't show again."),
-                Platform.SystemTrayIcon.NoIcon,
-                3000
-            )
+            Qt.callLater(function() {
+                showIntroRequested()
+            })
         }
     }
 

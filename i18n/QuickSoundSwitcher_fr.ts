@@ -426,6 +426,45 @@
     </message>
 </context>
 <context>
+    <name>IntroWindow</name>
+    <message>
+        <source>Output: </source>
+        <translation type="obsolete">Sortie: </translation>
+    </message>
+    <message>
+        <source>Input: </source>
+        <translation type="obsolete">Entrée: </translation>
+    </message>
+    <message>
+        <source>Windows sound settings (Legacy)</source>
+        <translation type="obsolete">Paramètres audio Windows (Herité)</translation>
+    </message>
+    <message>
+        <source>Windows sound settings (Modern)</source>
+        <translation type="obsolete">Paramètres audio Windows (Moderne)</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="obsolete">Quitter</translation>
+    </message>
+    <message>
+        <source>Welcome to Quick Sound Switcher!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get Started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The tray icon is probably hidden and can be added to the tray area by dragging it as shown in the video below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can then click on the tray icon to reveal the panel.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LanguagePane</name>
     <message>
         <source>Debug and information</source>
@@ -692,14 +731,6 @@
     <message>
         <source>Exit</source>
         <translation>Quitter</translation>
-    </message>
-    <message>
-        <source>Quick Sound Switcher</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Access sound panel from the system tray. This notification won&apos;t show again.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>
