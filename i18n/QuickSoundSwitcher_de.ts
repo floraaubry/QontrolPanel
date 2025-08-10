@@ -111,6 +111,22 @@
         <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Choose the color of the system tray icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tray icon style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filled</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ApplicationsListView</name>

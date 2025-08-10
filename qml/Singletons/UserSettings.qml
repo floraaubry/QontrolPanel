@@ -33,4 +33,5 @@ Settings {
 
     property bool deviceIcon: true
     property int trayIconTheme: 0
+    property int iconStyle: 0
 }
