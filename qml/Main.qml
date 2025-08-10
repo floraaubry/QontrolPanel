@@ -85,6 +85,20 @@ ApplicationWindow {
         }
     }
 
+    Connections {
+        target: AudioBridge
+        function onOutputDeviceCountChanged() {
+            if (AudioBridge.outputDevices.count <= 1) {
+                outputDevicesRect.expanded = false
+            }
+        }
+        function onInputDeviceCountChanged() {
+            if (AudioBridge.inputDevices.count <= 1) {
+                inputDevicesRect.expanded = false
+            }
+        }
+    }
+
     MediaPlayer {
         id: audioFeedback
         source: "qrc:/sounds/windows-background.wav"
@@ -748,7 +762,7 @@ ApplicationWindow {
                             NFToolButton {
                                 icon.source: "qrc:/icons/arrow.svg"
                                 rotation: outputDevicesRect.expanded ? 90 : 0
-                                visible: AudioBridge.isReady && AudioBridge.outputDevices.rowCount() > 1
+                                visible: AudioBridge.isReady && AudioBridge.outputDevices.count > 1
                                 Layout.preferredHeight: 35
                                 Layout.preferredWidth: 35
                                 Behavior on rotation {
@@ -830,7 +844,7 @@ ApplicationWindow {
                                 rotation: inputDevicesRect.expanded ? 90 : 0
                                 Layout.preferredHeight: 35
                                 Layout.preferredWidth: 35
-                                visible: AudioBridge.isReady && AudioBridge.inputDevices.rowCount() > 1
+                                visible: AudioBridge.isReady && AudioBridge.inputDevices.count > 1
                                 Behavior on rotation {
                                     NumberAnimation {
                                         duration: 150
