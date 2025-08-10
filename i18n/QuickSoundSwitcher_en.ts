@@ -327,6 +327,26 @@
     </message>
 </context>
 <context>
+    <name>DonatePopup</name>
+    <message>
+        <source>Found this app useful?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This app is made with care by an independent developer and is not financed by ad revenue.
+If you&apos;d like to support my work, any contribution would be greatly appreciated!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maybe later</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GeneralPane</name>
     <message>
         <source>General Settings</source>
