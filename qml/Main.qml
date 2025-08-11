@@ -94,7 +94,6 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        updateAudioFeedbackDevice()
         SoundPanelBridge.startMediaMonitoring()
     }
 
@@ -128,32 +127,6 @@ ApplicationWindow {
             if (AudioBridge.inputDevices.count <= 1) {
                 inputDevicesRect.expanded = false
             }
-        }
-    }
-
-    MediaPlayer {
-        id: audioFeedback
-        source: "qrc:/sounds/windows-background.wav"
-        audioOutput: AudioOutput {
-            volume: 1
-            device: mediaDevices.defaultAudioOutput
-        }
-    }
-
-    MediaDevices {
-        id: mediaDevices
-        onAudioOutputsChanged: {
-            panel.updateAudioFeedbackDevice()
-        }
-    }
-
-    function updateAudioFeedbackDevice() {
-        const device = mediaDevices.defaultAudioOutput
-        audioFeedback.audioOutput.device = device
-
-        if (audioFeedback.playbackState === MediaPlayer.PlayingState) {
-            audioFeedback.stop()
-            audioFeedback.play()
         }
     }
 
@@ -727,7 +700,7 @@ ApplicationWindow {
                                     onPressedChanged: {
                                         if (!pressed) {
                                             AudioBridge.setOutputVolume(value)
-                                            audioFeedback.play()
+                                            SoundPanelBridge.playFeedbackSound()
                                         }
                                     }
                                 }

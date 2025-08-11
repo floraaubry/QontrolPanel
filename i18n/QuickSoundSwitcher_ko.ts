@@ -531,7 +531,7 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     <name>Main</name>
     <message>
         <source>System sounds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">시스템 사운드</translation>
     </message>
     <message>
         <source>ChatMix</source>
@@ -539,19 +539,19 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Rename Application</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">응용 프로그램 이름 바꾸기</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">원래 이름으로 재설정</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">원래 이름: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">사용자 지정 이름:</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -559,7 +559,7 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">저장</translation>
     </message>
 </context>
 <context>

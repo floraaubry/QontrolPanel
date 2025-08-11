@@ -5,6 +5,8 @@
 #include <QProcess>
 #include <QFile>
 #include <QDir>
+#include <Windows.h>
+#include <mmsystem.h>
 #include "version.h"
 #include "mediasessionmanager.h"
 #include "languages.h"
@@ -442,4 +444,9 @@ int SoundPanelBridge::getAvailableDesktopHeight() const
         return QGuiApplication::primaryScreen()->availableGeometry().height();
     }
     return 1080;
+}
+
+void SoundPanelBridge::playFeedbackSound()
+{
+    PlaySound(TEXT("SystemDefault"), NULL, SND_ALIAS | SND_ASYNC);
 }

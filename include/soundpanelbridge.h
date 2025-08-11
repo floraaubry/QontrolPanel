@@ -80,6 +80,8 @@ public:
     Q_INVOKABLE int getAvailableDesktopWidth() const;
     Q_INVOKABLE int getAvailableDesktopHeight() const;
 
+    Q_INVOKABLE void playFeedbackSound();
+
 private slots:
     void checkForTranslationUpdates();
 
