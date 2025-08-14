@@ -114,7 +114,7 @@ ColumnLayout {
                     id: progressBar
                     from: 0
                     to: 100
-                    visible: SoundPanelBridge.hasTranslationProgressData()
+                    visible: false  // Start as invisible
                     value: progressPercentage
                     property int progressPercentage: 0
 
@@ -124,8 +124,15 @@ ColumnLayout {
                         value = progressPercentage
                     }
 
+                    function updateVisibilityAndProgress() {
+                        visible = SoundPanelBridge.hasTranslationProgressData()
+                        if (visible) {
+                            updateProgress()
+                        }
+                    }
+
                     Component.onCompleted: {
-                        updateProgress()
+                        updateVisibilityAndProgress()
                     }
 
                     Connections {
@@ -139,11 +146,11 @@ ColumnLayout {
                     Connections {
                         target: SoundPanelBridge
                         function onTranslationDownloadFinished(success, message) {
-                            Qt.callLater(progressBar.updateProgress)
+                            Qt.callLater(progressBar.updateVisibilityAndProgress)
                         }
 
                         function onTranslationProgressDataLoaded() {
-                            progressBar.updateProgress()
+                            progressBar.updateVisibilityAndProgress()
                         }
                     }
                 }
