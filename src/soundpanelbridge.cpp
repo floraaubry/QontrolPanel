@@ -492,7 +492,7 @@ void SoundPanelBridge::loadTranslationProgressData()
 
 void SoundPanelBridge::downloadTranslationProgressFile()
 {
-    QString githubUrl = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/i18n/compiled/translation_progress.json";
+    QString githubUrl = "https://raw.githubusercontent.com/Odizinne/QuickSoundSwitcher/main/i18n/compiled/translation_progress.json";
 
     QNetworkRequest request(githubUrl);
     request.setHeader(QNetworkRequest::UserAgentHeader, "QuickSoundSwitcher");

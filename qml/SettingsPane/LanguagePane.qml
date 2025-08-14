@@ -138,6 +138,10 @@ ColumnLayout {
 
                     Connections {
                         target: SoundPanelBridge
+                        function onTranslationDownloadFinished(success, message) {
+                            Qt.callLater(progressBar.updateProgress)
+                        }
+
                         function onTranslationProgressDataLoaded() {
                             progressBar.updateProgress()
                         }

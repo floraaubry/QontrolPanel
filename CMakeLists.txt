@@ -34,6 +34,7 @@ set(SOURCES
     src/main.cpp
     src/mediasessionmanager.cpp
     src/windowfocusmanager.cpp
+    src/updater.cpp
 )
 
 set(HEADERS
@@ -45,6 +46,7 @@ set(HEADERS
     include/soundpanelbridge.h
     include/mediasessionmanager.h
     include/windowfocusmanager.h
+    include/updater.h
 )
 
 # Get git commit hash

@@ -21,6 +21,43 @@ ColumnLayout {
             spacing: 3
             Card {
                 Layout.fillWidth: true
+                title: qsTr("Application Updates")
+                description: Updater.updateAvailable ? qsTr("Version %1 is available").arg(Updater.latestVersion) : ""
+
+                additionalControl: Column {
+                    spacing: 5
+
+                    Button {
+                        id: updateBtn
+                        text: {
+                            if (Updater.isChecking) return qsTr("Checking...")
+                            if (Updater.isDownloading) return qsTr("Downloading...")
+                            if (Updater.updateAvailable) return qsTr("Download and Install")
+                            return qsTr("Check for Updates")
+                        }
+
+                        enabled: !Updater.isChecking && !Updater.isDownloading
+                        onClicked: {
+                            if (Updater.updateAvailable) {
+                                Updater.downloadAndInstall()
+                            } else {
+                                Updater.checkForUpdates()
+                            }
+                        }
+                    }
+
+                    ProgressBar {
+                        width: updateBtn.implicitWidth
+                        from: 0
+                        to: 100
+                        value: Updater.downloadProgress
+                        visible: Updater.isDownloading
+                    }
+                }
+            }
+
+            Card {
+                Layout.fillWidth: true
                 title: qsTr("Application version")
                 description: ""
 

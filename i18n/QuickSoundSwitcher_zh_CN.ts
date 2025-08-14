@@ -334,6 +334,30 @@
         <source>Build date</source>
         <translation>构建日期</translation>
     </message>
+    <message>
+        <source>Application Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version %1 is available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check for Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download and Install</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DevicesListView</name>
