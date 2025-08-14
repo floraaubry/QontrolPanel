@@ -149,89 +149,89 @@ ColumnLayout {
                 }
             }
         }
+    }
 
-        Rectangle {
-            id: toastNotification
+    Rectangle {
+        id: toastNotification
 
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 20
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 20
 
-            width: Math.min(toastText.implicitWidth + 40, parent.width - 40)
-            height: 50
-            radius: 8
+        width: Math.min(toastText.implicitWidth + 40, parent.width - 40)
+        height: 50
+        radius: 8
 
-            visible: false
-            opacity: 0
+        visible: false
+        opacity: 0
 
-            property bool isSuccess: true
+        property bool isSuccess: true
 
-            color: isSuccess ? "#4CAF50" : "#F44336"
+        color: isSuccess ? "#4CAF50" : "#F44336"
 
-            function showToast(message, success) {
-                toastText.text = message
-                isSuccess = success
-                visible = true
-                showAnimation.start()
-                hideTimer.start()
-            }
-
-            Label {
-                id: toastText
-                anchors.centerIn: parent
-                color: "white"
-                font.pixelSize: 14
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-            }
-
-            NumberAnimation {
-                id: showAnimation
-                target: toastNotification
-                property: "opacity"
-                from: 0
-                to: 1
-                duration: 300
-                easing.type: Easing.OutQuad
-            }
-
-            NumberAnimation {
-                id: hideAnimation
-                target: toastNotification
-                property: "opacity"
-                from: 1
-                to: 0
-                duration: 300
-                easing.type: Easing.InQuad
-                onFinished: toastNotification.visible = false
-            }
-
-            Timer {
-                id: hideTimer
-                interval: 3000
-                onTriggered: hideAnimation.start()
-            }
+        function showToast(message, success) {
+            toastText.text = message
+            isSuccess = success
+            visible = true
+            showAnimation.start()
+            hideTimer.start()
         }
 
-        Dialog {
-            id: releaseNotesDialog
-            title: qsTr("Version %1").arg(Updater.latestVersion)
-            modal: true
-            width: 400
-            height: 300
+        Label {
+            id: toastText
             anchors.centerIn: parent
-            standardButtons: Dialog.Close
+            color: "white"
+            font.pixelSize: 14
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+        }
 
-            ScrollView {
-                anchors.fill: parent
-                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+        NumberAnimation {
+            id: showAnimation
+            target: toastNotification
+            property: "opacity"
+            from: 0
+            to: 1
+            duration: 300
+            easing.type: Easing.OutQuad
+        }
 
-                Label {
-                    text: Updater.releaseNotes || qsTr("No release notes available")
-                    width: releaseNotesDialog.width - 60
-                    wrapMode: Text.WordWrap
-                    textFormat: Text.PlainText
-                }
+        NumberAnimation {
+            id: hideAnimation
+            target: toastNotification
+            property: "opacity"
+            from: 1
+            to: 0
+            duration: 300
+            easing.type: Easing.InQuad
+            onFinished: toastNotification.visible = false
+        }
+
+        Timer {
+            id: hideTimer
+            interval: 3000
+            onTriggered: hideAnimation.start()
+        }
+    }
+
+    Dialog {
+        id: releaseNotesDialog
+        title: qsTr("Version %1").arg(Updater.latestVersion)
+        modal: true
+        width: 400
+        height: 300
+        anchors.centerIn: parent
+        standardButtons: Dialog.Close
+
+        ScrollView {
+            anchors.fill: parent
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+
+            Label {
+                text: Updater.releaseNotes || qsTr("No release notes available")
+                width: releaseNotesDialog.width - 60
+                wrapMode: Text.WordWrap
+                textFormat: Text.PlainText
             }
         }
     }
