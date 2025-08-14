@@ -23,9 +23,13 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
-          #tools: 'tools_linguist'
           add-tools-to-path: true
           cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
       - name: Compile changed translation files
         run: |
@@ -40,12 +44,17 @@ jobs:
             fi
           done
 
-      - name: Commit compiled translations
+      - name: Generate translation progress JSON
+        run: |
+          echo "Generating translation progress data..."
+          python3 tools/analyze_translations.py
+
+      - name: Commit compiled translations and progress data
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add i18n/compiled/
           if ! git diff --staged --quiet; then
-            git commit -m "Auto-update compiled translations [skip ci]"
+            git commit -m "Auto-update compiled translations and progress data [skip ci]"
             git push
           fi

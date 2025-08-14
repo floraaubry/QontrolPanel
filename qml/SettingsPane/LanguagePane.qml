@@ -103,6 +103,49 @@ ColumnLayout {
             }
 
             Card {
+                id: progressCard
+                Layout.fillWidth: true
+                title: qsTr("Translation Progress")
+                description: SoundPanelBridge.hasTranslationProgressData() ?
+                    qsTr("Current language completion") :
+                    qsTr("Fetch for new translation to get data")
+
+                additionalControl: ProgressBar {
+                    id: progressBar
+                    from: 0
+                    to: 100
+                    visible: SoundPanelBridge.hasTranslationProgressData()
+                    value: progressPercentage
+                    property int progressPercentage: 0
+
+                    function updateProgress() {
+                        let currentLangCode = SoundPanelBridge.getLanguageCodeFromIndex(UserSettings.languageIndex)
+                        progressPercentage = SoundPanelBridge.getTranslationProgress(currentLangCode)
+                        value = progressPercentage
+                    }
+
+                    Component.onCompleted: {
+                        updateProgress()
+                    }
+
+                    Connections {
+                        target: UserSettings
+
+                        function onLanguageIndexChanged() {
+                            progressBar.updateProgress()
+                        }
+                    }
+
+                    Connections {
+                        target: SoundPanelBridge
+                        function onTranslationProgressDataLoaded() {
+                            progressBar.updateProgress()
+                        }
+                    }
+                }
+            }
+
+            Card {
                 Layout.fillWidth: true
                 title: qsTr("Translation author")
                 description: ""

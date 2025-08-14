@@ -522,6 +522,18 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>Fetch for translations update at startup and every 4 hours</source>
         <translation>Aggiornamento traduzioni all&apos;avvio e ogni 4 ore</translation>
     </message>
+    <message>
+        <source>Translation Progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current language completion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fetch for new translation to get data</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Main</name>

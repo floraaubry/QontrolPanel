@@ -14,6 +14,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QUrl>
+#include <QJsonObject>
 
 class SoundPanelBridge : public QObject
 {
@@ -82,6 +83,9 @@ public:
 
     Q_INVOKABLE void playFeedbackSound();
 
+    Q_INVOKABLE int getTranslationProgress(const QString& languageCode);
+    Q_INVOKABLE bool hasTranslationProgressData();
+
 private slots:
     void checkForTranslationUpdates();
 
@@ -97,6 +101,7 @@ signals:
     void translationDownloadFinished(bool success, const QString& message);
     void translationDownloadError(const QString& errorMessage);
     void translationFileCompleted(const QString& language, int completed, int total);
+    void translationProgressDataLoaded();
 
 private:
     static SoundPanelBridge* m_instance;
@@ -125,6 +130,11 @@ private:
     QString getTranslationDownloadPath() const;
 
     QTimer* m_autoUpdateTimer;
+
+    QJsonObject m_translationProgress;
+    QString getTranslationProgressPath() const;
+    void loadTranslationProgressData();
+    void downloadTranslationProgressFile();
 };
 
 #endif // SOUNDPANELBRIDGE_H

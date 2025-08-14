@@ -5,6 +5,7 @@
 #include <QProcess>
 #include <QFile>
 #include <QDir>
+#include <QStandardPaths>
 #include <Windows.h>
 #include <mmsystem.h>
 #include "version.h"
@@ -26,7 +27,7 @@ SoundPanelBridge::SoundPanelBridge(QObject* parent)
 {
     m_instance = this;
     changeApplicationLanguage(settings.value("languageIndex", 0).toInt());
-
+    loadTranslationProgressData();
 
     if (MediaSessionManager::getWorker()) {
         connect(MediaSessionManager::getWorker(), &MediaWorker::mediaInfoChanged,
@@ -294,6 +295,8 @@ void SoundPanelBridge::downloadLatestTranslations()
         downloadTranslationFile(langCode, url);
     }
 
+    downloadTranslationProgressFile();
+
     if (m_totalDownloads == 0) {
         emit translationDownloadFinished(false, tr("No translation files to download"));
     }
@@ -449,4 +452,88 @@ int SoundPanelBridge::getAvailableDesktopHeight() const
 void SoundPanelBridge::playFeedbackSound()
 {
     PlaySound(TEXT("SystemDefault"), NULL, SND_ALIAS | SND_ASYNC);
+}
+
+QString SoundPanelBridge::getTranslationProgressPath() const
+{
+    QString appDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QDir().mkpath(appDataPath);
+    return appDataPath + "/translation_progress.json";
+}
+
+void SoundPanelBridge::loadTranslationProgressData()
+{
+    QString progressFilePath = getTranslationProgressPath();
+    QFile file(progressFilePath);
+
+    if (!file.exists()) {
+        qDebug() << "Translation progress file does not exist:" << progressFilePath;
+        return;
+    }
+
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Failed to open translation progress file:" << file.errorString();
+        return;
+    }
+
+    QByteArray data = file.readAll();
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+
+    if (doc.isNull()) {
+        qDebug() << "Failed to parse translation progress JSON";
+        return;
+    }
+
+    m_translationProgress = doc.object();
+    emit translationProgressDataLoaded();
+
+    qDebug() << "Loaded translation progress data for" << m_translationProgress.size() << "languages";
+}
+
+void SoundPanelBridge::downloadTranslationProgressFile()
+{
+    QString githubUrl = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/i18n/compiled/translation_progress.json";
+
+    QNetworkRequest request(githubUrl);
+    request.setHeader(QNetworkRequest::UserAgentHeader, "QuickSoundSwitcher");
+
+    QNetworkReply* reply = m_networkManager->get(request);
+
+    connect(reply, &QNetworkReply::finished, [this, reply]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            QByteArray data = reply->readAll();
+
+            // Save to file
+            QString progressFilePath = getTranslationProgressPath();
+            QFile file(progressFilePath);
+
+            if (file.open(QIODevice::WriteOnly)) {
+                file.write(data);
+                file.close();
+                qDebug() << "Translation progress data downloaded successfully";
+
+                // Load the data
+                loadTranslationProgressData();
+            } else {
+                qDebug() << "Failed to save translation progress file:" << file.errorString();
+            }
+        } else {
+            qDebug() << "Failed to download translation progress:" << reply->errorString();
+        }
+
+        reply->deleteLater();
+    });
+}
+
+int SoundPanelBridge::getTranslationProgress(const QString& languageCode)
+{
+    if (m_translationProgress.contains(languageCode)) {
+        return m_translationProgress[languageCode].toInt();
+    }
+    return 0; // Return 0% if language not found
+}
+
+bool SoundPanelBridge::hasTranslationProgressData()
+{
+    return !m_translationProgress.isEmpty();
 }

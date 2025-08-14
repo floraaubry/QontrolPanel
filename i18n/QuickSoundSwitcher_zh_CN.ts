@@ -496,7 +496,7 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Translation Progress</source>
-        <translation type="vanished">翻译进度</translation>
+        <translation>翻译进度</translation>
     </message>
     <message>
         <source>Translation author</source>
@@ -549,6 +549,14 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     <message>
         <source>Fetch for translations update at startup and every 4 hours</source>
         <translation>在系统启动时检查语言文件更新, 之后每四小时检查一次</translation>
+    </message>
+    <message>
+        <source>Current language completion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fetch for new translation to get data</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
