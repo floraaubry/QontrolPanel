@@ -224,6 +224,7 @@ ColumnLayout {
 
             ScrollView {
                 anchors.fill: parent
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                 Label {
                     text: Updater.releaseNotes || qsTr("No release notes available")
