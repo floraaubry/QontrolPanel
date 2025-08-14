@@ -1215,6 +1215,17 @@ ApplicationWindow {
                 AudioBridge.setCustomExecutableName(executableRenameContextMenu.originalName, "")
             }
         }
+
+        MenuSeparator {}
+
+        MenuItem {
+            text: qsTr("Mute in Background")
+            checkable: true
+            checked: AudioBridge.isApplicationMutedInBackground(executableRenameContextMenu.originalName)
+            onTriggered: {
+                AudioBridge.setApplicationMutedInBackground(executableRenameContextMenu.originalName, checked)
+            }
+        }
     }
 
     Dialog {

@@ -464,6 +464,11 @@ AudioBridge::AudioBridge(QObject *parent)
     connect(manager, &AudioManager::applicationAudioLevelChanged,
             this, &AudioBridge::onApplicationAudioLevelChanged);
 
+    m_windowFocusManager = new WindowFocusManager(this);
+    connect(m_windowFocusManager, &WindowFocusManager::applicationFocusChanged,
+            this, &AudioBridge::onApplicationFocusChanged);
+    m_windowFocusManager->startMonitoring();
+
     loadCommAppsFromFile();
     loadAppRenamesFromFile();
     loadExecutableRenamesFromFile();
@@ -1949,5 +1954,48 @@ QString AudioBridge::getDisplayIconForDevice(const QString& deviceName, bool isI
         return "qrc:/icons/devices/microphone.png";
     } else {
         return "qrc:/icons/devices/speaker.png";
+    }
+}
+
+bool AudioBridge::isApplicationMutedInBackground(const QString& executableName) const
+{
+    return m_windowFocusManager->isApplicationMutedInBackground(executableName);
+}
+
+void AudioBridge::setApplicationMutedInBackground(const QString& executableName, bool muted)
+{
+    m_windowFocusManager->setApplicationMutedInBackground(executableName, muted);
+}
+
+void AudioBridge::onApplicationFocusChanged(const QString& executableName, bool hasFocus)
+{
+    if (!m_windowFocusManager->isApplicationMutedInBackground(executableName)) {
+        return;
+    }
+
+    // Find all applications with this executable name
+    for (int i = 0; i < m_applicationModel->rowCount(); ++i) {
+        QModelIndex index = m_applicationModel->index(i, 0);
+        QString appExecutableName = m_applicationModel->data(index, ApplicationModel::ExecutableNameRole).toString();
+
+        if (appExecutableName.compare(executableName, Qt::CaseInsensitive) == 0) {
+            QString appId = m_applicationModel->data(index, ApplicationModel::IdRole).toString();
+            bool currentMuteState = m_applicationModel->data(index, ApplicationModel::IsMutedRole).toBool();
+
+            if (!hasFocus) {
+                // Application lost focus - mute it and store original state
+                if (!currentMuteState) {
+                    m_originalMuteStates[appId] = false;
+                    setApplicationMute(appId, true);
+                }
+            } else {
+                // Application gained focus - restore original state
+                if (m_originalMuteStates.contains(appId)) {
+                    bool originalState = m_originalMuteStates[appId];
+                    setApplicationMute(appId, originalState);
+                    m_originalMuteStates.remove(appId);
+                }
+            }
+        }
     }
 }

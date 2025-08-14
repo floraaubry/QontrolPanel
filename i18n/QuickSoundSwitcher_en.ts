@@ -521,6 +521,10 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>Save</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Mute in Background</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QuickSoundSwitcher</name>

@@ -13,6 +13,7 @@
 #include <QJsonArray>
 #include <QTimer>
 #include "audiomanager.h"
+#include "windowfocusmanager.h"
 
 class ApplicationModel : public QAbstractListModel
 {
@@ -274,6 +275,10 @@ public:
     Q_INVOKABLE QString getCustomDeviceIcon(const QString& originalName) const;
     Q_INVOKABLE QString getDisplayIconForDevice(const QString& deviceName, bool isInput) const;
 
+    Q_INVOKABLE bool isApplicationMutedInBackground(const QString& executableName) const;
+    Q_INVOKABLE void setApplicationMutedInBackground(const QString& executableName, bool muted);
+
+
 signals:
     void outputVolumeChanged();
     void inputVolumeChanged();
@@ -311,6 +316,7 @@ private slots:
     void onOutputAudioLevelChanged(int level);
     void onInputAudioLevelChanged(int level);
     void onApplicationAudioLevelChanged(const QString& appId, int level);
+    void onApplicationFocusChanged(const QString& executableName, bool hasFocus);
 
 private:
     int m_outputVolume;
@@ -412,6 +418,9 @@ private:
     void loadDeviceIconsFromFile();
     void saveDeviceIconsToFile();
     QString getDeviceIconsFilePath() const;
+
+    WindowFocusManager* m_windowFocusManager;
+    QMap<QString, bool> m_originalMuteStates;
 };
 
 #endif // AUDIOBRIDGE_H
