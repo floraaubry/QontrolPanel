@@ -93,7 +93,35 @@ ApplicationWindow {
                 Layout.maximumWidth: parent.width - 40
             }
 
-            MenuSeparator {Layout.fillWidth: true}
+            MenuSeparator { Layout.fillWidth: true }
+
+            RowLayout {
+                Layout.fillWidth: true
+                Label {
+                    text: qsTr("Automatic application update fetching")
+                    Layout.fillWidth: true
+                }
+
+                Switch {
+                    checked: UserSettings.autoFetchForAppUpdates
+                    onClicked: UserSettings.autoFetchForAppUpdates = checked
+                }
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                Label {
+                    text: qsTr("Automatic translations update")
+                    Layout.fillWidth: true
+                }
+
+                Switch {
+                    checked: UserSettings.autoUpdateTranslations
+                    onClicked: UserSettings.autoUpdateTranslations = checked
+                }
+            }
+
+            MenuSeparator { Layout.fillWidth: true }
 
             Button {
                 text: qsTr("Get Started")

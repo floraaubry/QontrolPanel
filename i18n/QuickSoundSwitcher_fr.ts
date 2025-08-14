@@ -551,6 +551,14 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>You can then click on the tray icon to reveal the panel.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Automatic application update fetching</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automatic translations update</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LanguagePane</name>
