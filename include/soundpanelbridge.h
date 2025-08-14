@@ -88,6 +88,7 @@ public:
 
 private slots:
     void checkForTranslationUpdates();
+    void checkForAppUpdates();
 
 signals:
     void panelModeChanged();
@@ -102,6 +103,7 @@ signals:
     void translationDownloadError(const QString& errorMessage);
     void translationFileCompleted(const QString& language, int completed, int total);
     void translationProgressDataLoaded();
+    void updateAvailableNotification(const QString& version);
 
 private:
     static SoundPanelBridge* m_instance;
@@ -135,6 +137,8 @@ private:
     QString getTranslationProgressPath() const;
     void loadTranslationProgressData();
     void downloadTranslationProgressFile();
+
+    QTimer* m_autoUpdateCheckTimer;
 };
 
 #endif // SOUNDPANELBRIDGE_H

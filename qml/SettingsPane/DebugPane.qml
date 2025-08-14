@@ -83,6 +83,17 @@ ColumnLayout {
 
             Card {
                 Layout.fillWidth: true
+                title: qsTr("Auto check for app updates")
+                description: qsTr("Check for application updates at startup and every 4 hours")
+
+                additionalControl: Switch {
+                    checked: UserSettings.autoFetchForAppUpdates
+                    onClicked: UserSettings.autoFetchForAppUpdates = checked
+                }
+            }
+
+            Card {
+                Layout.fillWidth: true
                 title: qsTr("Application version")
                 description: ""
 

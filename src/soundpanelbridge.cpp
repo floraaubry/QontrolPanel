@@ -11,6 +11,7 @@
 #include "version.h"
 #include "mediasessionmanager.h"
 #include "languages.h"
+#include "updater.h"
 
 SoundPanelBridge* SoundPanelBridge::m_instance = nullptr;
 
@@ -24,6 +25,7 @@ SoundPanelBridge::SoundPanelBridge(QObject* parent)
     , m_completedDownloads(0)
     , m_failedDownloads(0)
     , m_autoUpdateTimer(new QTimer(this))
+    , m_autoUpdateCheckTimer(new QTimer(this))
 {
     m_instance = this;
     changeApplicationLanguage(settings.value("languageIndex", 0).toInt());
@@ -47,6 +49,15 @@ SoundPanelBridge::SoundPanelBridge(QObject* parent)
 
     if (settings.value("autoUpdateTranslations", false).toBool()) {
         QTimer::singleShot(5000, this, &SoundPanelBridge::checkForTranslationUpdates);
+    }
+
+    m_autoUpdateCheckTimer->setInterval(4 * 60 * 60 * 1000);
+    m_autoUpdateCheckTimer->setSingleShot(false);
+    connect(m_autoUpdateCheckTimer, &QTimer::timeout, this, &SoundPanelBridge::checkForAppUpdates);
+    m_autoUpdateCheckTimer->start();
+
+    if (settings.value("autoFetchForAppUpdates", false).toBool()) {
+        QTimer::singleShot(5000, this, &SoundPanelBridge::checkForAppUpdates);
     }
 }
 
@@ -536,4 +547,32 @@ int SoundPanelBridge::getTranslationProgress(const QString& languageCode)
 bool SoundPanelBridge::hasTranslationProgressData()
 {
     return !m_translationProgress.isEmpty();
+}
+
+void SoundPanelBridge::checkForAppUpdates()
+{
+    // Only proceed if auto fetch is enabled
+    if (!settings.value("autoFetchForAppUpdates", false).toBool()) {
+        return;
+    }
+
+    // Only check if not already checking/downloading
+    if (Updater::instance()->isChecking() || Updater::instance()->isDownloading()) {
+        return;
+    }
+
+    // Connect to updater signals to handle the result
+    connect(Updater::instance(), &Updater::updateFinished, this,
+            [this](bool success, const QString& message) {
+                // Disconnect to avoid multiple connections
+                disconnect(Updater::instance(), &Updater::updateFinished, this, nullptr);
+
+                if (success && Updater::instance()->updateAvailable()) {
+                    // Emit signal for QML to show tray notification
+                    emit updateAvailableNotification(Updater::instance()->latestVersion());
+                }
+            }, Qt::SingleShotConnection);
+
+    // Start the update check
+    Updater::instance()->checkForUpdates();
 }

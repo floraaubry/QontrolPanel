@@ -342,6 +342,14 @@
         <source>Version %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Auto check for app updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check for application updates at startup and every 4 hours</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DevicesListView</name>
@@ -567,6 +575,14 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Mute in Background</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update Available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version %1 is available for download</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -6,7 +6,7 @@ import QtQuick.Controls.FluentWinUI3
 import QtQuick.Controls.impl
 import QtQuick.Window
 import Odizinne.QuickSoundSwitcher
-import QtMultimedia
+import Qt.labs.platform as Platform
 
 ApplicationWindow {
     id: panel
@@ -135,6 +135,7 @@ ApplicationWindow {
     }
 
     SystemTray {
+        id: systemTray
         onTogglePanelRequested: {
             if (panel.visible) {
                 panel.hidePanel()
@@ -425,6 +426,15 @@ ApplicationWindow {
             } else {
                 AudioBridge.restoreOriginalVolumes()
             }
+        }
+
+        function onUpdateAvailableNotification(version) {
+            systemTray.showMessage(
+                qsTr("Update Available"),
+                qsTr("Version %1 is available for download").arg(version),
+                Platform.SystemTrayIcon.Information,
+                3000
+            )
         }
     }
 
