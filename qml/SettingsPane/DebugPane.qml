@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.FluentWinUI3
@@ -13,12 +15,22 @@ ColumnLayout {
         Layout.bottomMargin: 15
     }
 
+    Connections {
+        target: Updater
+
+        function onUpdateFinished(success, message) {
+            toastNotification.showToast(message, success)
+        }
+    }
+
     ScrollView {
         Layout.fillWidth: true
         Layout.fillHeight: true
+
         ColumnLayout {
             width: parent.width
             spacing: 3
+
             Card {
                 Layout.fillWidth: true
                 title: qsTr("Application Updates")
@@ -53,6 +65,19 @@ ColumnLayout {
                         value: Updater.downloadProgress
                         visible: Updater.isDownloading
                     }
+                }
+            }
+
+            Card {
+                id: releaseNotesCard
+                Layout.fillWidth: true
+                title: qsTr("Release notes")
+                description: qsTr("View what's new in version %1").arg(Updater.latestVersion)
+                visible: Updater.updateAvailable && Updater.hasReleaseNotes
+                additionalControl: Button {
+                    text: qsTr("Show")
+                    enabled: Updater.hasReleaseNotes
+                    onClicked: releaseNotesDialog.open()
                 }
             }
 
@@ -110,6 +135,90 @@ ColumnLayout {
                 additionalControl: Label {
                     text: SoundPanelBridge.getBuildTimestamp()
                     opacity: 0.5
+                }
+            }
+        }
+
+        Rectangle {
+            id: toastNotification
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+
+            width: Math.min(toastText.implicitWidth + 40, parent.width - 40)
+            height: 50
+            radius: 8
+
+            visible: false
+            opacity: 0
+
+            property bool isSuccess: true
+
+            color: isSuccess ? "#4CAF50" : "#F44336"
+
+            function showToast(message, success) {
+                toastText.text = message
+                isSuccess = success
+                visible = true
+                showAnimation.start()
+                hideTimer.start()
+            }
+
+            Label {
+                id: toastText
+                anchors.centerIn: parent
+                color: "white"
+                font.pixelSize: 14
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            NumberAnimation {
+                id: showAnimation
+                target: toastNotification
+                property: "opacity"
+                from: 0
+                to: 1
+                duration: 300
+                easing.type: Easing.OutQuad
+            }
+
+            NumberAnimation {
+                id: hideAnimation
+                target: toastNotification
+                property: "opacity"
+                from: 1
+                to: 0
+                duration: 300
+                easing.type: Easing.InQuad
+                onFinished: toastNotification.visible = false
+            }
+
+            Timer {
+                id: hideTimer
+                interval: 3000
+                onTriggered: hideAnimation.start()
+            }
+        }
+
+        Dialog {
+            id: releaseNotesDialog
+            title: qsTr("Version %1").arg(Updater.latestVersion)
+            modal: true
+            width: 400
+            height: 300
+            anchors.centerIn: parent
+            standardButtons: Dialog.Close
+
+            ScrollView {
+                anchors.fill: parent
+
+                Label {
+                    text: Updater.releaseNotes || qsTr("No release notes available")
+                    width: releaseNotesDialog.width - 60
+                    wrapMode: Text.WordWrap
+                    textFormat: Text.PlainText
                 }
             }
         }

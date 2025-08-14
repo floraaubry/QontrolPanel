@@ -47,6 +47,9 @@ void Updater::checkForUpdates()
 
     setChecking(true);
 
+    // Clear previous release notes
+    setReleaseNotes("");
+
     QString urlString = "https://api.github.com/repos/Odizinne/QuickSoundSwitcher/releases/latest";
     QUrl url{urlString};
     QNetworkRequest request{url};
@@ -75,6 +78,12 @@ void Updater::onVersionCheckFinished()
     m_latestVersion = obj["tag_name"].toString();
     if (m_latestVersion.startsWith("v")) {
         m_latestVersion = m_latestVersion.mid(1); // Remove 'v' prefix
+    }
+
+    // Extract release notes
+    QString releaseBody = obj["body"].toString();
+    if (!releaseBody.isEmpty()) {
+        setReleaseNotes(releaseBody);
     }
 
     // Find the .exe asset
@@ -194,6 +203,7 @@ void Updater::installExecutable(const QString& newExePath)
 
 QString Updater::getCurrentVersion() const
 {
+    return QString("1.5.2");
     return QString(APP_VERSION_STRING);
 }
 
@@ -238,5 +248,20 @@ void Updater::setDownloadProgress(int progress)
     if (m_downloadProgress != progress) {
         m_downloadProgress = progress;
         emit downloadProgressChanged();
+    }
+}
+
+void Updater::setReleaseNotes(const QString& notes)
+{
+    if (m_releaseNotes != notes) {
+        bool hadNotes = !m_releaseNotes.isEmpty();
+        m_releaseNotes = notes;
+        bool hasNotes = !m_releaseNotes.isEmpty();
+
+        emit releaseNotesChanged();
+
+        if (hadNotes != hasNotes) {
+            emit hasReleaseNotesChanged();
+        }
     }
 }

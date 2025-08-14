@@ -358,6 +358,26 @@
         <source>Download and Install</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Release notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View what&apos;s new in version %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No release notes available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DevicesListView</name>
