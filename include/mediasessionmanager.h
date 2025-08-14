@@ -1,5 +1,4 @@
-#ifndef MEDIASESSIONMANAGER_H
-#define MEDIASESSIONMANAGER_H
+#pragma once
 
 #include <QObject>
 #include <QString>
@@ -63,5 +62,3 @@ void nextTrackAsync();
 void previousTrackAsync();
 MediaWorker* getWorker();
 }
-
-#endif // MEDIASESSIONMANAGER_H

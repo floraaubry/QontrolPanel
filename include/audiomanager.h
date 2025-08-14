@@ -1,5 +1,4 @@
-#ifndef AUDIOMANAGER_H
-#define AUDIOMANAGER_H
+#pragma once
 
 #include <QObject>
 #include <QThread>
@@ -396,5 +395,3 @@ private:
     QList<AudioApplication> m_cachedApplications;
     QList<AudioDevice> m_cachedDevices;
 };
-
-#endif // AUDIOMANAGER_H

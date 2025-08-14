@@ -1,6 +1,4 @@
-// include/soundpanelbridge.h
-#ifndef SOUNDPANELBRIDGE_H
-#define SOUNDPANELBRIDGE_H
+#pragma once
 
 #include <QObject>
 #include <QQmlEngine>
@@ -140,5 +138,3 @@ private:
 
     QTimer* m_autoUpdateCheckTimer;
 };
-
-#endif // SOUNDPANELBRIDGE_H

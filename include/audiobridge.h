@@ -1,5 +1,4 @@
-#ifndef AUDIOBRIDGE_H
-#define AUDIOBRIDGE_H
+#pragma once
 
 #include <QObject>
 #include <QQmlEngine>
@@ -422,5 +421,3 @@ private:
     WindowFocusManager* m_windowFocusManager;
     QMap<QString, bool> m_originalMuteStates;
 };
-
-#endif // AUDIOBRIDGE_H

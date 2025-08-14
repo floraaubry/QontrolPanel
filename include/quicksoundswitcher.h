@@ -1,5 +1,4 @@
-#ifndef QUICKSOUNDSWITCHER_H
-#define QUICKSOUNDSWITCHER_H
+#pragma once
 
 #include <QMainWindow>
 #include <QSettings>
@@ -61,5 +60,3 @@ private:
     void cleanupLocalServer();
     bool isPanelVisible = false;
 };
-
-#endif // QUICKSOUNDSWITCHER_H

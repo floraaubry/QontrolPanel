@@ -203,7 +203,6 @@ void Updater::installExecutable(const QString& newExePath)
 
 QString Updater::getCurrentVersion() const
 {
-    return QString("1.5.2");
     return QString(APP_VERSION_STRING);
 }
 

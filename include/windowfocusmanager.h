@@ -1,5 +1,4 @@
-#ifndef WINDOWFOCUSMANAGER_H
-#define WINDOWFOCUSMANAGER_H
+#pragma once
 
 #include <QObject>
 #include <QMap>
@@ -46,5 +45,3 @@ private:
     QString m_currentFocusedApp;
     bool m_isMonitoring;
 };
-
-#endif // WINDOWFOCUSMANAGER_H
