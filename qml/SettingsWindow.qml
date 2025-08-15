@@ -14,6 +14,7 @@ ApplicationWindow {
     visible: false
     transientParent: null
     title: qsTr("QuickSoundSwitcher - Settings")
+    palette.accent: Constants.accentColor
 
     function showUpdatePane() {
         show()

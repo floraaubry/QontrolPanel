@@ -47,6 +47,7 @@ ApplicationWindow {
 
         return newHeight
     }
+    palette.accent: Constants.accentColor
 
     property bool isAnimatingIn: false
     property bool isAnimatingOut: false
