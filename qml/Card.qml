@@ -75,7 +75,7 @@ Rectangle {
         border.width: 1
         color: Constants.cardColor
         border.color: Constants.cardBorderColor
-        opacity: 0.5
+        opacity: 1
         radius: 5
     }
 

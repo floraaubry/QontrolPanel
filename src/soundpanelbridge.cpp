@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QDir>
 #include <QStandardPaths>
+#include <QStyleHints>
 #include <Windows.h>
 #include <mmsystem.h>
 #include "version.h"
@@ -19,6 +20,7 @@ SoundPanelBridge::SoundPanelBridge(QObject* parent)
     : QObject(parent)
     , settings("Odizinne", "QuickSoundSwitcher")
     , m_currentPanelMode(0)
+    , m_darkMode(QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark)
     , translator(new QTranslator(this))
     , m_networkManager(new QNetworkAccessManager(this))
     , m_totalDownloads(0)
@@ -58,6 +60,11 @@ SoundPanelBridge::SoundPanelBridge(QObject* parent)
 
     if (settings.value("autoFetchForAppUpdates", false).toBool()) {
         QTimer::singleShot(5000, this, &SoundPanelBridge::checkForAppUpdates);
+    }
+
+    if (QGuiApplication::styleHints()) {
+        connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged,
+                this, &SoundPanelBridge::onColorSchemeChanged);
     }
 }
 
@@ -114,11 +121,6 @@ int SoundPanelBridge::panelMode() const
 void SoundPanelBridge::refreshPanelModeState()
 {
     emit panelModeChanged();
-}
-
-bool SoundPanelBridge::getDarkMode() {
-    QSettings settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", QSettings::NativeFormat);
-    return settings.value("AppsUseLightTheme", 1).toInt() == 0;
 }
 
 QString SoundPanelBridge::taskbarPosition() const
@@ -575,4 +577,24 @@ void SoundPanelBridge::checkForAppUpdates()
 
     // Start the update check
     Updater::instance()->checkForUpdates();
+}
+
+bool SoundPanelBridge::darkMode() const
+{
+    return m_darkMode;
+}
+
+void SoundPanelBridge::updateDarkModeFromSystem()
+{
+    bool newDarkMode = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark;
+
+    if (m_darkMode != newDarkMode) {
+        m_darkMode = newDarkMode;
+        emit darkModeChanged();
+    }
+}
+
+void SoundPanelBridge::onColorSchemeChanged()
+{
+    updateDarkModeFromSystem();
 }

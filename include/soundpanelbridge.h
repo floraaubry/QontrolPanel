@@ -22,6 +22,7 @@ class SoundPanelBridge : public QObject
 
     Q_PROPERTY(int panelMode READ panelMode NOTIFY panelModeChanged)
     Q_PROPERTY(QString taskbarPosition READ taskbarPosition NOTIFY taskbarPositionChanged)
+    Q_PROPERTY(bool darkMode READ darkMode NOTIFY darkModeChanged)
 
     Q_PROPERTY(QString mediaTitle READ mediaTitle NOTIFY mediaInfoChanged)
     Q_PROPERTY(QString mediaArtist READ mediaArtist NOTIFY mediaInfoChanged)
@@ -37,11 +38,11 @@ public:
 
     int panelMode() const;
     QString taskbarPosition() const;
+    bool darkMode() const;
 
     Q_INVOKABLE void refreshPanelModeState();
     Q_INVOKABLE bool getShortcutState();
     Q_INVOKABLE void setStartupShortcut(bool enabled);
-    Q_INVOKABLE bool getDarkMode();
     Q_INVOKABLE QString getAppVersion() const;
     Q_INVOKABLE QString getQtVersion() const;
     Q_INVOKABLE QString getCommitHash() const;
@@ -87,10 +88,12 @@ public:
 private slots:
     void checkForTranslationUpdates();
     void checkForAppUpdates();
+    void onColorSchemeChanged();
 
 signals:
     void panelModeChanged();
     void taskbarPositionChanged();
+    void darkModeChanged();
     void mediaInfoChanged();
     void languageChanged();
     void chatMixEnabledChanged(bool enabled);
@@ -108,8 +111,11 @@ private:
     QSettings settings;
 
     int m_currentPanelMode = 0;
+    bool m_darkMode;
 
     QString detectTaskbarPosition() const;
+    void updateDarkModeFromSystem();
+
     QString m_mediaTitle;
     QString m_mediaArtist;
     bool m_isMediaPlaying = false;

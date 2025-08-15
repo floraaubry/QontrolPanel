@@ -192,7 +192,7 @@ ApplicationWindow {
     PropertyAnimation {
         id: showAnimation
         target: contentTransform
-        duration: 220
+        duration: 250
         easing.type: Easing.OutCubic
         onStarted: {
             contentOpacityTimer.start()
@@ -207,7 +207,7 @@ ApplicationWindow {
     PropertyAnimation {
         id: hideAnimation
         target: contentTransform
-        duration: 220
+        duration: 250
         easing.type: Easing.InCubic
         onFinished: {
             panel.visible = false
@@ -242,7 +242,6 @@ ApplicationWindow {
         }
 
         isAnimatingIn = true
-        Constants.darkMode = SoundPanelBridge.getDarkMode()
         panel.taskbarPos = SoundPanelBridge.taskbarPosition
         panel.visible = true
 
