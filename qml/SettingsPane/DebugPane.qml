@@ -23,215 +23,219 @@ ColumnLayout {
         }
     }
 
-    ScrollView {
+    Item {
         Layout.fillWidth: true
         Layout.fillHeight: true
 
-        ColumnLayout {
-            width: parent.width
-            spacing: 3
+        ScrollView {
+            anchors.fill: parent
 
-            Card {
-                Layout.fillWidth: true
-                title: qsTr("Application Updates")
-                description: Updater.updateAvailable ? qsTr("Version %1 is available").arg(Updater.latestVersion) : ""
+            ColumnLayout {
+                width: parent.width
+                spacing: 3
 
-                additionalControl: Column {
-                    spacing: 5
+                Card {
+                    Layout.fillWidth: true
+                    title: qsTr("Application Updates")
+                    description: Updater.updateAvailable ? qsTr("Version %1 is available").arg(Updater.latestVersion) : ""
 
-                    Button {
-                        id: updateBtn
-                        text: {
-                            if (Updater.isChecking) return qsTr("Checking...")
-                            if (Updater.isDownloading) return qsTr("Downloading...")
-                            if (Updater.updateAvailable) return qsTr("Download and Install")
-                            return qsTr("Check for Updates")
+                    additionalControl: Column {
+                        spacing: 5
+
+                        NFButton {
+                            id: updateBtn
+                            text: {
+                                if (Updater.isChecking) return qsTr("Checking...")
+                                if (Updater.isDownloading) return qsTr("Downloading...")
+                                if (Updater.updateAvailable) return qsTr("Download and Install")
+                                return qsTr("Check for Updates")
+                            }
+
+                            enabled: !Updater.isChecking && !Updater.isDownloading
+                            onClicked: {
+                                if (Updater.updateAvailable) {
+                                    Updater.downloadAndInstall()
+                                } else {
+                                    Updater.checkForUpdates()
+                                }
+                            }
                         }
 
-                        enabled: !Updater.isChecking && !Updater.isDownloading
+                        ProgressBar {
+                            width: updateBtn.implicitWidth
+                            from: 0
+                            to: 100
+                            value: Updater.downloadProgress
+                            visible: Updater.isDownloading
+                        }
+                    }
+                }
+
+                Card {
+                    id: releaseNotesCard
+                    Layout.fillWidth: true
+                    title: qsTr("Release notes")
+                    description: qsTr("View what's new in version %1").arg(Updater.latestVersion)
+                    visible: Updater.updateAvailable && Updater.hasReleaseNotes
+                    additionalControl: Button {
+                        text: qsTr("Show")
+                        enabled: Updater.hasReleaseNotes
+                        onClicked: releaseNotesDialog.open()
+                    }
+                }
+
+                Card {
+                    Layout.fillWidth: true
+                    title: qsTr("Auto check for app updates")
+                    description: qsTr("Check for application updates at startup and every 4 hours")
+
+                    additionalControl: Switch {
+                        checked: UserSettings.autoFetchForAppUpdates
+                        onClicked: UserSettings.autoFetchForAppUpdates = checked
+                    }
+                }
+
+                Card {
+                    Layout.fillWidth: true
+                    title: qsTr("Application version")
+                    description: ""
+
+                    property int clickCount: 0
+
+                    MouseArea {
+                        anchors.fill: parent
                         onClicked: {
-                            if (Updater.updateAvailable) {
-                                Updater.downloadAndInstall()
-                            } else {
-                                Updater.checkForUpdates()
+                            parent.clickCount++
+                            if (parent.clickCount >= 5) {
+                                //easterEggDialog.open()
+                                Context.easterEggRequested()
+                                parent.clickCount = 0
                             }
                         }
                     }
+                    additionalControl: Label {
+                        text: SoundPanelBridge.getAppVersion()
+                        opacity: 0.5
+                    }
+                }
 
-                    ProgressBar {
-                        width: updateBtn.implicitWidth
-                        from: 0
-                        to: 100
-                        value: Updater.downloadProgress
-                        visible: Updater.isDownloading
+                Card {
+                    Layout.fillWidth: true
+                    title: qsTr("QT version")
+                    description: ""
+
+                    additionalControl: Label {
+                        text: SoundPanelBridge.getQtVersion()
+                        opacity: 0.5
+                    }
+                }
+
+                Card {
+                    Layout.fillWidth: true
+                    title: qsTr("Commit")
+                    description: ""
+
+                    additionalControl: Label {
+                        text: SoundPanelBridge.getCommitHash()
+                        opacity: 0.5
+                    }
+                }
+
+                Card {
+                    Layout.fillWidth: true
+                    title: qsTr("Build date")
+                    description: ""
+
+                    additionalControl: Label {
+                        text: SoundPanelBridge.getBuildTimestamp()
+                        opacity: 0.5
                     }
                 }
             }
-
-            Card {
-                id: releaseNotesCard
-                Layout.fillWidth: true
-                title: qsTr("Release notes")
-                description: qsTr("View what's new in version %1").arg(Updater.latestVersion)
-                visible: Updater.updateAvailable && Updater.hasReleaseNotes
-                additionalControl: Button {
-                    text: qsTr("Show")
-                    enabled: Updater.hasReleaseNotes
-                    onClicked: releaseNotesDialog.open()
-                }
-            }
-
-            Card {
-                Layout.fillWidth: true
-                title: qsTr("Auto check for app updates")
-                description: qsTr("Check for application updates at startup and every 4 hours")
-
-                additionalControl: Switch {
-                    checked: UserSettings.autoFetchForAppUpdates
-                    onClicked: UserSettings.autoFetchForAppUpdates = checked
-                }
-            }
-
-            Card {
-                Layout.fillWidth: true
-                title: qsTr("Application version")
-                description: ""
-
-                property int clickCount: 0
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        parent.clickCount++
-                        if (parent.clickCount >= 5) {
-                            //easterEggDialog.open()
-                            Context.easterEggRequested()
-                            parent.clickCount = 0
-                        }
-                    }
-                }
-                additionalControl: Label {
-                    text: SoundPanelBridge.getAppVersion()
-                    opacity: 0.5
-                }
-            }
-
-            Card {
-                Layout.fillWidth: true
-                title: qsTr("QT version")
-                description: ""
-
-                additionalControl: Label {
-                    text: SoundPanelBridge.getQtVersion()
-                    opacity: 0.5
-                }
-            }
-
-            Card {
-                Layout.fillWidth: true
-                title: qsTr("Commit")
-                description: ""
-
-                additionalControl: Label {
-                    text: SoundPanelBridge.getCommitHash()
-                    opacity: 0.5
-                }
-            }
-
-            Card {
-                Layout.fillWidth: true
-                title: qsTr("Build date")
-                description: ""
-
-                additionalControl: Label {
-                    text: SoundPanelBridge.getBuildTimestamp()
-                    opacity: 0.5
-                }
-            }
-        }
-    }
-
-    Rectangle {
-        id: toastNotification
-
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
-
-        width: Math.min(toastText.implicitWidth + 40, parent.width - 40)
-        height: 50
-        radius: 8
-
-        visible: false
-        opacity: 0
-
-        property bool isSuccess: true
-
-        color: isSuccess ? "#4CAF50" : "#F44336"
-
-        function showToast(message, success) {
-            toastText.text = message
-            isSuccess = success
-            visible = true
-            showAnimation.start()
-            hideTimer.start()
         }
 
-        Label {
-            id: toastText
-            anchors.centerIn: parent
-            color: "white"
-            font.pixelSize: 14
-            wrapMode: Text.WordWrap
-            horizontalAlignment: Text.AlignHCenter
-        }
+        Rectangle {
+            id: toastNotification
 
-        NumberAnimation {
-            id: showAnimation
-            target: toastNotification
-            property: "opacity"
-            from: 0
-            to: 1
-            duration: 300
-            easing.type: Easing.OutQuad
-        }
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
 
-        NumberAnimation {
-            id: hideAnimation
-            target: toastNotification
-            property: "opacity"
-            from: 1
-            to: 0
-            duration: 300
-            easing.type: Easing.InQuad
-            onFinished: toastNotification.visible = false
-        }
+            width: Math.min(toastText.implicitWidth + 40, parent.width - 40)
+            height: 50
+            radius: 8
 
-        Timer {
-            id: hideTimer
-            interval: 3000
-            onTriggered: hideAnimation.start()
-        }
-    }
+            visible: false
+            opacity: 0
 
-    Dialog {
-        id: releaseNotesDialog
-        title: qsTr("Version %1").arg(Updater.latestVersion)
-        modal: true
-        width: 400
-        height: 300
-        anchors.centerIn: parent
-        standardButtons: Dialog.Close
+            property bool isSuccess: true
 
-        ScrollView {
-            anchors.fill: parent
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            color: isSuccess ? "#4CAF50" : "#F44336"
+
+            function showToast(message, success) {
+                toastText.text = message
+                isSuccess = success
+                visible = true
+                showAnimation.start()
+                hideTimer.start()
+            }
 
             Label {
-                text: Updater.releaseNotes || qsTr("No release notes available")
-                width: releaseNotesDialog.width - 60
+                id: toastText
+                anchors.centerIn: parent
+                color: "white"
+                font.pixelSize: 14
                 wrapMode: Text.WordWrap
-                textFormat: Text.PlainText
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            NumberAnimation {
+                id: showAnimation
+                target: toastNotification
+                property: "opacity"
+                from: 0
+                to: 1
+                duration: 300
+                easing.type: Easing.OutQuad
+            }
+
+            NumberAnimation {
+                id: hideAnimation
+                target: toastNotification
+                property: "opacity"
+                from: 1
+                to: 0
+                duration: 300
+                easing.type: Easing.InQuad
+                onFinished: toastNotification.visible = false
+            }
+
+            Timer {
+                id: hideTimer
+                interval: 3000
+                onTriggered: hideAnimation.start()
+            }
+        }
+
+        Dialog {
+            id: releaseNotesDialog
+            title: qsTr("Version %1").arg(Updater.latestVersion)
+            modal: true
+            width: 400
+            height: 300
+            anchors.centerIn: parent
+            standardButtons: Dialog.Close
+
+            ScrollView {
+                anchors.fill: parent
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+
+                Label {
+                    text: Updater.releaseNotes || qsTr("No release notes available")
+                    width: releaseNotesDialog.width - 60
+                    wrapMode: Text.WordWrap
+                    textFormat: Text.PlainText
+                }
             }
         }
     }
