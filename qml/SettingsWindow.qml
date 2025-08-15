@@ -15,6 +15,12 @@ ApplicationWindow {
     transientParent: null
     title: qsTr("QuickSoundSwitcher - Settings")
 
+    function showUpdatePane() {
+        show()
+        sidebarList.currentIndex = 5
+        stackView.push(debugPaneComponent)
+    }
+
     property int rowHeight: 35
 
     DonatePopup {
@@ -96,8 +102,8 @@ ApplicationWindow {
                             icon: "qrc:/icons/language.svg"
                         },
                         {
-                            text: qsTr("Debug"),
-                            icon: "qrc:/icons/chip.svg"
+                            text: qsTr("Updates"),
+                            icon: "qrc:/icons/update.svg"
                         }
                     ]
                     currentIndex: 0
@@ -114,7 +120,7 @@ ApplicationWindow {
 
                     delegate: ItemDelegate {
                         id: del
-                        width: parent.width
+                        width: sidebarList.width
                         height: 43
                         spacing: 10
                         required property var modelData

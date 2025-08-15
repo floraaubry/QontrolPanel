@@ -114,9 +114,9 @@ void Updater::onVersionCheckFinished()
     emit latestVersionChanged();
 
     if (m_updateAvailable) {
-        emit updateFinished(true, "Update available: " + m_latestVersion);
+        emit updateFinished(true, tr("Update available: ") + m_latestVersion);
     } else {
-        emit updateFinished(true, "You are using the latest version");
+        emit updateFinished(true, tr("You are using the latest version"));
     }
 }
 
@@ -194,7 +194,7 @@ void Updater::installExecutable(const QString& newExePath)
     bool started = QProcess::startDetached(newExePath, arguments);
 
     if (started) {
-        emit updateFinished(true, "Update started. Application will restart.");
+        emit updateFinished(true, tr("Update started. Application will restart."));
         QApplication::quit();
     } else {
         emit updateFinished(false, "Failed to start update executable");

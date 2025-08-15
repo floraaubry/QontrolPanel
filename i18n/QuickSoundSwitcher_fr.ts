@@ -121,47 +121,47 @@
     </message>
     <message>
         <source>Display device icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les icones des périphériques</translation>
     </message>
     <message>
         <source>Tray icon theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Thème de l&apos;icone</translation>
     </message>
     <message>
         <source>Choose the appearance of the system tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisizzed l&apos;apparence de l&apos;icone dans la barre des taches</translation>
     </message>
     <message>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Sombre</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Clair</translation>
     </message>
     <message>
         <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille de la barre des taches (Uniquement si la barre des taches n&apos;est pas en bas)</translation>
     </message>
     <message>
         <source>Choose the color of the system tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez la couleur de l&apos;icone</translation>
     </message>
     <message>
         <source>Tray icon style</source>
-        <translation type="unfinished"></translation>
+        <translation>Style de l&apos;icone</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normale</translation>
     </message>
     <message>
         <source>Filled</source>
-        <translation type="unfinished"></translation>
+        <translation>Remplie</translation>
     </message>
 </context>
 <context>
@@ -200,11 +200,11 @@
     </message>
     <message>
         <source>Unlock</source>
-        <translation type="unfinished"></translation>
+        <translation>Verouiller</translation>
     </message>
     <message>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Déverouiller</translation>
     </message>
 </context>
 <context>
@@ -340,66 +340,66 @@
     </message>
     <message>
         <source>Application Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Mises à jour</translation>
     </message>
     <message>
         <source>Version %1 is available</source>
-        <translation type="unfinished"></translation>
+        <translation>La version %1 est disponnible</translation>
     </message>
     <message>
         <source>Checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche...</translation>
     </message>
     <message>
         <source>Downloading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement...</translation>
     </message>
     <message>
         <source>Check for Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Chercher des mises à jour</translation>
     </message>
     <message>
         <source>Download and Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Installer</translation>
     </message>
     <message>
         <source>Release notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Changements</translation>
     </message>
     <message>
         <source>View what&apos;s new in version %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Quoi de neuf dans la version %1</translation>
     </message>
     <message>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher</translation>
     </message>
     <message>
         <source>No release notes available</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Version %1</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Auto check for app updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Mises à jour automatiques</translation>
     </message>
     <message>
         <source>Check for application updates at startup and every 4 hours</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher des mises à jour de l&apos;application au démarrage et toutes les 4 heures</translation>
     </message>
 </context>
 <context>
     <name>DevicesListView</name>
     <message>
         <source>Rename Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Renommer</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation type="unfinished">Par défaut</translation>
+        <translation>Par défaut</translation>
     </message>
     <message>
         <source>Original name: </source>
@@ -411,39 +411,40 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Sauvegarder</translation>
+        <translation>Sauvegarder</translation>
     </message>
     <message>
         <source>Change Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer l&apos;icone</translation>
     </message>
     <message>
         <source>Change Device Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer l&apos;icone</translation>
     </message>
 </context>
 <context>
     <name>DonatePopup</name>
     <message>
         <source>Found this app useful?</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette application vous a été utile ?</translation>
     </message>
     <message>
         <source>This app is made with care by an independent developer and is not financed by ad revenue.
 If you&apos;d like to support my work, any contribution would be greatly appreciated!</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette application est développée avec soin par une développeuse indépendante et n&apos;est pas financée par les revenus publicitaires.
+Si vous souhaitez soutenir mon travail, toute contribution serait grandement appréciée !</translation>
     </message>
     <message>
         <source>Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporter</translation>
     </message>
     <message>
         <source>Maybe later</source>
-        <translation type="unfinished"></translation>
+        <translation>Peut-être plus tard</translation>
     </message>
 </context>
 <context>
@@ -537,27 +538,27 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Welcome to Quick Sound Switcher!</source>
-        <translation type="unfinished"></translation>
+        <translation>Bienvenue dans Quick Sound Switcher!</translation>
     </message>
     <message>
         <source>Get Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Commencer</translation>
     </message>
     <message>
         <source>The tray icon is probably hidden and can be added to the tray area by dragging it as shown in the video below.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;icône de la barre des tâches est probablement masquée et peut être ajoutée à la zone de notification en la faisant glisser comme indiqué dans la vidéo ci-dessous.</translation>
     </message>
     <message>
         <source>You can then click on the tray icon to reveal the panel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous pouvez ensuite cliquer sur l&apos;icône pour afficher le panneau.</translation>
     </message>
     <message>
         <source>Automatic application update fetching</source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche automatique de mise à jour</translation>
     </message>
     <message>
         <source>Automatic translations update</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargment automatique des traductions</translation>
     </message>
 </context>
 <context>
@@ -632,58 +633,62 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Current language completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Complétion du language actuel</translation>
     </message>
     <message>
         <source>Fetch for new translation to get data</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargez d&apos;abord les traductions</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>System sounds</source>
-        <translation type="unfinished">Sons système</translation>
+        <translation>Sons système</translation>
     </message>
     <message>
         <source>ChatMix</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Rename Application</source>
-        <translation type="unfinished">Renommer</translation>
+        <translation>Renommer</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation type="unfinished">Par défaut</translation>
+        <translation>Par défaut</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation type="unfinished">Nom original: </translation>
+        <translation>Nom original: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation type="unfinished">Nom personnalisé:</translation>
+        <translation>Nom personnalisé:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Sauvegarder</translation>
+        <translation>Sauvegarder</translation>
     </message>
     <message>
         <source>Mute in Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Couper en arriere plan</translation>
     </message>
     <message>
         <source>Update Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Mise à jour disponnible</translation>
     </message>
     <message>
         <source>Version %1 is available for download</source>
-        <translation type="unfinished"></translation>
+        <translation>La version %1 est disponnible</translation>
+    </message>
+    <message>
+        <source>Update available</source>
+        <translation>Mise à jour disponnible</translation>
     </message>
 </context>
 <context>
@@ -756,8 +761,8 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <translation>Langage</translation>
     </message>
     <message>
-        <source>Debug</source>
-        <translation></translation>
+        <source>Updates</source>
+        <translation>Mises à jour</translation>
     </message>
 </context>
 <context>
@@ -886,6 +891,21 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     <message>
         <source>Windows sound settings (Modern)</source>
         <translation>Paramètres audio Windows (Moderne)</translation>
+    </message>
+</context>
+<context>
+    <name>Updater</name>
+    <message>
+        <source>Update available: </source>
+        <translation>Mise à jour disponnible: </translation>
+    </message>
+    <message>
+        <source>You are using the latest version</source>
+        <translation>L&apos;application est à jour</translation>
+    </message>
+    <message>
+        <source>Update started. Application will restart.</source>
+        <translation></translation>
     </message>
 </context>
 </TS>

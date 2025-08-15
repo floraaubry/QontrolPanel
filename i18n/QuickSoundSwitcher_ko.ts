@@ -646,6 +646,10 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>Version %1 is available for download</source>
         <translation>버전 %1은 다운로드할 수 있습니다</translation>
     </message>
+    <message>
+        <source>Update available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QuickSoundSwitcher</name>
@@ -718,7 +722,11 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Debug</source>
-        <translation>디버그</translation>
+        <translation type="vanished">디버그</translation>
+    </message>
+    <message>
+        <source>Updates</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -827,6 +835,21 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     <message>
         <source>Windows sound settings (Modern)</source>
         <translation>Windows 사운드 설정 (모던)</translation>
+    </message>
+</context>
+<context>
+    <name>Updater</name>
+    <message>
+        <source>Update available: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You are using the latest version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update started. Application will restart.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

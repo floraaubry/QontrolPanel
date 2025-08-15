@@ -26,7 +26,6 @@
         <file>system_light.png</file>
         <file>settings.svg</file>
         <file>wand.svg</file>
-        <file>chip.svg</file>
         <file>general.svg</file>
         <file>keyboard.svg</file>
         <file>language.svg</file>
@@ -47,5 +46,6 @@
         <file>devices/webcam.png</file>
         <file>devices/gamepad.png</file>
         <file>donate.svg</file>
+        <file>update.svg</file>
     </qresource>
 </RCC>

@@ -430,11 +430,11 @@ ApplicationWindow {
 
         function onUpdateAvailableNotification(version) {
             systemTray.showMessage(
-                qsTr("Update Available"),
-                qsTr("Version %1 is available for download").arg(version),
-                Platform.SystemTrayIcon.Information,
-                3000
-            )
+                        qsTr("Update Available"),
+                        qsTr("Version %1 is available for download").arg(version),
+                        Platform.SystemTrayIcon.Information,
+                        3000
+                        )
         }
     }
 
@@ -927,8 +927,8 @@ ApplicationWindow {
                                             Layout.fillWidth: true
                                             displayProgress: appDelegateRoot.model.displayName !== qsTr("System sounds")
                                             audioLevel: appDelegateRoot.model.displayName !== qsTr("System sounds")
-                                                       ? (appDelegateRoot.model.averageAudioLevel || 0)
-                                                       : 0
+                                                        ? (appDelegateRoot.model.averageAudioLevel || 0)
+                                                        : 0
 
                                             value: pressed ? value : appDelegateRoot.model.averageVolume
 
@@ -1108,12 +1108,54 @@ ApplicationWindow {
                             spacing: 10
 
                             Image {
+                                id: compactMedia
                                 Layout.preferredWidth: 32
                                 Layout.preferredHeight: 32
                                 Layout.alignment: Qt.AlignVCenter
                                 source: SoundPanelBridge.mediaArt || ""
                                 fillMode: Image.PreserveAspectCrop
                                 visible: SoundPanelBridge.mediaArt !== "" && UserSettings.mediaMode === 1
+                            }
+
+                            Item {
+                                Layout.preferredWidth: updateLyt.implicitWidth
+                                Layout.preferredHeight: Math.max(updateIcon.height, updateLabel.height)
+                                Layout.leftMargin: 10
+                                visible: !compactMedia.visible && Updater.updateAvailable
+
+                                RowLayout {
+                                    id: updateLyt
+                                    anchors.fill: parent
+                                    spacing: 10
+
+                                    IconImage {
+                                        id: updateIcon
+                                        source: "qrc:/icons/update.svg"
+                                        color: "#edb11a"
+                                        sourceSize.width: 16
+                                        sourceSize.height: 16
+                                    }
+                                    Label {
+                                        id: updateLabel
+                                        text: qsTr("Update available")
+                                        color: "#edb11a"
+                                    }
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    cursorShape: Qt.PointingHandCursor
+                                    hoverEnabled: true
+                                    onEntered: {
+                                        updateLabel.font.underline = true
+                                    }
+                                    onExited: {
+                                        updateLabel.font.underline = false
+                                    }
+                                    onClicked: {
+                                        settingsWindow.showUpdatePane()
+                                    }
+                                }
                             }
 
                             ColumnLayout {
@@ -1268,7 +1310,7 @@ ApplicationWindow {
                     AudioBridge.setCustomExecutableName(
                         executableRenameContextMenu.originalName,
                         executableCustomNameField.text.trim()
-                    )
+                        )
                     executableRenameDialog.close()
                 }
             }
@@ -1291,7 +1333,7 @@ ApplicationWindow {
                         AudioBridge.setCustomExecutableName(
                             executableRenameContextMenu.originalName,
                             executableCustomNameField.text.trim()
-                        )
+                            )
                         executableRenameDialog.close()
                     }
                 }
