@@ -85,7 +85,7 @@
     </message>
     <message>
         <source>Flyout (interactive)</source>
-        <translation>플라이아웃 (인터랙티브)</translation>
+        <translation>플라이아웃 (대화식)</translation>
     </message>
     <message>
         <source>Panel (informative)</source>
@@ -133,23 +133,23 @@
     </message>
     <message>
         <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows 작업 표시줄 크기 (W11을 사용하고 작업 표시줄이 화면 하단에 없는 경우에만 설정)</translation>
     </message>
     <message>
         <source>Choose the color of the system tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation>시스템 트레이 아이콘의 색상 선택</translation>
     </message>
     <message>
         <source>Tray icon style</source>
-        <translation type="unfinished"></translation>
+        <translation>트레이 아이콘 스타일</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>보통</translation>
     </message>
     <message>
         <source>Filled</source>
-        <translation type="unfinished"></translation>
+        <translation>채움</translation>
     </message>
 </context>
 <context>
@@ -324,55 +324,55 @@
     </message>
     <message>
         <source>Application Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>응용 프로그램 업데이트</translation>
     </message>
     <message>
         <source>Version %1 is available</source>
-        <translation type="unfinished"></translation>
+        <translation>버전 %1 사용 가능</translation>
     </message>
     <message>
         <source>Checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>확인 중...</translation>
     </message>
     <message>
         <source>Downloading...</source>
-        <translation type="unfinished"></translation>
+        <translation>다운로드 중...</translation>
     </message>
     <message>
         <source>Check for Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트 확인</translation>
     </message>
     <message>
         <source>Download and Install</source>
-        <translation type="unfinished"></translation>
+        <translation>다운로드 및 설치</translation>
     </message>
     <message>
         <source>Release notes</source>
-        <translation type="unfinished"></translation>
+        <translation>릴리스 노트</translation>
     </message>
     <message>
         <source>View what&apos;s new in version %1</source>
-        <translation type="unfinished"></translation>
+        <translation>버전 %1의 새로운 기능 보기</translation>
     </message>
     <message>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>표시</translation>
     </message>
     <message>
         <source>No release notes available</source>
-        <translation type="unfinished"></translation>
+        <translation>사용 가능한 릴리스 노트 없음</translation>
     </message>
     <message>
         <source>Version %1</source>
-        <translation type="unfinished"></translation>
+        <translation>버전 %1</translation>
     </message>
     <message>
         <source>Auto check for app updates</source>
-        <translation type="unfinished"></translation>
+        <translation>앱 업데이트 자동 확인</translation>
     </message>
     <message>
         <source>Check for application updates at startup and every 4 hours</source>
-        <translation type="unfinished"></translation>
+        <translation>시작 시 및 4시간마다 응용 프로그램 업데이트 확인</translation>
     </message>
 </context>
 <context>
@@ -406,20 +406,21 @@
     <name>DonatePopup</name>
     <message>
         <source>Found this app useful?</source>
-        <translation type="unfinished"></translation>
+        <translation>이 앱이 유용하셨나요?</translation>
     </message>
     <message>
         <source>This app is made with care by an independent developer and is not financed by ad revenue.
 If you&apos;d like to support my work, any contribution would be greatly appreciated!</source>
-        <translation type="unfinished"></translation>
+        <translation>이 앱은 독립 개발자가 신중하게 제작했으며 광고 수익으로 자금을 조달하지 않습니다.
+제 작업을 지원해 주신다면, 어떤 기여라도 해주시면 대단히 감사하겠습니다!</translation>
     </message>
     <message>
         <source>Support</source>
-        <translation type="unfinished"></translation>
+        <translation>지원</translation>
     </message>
     <message>
         <source>Maybe later</source>
-        <translation type="unfinished"></translation>
+        <translation>나중에요</translation>
     </message>
 </context>
 <context>
@@ -505,27 +506,27 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Welcome to Quick Sound Switcher!</source>
-        <translation type="unfinished"></translation>
+        <translation>Quick Sound Switcher에 오신 것을 환영합니다!</translation>
     </message>
     <message>
         <source>Get Started</source>
-        <translation type="unfinished"></translation>
+        <translation>시작하기</translation>
     </message>
     <message>
         <source>The tray icon is probably hidden and can be added to the tray area by dragging it as shown in the video below.</source>
-        <translation type="unfinished"></translation>
+        <translation>트레이 아이콘은 아마도 숨겨져 있을 것이며 아래 동영상과 같이 끌어서 트레이 영역에 추가할 수 있습니다.</translation>
     </message>
     <message>
         <source>You can then click on the tray icon to reveal the panel.</source>
-        <translation type="unfinished"></translation>
+        <translation>그런 다음 트레이 아이콘을 클릭하여 패널을 표시할 수 있습니다.</translation>
     </message>
     <message>
         <source>Automatic application update fetching</source>
-        <translation type="unfinished"></translation>
+        <translation>자동 응용 프로그램 업데이트 가져오기</translation>
     </message>
     <message>
         <source>Automatic translations update</source>
-        <translation type="unfinished"></translation>
+        <translation>자동 번역 업데이트</translation>
     </message>
 </context>
 <context>
@@ -588,62 +589,62 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Translation Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>번역 진행 상황</translation>
     </message>
     <message>
         <source>Current language completion</source>
-        <translation type="unfinished"></translation>
+        <translation>현재 언어 완성</translation>
     </message>
     <message>
         <source>Fetch for new translation to get data</source>
-        <translation type="unfinished"></translation>
+        <translation>데이터를 얻기 위해 새 번역을 가져옵니다</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>System sounds</source>
-        <translation type="unfinished">시스템 사운드</translation>
+        <translation>시스템 사운드</translation>
     </message>
     <message>
         <source>ChatMix</source>
-        <translation type="unfinished">채팅 믹스</translation>
+        <translation>채팅 믹스</translation>
     </message>
     <message>
         <source>Rename Application</source>
-        <translation type="unfinished">응용 프로그램 이름 바꾸기</translation>
+        <translation>응용 프로그램 이름 바꾸기</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation type="unfinished">원래 이름으로 재설정</translation>
+        <translation>원래 이름으로 재설정</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation type="unfinished">원래 이름: </translation>
+        <translation>원래 이름: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation type="unfinished">사용자 지정 이름:</translation>
+        <translation>사용자 지정 이름:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">취소</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">저장</translation>
+        <translation>저장</translation>
     </message>
     <message>
         <source>Mute in Background</source>
-        <translation type="unfinished"></translation>
+        <translation>배경 음소거</translation>
     </message>
     <message>
         <source>Update Available</source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트 가능</translation>
     </message>
     <message>
         <source>Version %1 is available for download</source>
-        <translation type="unfinished"></translation>
+        <translation>버전 %1은 다운로드할 수 있습니다</translation>
     </message>
 </context>
 <context>
