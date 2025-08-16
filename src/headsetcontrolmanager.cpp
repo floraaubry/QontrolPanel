@@ -80,8 +80,7 @@ void HeadsetControlManager::stopMonitoring()
         m_process->waitForFinished(3000);
     }
 
-    m_devices.clear();
-    emit headsetDataUpdated(m_devices);
+    // Don't clear cache when stopping monitoring
     emit monitoringStateChanged(false);
 }
 
@@ -106,12 +105,13 @@ void HeadsetControlManager::fetchHeadsetInfo()
     }
 
     if (m_process && m_process->state() != QProcess::NotRunning) {
-        qWarning() << "HeadsetControl process already running, skipping fetch";
         return;
     }
 
-    if (m_process) {
-        m_process->deleteLater();
+    QString executablePath = getExecutablePath();
+    if (!QFile::exists(executablePath)) {
+        qWarning() << "HeadsetControl executable not found at:" << executablePath;
+        return;
     }
 
     m_process = new QProcess(this);
@@ -119,14 +119,13 @@ void HeadsetControlManager::fetchHeadsetInfo()
     connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, &HeadsetControlManager::onProcessFinished);
 
-    QString executablePath = getExecutablePath();
     QStringList arguments;
-    arguments << "-o" << "json";
+    arguments << "-o" << "JSON";
 
     m_process->start(executablePath, arguments);
 
-    if (!m_process->waitForStarted(5000)) {
-        qWarning() << "Failed to start HeadsetControl process:" << m_process->errorString();
+    if (!m_process->waitForStarted(3000)) {
+        qWarning() << "Failed to start HeadsetControl process";
         m_process->deleteLater();
         m_process = nullptr;
     }
@@ -138,7 +137,7 @@ void HeadsetControlManager::onProcessFinished(int exitCode, QProcess::ExitStatus
         return;
     }
 
-    if (exitStatus == QProcess::NormalExit && exitCode == 0) {
+    if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
         QByteArray output = m_process->readAllStandardOutput();
         parseHeadsetControlOutput(output);
     } else {
@@ -149,8 +148,8 @@ void HeadsetControlManager::onProcessFinished(int exitCode, QProcess::ExitStatus
             qWarning() << "Error output:" << errorOutput;
         }
 
-        m_devices.clear();
-        emit headsetDataUpdated(m_devices);
+        // On failure, emit cached devices (don't clear cache)
+        emit headsetDataUpdated(m_cachedDevices);
     }
 
     m_process->deleteLater();
@@ -209,8 +208,9 @@ void HeadsetControlManager::parseHeadsetControlOutput(const QByteArray& output)
         newDevices.append(device);
     }
 
-    m_devices = newDevices;
-    emit headsetDataUpdated(m_devices);
+    // Update cache with successful result
+    m_cachedDevices = newDevices;
+    emit headsetDataUpdated(m_cachedDevices);
 }
 
 QString HeadsetControlManager::getExecutablePath() const

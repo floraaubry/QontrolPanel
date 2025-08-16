@@ -971,10 +971,17 @@ void AudioWorker::enumerateDevices()
     }
 
     m_devices = newDevices;
-    emit devicesChanged(newDevices);
 
-    if (HeadsetControlManager::instance()->isMonitoring()) {
-        QMetaObject::invokeMethod(HeadsetControlManager::instance(),
+    HeadsetControlManager* headsetManager = HeadsetControlManager::instance();
+    QList<HeadsetControlDevice> cachedDevices = headsetManager->getCachedDevices();
+    if (!cachedDevices.isEmpty()) {
+        updateDevicesBatteryInfo(cachedDevices);
+    }
+
+    emit devicesChanged(m_devices);
+
+    if (headsetManager->isMonitoring()) {
+        QMetaObject::invokeMethod(headsetManager,
                                   "fetchHeadsetInfo",
                                   Qt::QueuedConnection);
     }

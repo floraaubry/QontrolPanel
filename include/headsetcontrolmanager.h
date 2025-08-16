@@ -1,4 +1,5 @@
 #pragma once
+
 #include <QObject>
 #include <QTimer>
 #include <QProcess>
@@ -43,6 +44,8 @@ public:
 
     Q_INVOKABLE void setMonitoringEnabled(bool enabled);
 
+    QList<HeadsetControlDevice> getCachedDevices() const { return m_cachedDevices; }
+
 signals:
     void headsetDataUpdated(const QList<HeadsetControlDevice>& devices);
     void monitoringStateChanged(bool enabled);
@@ -59,7 +62,7 @@ private:
     QTimer* m_fetchTimer;
     QProcess* m_process;
     QSettings m_settings;
-    QList<HeadsetControlDevice> m_devices;
+    QList<HeadsetControlDevice> m_cachedDevices;  // Cached last successful result
     bool m_isMonitoring;
 
     static const int FETCH_INTERVAL_MS = 5000;
