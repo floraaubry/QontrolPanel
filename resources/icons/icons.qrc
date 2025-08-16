@@ -32,7 +32,6 @@
         <file>headset.svg</file>
         <file>music.svg</file>
         <file>arrow.svg</file>
-        <file>link.png</file>
         <file>play.png</file>
         <file>pause.png</file>
         <file>next.png</file>
@@ -47,6 +46,8 @@
         <file>devices/gamepad.png</file>
         <file>donate.svg</file>
         <file>update.svg</file>
+        <file>chatmix.svg</file>
+        <file>headsetcontrol.svg</file>
         <file>headsetcontrol/battery-020-dark.png</file>
         <file>headsetcontrol/battery-020-light.png</file>
         <file>headsetcontrol/battery-040-dark.png</file>

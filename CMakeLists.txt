@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(QuickSoundSwitcher VERSION 1.7.0 LANGUAGES C CXX)
+project(QuickSoundSwitcher VERSION 1.7.1 LANGUAGES C CXX)
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation directory" FORCE)
 set(CMAKE_CXX_STANDARD 20)
@@ -122,6 +122,7 @@ set(QML_FILES
     qml/SettingsPane/DebugPane.qml
     qml/SettingsPane/CommAppsPane.qml
     qml/SettingsPane/ShortcutsPane.qml
+    qml/SettingsPane/HeadsetControlPane.qml
     qml/ProgressSlider.qml
     qml/ChatMixNotification.qml
     qml/ApplicationsListView.qml

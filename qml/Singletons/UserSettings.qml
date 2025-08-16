@@ -37,4 +37,6 @@ Settings {
 
     property bool autoFetchForAppUpdates: false
     property bool headsetcontrolMonitoring: true
+    property bool headsetcontrolLights: true
+    property int headsetcontrolSidetone: 0
 }

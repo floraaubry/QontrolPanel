@@ -12,6 +12,12 @@ HeadsetControlManager::HeadsetControlManager(QObject *parent)
     , m_process(nullptr)
     , m_settings("Odizinne", "QuickSoundSwitcher")
     , m_isMonitoring(false)
+    , m_hasSidetoneCapability(false)
+    , m_hasLightsCapability(false)
+    , m_deviceName("")
+    , m_batteryStatus("")
+    , m_batteryLevel(0)
+    , m_anyDeviceFound(false)
 {
     m_instance = this;
 
@@ -80,7 +86,23 @@ void HeadsetControlManager::stopMonitoring()
         m_process->waitForFinished(3000);
     }
 
-    // Don't clear cache when stopping monitoring
+    m_cachedDevices.clear();
+    m_hasSidetoneCapability = false;
+    m_hasLightsCapability = false;
+    m_deviceName = "";
+    m_batteryStatus = "";
+    m_batteryLevel = 0;
+    bool wasDeviceFound = m_anyDeviceFound;
+    m_anyDeviceFound = false;
+
+    emit capabilitiesChanged();
+    emit deviceNameChanged();
+    emit batteryStatusChanged();
+    emit batteryLevelChanged();
+    if (wasDeviceFound) {
+        emit anyDeviceFoundChanged();
+    }
+    emit headsetDataUpdated(m_cachedDevices);
     emit monitoringStateChanged(false);
 }
 
@@ -95,6 +117,62 @@ void HeadsetControlManager::setMonitoringEnabled(bool enabled)
         startMonitoring();
     } else {
         stopMonitoring();
+    }
+}
+
+void HeadsetControlManager::setLights(bool enabled)
+{
+    if (!m_hasLightsCapability) {
+        qWarning() << "Device does not support lights capability";
+        return;
+    }
+
+    QStringList arguments;
+    arguments << "-l" << (enabled ? "1" : "0");
+    executeHeadsetControlCommand(arguments);
+}
+
+void HeadsetControlManager::setSidetone(int value)
+{
+    if (!m_hasSidetoneCapability) {
+        qWarning() << "Device does not support sidetone capability";
+        return;
+    }
+
+    value = qBound(0, value, 128);
+
+    QStringList arguments;
+    arguments << "-s" << QString::number(value);
+    executeHeadsetControlCommand(arguments);
+}
+
+void HeadsetControlManager::executeHeadsetControlCommand(const QStringList& arguments)
+{
+    QString executablePath = getExecutablePath();
+    if (!QFile::exists(executablePath)) {
+        qWarning() << "HeadsetControl executable not found at:" << executablePath;
+        return;
+    }
+
+    QProcess* commandProcess = new QProcess(this);
+
+    connect(commandProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            [commandProcess](int exitCode, QProcess::ExitStatus exitStatus) {
+                if (exitCode != 0 || exitStatus != QProcess::NormalExit) {
+                    qWarning() << "HeadsetControl command failed. Exit code:" << exitCode;
+                    QByteArray errorOutput = commandProcess->readAllStandardError();
+                    if (!errorOutput.isEmpty()) {
+                        qWarning() << "Error output:" << errorOutput;
+                    }
+                }
+                commandProcess->deleteLater();
+            });
+
+    commandProcess->start(executablePath, arguments);
+
+    if (!commandProcess->waitForStarted(3000)) {
+        qWarning() << "Failed to start HeadsetControl command process";
+        commandProcess->deleteLater();
     }
 }
 
@@ -140,6 +218,24 @@ void HeadsetControlManager::onProcessFinished(int exitCode, QProcess::ExitStatus
     if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
         QByteArray output = m_process->readAllStandardOutput();
         parseHeadsetControlOutput(output);
+    } else if (exitCode == 1) {
+        m_cachedDevices.clear();
+        m_hasSidetoneCapability = false;
+        m_hasLightsCapability = false;
+        m_deviceName = "";
+        m_batteryStatus = "";
+        m_batteryLevel = 0;
+        bool wasDeviceFound = m_anyDeviceFound;
+        m_anyDeviceFound = false;
+
+        emit capabilitiesChanged();
+        emit deviceNameChanged();
+        emit batteryStatusChanged();
+        emit batteryLevelChanged();
+        if (wasDeviceFound) {
+            emit anyDeviceFoundChanged();
+        }
+        emit headsetDataUpdated(m_cachedDevices);
     } else {
         qWarning() << "HeadsetControl process failed. Exit code:" << exitCode
                    << "Status:" << exitStatus;
@@ -148,7 +244,6 @@ void HeadsetControlManager::onProcessFinished(int exitCode, QProcess::ExitStatus
             qWarning() << "Error output:" << errorOutput;
         }
 
-        // On failure, emit cached devices (don't clear cache)
         emit headsetDataUpdated(m_cachedDevices);
     }
 
@@ -175,6 +270,13 @@ void HeadsetControlManager::parseHeadsetControlOutput(const QByteArray& output)
     QJsonArray devicesArray = root["devices"].toArray();
     QList<HeadsetControlDevice> newDevices;
 
+    if (devicesArray.isEmpty()) {
+        m_cachedDevices = newDevices;
+        updateCapabilities();
+        emit headsetDataUpdated(m_cachedDevices);
+        return;
+    }
+
     for (const QJsonValue& deviceValue : devicesArray) {
         QJsonObject deviceObj = deviceValue.toObject();
 
@@ -189,13 +291,11 @@ void HeadsetControlManager::parseHeadsetControlOutput(const QByteArray& output)
         device.vendorId = deviceObj["id_vendor"].toString();
         device.productId = deviceObj["id_product"].toString();
 
-        // Parse capabilities
-        QJsonArray capabilitiesArray = deviceObj["capabilities_str"].toArray();
+        QJsonArray capabilitiesArray = deviceObj["capabilities"].toArray();
         for (const QJsonValue& cap : capabilitiesArray) {
             device.capabilities << cap.toString();
         }
 
-        // Parse battery information
         if (deviceObj.contains("battery")) {
             QJsonObject batteryObj = deviceObj["battery"].toObject();
             device.batteryStatus = batteryObj["status"].toString();
@@ -205,12 +305,65 @@ void HeadsetControlManager::parseHeadsetControlOutput(const QByteArray& output)
             device.batteryLevel = 0;
         }
 
+        if (device.batteryStatus != m_batteryStatus) {
+            m_batteryStatus = device.batteryStatus;
+            emit batteryStatusChanged();
+        }
+
+        if (device.batteryLevel != m_batteryLevel) {
+            m_batteryLevel = device.batteryLevel;
+            emit batteryLevelChanged();
+        }
+
         newDevices.append(device);
     }
 
-    // Update cache with successful result
     m_cachedDevices = newDevices;
+    updateCapabilities();
     emit headsetDataUpdated(m_cachedDevices);
+}
+
+void HeadsetControlManager::updateCapabilities()
+{
+    bool newSidetoneCapability = false;
+    bool newLightsCapability = false;
+    QString newDeviceName = "";
+    bool newAnyDeviceFound = !m_cachedDevices.isEmpty();
+    bool wasDeviceFound = m_anyDeviceFound;
+
+    if (!m_cachedDevices.isEmpty()) {
+        const HeadsetControlDevice& device = m_cachedDevices.first();
+        newDeviceName = device.deviceName;
+
+        newSidetoneCapability = device.capabilities.contains("CAP_SIDETONE");
+        newLightsCapability = device.capabilities.contains("CAP_LIGHTS");
+    }
+
+    if (newSidetoneCapability != m_hasSidetoneCapability ||
+        newLightsCapability != m_hasLightsCapability) {
+        m_hasSidetoneCapability = newSidetoneCapability;
+        m_hasLightsCapability = newLightsCapability;
+        emit capabilitiesChanged();
+    }
+
+    if (newDeviceName != m_deviceName) {
+        m_deviceName = newDeviceName;
+        emit deviceNameChanged();
+    }
+
+    if (newAnyDeviceFound != m_anyDeviceFound) {
+        m_anyDeviceFound = newAnyDeviceFound;
+        emit anyDeviceFoundChanged();
+
+        if (!wasDeviceFound && newAnyDeviceFound) {
+            if (newLightsCapability) {
+                setLights(m_settings.value("headsetcontrolLights", false).toBool());
+            }
+            if (newSidetoneCapability) {
+                setSidetone(m_settings.value("headsetcontrolSidetone", 0).toInt());
+            }
+        }
+    }
 }
 
 QString HeadsetControlManager::getExecutablePath() const

@@ -18,7 +18,7 @@ ApplicationWindow {
 
     function showUpdatePane() {
         show()
-        sidebarList.currentIndex = 5
+        sidebarList.currentIndex = 6
         stackView.push(debugPaneComponent)
     }
 
@@ -92,11 +92,15 @@ ApplicationWindow {
                         },
                         {
                             text: qsTr("ChatMix"),
-                            icon: "qrc:/icons/headset.svg"
+                            icon: "qrc:/icons/chatmix.svg"
                         },
                         {
                             text: qsTr("Shortcuts"),
                             icon: "qrc:/icons/keyboard.svg"
+                        },
+                        {
+                            text: qsTr("HeadsetControl"),
+                            icon: "qrc:/icons/headsetcontrol.svg"
                         },
                         {
                             text: qsTr("Language"),
@@ -114,7 +118,7 @@ ApplicationWindow {
 
                         function onLanguageIndexChanged() {
                             Qt.callLater(function() {
-                                sidebarList.currentIndex = 4
+                                sidebarList.currentIndex = 5
                             })
                         }
                     }
@@ -143,8 +147,9 @@ ApplicationWindow {
                                     case 1: stackView.push(appearancePaneComponent); break
                                     case 2: stackView.push(commAppsPaneComponent); break
                                     case 3: stackView.push(shortcutsPaneComponent); break
-                                    case 4: stackView.push(languagePaneComponent); break
-                                    case 5: stackView.push(debugPaneComponent); break
+                                    case 4: stackView.push(headsetControlPaneComponent); break
+                                    case 5: stackView.push(languagePaneComponent); break
+                                    case 6: stackView.push(debugPaneComponent); break
                                 }
                             }
                         }
@@ -223,6 +228,11 @@ ApplicationWindow {
             Component {
                 id: appearancePaneComponent
                 AppearancePane {}
+            }
+
+            Component {
+                id: headsetControlPaneComponent
+                HeadsetControlPane {}
             }
 
             Component {

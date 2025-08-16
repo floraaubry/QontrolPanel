@@ -499,6 +499,30 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
 </context>
 <context>
+    <name>HeadsetControlPane</name>
+    <message>
+        <source>Headset lights</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Control integrated RGB lighting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sidetone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No compatible device found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HeadsetControl monitoring is disabled
+You can enable it in the General tab.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>IntroWindow</name>
     <message>
         <source>Windows sound settings (Legacy)</source>
@@ -735,6 +759,10 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     <message>
         <source>Updates</source>
         <translation>업데이트</translation>
+    </message>
+    <message>
+        <source>HeadsetControl</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
