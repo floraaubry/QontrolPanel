@@ -491,11 +491,11 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>HeadsetControl Integration</source>
-        <translation type="unfinished"></translation>
+        <translation>헤드셋 제어 통합</translation>
     </message>
     <message>
         <source>Monitor battery using HeadsetControl for supported devices</source>
-        <translation type="unfinished"></translation>
+        <translation>지원되는 장치의 헤드셋 제어를 사용하여 배터리 모니터링합니다</translation>
     </message>
 </context>
 <context>
@@ -557,7 +557,7 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Translation last updated</source>
-        <translation>번역 업데이트 최근 날짜</translation>
+        <translation>최근 업데이트된 번역</translation>
     </message>
     <message>
         <source>Unknow date</source>
@@ -656,7 +656,7 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Update available</source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트 가능</translation>
     </message>
 </context>
 <context>
@@ -734,7 +734,7 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트</translation>
     </message>
 </context>
 <context>
@@ -849,15 +849,15 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     <name>Updater</name>
     <message>
         <source>Update available: </source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트 가능: </translation>
     </message>
     <message>
         <source>You are using the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>최신 버전을 사용하고 있습니다</translation>
     </message>
     <message>
         <source>Update started. Application will restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트가 시작되었습니다. 응용 프로그램이 재시작됩니다.</translation>
     </message>
 </context>
 </TS>
