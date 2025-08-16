@@ -7,6 +7,7 @@
 #include <QFileInfo>
 #include <QPainter>
 #include <QTimer>
+#include <QRegularExpression>
 #include <atlbase.h>
 #include <psapi.h>
 #include <Shlobj.h>
@@ -52,9 +53,7 @@ QVariant AudioDeviceModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || index.row() >= m_devices.count())
         return QVariant();
-
     const AudioDevice& device = m_devices.at(index.row());
-
     switch (role) {
     case IdRole:
         return device.id;
@@ -70,6 +69,10 @@ QVariant AudioDeviceModel::data(const QModelIndex &index, int role) const
         return device.isInput;
     case StateRole:
         return device.state;
+    case VendorIdRole:
+        return device.vendorId;
+    case ProductIdRole:
+        return device.productId;
     default:
         return QVariant();
     }
@@ -85,6 +88,8 @@ QHash<int, QByteArray> AudioDeviceModel::roleNames() const
     roles[IsDefaultCommunicationRole] = "isDefaultCommunication";
     roles[IsInputRole] = "isInput";
     roles[StateRole] = "state";
+    roles[VendorIdRole] = "vendorId";
+    roles[ProductIdRole] = "productId";
     return roles;
 }
 
@@ -970,6 +975,42 @@ AudioDevice AudioWorker::createAudioDeviceFromInterface(IMMDevice* device, EData
     }
     if (audioDevice.name.isEmpty()) {
         audioDevice.name = "Unknown Device";
+    }
+
+    // Extract USB VID/PID information
+    CComPtr<IPropertyStore> propertyStore;
+    hr = device->OpenPropertyStore(STGM_READ, &propertyStore);
+    if (SUCCEEDED(hr)) {
+        DWORD propertyCount = 0;
+        hr = propertyStore->GetCount(&propertyCount);
+        if (SUCCEEDED(hr)) {
+            for (DWORD i = 0; i < propertyCount; ++i) {
+                PROPERTYKEY propertyKey;
+                PROPVARIANT propVariant;
+                PropVariantInit(&propVariant);
+
+                hr = propertyStore->GetAt(i, &propertyKey);
+                if (SUCCEEDED(hr)) {
+                    hr = propertyStore->GetValue(propertyKey, &propVariant);
+                    if (SUCCEEDED(hr) && propVariant.vt == VT_LPWSTR) {
+                        QString propValue = QString::fromWCharArray(propVariant.pwszVal);
+
+                        // Look for USB VID/PID pattern
+                        if (propValue.contains("VID_") && propValue.contains("PID_")) {
+                            QRegularExpression regex(R"(VID_([0-9A-F]{4}).*PID_([0-9A-F]{4}))");
+                            QRegularExpressionMatch match = regex.match(propValue);
+                            if (match.hasMatch()) {
+                                audioDevice.vendorId = match.captured(1);
+                                audioDevice.productId = match.captured(2);
+                                qDebug() << audioDevice.vendorId << ":" << audioDevice.productId;
+                                break;
+                            }
+                        }
+                    }
+                }
+                PropVariantClear(&propVariant);
+            }
+        }
     }
 
     return audioDevice;

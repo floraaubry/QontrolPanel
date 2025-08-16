@@ -64,7 +64,9 @@ public:
         DescriptionRole,
         IsDefaultRole,
         IsDefaultCommunicationRole,
-        StateRole
+        StateRole,
+        VendorIdRole,
+        ProductIdRole
     };
     Q_ENUM(DeviceRoles)
 

@@ -153,6 +153,10 @@ QVariant FilteredDeviceModel::data(const QModelIndex &index, int role) const
         return device.isDefaultCommunication;
     case StateRole:
         return device.state;
+    case VendorIdRole:
+        return device.vendorId;
+    case ProductIdRole:
+        return device.productId;
     default:
         return QVariant();
     }
@@ -167,6 +171,8 @@ QHash<int, QByteArray> FilteredDeviceModel::roleNames() const
     roles[IsDefaultRole] = "isDefault";
     roles[IsDefaultCommunicationRole] = "isDefaultCommunication";
     roles[StateRole] = "state";
+    roles[VendorIdRole] = "vendorId";
+    roles[ProductIdRole] = "productId";
     return roles;
 }
 

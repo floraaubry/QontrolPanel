@@ -39,9 +39,10 @@ struct AudioDevice {
     bool isDefaultCommunication; // Is default communication device
     bool isInput;                // true for input, false for output
     QString state;               // Active, Disabled, etc.
+    QString vendorId;            // USB VID
+    QString productId;           // USB PID
 
     AudioDevice() : isDefault(false), isDefaultCommunication(false), isInput(false) {}
-
     bool operator==(const AudioDevice& other) const {
         return id == other.id;
     }
@@ -62,7 +63,9 @@ public:
         IsDefaultRole,
         IsDefaultCommunicationRole,
         IsInputRole,
-        StateRole
+        StateRole,
+        VendorIdRole,
+        ProductIdRole
     };
     Q_ENUM(DeviceRoles)
 
