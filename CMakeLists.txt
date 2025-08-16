@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(QuickSoundSwitcher VERSION 1.6.1 LANGUAGES C CXX)
+project(QuickSoundSwitcher VERSION 1.7.0 LANGUAGES C CXX)
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation directory" FORCE)
 set(CMAKE_CXX_STANDARD 20)
@@ -34,6 +34,7 @@ set(SOURCES
     src/mediasessionmanager.cpp
     src/windowfocusmanager.cpp
     src/updater.cpp
+    src/headsetcontrolmanager.cpp
 )
 
 set(HEADERS
@@ -46,6 +47,7 @@ set(HEADERS
     include/mediasessionmanager.h
     include/windowfocusmanager.h
     include/updater.h
+    include/headsetcontrolmanager.h
 )
 
 # Get git commit hash
@@ -146,8 +148,6 @@ qt_add_qml_module(QuickSoundSwitcher
     URI Odizinne.QuickSoundSwitcher
     VERSION 1.0
     QML_FILES ${QML_FILES} ${QML_SINGLETONS}
-    SOURCES include/headsetcontrolmanager.h src/headsetcontrolmanager.cpp
-    SOURCES include/headsetcontrolbridge.h src/headsetcontrolbridge.cpp
 )
 
 target_include_directories(QuickSoundSwitcher PRIVATE

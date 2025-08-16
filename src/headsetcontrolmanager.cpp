@@ -41,6 +41,17 @@ HeadsetControlManager* HeadsetControlManager::instance()
     return m_instance;
 }
 
+HeadsetControlManager* HeadsetControlManager::create(QQmlEngine* qmlEngine, QJSEngine* jsEngine)
+{
+    Q_UNUSED(qmlEngine);
+    Q_UNUSED(jsEngine);
+
+    if (!m_instance) {
+        m_instance = new HeadsetControlManager();
+    }
+    return m_instance;
+}
+
 void HeadsetControlManager::startMonitoring()
 {
     if (m_isMonitoring) {
@@ -64,13 +75,11 @@ void HeadsetControlManager::stopMonitoring()
     m_isMonitoring = false;
     m_fetchTimer->stop();
 
-    // Clean up any running process
     if (m_process && m_process->state() != QProcess::NotRunning) {
         m_process->kill();
         m_process->waitForFinished(3000);
     }
 
-    // Clear device data
     m_devices.clear();
     emit headsetDataUpdated(m_devices);
     emit monitoringStateChanged(false);
@@ -140,7 +149,6 @@ void HeadsetControlManager::onProcessFinished(int exitCode, QProcess::ExitStatus
             qWarning() << "Error output:" << errorOutput;
         }
 
-        // Clear devices on error
         m_devices.clear();
         emit headsetDataUpdated(m_devices);
     }
@@ -208,38 +216,4 @@ void HeadsetControlManager::parseHeadsetControlOutput(const QByteArray& output)
 QString HeadsetControlManager::getExecutablePath() const
 {
     return QCoreApplication::applicationDirPath() + "/dependencies/headsetcontrol.exe";
-}
-
-int HeadsetControlManager::getBatteryLevel(const QString& vendorId, const QString& productId) const
-{
-    for (const HeadsetControlDevice& device : m_devices) {
-        // Remove "0x" prefix and compare case-insensitively
-        QString deviceVid = device.vendorId.startsWith("0x") ? device.vendorId.mid(2) : device.vendorId;
-        QString devicePid = device.productId.startsWith("0x") ? device.productId.mid(2) : device.productId;
-        QString inputVid = vendorId.startsWith("0x") ? vendorId.mid(2) : vendorId;
-        QString inputPid = productId.startsWith("0x") ? productId.mid(2) : productId;
-
-        if (deviceVid.compare(inputVid, Qt::CaseInsensitive) == 0 &&
-            devicePid.compare(inputPid, Qt::CaseInsensitive) == 0) {
-            return device.batteryLevel;
-        }
-    }
-    return -1; // Not found or not available
-}
-
-QString HeadsetControlManager::getBatteryStatus(const QString& vendorId, const QString& productId) const
-{
-    for (const HeadsetControlDevice& device : m_devices) {
-        // Remove "0x" prefix and compare case-insensitively
-        QString deviceVid = device.vendorId.startsWith("0x") ? device.vendorId.mid(2) : device.vendorId;
-        QString devicePid = device.productId.startsWith("0x") ? device.productId.mid(2) : device.productId;
-        QString inputVid = vendorId.startsWith("0x") ? vendorId.mid(2) : vendorId;
-        QString inputPid = productId.startsWith("0x") ? productId.mid(2) : productId;
-
-        if (deviceVid.compare(inputVid, Qt::CaseInsensitive) == 0 &&
-            devicePid.compare(inputPid, Qt::CaseInsensitive) == 0) {
-            return device.batteryStatus;
-        }
-    }
-    return "BATTERY_UNAVAILABLE";
 }

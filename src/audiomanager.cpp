@@ -970,32 +970,13 @@ void AudioWorker::enumerateDevices()
         }
     }
 
-    // Update cached devices
     m_devices = newDevices;
-
-    updateDevicesBatteryInfoFromCache();
-
     emit devicesChanged(newDevices);
 
     if (HeadsetControlManager::instance()->isMonitoring()) {
         QMetaObject::invokeMethod(HeadsetControlManager::instance(),
                                   "fetchHeadsetInfo",
                                   Qt::QueuedConnection);
-    }
-}
-
-void AudioWorker::updateDevicesBatteryInfoFromCache()
-{
-    for (AudioDevice& audioDevice : m_devices) {
-        if (!audioDevice.vendorId.isEmpty() && !audioDevice.productId.isEmpty()) {
-            int cachedLevel = HeadsetControlManager::instance()->getBatteryLevel(audioDevice.vendorId, audioDevice.productId);
-            QString cachedStatus = HeadsetControlManager::instance()->getBatteryStatus(audioDevice.vendorId, audioDevice.productId);
-
-            if (cachedLevel != -1) {
-                audioDevice.batteryPercentage = cachedLevel;
-                audioDevice.batteryStatus = cachedStatus;
-            }
-        }
     }
 }
 
