@@ -234,6 +234,7 @@ private:
     bool m_sessionManagerInvalid;
     bool ensureValidSessionManager();
     void updateDevicesBatteryInfo(const QList<HeadsetControlDevice>& headsetDevices);
+    void updateDevicesBatteryInfoFromCache();
 };
 
 // Device change notification callback

@@ -75,6 +75,8 @@ Item {
     function getBatteryIcon(batteryLevel) {
         let theme = darkMode ? "light" : "dark"
 
+        if (batteryLevel === -1) return ""
+
         // Map battery level to icon ranges
         let iconLevel
         if (batteryLevel >= 80) {

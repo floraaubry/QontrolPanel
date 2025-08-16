@@ -97,7 +97,7 @@ void HeadsetControlManager::fetchHeadsetInfo()
     }
 
     if (m_process && m_process->state() != QProcess::NotRunning) {
-        qDebug() << "HeadsetControl process already running, skipping fetch";
+        qWarning() << "HeadsetControl process already running, skipping fetch";
         return;
     }
 

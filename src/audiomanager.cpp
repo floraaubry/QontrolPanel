@@ -610,12 +610,7 @@ void AudioWorker::onHeadsetDataUpdated(const QList<HeadsetControlDevice>& headse
 void AudioWorker::updateDevicesBatteryInfo(const QList<HeadsetControlDevice>& headsetDevices)
 {
     for (AudioDevice& audioDevice : m_devices) {
-        // Reset battery info
-        int oldBatteryLevel = audioDevice.batteryPercentage;
-        QString oldBatteryStatus = audioDevice.batteryStatus;
-
-        audioDevice.batteryPercentage = -1;
-        audioDevice.batteryStatus = "BATTERY_UNAVAILABLE";
+        bool foundMatch = false;
 
         // Find matching headset by VID/PID
         for (const HeadsetControlDevice& headsetDevice : headsetDevices) {
@@ -629,8 +624,15 @@ void AudioWorker::updateDevicesBatteryInfo(const QList<HeadsetControlDevice>& he
 
                 audioDevice.batteryPercentage = headsetDevice.batteryLevel;
                 audioDevice.batteryStatus = headsetDevice.batteryStatus;
+                foundMatch = true;
                 break;
             }
+        }
+
+        // Only reset battery info if no match was found AND it previously had battery info
+        if (!foundMatch && audioDevice.batteryPercentage != -1) {
+            audioDevice.batteryPercentage = -1;
+            audioDevice.batteryStatus = "BATTERY_UNAVAILABLE";
         }
     }
 }
@@ -971,7 +973,30 @@ void AudioWorker::enumerateDevices()
     // Update cached devices
     m_devices = newDevices;
 
+    updateDevicesBatteryInfoFromCache();
+
     emit devicesChanged(newDevices);
+
+    if (HeadsetControlManager::instance()->isMonitoring()) {
+        QMetaObject::invokeMethod(HeadsetControlManager::instance(),
+                                  "fetchHeadsetInfo",
+                                  Qt::QueuedConnection);
+    }
+}
+
+void AudioWorker::updateDevicesBatteryInfoFromCache()
+{
+    for (AudioDevice& audioDevice : m_devices) {
+        if (!audioDevice.vendorId.isEmpty() && !audioDevice.productId.isEmpty()) {
+            int cachedLevel = HeadsetControlManager::instance()->getBatteryLevel(audioDevice.vendorId, audioDevice.productId);
+            QString cachedStatus = HeadsetControlManager::instance()->getBatteryStatus(audioDevice.vendorId, audioDevice.productId);
+
+            if (cachedLevel != -1) {
+                audioDevice.batteryPercentage = cachedLevel;
+                audioDevice.batteryStatus = cachedStatus;
+            }
+        }
+    }
 }
 
 AudioDevice AudioWorker::createAudioDeviceFromInterface(IMMDevice* device, EDataFlow dataFlow)
