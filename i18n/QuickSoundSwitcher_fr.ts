@@ -525,24 +525,28 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
 <context>
     <name>HeadsetControlPane</name>
     <message>
-        <source>Headset lights</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Control integrated RGB lighting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sidetone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>No compatible device found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>HeadsetControl monitoring is disabled
 You can enable it in the General tab.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Headset Lighting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle RGB lights on your headset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Microphone Sidetone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust your voice feedback level</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
