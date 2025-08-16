@@ -1949,12 +1949,43 @@ QString AudioBridge::getDisplayIconForDevice(const QString& deviceName, bool isI
         return QString("qrc:/icons/devices/%1.png").arg(customIcon);
     }
 
-    // Return default icon based on device type
-    if (isInput) {
-        return "qrc:/icons/devices/microphone.png";
-    } else {
-        return "qrc:/icons/devices/speaker.png";
+    // Get device description for better matching
+    QString deviceDescription;
+
+    // Search in both input and output models
+    for (FilteredDeviceModel* model : {m_inputDeviceModel, m_outputDeviceModel}) {
+        for (int i = 0; i < model->rowCount(); ++i) {
+            QModelIndex index = model->index(i, 0);
+            QString modelDeviceName = model->data(index, FilteredDeviceModel::NameRole).toString();
+            if (modelDeviceName.compare(deviceName, Qt::CaseInsensitive) == 0) {
+                deviceDescription = model->data(index, FilteredDeviceModel::DescriptionRole).toString();
+                break;
+            }
+        }
+        if (!deviceDescription.isEmpty()) break;
     }
+
+    // Use description for icon matching
+    QString searchText = deviceDescription.toLower();
+
+    // Return icon based on description keywords
+    QString iconName;
+    if (searchText.contains("headset") && searchText.contains("microphone")) {
+        iconName = "headset-mic";
+    } else if (searchText.contains("headset")) {
+        iconName = "headset";
+    } else if (searchText.contains("headset") && searchText.contains("earphone")) {
+        iconName = "headset-mic";
+    } else if (searchText.contains("microphone")) {
+        iconName = "microphone";
+    } else if (searchText.contains("speaker")) {
+        iconName = "speaker";
+    } else {
+        // Fallback to original logic if no description match
+        iconName = isInput ? "microphone" : "speaker";
+    }
+
+    return QString("qrc:/icons/devices/%1.png").arg(iconName);
 }
 
 bool AudioBridge::isApplicationMutedInBackground(const QString& executableName) const
