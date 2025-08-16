@@ -95,19 +95,37 @@ Rectangle {
             required property int index
 
             highlighted: model.isDefault
-
-            // Add icon display
             icon.source: UserSettings.deviceIcon ? AudioBridge.getDisplayIconForDevice(model.name || "", model.isInput || false) : ""
             icon.width: 14
             icon.height: 14
             spacing: 6
-
             text: AudioBridge.getDisplayNameForDevice(model.name || "")
+            rightPadding: batteryImage.visible ? (batteryImage.width + 30) : 15
+
+            Image {
+                id: batteryImage
+                anchors.right: del.right
+                anchors.verticalCenter: del.verticalCenter
+                anchors.rightMargin: 15
+
+                property int batteryLevel: del.model.batteryPercentage
+                property string batteryStatus: del.model.batteryStatus
+
+                visible: UserSettings.headsetcontrolMonitoring && batteryLevel !== -1 && batteryStatus !== "BATTERY_UNAVAILABLE"
+                sourceSize.height: 16
+                sourceSize.width: 16
+                source: {
+                    if (batteryStatus === "BATTERY_CHARGING") {
+                        return Constants.getBatteryChargingIcon()
+                    } else {
+                        return Constants.getBatteryIcon(batteryLevel)
+                    }
+                }
+            }
 
             MouseArea {
                 anchors.fill: parent
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
-
                 onClicked: function(mouse) {
                     if (mouse.button === Qt.LeftButton) {
                         root.deviceClicked(del.model.name, del.index)

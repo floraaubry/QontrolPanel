@@ -36,4 +36,5 @@ Settings {
     property int iconStyle: 0
 
     property bool autoFetchForAppUpdates: false
+    property bool headsetcontrolMonitoring: true
 }

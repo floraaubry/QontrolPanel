@@ -73,6 +73,10 @@ QVariant AudioDeviceModel::data(const QModelIndex &index, int role) const
         return device.vendorId;
     case ProductIdRole:
         return device.productId;
+    case BatteryPercentageRole:
+        return device.batteryPercentage;
+    case BatteryStatusRole:
+        return device.batteryStatus;
     default:
         return QVariant();
     }
@@ -90,6 +94,8 @@ QHash<int, QByteArray> AudioDeviceModel::roleNames() const
     roles[StateRole] = "state";
     roles[VendorIdRole] = "vendorId";
     roles[ProductIdRole] = "productId";
+    roles[BatteryPercentageRole] = "batteryPercentage";
+    roles[BatteryStatusRole] = "batteryStatus";
     return roles;
 }
 
@@ -441,6 +447,9 @@ AudioWorker::AudioWorker()
     qRegisterMetaType<QList<AudioApplication>>("QList<AudioApplication>");
     qRegisterMetaType<AudioDevice>("AudioDevice");
     qRegisterMetaType<QList<AudioDevice>>("QList<AudioDevice>");
+
+    connect(HeadsetControlManager::instance(), &HeadsetControlManager::headsetDataUpdated,
+            this, &AudioWorker::onHeadsetDataUpdated);
 }
 
 AudioWorker::~AudioWorker()
@@ -587,6 +596,43 @@ void AudioWorker::cleanup()
     }
 
     CoUninitialize();
+}
+
+// In AudioWorker class - add this slot implementation
+void AudioWorker::onHeadsetDataUpdated(const QList<HeadsetControlDevice>& headsetDevices)
+{
+    updateDevicesBatteryInfo(headsetDevices);
+
+    // Re-emit devices with updated battery info
+    emit devicesChanged(m_devices);
+}
+
+void AudioWorker::updateDevicesBatteryInfo(const QList<HeadsetControlDevice>& headsetDevices)
+{
+    for (AudioDevice& audioDevice : m_devices) {
+        // Reset battery info
+        int oldBatteryLevel = audioDevice.batteryPercentage;
+        QString oldBatteryStatus = audioDevice.batteryStatus;
+
+        audioDevice.batteryPercentage = -1;
+        audioDevice.batteryStatus = "BATTERY_UNAVAILABLE";
+
+        // Find matching headset by VID/PID
+        for (const HeadsetControlDevice& headsetDevice : headsetDevices) {
+            QString deviceVid = headsetDevice.vendorId.startsWith("0x") ? headsetDevice.vendorId.mid(2) : headsetDevice.vendorId;
+            QString devicePid = headsetDevice.productId.startsWith("0x") ? headsetDevice.productId.mid(2) : headsetDevice.productId;
+            QString audioVid = audioDevice.vendorId.startsWith("0x") ? audioDevice.vendorId.mid(2) : audioDevice.vendorId;
+            QString audioPid = audioDevice.productId.startsWith("0x") ? audioDevice.productId.mid(2) : audioDevice.productId;
+
+            if (deviceVid.compare(audioVid, Qt::CaseInsensitive) == 0 &&
+                devicePid.compare(audioPid, Qt::CaseInsensitive) == 0) {
+
+                audioDevice.batteryPercentage = headsetDevice.batteryLevel;
+                audioDevice.batteryStatus = headsetDevice.batteryStatus;
+                break;
+            }
+        }
+    }
 }
 
 bool AudioWorker::hasProcessId(DWORD processId)
@@ -1002,7 +1048,6 @@ AudioDevice AudioWorker::createAudioDeviceFromInterface(IMMDevice* device, EData
                             if (match.hasMatch()) {
                                 audioDevice.vendorId = match.captured(1);
                                 audioDevice.productId = match.captured(2);
-                                qDebug() << audioDevice.vendorId << ":" << audioDevice.productId;
                                 break;
                             }
                         }

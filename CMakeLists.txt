@@ -146,6 +146,8 @@ qt_add_qml_module(QuickSoundSwitcher
     URI Odizinne.QuickSoundSwitcher
     VERSION 1.0
     QML_FILES ${QML_FILES} ${QML_SINGLETONS}
+    SOURCES include/headsetcontrolmanager.h src/headsetcontrolmanager.cpp
+    SOURCES include/headsetcontrolbridge.h src/headsetcontrolbridge.cpp
 )
 
 target_include_directories(QuickSoundSwitcher PRIVATE

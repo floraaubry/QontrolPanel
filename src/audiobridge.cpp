@@ -157,6 +157,10 @@ QVariant FilteredDeviceModel::data(const QModelIndex &index, int role) const
         return device.vendorId;
     case ProductIdRole:
         return device.productId;
+    case BatteryPercentageRole:
+        return device.batteryPercentage;
+    case BatteryStatusRole:
+        return device.batteryStatus;
     default:
         return QVariant();
     }
@@ -173,6 +177,8 @@ QHash<int, QByteArray> FilteredDeviceModel::roleNames() const
     roles[StateRole] = "state";
     roles[VendorIdRole] = "vendorId";
     roles[ProductIdRole] = "productId";
+    roles[BatteryPercentageRole] = "batteryPercentage";
+    roles[BatteryStatusRole] = "batteryStatus";
     return roles;
 }
 
@@ -2035,4 +2041,50 @@ void AudioBridge::onApplicationFocusChanged(const QString& executableName, bool 
             }
         }
     }
+}
+
+AudioDevice AudioBridge::getCurrentOutputDevice() const
+{
+    if (!m_isReady || !m_outputDeviceModel) {
+        return AudioDevice();
+    }
+
+    int defaultIndex = m_outputDeviceModel->getCurrentDefaultIndex();
+    if (defaultIndex < 0) {
+        return AudioDevice();
+    }
+
+    QModelIndex modelIndex = m_outputDeviceModel->index(defaultIndex, 0);
+    AudioDevice device;
+    device.id = m_outputDeviceModel->data(modelIndex, FilteredDeviceModel::IdRole).toString();
+    device.name = m_outputDeviceModel->data(modelIndex, FilteredDeviceModel::NameRole).toString();
+    device.vendorId = m_outputDeviceModel->data(modelIndex, FilteredDeviceModel::VendorIdRole).toString();
+    device.productId = m_outputDeviceModel->data(modelIndex, FilteredDeviceModel::ProductIdRole).toString();
+    device.isDefault = true;
+    device.isInput = false;
+
+    return device;
+}
+
+AudioDevice AudioBridge::getCurrentInputDevice() const
+{
+    if (!m_isReady || !m_inputDeviceModel) {
+        return AudioDevice();
+    }
+
+    int defaultIndex = m_inputDeviceModel->getCurrentDefaultIndex();
+    if (defaultIndex < 0) {
+        return AudioDevice();
+    }
+
+    QModelIndex modelIndex = m_inputDeviceModel->index(defaultIndex, 0);
+    AudioDevice device;
+    device.id = m_inputDeviceModel->data(modelIndex, FilteredDeviceModel::IdRole).toString();
+    device.name = m_inputDeviceModel->data(modelIndex, FilteredDeviceModel::NameRole).toString();
+    device.vendorId = m_inputDeviceModel->data(modelIndex, FilteredDeviceModel::VendorIdRole).toString();
+    device.productId = m_inputDeviceModel->data(modelIndex, FilteredDeviceModel::ProductIdRole).toString();
+    device.isDefault = true;
+    device.isInput = true;
+
+    return device;
 }

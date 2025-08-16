@@ -47,5 +47,25 @@
         <file>devices/gamepad.png</file>
         <file>donate.svg</file>
         <file>update.svg</file>
+        <file>headsetcontrol/battery-020-dark.png</file>
+        <file>headsetcontrol/battery-020-light.png</file>
+        <file>headsetcontrol/battery-040-dark.png</file>
+        <file>headsetcontrol/battery-040-light.png</file>
+        <file>headsetcontrol/battery-060-dark.png</file>
+        <file>headsetcontrol/battery-060-light.png</file>
+        <file>headsetcontrol/battery-080-dark.png</file>
+        <file>headsetcontrol/battery-080-light.png</file>
+        <file>headsetcontrol/battery-100-charging-dark.png</file>
+        <file>headsetcontrol/battery-100-charging-light.png</file>
+        <file>headsetcontrol/battery-100-dark.png</file>
+        <file>headsetcontrol/battery-100-light.png</file>
+        <file>headsetcontrol/battery-20-charging-dark.png</file>
+        <file>headsetcontrol/battery-20-charging-light.png</file>
+        <file>headsetcontrol/battery-40-charging-dark.png</file>
+        <file>headsetcontrol/battery-40-charging-light.png</file>
+        <file>headsetcontrol/battery-60-charging-dark.png</file>
+        <file>headsetcontrol/battery-60-charging-light.png</file>
+        <file>headsetcontrol/battery-80-charging-dark.png</file>
+        <file>headsetcontrol/battery-80-charging-light.png</file>
     </qresource>
 </RCC>

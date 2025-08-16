@@ -489,6 +489,14 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>Control multiple stream comming from a single app with one slider</source>
         <translation type="vanished">하나의 슬라이더로 하나의 앱에서 들어오는 여러 스트림을 제어합니다</translation>
     </message>
+    <message>
+        <source>HeadsetControl Integration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Monitor battery using HeadsetControl for supported devices</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IntroWindow</name>

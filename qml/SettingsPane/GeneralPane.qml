@@ -65,6 +65,20 @@ ColumnLayout {
                     onClicked: UserSettings.closeDeviceListOnClick = checked
                 }
             }
+
+            Card {
+                Layout.fillWidth: true
+                title: qsTr("HeadsetControl Integration")
+                description: qsTr("Monitor battery using HeadsetControl for supported devices")
+
+                additionalControl: Switch {
+                    checked: UserSettings.headsetcontrolMonitoring
+                    onClicked: {
+                        UserSettings.headsetcontrolMonitoring = checked
+                        HeadsetControlBridge.setMonitoringEnabled(checked)
+                    }
+                }
+            }
         }
     }
 }

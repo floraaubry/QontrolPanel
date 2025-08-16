@@ -448,6 +448,14 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>Device list will automatically close after selecting a device</source>
         <translation></translation>
     </message>
+    <message>
+        <source>HeadsetControl Integration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Monitor battery using HeadsetControl for supported devices</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IntroWindow</name>
@@ -550,52 +558,52 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
 <context>
     <name>Main</name>
     <message>
-        <source>System sounds</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>ChatMix</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Rename Application</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Reset to Original Name</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Original name: </source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Custom name:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Mute in Background</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Update Available</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Version %1 is available for download</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System sounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ChatMix</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Update available</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to Original Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute in Background</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Original name: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

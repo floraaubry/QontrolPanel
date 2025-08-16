@@ -11,6 +11,7 @@
 #include <endpointvolume.h>
 #include <audiopolicy.h>
 #include "policyconfig.h"
+#include "headsetcontrolmanager.h"
 
 // Forward declarations
 class AudioWorker;
@@ -32,17 +33,22 @@ struct AudioApplication {
 };
 
 struct AudioDevice {
-    QString id;                  // Device ID
-    QString name;                // Friendly name
-    QString description;         // Device description
-    bool isDefault;              // Is default device
-    bool isDefaultCommunication; // Is default communication device
-    bool isInput;                // true for input, false for output
-    QString state;               // Active, Disabled, etc.
+    QString id;
+    QString name;
+    QString description;
+    QString shortName;
+    bool isDefault;
+    bool isDefaultCommunication;
+    bool isInput;
+    QString state;
     QString vendorId;            // USB VID
     QString productId;           // USB PID
+    int batteryPercentage;       // Battery level 0-100, -1 if not available
+    QString batteryStatus;       // "BATTERY_AVAILABLE", "BATTERY_CHARGING", "BATTERY_UNAVAILABLE"
 
-    AudioDevice() : isDefault(false), isDefaultCommunication(false), isInput(false) {}
+    AudioDevice() : isDefault(false), isDefaultCommunication(false), isInput(false),
+        batteryPercentage(-1), batteryStatus("BATTERY_UNAVAILABLE") {}
+
     bool operator==(const AudioDevice& other) const {
         return id == other.id;
     }
@@ -65,7 +71,9 @@ public:
         IsInputRole,
         StateRole,
         VendorIdRole,
-        ProductIdRole
+        ProductIdRole,
+        BatteryPercentageRole,
+        BatteryStatusRole
     };
     Q_ENUM(DeviceRoles)
 
@@ -159,6 +167,7 @@ private slots:
     void initializeAudioLevelTimer();
     void startApplicationAudioLevelMonitoring();
     void stopApplicationAudioLevelMonitoring();
+    void onHeadsetDataUpdated(const QList<HeadsetControlDevice>& headsetDevices);
 
 private:
     // COM objects
@@ -224,6 +233,7 @@ private:
 
     bool m_sessionManagerInvalid;
     bool ensureValidSessionManager();
+    void updateDevicesBatteryInfo(const QList<HeadsetControlDevice>& headsetDevices);
 };
 
 // Device change notification callback

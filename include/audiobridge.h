@@ -66,7 +66,9 @@ public:
         IsDefaultCommunicationRole,
         StateRole,
         VendorIdRole,
-        ProductIdRole
+        ProductIdRole,
+        BatteryPercentageRole,
+        BatteryStatusRole
     };
     Q_ENUM(DeviceRoles)
 
@@ -279,7 +281,6 @@ public:
     Q_INVOKABLE bool isApplicationMutedInBackground(const QString& executableName) const;
     Q_INVOKABLE void setApplicationMutedInBackground(const QString& executableName, bool muted);
 
-
 signals:
     void outputVolumeChanged();
     void inputVolumeChanged();
@@ -422,4 +423,7 @@ private:
 
     WindowFocusManager* m_windowFocusManager;
     QMap<QString, bool> m_originalMuteStates;
+
+    AudioDevice getCurrentOutputDevice() const;
+    AudioDevice getCurrentInputDevice() const;
 };

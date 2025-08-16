@@ -476,6 +476,14 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>Device list will automatically close after selecting a device</source>
         <translation>L&apos;elenco dei dispositivi si chiuderà automaticamente dopo aver selezionato un dispositivo</translation>
     </message>
+    <message>
+        <source>HeadsetControl Integration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Monitor battery using HeadsetControl for supported devices</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IntroWindow</name>
@@ -606,10 +614,6 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <translation type="unfinished">ChatMix</translation>
     </message>
     <message>
-        <source>Rename Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Reset to Original Name</source>
         <translation type="unfinished">Ripristina nome originale</translation>
     </message>
@@ -630,10 +634,6 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <translation type="unfinished">Salva</translation>
     </message>
     <message>
-        <source>Mute in Background</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Update Available</source>
         <translation type="unfinished"></translation>
     </message>
@@ -643,6 +643,14 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Update available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute in Background</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

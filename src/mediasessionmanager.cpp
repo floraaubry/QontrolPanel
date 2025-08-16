@@ -168,7 +168,6 @@ void MediaWorker::setupSessionNotifications() {
                 QMetaObject::invokeMethod(this, "queryMediaInfo", Qt::QueuedConnection);
             });
 
-        qDebug() << "Session notifications registered successfully";
     } catch (...) {
         qDebug() << "Failed to register session notifications";
     }

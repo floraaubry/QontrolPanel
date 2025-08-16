@@ -13,6 +13,39 @@ Item {
     property color separatorColor: darkMode ? "#E3E3E3" : "#A0A0A0"
     property string systemIcon: darkMode ? "qrc:/icons/system_light.png" : "qrc:/icons/system_dark.png"
 
+    // Battery charging animation timer
+    property int chargingAnimationFrame: 20
+
+    Timer {
+        id: chargingTimer
+        interval: 1000
+        repeat: true
+        running: true
+
+        onTriggered: {
+            switch (parent.chargingAnimationFrame) {
+            case 20:
+                parent.chargingAnimationFrame = 40
+                break
+            case 40:
+                parent.chargingAnimationFrame = 60
+                break
+            case 60:
+                parent.chargingAnimationFrame = 80
+                break
+            case 80:
+                parent.chargingAnimationFrame = 100
+                break
+            case 100:
+                parent.chargingAnimationFrame = 20
+                break
+            default:
+                parent.chargingAnimationFrame = 20
+                break
+            }
+        }
+    }
+
     function getTrayIcon(volume, muted) {
         let theme
         if (UserSettings.trayIconTheme === 1) {
@@ -35,8 +68,37 @@ Item {
         } else {
             volumeLevel = "33"
         }
-
         let filledSuffix = UserSettings.iconStyle === 1 ? "_filled" : ""
         return `qrc:/icons/tray_${theme}_${volumeLevel}${filledSuffix}.png`
+    }
+
+    function getBatteryIcon(batteryLevel) {
+        let theme = darkMode ? "light" : "dark"
+
+        // Map battery level to icon ranges
+        let iconLevel
+        if (batteryLevel >= 80) {
+            iconLevel = "100"
+        } else if (batteryLevel >= 60) {
+            iconLevel = "080"
+        } else if (batteryLevel >= 40) {
+            iconLevel = "060"
+        } else if (batteryLevel >= 20) {
+            iconLevel = "040"
+        } else {
+            iconLevel = "020"
+        }
+
+        return `qrc:/icons/headsetcontrol/battery-${iconLevel}-${theme}.png`
+    }
+
+    function getBatteryChargingIcon() {
+        let theme = darkMode ? "light" : "dark"
+
+        if (!chargingTimer.running) {
+            chargingTimer.start()
+        }
+
+        return `qrc:/icons/headsetcontrol/battery-${chargingAnimationFrame}-charging-${theme}.png`
     }
 }

@@ -500,6 +500,14 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>Control multiple stream comming from a single app with one slider</source>
         <translation type="vanished">通过单一滑动条来控制多个 Stream 通信</translation>
     </message>
+    <message>
+        <source>HeadsetControl Integration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Monitor battery using HeadsetControl for supported devices</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IntroWindow</name>
@@ -622,12 +630,28 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
 <context>
     <name>Main</name>
     <message>
+        <source>ChatMix</source>
+        <translation type="unfinished">ChatMix</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <source>Update Available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version %1 is available for download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>System sounds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ChatMix</source>
-        <translation type="unfinished">ChatMix</translation>
+        <source>Update available</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rename Application</source>
@@ -635,6 +659,10 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Reset to Original Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute in Background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -646,27 +674,7 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
-    </message>
-    <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mute in Background</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Update Available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Version %1 is available for download</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Update available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

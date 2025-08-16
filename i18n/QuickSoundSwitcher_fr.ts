@@ -513,6 +513,14 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
         <source>Control multiple stream comming from a single app with one slider</source>
         <translation type="vanished">Contrôlez plusieurs flux provenant d’une seule application en meme temps</translation>
     </message>
+    <message>
+        <source>HeadsetControl Integration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Monitor battery using HeadsetControl for supported devices</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IntroWindow</name>
@@ -647,10 +655,6 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
         <translation>Sons système</translation>
     </message>
     <message>
-        <source>ChatMix</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Rename Application</source>
         <translation>Renommer</translation>
     </message>
@@ -689,6 +693,10 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
     <message>
         <source>Update available</source>
         <translation>Mise à jour disponnible</translation>
+    </message>
+    <message>
+        <source>ChatMix</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
