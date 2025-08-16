@@ -127,6 +127,10 @@
         <source>Filled</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Battery</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ApplicationsListView</name>

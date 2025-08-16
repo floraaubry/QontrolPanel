@@ -157,7 +157,7 @@ ColumnLayout {
                 additionalControl: ComboBox {
                     Layout.preferredHeight: 35
                     Layout.preferredWidth: 160
-                    model: [qsTr("Normal"), qsTr("Filled")]
+                    model: [qsTr("Normal"), qsTr("Filled"), qsTr("Battery")]
                     currentIndex: UserSettings.iconStyle
                     onActivated: UserSettings.iconStyle = currentIndex
                 }

@@ -163,6 +163,10 @@
         <source>Filled</source>
         <translation>Remplie</translation>
     </message>
+    <message>
+        <source>Battery</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ApplicationsListView</name>
