@@ -244,32 +244,36 @@ ApplicationWindow {
 
         isAnimatingIn = true
         panel.taskbarPos = SoundPanelBridge.taskbarPosition
-
-        let newHeight = mainLayout.implicitHeight + 30
-        if (mediaLayout.visible) {
-            newHeight += mediaLayout.implicitHeight
-        }
-        if (spacer.visible) {
-            newHeight += spacer.height
-        }
-        newHeight += panel.maxDeviceListSpace
-        let appListView = 0
-        for (let i = 0; i < appRepeater.count; ++i) {
-            let item = appRepeater.itemAt(i)
-            if (item && item.hasOwnProperty('applicationListHeight')) {
-                appListView += item.applicationListHeight || 0
-            }
-        }
-        newHeight += appListView
-        newHeight += UserSettings.yAxisMargin
-        panel.height = newHeight
-
         panel.visible = true
 
         positionPanelAtTarget()
         setInitialTransform()
 
-        Qt.callLater(panel.startAnimation)
+        Qt.callLater(function() {
+            Qt.callLater(function() {
+                let newHeight = mainLayout.implicitHeight + 30
+                if (mediaLayout.visible) {
+                    newHeight += mediaLayout.implicitHeight
+                }
+                if (spacer.visible) {
+                    newHeight += spacer.height
+                }
+                newHeight += panel.maxDeviceListSpace
+                let appListView = 0
+                for (let i = 0; i < appRepeater.count; ++i) {
+                    let item = appRepeater.itemAt(i)
+                    if (item && item.hasOwnProperty('applicationListHeight')) {
+                        appListView += item.applicationListHeight || 0
+                    }
+                }
+                newHeight += appListView
+                newHeight += UserSettings.yAxisMargin
+
+                panel.height = newHeight
+
+                Qt.callLater(panel.startAnimation)
+            })
+        })
     }
 
     function positionPanelAtTarget() {

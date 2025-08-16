@@ -3,6 +3,7 @@
 #include <QProcess>
 #include <QLocalSocket>
 #include <QLocalServer>
+#include <QLoggingCategory>
 
 bool tryConnectToExistingInstance()
 {
@@ -21,6 +22,7 @@ bool tryConnectToExistingInstance()
 
 int main(int argc, char *argv[])
 {
+    QLoggingCategory::setFilterRules("qt.multimedia.*=false");
     QApplication a(argc, argv);
     a.setQuitOnLastWindowClosed(false);
     a.setOrganizationName("Odizinne");

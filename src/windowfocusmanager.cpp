@@ -47,7 +47,6 @@ void WindowFocusManager::startMonitoring()
 
     if (m_winEventHook) {
         m_isMonitoring = true;
-        qDebug() << "Window focus monitoring started";
     } else {
         qDebug() << "Failed to start window focus monitoring";
     }

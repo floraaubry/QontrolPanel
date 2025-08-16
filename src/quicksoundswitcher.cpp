@@ -344,8 +344,6 @@ void QuickSoundSwitcher::setupLocalServer()
 
     connect(localServer, &QLocalServer::newConnection,
             this, &QuickSoundSwitcher::onNewConnection);
-
-    qDebug() << "Local server started successfully";
 }
 
 void QuickSoundSwitcher::cleanupLocalServer()

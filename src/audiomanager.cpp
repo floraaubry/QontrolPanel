@@ -746,7 +746,6 @@ void AudioWorker::setupSessionNotifications()
     hr = m_sessionManager->RegisterSessionNotification(m_sessionNotificationClient);
     if (SUCCEEDED(hr)) {
         m_sessionManagerInvalid = false; // Clear the invalid flag on successful setup
-        qDebug() << "Session notifications re-established successfully";
     } else {
         qDebug() << "ERROR: Failed to register session notifications, HRESULT:" << QString::number(hr, 16);
         m_sessionNotificationClient->Release();

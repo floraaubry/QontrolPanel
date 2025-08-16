@@ -499,8 +499,6 @@ void SoundPanelBridge::loadTranslationProgressData()
 
     m_translationProgress = doc.object();
     emit translationProgressDataLoaded();
-
-    qDebug() << "Loaded translation progress data for" << m_translationProgress.size() << "languages";
 }
 
 void SoundPanelBridge::downloadTranslationProgressFile()
