@@ -1,12 +1,10 @@
-#include "headsetcontrolmanager.h"
+#include "headsetcontrolmonitor.h"
 #include <QDebug>
 #include <QStandardPaths>
 #include <QCoreApplication>
 #include <QDir>
 
-HeadsetControlManager* HeadsetControlManager::m_instance = nullptr;
-
-HeadsetControlManager::HeadsetControlManager(QObject *parent)
+HeadsetControlMonitor::HeadsetControlMonitor(QObject *parent)
     : QObject(parent)
     , m_fetchTimer(new QTimer(this))
     , m_process(nullptr)
@@ -19,55 +17,22 @@ HeadsetControlManager::HeadsetControlManager(QObject *parent)
     , m_batteryLevel(0)
     , m_anyDeviceFound(false)
 {
-    m_instance = this;
-
     m_fetchTimer->setInterval(FETCH_INTERVAL_MS);
     m_fetchTimer->setSingleShot(false);
 
-    connect(m_fetchTimer, &QTimer::timeout, this, &HeadsetControlManager::fetchHeadsetInfo);
+    connect(m_fetchTimer, &QTimer::timeout, this, &HeadsetControlMonitor::fetchHeadsetInfo);
 
     if (m_settings.value("headsetcontrolMonitoring", false).toBool()) {
         startMonitoring();
     }
 }
 
-HeadsetControlManager::~HeadsetControlManager()
+HeadsetControlMonitor::~HeadsetControlMonitor()
 {
     stopMonitoring();
-    if (m_instance == this) {
-        m_instance = nullptr;
-    }
 }
 
-HeadsetControlManager* HeadsetControlManager::instance()
-{
-    if (!m_instance) {
-        m_instance = new HeadsetControlManager();
-    }
-    return m_instance;
-}
-
-HeadsetControlManager* HeadsetControlManager::create(QQmlEngine* qmlEngine, QJSEngine* jsEngine)
-{
-    Q_UNUSED(qmlEngine);
-    Q_UNUSED(jsEngine);
-
-    if (!m_instance) {
-        m_instance = new HeadsetControlManager();
-    }
-    return m_instance;
-}
-
-void HeadsetControlManager::setMonitoringEnabled(bool enabled)
-{
-    if (enabled) {
-        startMonitoring();
-    } else {
-        stopMonitoring();
-    }
-}
-
-void HeadsetControlManager::startMonitoring()
+void HeadsetControlMonitor::startMonitoring()
 {
     if (m_isMonitoring) {
         return;
@@ -75,13 +40,13 @@ void HeadsetControlManager::startMonitoring()
 
     m_isMonitoring = true;
 
-    fetchHeadsetInfo();
     m_fetchTimer->start();
+    fetchHeadsetInfo();
 
     emit monitoringStateChanged(true);
 }
 
-void HeadsetControlManager::stopMonitoring()
+void HeadsetControlMonitor::stopMonitoring()
 {
     if (!m_isMonitoring) {
         return;
@@ -116,12 +81,12 @@ void HeadsetControlManager::stopMonitoring()
     emit monitoringStateChanged(false);
 }
 
-bool HeadsetControlManager::isMonitoring() const
+bool HeadsetControlMonitor::isMonitoring() const
 {
     return m_isMonitoring;
 }
 
-void HeadsetControlManager::setLights(bool enabled)
+void HeadsetControlMonitor::setLights(bool enabled)
 {
     if (!m_hasLightsCapability) {
         qWarning() << "Device does not support lights capability";
@@ -133,7 +98,7 @@ void HeadsetControlManager::setLights(bool enabled)
     executeHeadsetControlCommand(arguments);
 }
 
-void HeadsetControlManager::setSidetone(int value)
+void HeadsetControlMonitor::setSidetone(int value)
 {
     if (!m_hasSidetoneCapability) {
         qWarning() << "Device does not support sidetone capability";
@@ -147,7 +112,7 @@ void HeadsetControlManager::setSidetone(int value)
     executeHeadsetControlCommand(arguments);
 }
 
-void HeadsetControlManager::executeHeadsetControlCommand(const QStringList& arguments)
+void HeadsetControlMonitor::executeHeadsetControlCommand(const QStringList& arguments)
 {
     QString executablePath = getExecutablePath();
     if (!QFile::exists(executablePath)) {
@@ -177,7 +142,7 @@ void HeadsetControlManager::executeHeadsetControlCommand(const QStringList& argu
     }
 }
 
-void HeadsetControlManager::fetchHeadsetInfo()
+void HeadsetControlMonitor::fetchHeadsetInfo()
 {
     // Early return if monitoring is stopped
     if (!m_isMonitoring) {
@@ -198,7 +163,7 @@ void HeadsetControlManager::fetchHeadsetInfo()
     m_process = new QProcess(this);
 
     connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            this, &HeadsetControlManager::onProcessFinished);
+            this, &HeadsetControlMonitor::onProcessFinished);
 
     QStringList arguments;
     arguments << "-o" << "JSON";
@@ -212,7 +177,7 @@ void HeadsetControlManager::fetchHeadsetInfo()
     }
 }
 
-void HeadsetControlManager::onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus)
+void HeadsetControlMonitor::onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
     if (!m_process) {
         return;
@@ -263,7 +228,7 @@ void HeadsetControlManager::onProcessFinished(int exitCode, QProcess::ExitStatus
     m_process = nullptr;
 }
 
-void HeadsetControlManager::parseHeadsetControlOutput(const QByteArray& output)
+void HeadsetControlMonitor::parseHeadsetControlOutput(const QByteArray& output)
 {
     QJsonParseError error;
     QJsonDocument doc = QJsonDocument::fromJson(output, &error);
@@ -335,7 +300,7 @@ void HeadsetControlManager::parseHeadsetControlOutput(const QByteArray& output)
     emit headsetDataUpdated(m_cachedDevices);
 }
 
-void HeadsetControlManager::updateCapabilities()
+void HeadsetControlMonitor::updateCapabilities()
 {
     bool newSidetoneCapability = false;
     bool newLightsCapability = false;
@@ -378,7 +343,7 @@ void HeadsetControlManager::updateCapabilities()
     }
 }
 
-QString HeadsetControlManager::getExecutablePath() const
+QString HeadsetControlMonitor::getExecutablePath() const
 {
     return QCoreApplication::applicationDirPath() + "/dependencies/headsetcontrol.exe";
 }

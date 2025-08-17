@@ -11,7 +11,7 @@
 #include <endpointvolume.h>
 #include <audiopolicy.h>
 #include "policyconfig.h"
-#include "headsetcontrolmanager.h"
+#include "headsetcontrolmonitor.h"
 #include "bluetoothbatterymonitor.h"
 // Forward declarations
 class AudioWorker;
@@ -119,6 +119,7 @@ public:
     }
 
     bool hasProcessId(DWORD processId);
+    HeadsetControlMonitor* getHeadsetControlMonitor() const { return m_headsetControlMonitor; }
 
 public slots:
     void initialize();
@@ -239,6 +240,7 @@ private:
     void updateDevicesBatteryInfoFromCache();
 
     BluetoothBatteryMonitor* m_bluetoothBatteryMonitor;
+    HeadsetControlMonitor* m_headsetControlMonitor;
     void updateDevicesWithBluetoothBattery(const BluetoothDeviceBattery& bluetoothDevice);
     void updateAudioDeviceBatteryFromBluetooth(AudioDevice& audioDevice, const BluetoothDeviceBattery& bluetoothDevice);
     QString normalizeBluetoothAddress(const QString& address);

@@ -9,10 +9,10 @@ ColumnLayout {
     spacing: 3
 
     Label {
-        text: HeadsetControlManager.deviceName
+        text: HeadsetControlBridge.deviceName
         font.pixelSize: 22
         font.bold: true
-        visible: HeadsetControlManager.anyDeviceFound
+        visible: HeadsetControlBridge.anyDeviceFound
     }
 
     ProgressBar {
@@ -20,9 +20,9 @@ ColumnLayout {
         Layout.fillWidth: true
         from: 0
         to: 100
-        value: HeadsetControlManager.batteryLevel
-        indeterminate: HeadsetControlManager.batteryStatus === "BATTERY_CHARGING"
-        visible: HeadsetControlManager.batteryStatus !== "BATTERY_UNAVAILABLE" && HeadsetControlManager.anyDeviceFound
+        value: HeadsetControlBridge.batteryLevel
+        indeterminate: HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING"
+        visible: HeadsetControlBridge.batteryStatus !== "BATTERY_UNAVAILABLE" && HeadsetControlBridge.anyDeviceFound
     }
 
     Item {
@@ -36,8 +36,8 @@ ColumnLayout {
                 spacing: 3
 
                 Card {
-                    visible: HeadsetControlManager.anyDeviceFound
-                    enabled: HeadsetControlManager.hasLightsCapability
+                    visible: HeadsetControlBridge.anyDeviceFound
+                    enabled: HeadsetControlBridge.hasLightsCapability
                     Layout.fillWidth: true
                     title: qsTr("Headset Lighting")
                     description: qsTr("Toggle RGB lights on your headset")
@@ -46,14 +46,14 @@ ColumnLayout {
                         checked: UserSettings.headsetcontrolLights
                         onClicked:{
                             UserSettings.headsetcontrolLights = checked
-                            HeadsetControlManager.setLights(checked)
+                            HeadsetControlBridge.setLights(checked)
                         }
                     }
                 }
 
                 Card {
-                    visible: HeadsetControlManager.anyDeviceFound
-                    enabled: HeadsetControlManager.hasSidetoneCapability
+                    visible: HeadsetControlBridge.anyDeviceFound
+                    enabled: HeadsetControlBridge.hasSidetoneCapability
                     Layout.fillWidth: true
                     title: qsTr("Microphone Sidetone")
                     description: qsTr("Adjust your voice feedback level")
@@ -64,7 +64,7 @@ ColumnLayout {
                         onPressedChanged: {
                             if (!pressed) {
                                 UserSettings.headsetcontrolSidetone = Math.round(value)
-                                HeadsetControlManager.setSidetone(Math.round(value))
+                                HeadsetControlBridge.setSidetone(Math.round(value))
                             }
                         }
                     }
@@ -76,7 +76,7 @@ ColumnLayout {
             anchors.centerIn: parent
             opacity: 0.5
             text: UserSettings.headsetcontrolMonitoring ? qsTr("No compatible device found.") : qsTr("HeadsetControl monitoring is disabled\nYou can enable it in the General tab.")
-            visible: !HeadsetControlManager.anyDeviceFound || !UserSettings.headsetcontrolMonitoring
+            visible: !HeadsetControlBridge.anyDeviceFound || !UserSettings.headsetcontrolMonitoring
             horizontalAlignment: Text.AlignHCenter
         }
     }

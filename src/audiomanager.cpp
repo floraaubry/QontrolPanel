@@ -443,18 +443,20 @@ AudioWorker::AudioWorker()
     , m_audioLevelTimer(nullptr)
     , m_sessionManagerInvalid(false)
     , m_bluetoothBatteryMonitor(nullptr)
+    , m_headsetControlMonitor(nullptr)
 {
     qRegisterMetaType<AudioApplication>("AudioApplication");
     qRegisterMetaType<QList<AudioApplication>>("QList<AudioApplication>");
     qRegisterMetaType<AudioDevice>("AudioDevice");
     qRegisterMetaType<QList<AudioDevice>>("QList<AudioDevice>");
 
-    connect(HeadsetControlManager::instance(), &HeadsetControlManager::headsetDataUpdated,
-            this, &AudioWorker::onHeadsetDataUpdated);
-
     m_bluetoothBatteryMonitor = BluetoothBatteryMonitor::instance();
     connect(m_bluetoothBatteryMonitor, &BluetoothBatteryMonitor::deviceBatteryUpdated,
             this, &AudioWorker::onBluetoothDeviceBatteryUpdated);
+
+    m_headsetControlMonitor = new HeadsetControlMonitor(this);
+    connect(m_headsetControlMonitor, &HeadsetControlMonitor::headsetDataUpdated,
+            this, &AudioWorker::onHeadsetDataUpdated);
 
     m_bluetoothBatteryMonitor->startMonitoring();
 }
@@ -1067,22 +1069,18 @@ void AudioWorker::enumerateDevices()
 
     updateDevicesBatteryInfoFromCache();
 
-    HeadsetControlManager* headsetManager = HeadsetControlManager::instance();
-
-    // Only use cached devices and fetch new info if monitoring is active
-    if (headsetManager->isMonitoring()) {
-        QList<HeadsetControlDevice> cachedDevices = headsetManager->getCachedDevices();
+    if (m_headsetControlMonitor && m_headsetControlMonitor->isMonitoring()) {
+        QList<HeadsetControlDevice> cachedDevices = m_headsetControlMonitor->getCachedDevices();
         if (!cachedDevices.isEmpty()) {
             updateDevicesBatteryInfo(cachedDevices);
         }
-
-        // Fetch fresh headset info
-        QMetaObject::invokeMethod(headsetManager,
+        // Trigger a fresh fetch
+        QMetaObject::invokeMethod(m_headsetControlMonitor,
                                   "fetchHeadsetInfo",
                                   Qt::QueuedConnection);
-    } else {
+    } else if (m_headsetControlMonitor) {
         // If monitoring is stopped, clear any headset battery info
-        updateDevicesBatteryInfo(QList<HeadsetControlDevice>()); // Empty list
+        updateDevicesBatteryInfo(QList<HeadsetControlDevice>());
     }
 
     emit devicesChanged(m_devices);

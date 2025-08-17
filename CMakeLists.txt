@@ -34,8 +34,9 @@ set(SOURCES
     src/mediasessionmanager.cpp
     src/windowfocusmanager.cpp
     src/updater.cpp
-    src/headsetcontrolmanager.cpp
+    src/headsetcontrolmonitor.cpp
     src/bluetoothbatterymonitor.cpp
+    src/headsetcontrolbridge.cpp
 )
 
 set(HEADERS
@@ -48,8 +49,9 @@ set(HEADERS
     include/mediasessionmanager.h
     include/windowfocusmanager.h
     include/updater.h
-    include/headsetcontrolmanager.h
+    include/headsetcontrolmonitor.h
     include/bluetoothbatterymonitor.h
+    include/headsetcontrolbridge.h
 )
 
 # Get git commit hash

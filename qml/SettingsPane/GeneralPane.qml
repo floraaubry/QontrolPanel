@@ -75,7 +75,7 @@ ColumnLayout {
                     checked: UserSettings.headsetcontrolMonitoring
                     onClicked: {
                         UserSettings.headsetcontrolMonitoring = checked
-                        HeadsetControlManager.setMonitoringEnabled(checked)
+                        HeadsetControlBridge.setMonitoringEnabled(checked)
                     }
                 }
             }

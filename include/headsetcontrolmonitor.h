@@ -6,8 +6,6 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QSettings>
-#include <QQmlEngine>
-#include <QtQml/qqmlregistration.h>
 
 struct HeadsetControlDevice {
     QString deviceName;
@@ -22,34 +20,15 @@ struct HeadsetControlDevice {
 };
 Q_DECLARE_METATYPE(HeadsetControlDevice)
 
-class HeadsetControlManager : public QObject
+class HeadsetControlMonitor : public QObject
 {
     Q_OBJECT
-    QML_ELEMENT
-    QML_SINGLETON
-
-    Q_PROPERTY(bool hasSidetoneCapability READ hasSidetoneCapability NOTIFY capabilitiesChanged)
-    Q_PROPERTY(bool hasLightsCapability READ hasLightsCapability NOTIFY capabilitiesChanged)
-    Q_PROPERTY(QString deviceName READ deviceName NOTIFY deviceNameChanged)
-    Q_PROPERTY(QString batteryStatus READ batteryStatus NOTIFY batteryStatusChanged)
-    Q_PROPERTY(int batteryLevel READ batteryLevel NOTIFY batteryLevelChanged)
-    Q_PROPERTY(bool anyDeviceFound READ anyDeviceFound NOTIFY anyDeviceFoundChanged)
 
 public:
-    explicit HeadsetControlManager(QObject *parent = nullptr);
-    ~HeadsetControlManager();
+    explicit HeadsetControlMonitor(QObject *parent = nullptr);
+    ~HeadsetControlMonitor();
 
-    static HeadsetControlManager* instance();
-    static HeadsetControlManager* create(QQmlEngine* qmlEngine, QJSEngine* jsEngine);
-
-    void startMonitoring();
-    void stopMonitoring();
     bool isMonitoring() const;
-
-    Q_INVOKABLE void setMonitoringEnabled(bool enabled);
-    Q_INVOKABLE void setLights(bool enabled);
-    Q_INVOKABLE void setSidetone(int value);
-
     QList<HeadsetControlDevice> getCachedDevices() const { return m_cachedDevices; }
 
     bool hasSidetoneCapability() const { return m_hasSidetoneCapability; }
@@ -58,6 +37,12 @@ public:
     QString batteryStatus() const { return m_batteryStatus; }
     int batteryLevel() const { return m_batteryLevel; }
     bool anyDeviceFound() const { return m_anyDeviceFound; }
+
+public slots:
+    void startMonitoring();
+    void stopMonitoring();
+    void setLights(bool enabled);
+    void setSidetone(int value);
 
 signals:
     void headsetDataUpdated(const QList<HeadsetControlDevice>& devices);
@@ -78,7 +63,6 @@ private:
     void updateCapabilities();
     void executeHeadsetControlCommand(const QStringList& arguments);
 
-    static HeadsetControlManager* m_instance;
     QTimer* m_fetchTimer;
     QProcess* m_process;
     QSettings m_settings;
