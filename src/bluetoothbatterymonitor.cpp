@@ -3,21 +3,15 @@
 #include <QDateTime>
 #include <QMutexLocker>
 #include <QRegularExpression>
-#include <QFile>
-#include <QDir>
-#include <QProcess>
+#include <QSettings>
 
 // Include WinRT headers only in the implementation file, with proper order
 #include <windows.h>
 #include <setupapi.h>
-#include <batclass.h>
-#include <poclass.h>
-#include <wbemidl.h>
-#include <comdef.h>
 #include <wrl/wrappers/corewrappers.h>
 #include <wrl/client.h>
 #include <cfgmgr32.h>
-#pragma comment(lib, "cfgmgr32.lib")
+
 // Include WinRT headers after traditional Windows headers
 #include <winrt/base.h>
 #include <winrt/Windows.Foundation.h>
@@ -30,25 +24,8 @@
 #include <winrt/Windows.Networking.Sockets.h>
 #include <winrt/Windows.Devices.Bluetooth.Rfcomm.h>
 
-
 #pragma comment(lib, "setupapi.lib")
-#pragma comment(lib, "wbemuuid.lib")
-
-DEFINE_GUID(GUID_DEVCLASS_BATTERY, 0x72631e54L, 0x78a4, 0x11d0, 0xbc, 0xf7, 0x00, 0xaa, 0x00, 0xb7, 0xb3, 0x2a);
-
-// Battery IOCTLs
-#ifndef IOCTL_BATTERY_QUERY_INFORMATION
-#define IOCTL_BATTERY_QUERY_INFORMATION CTL_CODE(FILE_DEVICE_BATTERY, 0x0, METHOD_BUFFERED, FILE_READ_ACCESS)
-#endif
-
-#ifndef IOCTL_BATTERY_QUERY_STATUS
-#define IOCTL_BATTERY_QUERY_STATUS CTL_CODE(FILE_DEVICE_BATTERY, 0x1, METHOD_BUFFERED, FILE_READ_ACCESS)
-#endif
-
-// Don't use 'using namespace' - instead use full qualified names to avoid conflicts
-// using namespace winrt;  // Remove this
-// using namespace Windows::Foundation;  // Remove this
-// etc...
+#pragma comment(lib, "cfgmgr32.lib")
 
 BluetoothBatteryMonitor* BluetoothBatteryMonitor::m_instance = nullptr;
 
@@ -63,6 +40,7 @@ BluetoothBatteryWorker::BluetoothBatteryWorker()
     , m_deviceAddedToken(nullptr)
     , m_deviceRemovedToken(nullptr)
     , m_deviceUpdatedToken(nullptr)
+    , m_settings("Odizinne", "QuickSoundSwitcher")
 {
     m_scanTimer = new QTimer(this);
     m_batteryUpdateTimer = new QTimer(this);
@@ -73,6 +51,10 @@ BluetoothBatteryWorker::BluetoothBatteryWorker()
     m_scanTimer->setSingleShot(false);
     m_batteryUpdateTimer->setSingleShot(false);
 
+    // Load cached devices from settings
+    loadCachedDevices();
+
+    // Cache device instance IDs on startup
     cacheDeviceInstanceIds();
 }
 
@@ -80,6 +62,60 @@ BluetoothBatteryWorker::~BluetoothBatteryWorker()
 {
     stopMonitoring();
     cleanupBluetoothWatcher();
+}
+
+void BluetoothBatteryWorker::loadCachedDevices()
+{
+    QMutexLocker locker(&m_devicesMutex);
+
+    int size = m_settings.beginReadArray("bluetoothDevices");
+    for (int i = 0; i < size; ++i) {
+        m_settings.setArrayIndex(i);
+
+        BluetoothDeviceBattery device;
+        device.deviceId = m_settings.value("deviceId").toString();
+        device.deviceName = m_settings.value("deviceName").toString();
+        device.macAddress = m_settings.value("macAddress").toString();
+        device.vendorId = m_settings.value("vendorId").toString();
+        device.productId = m_settings.value("productId").toString();
+        device.isConnected = m_settings.value("isConnected", false).toBool();
+        device.hasBatteryInfo = m_settings.value("hasBatteryInfo", false).toBool();
+        device.batteryLevel = m_settings.value("batteryLevel", -1).toInt();
+        device.batteryStatus = m_settings.value("batteryStatus", "UNAVAILABLE").toString();
+        device.deviceType = m_settings.value("deviceType", "Unknown").toString();
+        device.lastUpdated = m_settings.value("lastUpdated", 0).toLongLong();
+
+        if (!device.deviceId.isEmpty() && !device.macAddress.isEmpty()) {
+            m_devices[device.deviceId] = device;
+            m_macToDeviceId[device.macAddress] = device.deviceId;
+        }
+    }
+    m_settings.endArray();
+}
+
+void BluetoothBatteryWorker::saveCachedDevices()
+{
+    QMutexLocker locker(&m_devicesMutex);
+
+    m_settings.beginWriteArray("bluetoothDevices");
+    int index = 0;
+    for (auto it = m_devices.begin(); it != m_devices.end(); ++it) {
+        const BluetoothDeviceBattery& device = it.value();
+
+        m_settings.setArrayIndex(index++);
+        m_settings.setValue("deviceId", device.deviceId);
+        m_settings.setValue("deviceName", device.deviceName);
+        m_settings.setValue("macAddress", device.macAddress);
+        m_settings.setValue("vendorId", device.vendorId);
+        m_settings.setValue("productId", device.productId);
+        m_settings.setValue("isConnected", device.isConnected);
+        m_settings.setValue("hasBatteryInfo", device.hasBatteryInfo);
+        m_settings.setValue("batteryLevel", device.batteryLevel);
+        m_settings.setValue("batteryStatus", device.batteryStatus);
+        m_settings.setValue("deviceType", device.deviceType);
+        m_settings.setValue("lastUpdated", device.lastUpdated);
+    }
+    m_settings.endArray();
 }
 
 void BluetoothBatteryWorker::startMonitoring()
@@ -98,14 +134,24 @@ void BluetoothBatteryWorker::startMonitoring()
 
         m_isMonitoring = true;
 
+        // Emit cached devices immediately for instant UI population
+        {
+            QMutexLocker locker(&m_devicesMutex);
+            QList<BluetoothDeviceBattery> cachedDevicesList;
+            for (const auto& device : m_devices) {
+                cachedDevicesList.append(device);
+            }
+            if (!cachedDevicesList.isEmpty()) {
+                emit devicesUpdated(cachedDevicesList);
+            }
+        }
+
         // Start timers
         m_scanTimer->start(SCAN_INTERVAL_MS);
         m_batteryUpdateTimer->start(BATTERY_UPDATE_INTERVAL_MS);
 
-        // Initial scan
+        // Initial scan to update current state
         scanForDevices();
-
-        qDebug() << "BluetoothBatteryMonitor: Started monitoring";
     }
     catch (const std::exception& e) {
         qWarning() << "BluetoothBatteryMonitor: Failed to start monitoring:" << e.what();
@@ -125,6 +171,9 @@ void BluetoothBatteryWorker::stopMonitoring()
 
     m_scanTimer->stop();
     m_batteryUpdateTimer->stop();
+
+    // Save current device state to cache
+    saveCachedDevices();
 }
 
 void BluetoothBatteryWorker::initializeBluetoothWatcher()
@@ -132,7 +181,6 @@ void BluetoothBatteryWorker::initializeBluetoothWatcher()
     try {
         // For now, we'll use a simpler approach without device watcher
         // to avoid the complex event handler setup that might cause header conflicts
-        qDebug() << "BluetoothBatteryMonitor: Initialized (using polling mode)";
     }
     catch (const std::exception& e) {
         qWarning() << "BluetoothBatteryMonitor: Failed to initialize:" << e.what();
@@ -154,17 +202,13 @@ QString BluetoothBatteryWorker::extractMacAddressFromDeviceId(const QString& dev
     // "Bluetooth#Bluetooth{host_mac}-{device_mac}"
     // We want the device MAC (after the dash), not the host MAC
 
-    qDebug() << "BluetoothBatteryMonitor: Extracting MAC from device ID:" << deviceId;
-
     // Look for the pattern after the dash
     QRegularExpression deviceMacRegex(R"(-([0-9A-Fa-f]{2}[:-][0-9A-Fa-f]{2}[:-][0-9A-Fa-f]{2}[:-][0-9A-Fa-f]{2}[:-][0-9A-Fa-f]{2}[:-][0-9A-Fa-f]{2}))");
     QRegularExpressionMatch match = deviceMacRegex.match(deviceId);
 
     if (match.hasMatch()) {
         QString macStr = match.captured(1); // Get the MAC after the dash
-        QString normalized = normalizeBluetoothAddress(macStr);
-        qDebug() << "BluetoothBatteryMonitor: Extracted device MAC address:" << normalized;
-        return normalized;
+        return normalizeBluetoothAddress(macStr);
     }
 
     // Fallback: look for any MAC pattern
@@ -179,9 +223,7 @@ QString BluetoothBatteryWorker::extractMacAddressFromDeviceId(const QString& dev
     }
 
     if (!lastMac.isEmpty()) {
-        QString normalized = normalizeBluetoothAddress(lastMac);
-        qDebug() << "BluetoothBatteryMonitor: Extracted MAC address (fallback):" << normalized;
-        return normalized;
+        return normalizeBluetoothAddress(lastMac);
     }
 
     qWarning() << "BluetoothBatteryMonitor: Could not extract MAC address from device ID:" << deviceId;
@@ -220,6 +262,7 @@ void BluetoothBatteryWorker::scanForDevices()
         auto deviceInfoCollection = winrt::Windows::Devices::Enumeration::DeviceInformation::FindAllAsync(deviceSelector).get();
 
         QList<BluetoothDeviceBattery> currentDevices;
+        bool hasUpdates = false;
 
         for (auto const& deviceInfo : deviceInfoCollection) {
             QString deviceId = QString::fromWCharArray(deviceInfo.Id().c_str());
@@ -235,6 +278,16 @@ void BluetoothBatteryWorker::scanForDevices()
             }
 
             BluetoothDeviceBattery batteryInfo;
+
+            // Check if we have cached data for this device
+            {
+                QMutexLocker locker(&m_devicesMutex);
+                if (m_devices.contains(deviceId)) {
+                    batteryInfo = m_devices[deviceId];
+                }
+            }
+
+            // Update basic info from current scan
             batteryInfo.deviceId = deviceId;
             batteryInfo.deviceName = deviceName;
             batteryInfo.macAddress = macAddress;
@@ -243,7 +296,7 @@ void BluetoothBatteryWorker::scanForDevices()
             batteryInfo.isConnected = deviceInfo.IsEnabled();
             batteryInfo.lastUpdated = QDateTime::currentMSecsSinceEpoch();
 
-            // Try to get more detailed device info
+            // Try to get more detailed device info and battery level
             readDeviceBatteryLevel(deviceId);
 
             bool isNewDevice = false;
@@ -251,16 +304,19 @@ void BluetoothBatteryWorker::scanForDevices()
                 QMutexLocker locker(&m_devicesMutex);
                 if (!m_devices.contains(deviceId)) {
                     isNewDevice = true;
+                    hasUpdates = true;
                 }
+                // Always update the device info
                 m_devices[deviceId] = batteryInfo;
                 m_macToDeviceId[macAddress] = deviceId;
             }
 
             currentDevices.append(batteryInfo);
+        }
 
-            if (isNewDevice) {
-                qDebug() << "BluetoothBatteryMonitor: Found device:" << deviceName << "MAC:" << macAddress;
-            }
+        // Save updated cache to settings
+        if (hasUpdates) {
+            saveCachedDevices();
         }
 
         emit devicesUpdated(currentDevices);
@@ -323,16 +379,7 @@ void BluetoothBatteryWorker::readDeviceBatteryLevel(const QString& deviceId)
 
         // Only check battery if device is connected
         if (batteryInfo.isConnected) {
-            qDebug() << "BluetoothBatteryMonitor: Checking battery for connected device:" << batteryInfo.deviceName;
-
-            // Use efficient WinRT enumeration to find battery info
-            if (findBatteryInfoEfficiently(batteryInfo)) {
-                qDebug() << "BluetoothBatteryMonitor: Found battery level:" << batteryInfo.batteryLevel << "% for" << batteryInfo.deviceName;
-            } else {
-                qDebug() << "BluetoothBatteryMonitor: No battery info available for" << batteryInfo.deviceName;
-            }
-        } else {
-            qDebug() << "BluetoothBatteryMonitor: Device not connected:" << batteryInfo.deviceName;
+            findBatteryInfoEfficiently(batteryInfo);
         }
 
         // Update cache and emit signal
@@ -341,6 +388,9 @@ void BluetoothBatteryWorker::readDeviceBatteryLevel(const QString& deviceId)
             m_devices[deviceId] = batteryInfo;
             m_macToDeviceId[batteryInfo.macAddress] = deviceId;
         }
+
+        // Save to persistent cache after battery update
+        saveCachedDevices();
 
         emit deviceBatteryChanged(batteryInfo);
     }
@@ -352,11 +402,8 @@ void BluetoothBatteryWorker::readDeviceBatteryLevel(const QString& deviceId)
 bool BluetoothBatteryWorker::findBatteryInfoEfficiently(BluetoothDeviceBattery& batteryInfo)
 {
     try {
-        qDebug() << "BluetoothBatteryMonitor: Looking for HSP/HFP device for A2DP device:" << batteryInfo.deviceName;
-
         // Extract MAC address from the main device MAC
         QString targetMacFormatted = batteryInfo.macAddress.replace(":", "").toUpper();
-        qDebug() << "BluetoothBatteryMonitor: Target MAC:" << targetMacFormatted;
 
         // Search for HSP/HFP Audio Gateway device with the same MAC
         QMutexLocker locker(&m_devicesMutex);
@@ -368,18 +415,13 @@ bool BluetoothBatteryWorker::findBatteryInfoEfficiently(BluetoothDeviceBattery& 
             if (cachedDeviceName.contains("Hands-Free Profile AudioGateway", Qt::CaseInsensitive) &&
                 instanceId.contains(targetMacFormatted, Qt::CaseInsensitive)) {
 
-                qDebug() << "BluetoothBatteryMonitor: Found matching HFP device:" << cachedDeviceName;
-                qDebug() << "BluetoothBatteryMonitor: Instance ID:" << instanceId;
-
                 if (getBatteryFromHfpDevice(instanceId, batteryInfo)) {
-                    qDebug() << "BluetoothBatteryMonitor: Successfully got battery from HFP device!";
                     return true;
                 }
             }
         }
         locker.unlock();
 
-        qDebug() << "BluetoothBatteryMonitor: No matching HFP device found for MAC:" << targetMacFormatted;
         return false;
     }
     catch (const std::exception& e) {
@@ -396,8 +438,6 @@ bool BluetoothBatteryWorker::findBatteryInfoEfficiently(BluetoothDeviceBattery& 
 bool BluetoothBatteryWorker::getBatteryFromHfpDevice(const QString& instanceId, BluetoothDeviceBattery& batteryInfo)
 {
     try {
-        qDebug() << "BluetoothBatteryMonitor: Getting battery from HFP device:" << instanceId;
-
         // Initialize COM
         HRESULT hr = CoInitializeEx(0, COINIT_MULTITHREADED);
         bool comInitialized = SUCCEEDED(hr);
@@ -409,7 +449,6 @@ bool BluetoothBatteryWorker::getBatteryFromHfpDevice(const QString& instanceId, 
         HDEVINFO deviceInfoSet = SetupDiGetClassDevs(nullptr, nullptr, nullptr, DIGCF_PRESENT | DIGCF_ALLCLASSES);
         if (deviceInfoSet == INVALID_HANDLE_VALUE) {
             if (comInitialized) CoUninitialize();
-            qDebug() << "BluetoothBatteryMonitor: Failed to get device info set";
             return false;
         }
 
@@ -424,8 +463,6 @@ bool BluetoothBatteryWorker::getBatteryFromHfpDevice(const QString& instanceId, 
                                            sizeof(currentInstanceId)/sizeof(WCHAR), nullptr)) {
 
                 if (wcscmp(currentInstanceId, instanceIdW.c_str()) == 0) {
-                    qDebug() << "BluetoothBatteryMonitor: Found matching device in SetupAPI";
-
                     // Try to get battery property using CM_Get_DevNode_Property
                     DEVPROPKEY batteryKey;
                     // {104EA319-6EE2-4701-BD47-8DDBF425BBE5} 2
@@ -452,8 +489,6 @@ bool BluetoothBatteryWorker::getBatteryFromHfpDevice(const QString& instanceId, 
                     if (cr == CR_SUCCESS && propertyType == DEVPROP_TYPE_BYTE && bufferSize > 0) {
                         int batteryLevel = static_cast<int>(buffer[0]);
 
-                        qDebug() << "BluetoothBatteryMonitor: Successfully read battery via SetupAPI:" << batteryLevel << "%";
-
                         if (batteryLevel >= 0 && batteryLevel <= 100) {
                             batteryInfo.hasBatteryInfo = true;
                             batteryInfo.batteryLevel = batteryLevel;
@@ -466,8 +501,6 @@ bool BluetoothBatteryWorker::getBatteryFromHfpDevice(const QString& instanceId, 
                             if (comInitialized) CoUninitialize();
                             return true;
                         }
-                    } else {
-                        qDebug() << "BluetoothBatteryMonitor: CM_Get_DevNode_Property failed, CR:" << cr << "Type:" << propertyType << "Size:" << bufferSize;
                     }
                     break;
                 }
@@ -477,7 +510,6 @@ bool BluetoothBatteryWorker::getBatteryFromHfpDevice(const QString& instanceId, 
         SetupDiDestroyDeviceInfoList(deviceInfoSet);
         if (comInitialized) CoUninitialize();
 
-        qDebug() << "BluetoothBatteryMonitor: Device not found or no battery property";
         return false;
     }
     catch (const std::exception& e) {
@@ -643,6 +675,9 @@ BluetoothBatteryMonitor::BluetoothBatteryMonitor(QObject *parent)
     connect(this, &BluetoothBatteryMonitor::destroyed, m_workerThread, &QThread::quit);
     connect(m_workerThread, &QThread::finished, m_worker, &BluetoothBatteryWorker::deleteLater);
 
+    // Load cached devices immediately for instant UI population
+    loadCachedDevicesFromWorker();
+
     m_workerThread->start();
 }
 
@@ -658,6 +693,42 @@ BluetoothBatteryMonitor::~BluetoothBatteryMonitor()
 
     if (m_instance == this) {
         m_instance = nullptr;
+    }
+}
+
+void BluetoothBatteryMonitor::loadCachedDevicesFromWorker()
+{
+    // Load cached devices from settings for instant UI population
+    QSettings settings("Odizinne", "QuickSoundSwitcher");
+
+    int size = settings.beginReadArray("bluetoothDevices");
+    QList<BluetoothDeviceBattery> cachedDevices;
+
+    for (int i = 0; i < size; ++i) {
+        settings.setArrayIndex(i);
+
+        BluetoothDeviceBattery device;
+        device.deviceId = settings.value("deviceId").toString();
+        device.deviceName = settings.value("deviceName").toString();
+        device.macAddress = settings.value("macAddress").toString();
+        device.vendorId = settings.value("vendorId").toString();
+        device.productId = settings.value("productId").toString();
+        device.isConnected = settings.value("isConnected", false).toBool();
+        device.hasBatteryInfo = settings.value("hasBatteryInfo", false).toBool();
+        device.batteryLevel = settings.value("batteryLevel", -1).toInt();
+        device.batteryStatus = settings.value("batteryStatus", "UNAVAILABLE").toString();
+        device.deviceType = settings.value("deviceType", "Unknown").toString();
+        device.lastUpdated = settings.value("lastUpdated", 0).toLongLong();
+
+        if (!device.deviceId.isEmpty() && !device.macAddress.isEmpty()) {
+            cachedDevices.append(device);
+        }
+    }
+    settings.endArray();
+
+    if (!cachedDevices.isEmpty()) {
+        m_devices = cachedDevices;
+        emit devicesChanged();
     }
 }
 

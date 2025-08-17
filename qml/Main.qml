@@ -840,7 +840,6 @@ ApplicationWindow {
                         Repeater {
                             id: appRepeater
                             model: AudioBridge.groupedApplications
-
                             delegate: ColumnLayout {
                                 id: appDelegateRoot
                                 spacing: 5

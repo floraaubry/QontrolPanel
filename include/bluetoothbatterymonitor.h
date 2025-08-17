@@ -7,6 +7,7 @@
 #include <QList>
 #include <QString>
 #include <QHash>
+#include <QSettings>
 #include <QQmlEngine>
 #include <QtQml/qqmlregistration.h>
 
@@ -80,6 +81,10 @@ private:
     void initializeBluetoothWatcher();
     void cleanupBluetoothWatcher();
 
+    // Caching methods
+    void loadCachedDevices();
+    void saveCachedDevices();
+
     // Device identification
     QString extractMacAddressFromDeviceId(const QString& deviceId);
     QString extractBluetoothVendorId(const QString& deviceId);
@@ -107,6 +112,7 @@ private:
     QHash<QString, BluetoothDeviceBattery> m_devices;     // Keyed by deviceId
     QHash<QString, QString> m_macToDeviceId;              // MAC address to device ID mapping
     QMutex m_devicesMutex;
+    QSettings m_settings;                                 // For persistent caching
 
     // WinRT objects - using void* to avoid header conflicts
     void* m_deviceWatcher;
@@ -163,6 +169,8 @@ private slots:
     void onWorkerDeviceBatteryChanged(const BluetoothDeviceBattery& device);
 
 private:
+    void loadCachedDevicesFromWorker();
+
     static BluetoothBatteryMonitor* m_instance;
 
     QThread* m_workerThread;

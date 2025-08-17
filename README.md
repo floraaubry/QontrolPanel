@@ -33,6 +33,7 @@ Use the provided installer or download the archive, extract it, and run `bin/Qui
 
 See [here](.github/BUILDING.md).
 
-## Resources
+## Credits
 - Used OCEAN sound effects from KDE
-- Used icons from FlatIcon
+- Used icons from FlatIcon and VeryIcon
+- [Sapd](https://github.com/sapd/) for HeadsetControl

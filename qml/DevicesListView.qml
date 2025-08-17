@@ -111,7 +111,7 @@ Rectangle {
                 property int batteryLevel: del.model.batteryPercentage
                 property string batteryStatus: del.model.batteryStatus
 
-                visible: UserSettings.headsetcontrolMonitoring && batteryLevel !== -1 && batteryStatus !== "BATTERY_UNAVAILABLE"
+                visible: batteryLevel !== -1 && batteryStatus !== "BATTERY_UNAVAILABLE"
                 sourceSize.height: 16
                 sourceSize.width: 16
                 source: {

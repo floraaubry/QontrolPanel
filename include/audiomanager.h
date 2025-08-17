@@ -241,9 +241,6 @@ private:
     BluetoothBatteryMonitor* m_bluetoothBatteryMonitor;
     void updateDevicesWithBluetoothBattery(const BluetoothDeviceBattery& bluetoothDevice);
     void updateAudioDeviceBatteryFromBluetooth(AudioDevice& audioDevice, const BluetoothDeviceBattery& bluetoothDevice);
-    bool isBluetoothAudioDeviceMatch(const AudioDevice& audioDevice, const BluetoothDeviceBattery& bluetoothDevice);
-    bool isBluetoothLikelyAudioDevice(const AudioDevice& audioDevice);
-    QStringList extractSignificantWords(const QString& text);
     QString normalizeBluetoothAddress(const QString& address);
     void updateAllBluetoothDeviceBatteries();
 };
