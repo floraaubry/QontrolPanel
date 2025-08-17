@@ -35,6 +35,7 @@ set(SOURCES
     src/windowfocusmanager.cpp
     src/updater.cpp
     src/headsetcontrolmanager.cpp
+    src/bluetoothbatterymonitor.cpp
 )
 
 set(HEADERS
@@ -48,6 +49,7 @@ set(HEADERS
     include/windowfocusmanager.h
     include/updater.h
     include/headsetcontrolmanager.h
+    include/bluetoothbatterymonitor.h
 )
 
 # Get git commit hash
