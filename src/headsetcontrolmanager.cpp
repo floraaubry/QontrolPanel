@@ -58,6 +58,15 @@ HeadsetControlManager* HeadsetControlManager::create(QQmlEngine* qmlEngine, QJSE
     return m_instance;
 }
 
+void HeadsetControlManager::setMonitoringEnabled(bool enabled)
+{
+    if (enabled) {
+        startMonitoring();
+    } else {
+        stopMonitoring();
+    }
+}
+
 void HeadsetControlManager::startMonitoring()
 {
     if (m_isMonitoring) {
@@ -102,6 +111,7 @@ void HeadsetControlManager::stopMonitoring()
     if (wasDeviceFound) {
         emit anyDeviceFoundChanged();
     }
+
     emit headsetDataUpdated(m_cachedDevices);
     emit monitoringStateChanged(false);
 }
@@ -109,15 +119,6 @@ void HeadsetControlManager::stopMonitoring()
 bool HeadsetControlManager::isMonitoring() const
 {
     return m_isMonitoring;
-}
-
-void HeadsetControlManager::setMonitoringEnabled(bool enabled)
-{
-    if (enabled) {
-        startMonitoring();
-    } else {
-        stopMonitoring();
-    }
 }
 
 void HeadsetControlManager::setLights(bool enabled)
@@ -178,10 +179,12 @@ void HeadsetControlManager::executeHeadsetControlCommand(const QStringList& argu
 
 void HeadsetControlManager::fetchHeadsetInfo()
 {
+    // Early return if monitoring is stopped
     if (!m_isMonitoring) {
         return;
     }
 
+    // Don't start new process if one is already running
     if (m_process && m_process->state() != QProcess::NotRunning) {
         return;
     }
@@ -215,10 +218,18 @@ void HeadsetControlManager::onProcessFinished(int exitCode, QProcess::ExitStatus
         return;
     }
 
+    // Ignore results if monitoring was stopped while process was running
+    if (!m_isMonitoring) {
+        m_process->deleteLater();
+        m_process = nullptr;
+        return;
+    }
+
     if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
         QByteArray output = m_process->readAllStandardOutput();
         parseHeadsetControlOutput(output);
     } else if (exitCode == 1) {
+        // No device found - clear cached data
         m_cachedDevices.clear();
         m_hasSidetoneCapability = false;
         m_hasLightsCapability = false;
@@ -244,6 +255,7 @@ void HeadsetControlManager::onProcessFinished(int exitCode, QProcess::ExitStatus
             qWarning() << "Error output:" << errorOutput;
         }
 
+        // Still emit current cached devices on error
         emit headsetDataUpdated(m_cachedDevices);
     }
 

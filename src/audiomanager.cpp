@@ -686,10 +686,12 @@ void AudioWorker::onHeadsetDataUpdated(const QList<HeadsetControlDevice>& headse
 
 void AudioWorker::updateDevicesBatteryInfo(const QList<HeadsetControlDevice>& headsetDevices)
 {
+
     for (AudioDevice& audioDevice : m_devices) {
         bool foundMatch = false;
+        bool hadHeadsetBattery = (audioDevice.batteryPercentage != -1 && audioDevice.macAddress.isEmpty());
 
-        // Find matching headset by VID/PID
+        // Find matching headset by VID/PID (only if we have devices to check)
         for (const HeadsetControlDevice& headsetDevice : headsetDevices) {
             QString deviceVid = headsetDevice.vendorId.startsWith("0x") ? headsetDevice.vendorId.mid(2) : headsetDevice.vendorId;
             QString devicePid = headsetDevice.productId.startsWith("0x") ? headsetDevice.productId.mid(2) : headsetDevice.productId;
@@ -699,6 +701,7 @@ void AudioWorker::updateDevicesBatteryInfo(const QList<HeadsetControlDevice>& he
             if (deviceVid.compare(audioVid, Qt::CaseInsensitive) == 0 &&
                 devicePid.compare(audioPid, Qt::CaseInsensitive) == 0) {
 
+                qDebug() << "Found HeadsetControl match for device:" << audioDevice.name << "Battery:" << headsetDevice.batteryLevel;
                 audioDevice.batteryPercentage = headsetDevice.batteryLevel;
                 audioDevice.batteryStatus = headsetDevice.batteryStatus;
                 foundMatch = true;
@@ -706,14 +709,14 @@ void AudioWorker::updateDevicesBatteryInfo(const QList<HeadsetControlDevice>& he
             }
         }
 
-        // Only reset battery info if no match was found AND it previously had battery info AND it's not a Bluetooth device
-        if (!foundMatch && audioDevice.batteryPercentage != -1 && audioDevice.macAddress.isEmpty()) {
+        // Reset battery info for non-Bluetooth devices that had HeadsetControl battery but no longer match
+        if (hadHeadsetBattery && !foundMatch) {
             audioDevice.batteryPercentage = -1;
             audioDevice.batteryStatus = "BATTERY_UNAVAILABLE";
         }
     }
 
-    // Update with current Bluetooth devices
+    // Update with current Bluetooth devices (this should preserve Bluetooth battery info)
     updateAllBluetoothDeviceBatteries();
 }
 
@@ -1065,18 +1068,24 @@ void AudioWorker::enumerateDevices()
     updateDevicesBatteryInfoFromCache();
 
     HeadsetControlManager* headsetManager = HeadsetControlManager::instance();
-    QList<HeadsetControlDevice> cachedDevices = headsetManager->getCachedDevices();
-    if (!cachedDevices.isEmpty()) {
-        updateDevicesBatteryInfo(cachedDevices);
-    }
 
-    emit devicesChanged(m_devices);
-
+    // Only use cached devices and fetch new info if monitoring is active
     if (headsetManager->isMonitoring()) {
+        QList<HeadsetControlDevice> cachedDevices = headsetManager->getCachedDevices();
+        if (!cachedDevices.isEmpty()) {
+            updateDevicesBatteryInfo(cachedDevices);
+        }
+
+        // Fetch fresh headset info
         QMetaObject::invokeMethod(headsetManager,
                                   "fetchHeadsetInfo",
                                   Qt::QueuedConnection);
+    } else {
+        // If monitoring is stopped, clear any headset battery info
+        updateDevicesBatteryInfo(QList<HeadsetControlDevice>()); // Empty list
     }
+
+    emit devicesChanged(m_devices);
 }
 
 AudioDevice AudioWorker::createAudioDeviceFromInterface(IMMDevice* device, EDataFlow dataFlow)
