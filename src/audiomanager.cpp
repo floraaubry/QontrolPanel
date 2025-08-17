@@ -702,8 +702,6 @@ void AudioWorker::updateDevicesBatteryInfo(const QList<HeadsetControlDevice>& he
 
             if (deviceVid.compare(audioVid, Qt::CaseInsensitive) == 0 &&
                 devicePid.compare(audioPid, Qt::CaseInsensitive) == 0) {
-
-                qDebug() << "Found HeadsetControl match for device:" << audioDevice.name << "Battery:" << headsetDevice.batteryLevel;
                 audioDevice.batteryPercentage = headsetDevice.batteryLevel;
                 audioDevice.batteryStatus = headsetDevice.batteryStatus;
                 foundMatch = true;
