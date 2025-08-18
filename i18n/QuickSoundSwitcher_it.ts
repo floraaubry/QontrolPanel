@@ -48,14 +48,6 @@
         <translation>Controlla margine asse Y del pannello</translation>
     </message>
     <message>
-        <source>Use short device names</source>
-        <translation type="vanished">Usa nome corto dispositivo</translation>
-    </message>
-    <message>
-        <source>Shorten device names by shrinking description</source>
-        <translation type="vanished">Accorcia nomi dispositivi riducendo la descrizione</translation>
-    </message>
-    <message>
         <source>Hidden</source>
         <translation>Nascosto</translation>
     </message>
@@ -88,60 +80,56 @@
         <translation>Visualizza livello audio nel cursore</translation>
     </message>
     <message>
-        <source>Windows taskbar size</source>
-        <translation type="vanished">Dimensione barra attività Windows</translation>
-    </message>
-    <message>
         <source>Opacity animations</source>
         <translation>Opacità animazione</translation>
     </message>
     <message>
         <source>Display device icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza icona dispositivo</translation>
     </message>
     <message>
         <source>Tray icon theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema icona barra sistema</translation>
     </message>
     <message>
         <source>Choose the appearance of the system tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Scegli l&apos;aspetto dell&apos;icona della barra sistema</translation>
     </message>
     <message>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatico</translation>
     </message>
     <message>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Scuro</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiaro</translation>
     </message>
     <message>
         <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensioni barra attività Windows (impostale solo se usando W11 la barra attività non è in basso nello schermo)</translation>
     </message>
     <message>
         <source>Choose the color of the system tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Scegli il colore dell&apos;icona della barra sistema</translation>
     </message>
     <message>
         <source>Tray icon style</source>
-        <translation type="unfinished"></translation>
+        <translation>Stile icona barra sistema</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normale</translation>
     </message>
     <message>
         <source>Filled</source>
-        <translation type="unfinished"></translation>
+        <translation>Riempito</translation>
     </message>
     <message>
         <source>Battery</source>
-        <translation type="unfinished"></translation>
+        <translation>Batteria</translation>
     </message>
 </context>
 <context>
@@ -152,7 +140,7 @@
     </message>
     <message>
         <source>Rename Application</source>
-        <translation>Rinomin applicazione</translation>
+        <translation>Rinomina applicazione</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
@@ -316,110 +304,103 @@
     </message>
     <message>
         <source>Application Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornamento applicazione</translation>
     </message>
     <message>
         <source>Version %1 is available</source>
-        <translation type="unfinished"></translation>
+        <translation>Disponibile versione %1</translation>
     </message>
     <message>
         <source>Checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>Controllo...</translation>
     </message>
     <message>
         <source>Downloading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Download...</translation>
     </message>
     <message>
         <source>Check for Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Controllo aggiornamenti</translation>
     </message>
     <message>
         <source>Download and Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Download ed installazione</translation>
     </message>
     <message>
         <source>Release notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Note rilascio</translation>
     </message>
     <message>
         <source>View what&apos;s new in version %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza novità versione %1</translation>
     </message>
     <message>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza</translation>
     </message>
     <message>
         <source>No release notes available</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessuna nota rilascio disponibile</translation>
     </message>
     <message>
         <source>Version %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione %1</translation>
     </message>
     <message>
         <source>Auto check for app updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlla automaticamente aggiornamenti app</translation>
     </message>
     <message>
         <source>Check for application updates at startup and every 4 hours</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlla aggiornamenti app all&apos;avvio ed ogni 4 ore</translation>
     </message>
 </context>
 <context>
     <name>DevicesListView</name>
     <message>
         <source>Rename Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina dispositivo</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation type="unfinished">Ripristina nome originale</translation>
-    </message>
-    <message>
-        <source>Original name: </source>
-        <translation type="obsolete">Nome originale: </translation>
-    </message>
-    <message>
-        <source>Custom name:</source>
-        <translation type="obsolete">Nome personalizzato:</translation>
+        <translation>Ripristina nome originale</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annulla</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Salva</translation>
+        <translation>Salva</translation>
     </message>
     <message>
         <source>Change Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica icona</translation>
     </message>
     <message>
         <source>Change Device Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica icona dispositivo</translation>
     </message>
 </context>
 <context>
     <name>DonatePopup</name>
     <message>
         <source>Found this app useful?</source>
-        <translation type="unfinished"></translation>
+        <translation>Hai trovato questa app utile?</translation>
     </message>
     <message>
         <source>This app is made with care by an independent developer and is not financed by ad revenue.
 If you&apos;d like to support my work, any contribution would be greatly appreciated!</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa app è fatta con cura da uno sviluppatore indipendente e non è finanziata dalle entrate pubblicitarie.
+Se vuoi supportare il mio lavoro, qualsiasi contributo sarebbe molto apprezzato!</translation>
     </message>
     <message>
         <source>Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporto</translation>
     </message>
     <message>
         <source>Maybe later</source>
-        <translation type="unfinished"></translation>
+        <translation>Più tardi</translation>
     </message>
 </context>
 <context>
@@ -449,14 +430,6 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <translation>Solo dispositivi</translation>
     </message>
     <message>
-        <source>Link same input and output devices</source>
-        <translation type="vanished">Collegamento stesso dispositivo ingresso/uscita</translation>
-    </message>
-    <message>
-        <source>Try to match input / output from the same device</source>
-        <translation type="vanished">Prova ad abbinare input/output dallo stesso dispositivo</translation>
-    </message>
-    <message>
         <source>Sound keepalive</source>
         <translation>Mantieni attivo suono</translation>
     </message>
@@ -482,86 +455,67 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>HeadsetControl Integration</source>
-        <translation type="unfinished"></translation>
+        <translation>Integrazione controllo cuffie</translation>
     </message>
     <message>
         <source>Monitor battery using HeadsetControl for supported devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Monitora la batteria usando il controllo cuffie per dispositivi supportati</translation>
     </message>
 </context>
 <context>
     <name>HeadsetControlPane</name>
     <message>
         <source>No compatible device found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun dispositivo compatibile trovato.</translation>
     </message>
     <message>
         <source>HeadsetControl monitoring is disabled
 You can enable it in the General tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il monitoraggio del controllo cuffie è disabilitato
+Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Headset Lighting</source>
-        <translation type="unfinished"></translation>
+        <translation>Illuminazione auricolare</translation>
     </message>
     <message>
         <source>Toggle RGB lights on your headset</source>
-        <translation type="unfinished"></translation>
+        <translation>Attiva luci RGB dell&apos;auricolare</translation>
     </message>
     <message>
         <source>Microphone Sidetone</source>
-        <translation type="unfinished"></translation>
+        <translation>Sidetone microfono</translation>
     </message>
     <message>
         <source>Adjust your voice feedback level</source>
-        <translation type="unfinished"></translation>
+        <translation>Regola il livello di feedback vocale</translation>
     </message>
 </context>
 <context>
     <name>IntroWindow</name>
     <message>
-        <source>Output: </source>
-        <translation type="obsolete">Output: </translation>
-    </message>
-    <message>
-        <source>Input: </source>
-        <translation type="obsolete">Ingresso: </translation>
-    </message>
-    <message>
-        <source>Windows sound settings (Legacy)</source>
-        <translation type="obsolete">Impostazioni audio Windows (legacy)</translation>
-    </message>
-    <message>
-        <source>Windows sound settings (Modern)</source>
-        <translation type="obsolete">Impostazioni audio Windows (moderne)</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="obsolete">Esci da QuickSoundSwitcher</translation>
-    </message>
-    <message>
         <source>Welcome to Quick Sound Switcher!</source>
-        <translation type="unfinished"></translation>
+        <translation>Benvenuto in Quick Sound Switcher!</translation>
     </message>
     <message>
         <source>Get Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniziamo</translation>
     </message>
     <message>
         <source>The tray icon is probably hidden and can be added to the tray area by dragging it as shown in the video below.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;icona nella barra sistema è probabilmente nascosta e può essere aggiunta all&apos;area della barra sistema trascinandola come mostrato nel video qui sotto.</translation>
     </message>
     <message>
         <source>You can then click on the tray icon to reveal the panel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per visualizzare il pannello puoi fare clic sull&apos;icona nella barra sistema.</translation>
     </message>
     <message>
         <source>Automatic application update fetching</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornamento automatico applicazione</translation>
     </message>
     <message>
         <source>Automatic translations update</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornamento automatico traduzioni</translation>
     </message>
 </context>
 <context>
@@ -624,66 +578,66 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Translation Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Stato traduzione</translation>
     </message>
     <message>
         <source>Current language completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Completamento attuale lingua</translation>
     </message>
     <message>
         <source>Fetch for new translation to get data</source>
-        <translation type="unfinished"></translation>
+        <translation>Scarica una nuova traduzione</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>System sounds</source>
-        <translation type="unfinished">Suoni sistema</translation>
+        <translation>Suoni sistema</translation>
     </message>
     <message>
         <source>ChatMix</source>
-        <translation type="unfinished">ChatMix</translation>
+        <translation>ChatMix</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation type="unfinished">Ripristina nome originale</translation>
+        <translation>Ripristina nome originale</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation type="unfinished">Nome originale: </translation>
+        <translation>Nome originale: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation type="unfinished">Nome personalizzato:</translation>
+        <translation>Nome personalizzato:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annulla</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Salva</translation>
+        <translation>Salva</translation>
     </message>
     <message>
         <source>Update Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Disponibile aggiornamento</translation>
     </message>
     <message>
         <source>Version %1 is available for download</source>
-        <translation type="unfinished"></translation>
+        <translation>È disponibile la versione %1</translation>
     </message>
     <message>
         <source>Update available</source>
-        <translation type="unfinished"></translation>
+        <translation>Disponibile aggiornamento</translation>
     </message>
     <message>
         <source>Rename Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina applicazione</translation>
     </message>
     <message>
         <source>Mute in Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio off in background</translation>
     </message>
 </context>
 <context>
@@ -728,16 +682,12 @@ You can enable it in the General tab.</source>
         <translation>Lingua interfaccia</translation>
     </message>
     <message>
-        <source>Debug</source>
-        <translation type="vanished">Debug</translation>
-    </message>
-    <message>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornamenti</translation>
     </message>
     <message>
         <source>HeadsetControl</source>
-        <translation type="unfinished"></translation>
+        <translation>Controllo cuffie</translation>
     </message>
 </context>
 <context>
@@ -800,41 +750,6 @@ You can enable it in the General tab.</source>
     </message>
 </context>
 <context>
-    <name>SoundPanel</name>
-    <message>
-        <source>ChatMix</source>
-        <translation type="vanished">ChatMix</translation>
-    </message>
-    <message>
-        <source>System sounds</source>
-        <translation type="vanished">Suoni sistema</translation>
-    </message>
-    <message>
-        <source>Rename Application</source>
-        <translation type="vanished">Rinomina applicazione</translation>
-    </message>
-    <message>
-        <source>Reset to Original Name</source>
-        <translation type="vanished">Ripristina nome originale</translation>
-    </message>
-    <message>
-        <source>Original name: </source>
-        <translation type="vanished">Nome originale: </translation>
-    </message>
-    <message>
-        <source>Custom name:</source>
-        <translation type="vanished">Nome personalizzato:</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">Annulla</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">Salva</translation>
-    </message>
-</context>
-<context>
     <name>SoundPanelBridge</name>
     <message>
         <source>No translation files to download</source>
@@ -864,14 +779,6 @@ You can enable it in the General tab.</source>
         <translation>Esci da QuickSoundSwitcher</translation>
     </message>
     <message>
-        <source>Quick Sound Switcher</source>
-        <translation type="vanished">Quick Sound Switcher</translation>
-    </message>
-    <message>
-        <source>Access sound panel from the system tray. This notification won&apos;t show again.</source>
-        <translation type="vanished">Accedi al pannello audio dalla barra di sistema. Questa notifica non verrà più visualizzata.</translation>
-    </message>
-    <message>
         <source>Windows sound settings (Legacy)</source>
         <translation>Impostazioni audio Windows (legacy)</translation>
     </message>
@@ -884,15 +791,15 @@ You can enable it in the General tab.</source>
     <name>Updater</name>
     <message>
         <source>Update available: </source>
-        <translation type="unfinished"></translation>
+        <translation>Disponibile aggiornamento: </translation>
     </message>
     <message>
         <source>You are using the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa versione è aggiornata</translation>
     </message>
     <message>
         <source>Update started. Application will restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornamento completato. L&apos;applicazione verrà riavviata.</translation>
     </message>
 </context>
 </TS>
