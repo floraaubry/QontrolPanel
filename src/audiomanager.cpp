@@ -450,15 +450,15 @@ AudioWorker::AudioWorker()
     qRegisterMetaType<AudioDevice>("AudioDevice");
     qRegisterMetaType<QList<AudioDevice>>("QList<AudioDevice>");
 
-    m_bluetoothBatteryMonitor = BluetoothBatteryMonitor::instance();
-    connect(m_bluetoothBatteryMonitor, &BluetoothBatteryMonitor::deviceBatteryUpdated,
-            this, &AudioWorker::onBluetoothDeviceBatteryUpdated);
+    //m_bluetoothBatteryMonitor = BluetoothBatteryMonitor::instance();
+    //connect(m_bluetoothBatteryMonitor, &BluetoothBatteryMonitor::deviceBatteryUpdated,
+    //        this, &AudioWorker::onBluetoothDeviceBatteryUpdated);
 
     m_headsetControlMonitor = new HeadsetControlMonitor(this);
     connect(m_headsetControlMonitor, &HeadsetControlMonitor::headsetDataUpdated,
             this, &AudioWorker::onHeadsetDataUpdated);
 
-    m_bluetoothBatteryMonitor->startMonitoring();
+    //m_bluetoothBatteryMonitor->startMonitoring();
 }
 
 AudioWorker::~AudioWorker()

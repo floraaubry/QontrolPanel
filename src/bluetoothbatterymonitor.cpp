@@ -42,20 +42,20 @@ BluetoothBatteryWorker::BluetoothBatteryWorker()
     , m_deviceUpdatedToken(nullptr)
     , m_settings("Odizinne", "QuickSoundSwitcher")
 {
-    m_scanTimer = new QTimer(this);
-    m_batteryUpdateTimer = new QTimer(this);
-
-    connect(m_scanTimer, &QTimer::timeout, this, &BluetoothBatteryWorker::onScanTimer);
-    connect(m_batteryUpdateTimer, &QTimer::timeout, this, &BluetoothBatteryWorker::onBatteryUpdateTimer);
-
-    m_scanTimer->setSingleShot(false);
-    m_batteryUpdateTimer->setSingleShot(false);
-
-    // Load cached devices from settings
-    loadCachedDevices();
-
-    // Cache device instance IDs on startup
-    cacheDeviceInstanceIds();
+    //m_scanTimer = new QTimer(this);
+    //m_batteryUpdateTimer = new QTimer(this);
+//
+    //connect(m_scanTimer, &QTimer::timeout, this, &BluetoothBatteryWorker::onScanTimer);
+    //connect(m_batteryUpdateTimer, &QTimer::timeout, this, &BluetoothBatteryWorker::onBatteryUpdateTimer);
+//
+    //m_scanTimer->setSingleShot(false);
+    //m_batteryUpdateTimer->setSingleShot(false);
+//
+    //// Load cached devices from settings
+    //loadCachedDevices();
+//
+    //// Cache device instance IDs on startup
+    //cacheDeviceInstanceIds();
 }
 
 BluetoothBatteryWorker::~BluetoothBatteryWorker()
@@ -255,63 +255,127 @@ void BluetoothBatteryWorker::scanForDevices()
     if (!m_isMonitoring) {
         return;
     }
-
     try {
+        // Check if Bluetooth adapter is available first
+        try {
+            auto adapterAsync = winrt::Windows::Devices::Bluetooth::BluetoothAdapter::GetDefaultAsync();
+            if (!adapterAsync) {
+                qWarning() << "BluetoothBatteryMonitor: Cannot get Bluetooth adapter async operation";
+                return;
+            }
+
+            auto adapter = adapterAsync.get();
+            if (!adapter) {
+                qWarning() << "BluetoothBatteryMonitor: No Bluetooth adapter found";
+                return;
+            }
+        }
+        catch (winrt::hresult_error const& ex) {
+            HRESULT hr = ex.code();
+            qWarning() << "BluetoothBatteryMonitor: Bluetooth adapter check failed, HRESULT:"
+                       << QString::number(hr, 16);
+            return;
+        }
+
         // Enumerate paired Bluetooth devices using WinRT
         auto deviceSelector = winrt::Windows::Devices::Bluetooth::BluetoothDevice::GetDeviceSelectorFromPairingState(true);
-        auto deviceInfoCollection = winrt::Windows::Devices::Enumeration::DeviceInformation::FindAllAsync(deviceSelector).get();
+        auto deviceInfoAsync = winrt::Windows::Devices::Enumeration::DeviceInformation::FindAllAsync(deviceSelector);
+
+        if (!deviceInfoAsync) {
+            qWarning() << "BluetoothBatteryMonitor: Failed to create device enumeration async operation";
+            return;
+        }
+
+        auto deviceInfoCollection = deviceInfoAsync.get();
 
         QList<BluetoothDeviceBattery> currentDevices;
         bool hasUpdates = false;
 
         for (auto const& deviceInfo : deviceInfoCollection) {
-            QString deviceId = QString::fromWCharArray(deviceInfo.Id().c_str());
-            QString deviceName = QString::fromWCharArray(deviceInfo.Name().c_str());
+            try {
+                QString deviceId = QString::fromWCharArray(deviceInfo.Id().c_str());
+                QString deviceName = QString::fromWCharArray(deviceInfo.Name().c_str());
 
-            if (deviceName.isEmpty()) {
+                if (deviceName.isEmpty()) {
+                    continue;
+                }
+
+                QString macAddress = extractMacAddressFromDeviceId(deviceId);
+                if (macAddress.isEmpty()) {
+                    continue;
+                }
+
+                BluetoothDeviceBattery batteryInfo;
+                // Check if we have cached data for this device
+                {
+                    QMutexLocker locker(&m_devicesMutex);
+                    if (m_devices.contains(deviceId)) {
+                        batteryInfo = m_devices[deviceId];
+                    }
+                }
+
+                // Update basic info from current scan
+                batteryInfo.deviceId = deviceId;
+                batteryInfo.deviceName = deviceName;
+                batteryInfo.macAddress = macAddress;
+                batteryInfo.vendorId = extractBluetoothVendorId(deviceId);
+                batteryInfo.productId = extractBluetoothProductId(deviceId);
+                batteryInfo.isConnected = deviceInfo.IsEnabled();
+                batteryInfo.lastUpdated = QDateTime::currentMSecsSinceEpoch();
+
+                // Only try to get detailed device info if device seems enabled
+                if (deviceInfo.IsEnabled()) {
+                    // Try to get more detailed device info and battery level
+                    readDeviceBatteryLevel(deviceId);
+
+                    // Get updated info after readDeviceBatteryLevel
+                    {
+                        QMutexLocker locker(&m_devicesMutex);
+                        if (m_devices.contains(deviceId)) {
+                            batteryInfo = m_devices[deviceId];
+                        }
+                    }
+                } else {
+                    // Device is disabled, mark appropriately
+                    batteryInfo.isConnected = false;
+                    batteryInfo.hasBatteryInfo = false;
+                    batteryInfo.batteryLevel = -1;
+                    batteryInfo.batteryStatus = "UNAVAILABLE";
+                }
+
+                bool isNewDevice = false;
+                {
+                    QMutexLocker locker(&m_devicesMutex);
+                    if (!m_devices.contains(deviceId)) {
+                        isNewDevice = true;
+                        hasUpdates = true;
+                    }
+                    // Always update the device info
+                    m_devices[deviceId] = batteryInfo;
+                    m_macToDeviceId[macAddress] = deviceId;
+                }
+
+                currentDevices.append(batteryInfo);
+            }
+            catch (winrt::hresult_error const& ex) {
+                HRESULT hr = ex.code();
+                if (hr == static_cast<HRESULT>(0x800710DF)) { // ERROR_DEVICE_NOT_READY
+                    qDebug() << "BluetoothBatteryMonitor: Device not ready during scan, skipping";
+                } else {
+                    qWarning() << "BluetoothBatteryMonitor: WinRT error processing device info, HRESULT:"
+                               << QString::number(hr, 16);
+                }
+                // Continue with next device instead of breaking entire scan
                 continue;
             }
-
-            QString macAddress = extractMacAddressFromDeviceId(deviceId);
-            if (macAddress.isEmpty()) {
+            catch (const std::exception& e) {
+                qWarning() << "BluetoothBatteryMonitor: Error processing device info:" << e.what();
                 continue;
             }
-
-            BluetoothDeviceBattery batteryInfo;
-
-            // Check if we have cached data for this device
-            {
-                QMutexLocker locker(&m_devicesMutex);
-                if (m_devices.contains(deviceId)) {
-                    batteryInfo = m_devices[deviceId];
-                }
+            catch (...) {
+                qWarning() << "BluetoothBatteryMonitor: Unknown error processing device info";
+                continue;
             }
-
-            // Update basic info from current scan
-            batteryInfo.deviceId = deviceId;
-            batteryInfo.deviceName = deviceName;
-            batteryInfo.macAddress = macAddress;
-            batteryInfo.vendorId = extractBluetoothVendorId(deviceId);
-            batteryInfo.productId = extractBluetoothProductId(deviceId);
-            batteryInfo.isConnected = deviceInfo.IsEnabled();
-            batteryInfo.lastUpdated = QDateTime::currentMSecsSinceEpoch();
-
-            // Try to get more detailed device info and battery level
-            readDeviceBatteryLevel(deviceId);
-
-            bool isNewDevice = false;
-            {
-                QMutexLocker locker(&m_devicesMutex);
-                if (!m_devices.contains(deviceId)) {
-                    isNewDevice = true;
-                    hasUpdates = true;
-                }
-                // Always update the device info
-                m_devices[deviceId] = batteryInfo;
-                m_macToDeviceId[macAddress] = deviceId;
-            }
-
-            currentDevices.append(batteryInfo);
         }
 
         // Save updated cache to settings
@@ -320,6 +384,18 @@ void BluetoothBatteryWorker::scanForDevices()
         }
 
         emit devicesUpdated(currentDevices);
+    }
+    catch (winrt::hresult_error const& ex) {
+        HRESULT hr = ex.code();
+        if (hr == static_cast<HRESULT>(0x8007001F)) { // ERROR_GEN_FAILURE
+            qWarning() << "BluetoothBatteryMonitor: Bluetooth adapter general failure - might be turned off";
+        } else if (hr == static_cast<HRESULT>(0x80070422)) { // ERROR_SERVICE_DISABLED
+            qWarning() << "BluetoothBatteryMonitor: Bluetooth service is disabled";
+        } else {
+            qWarning() << "BluetoothBatteryMonitor: WinRT error during device scan, HRESULT:"
+                       << QString::number(hr, 16)
+                       << "Message:" << QString::fromWCharArray(ex.message().c_str());
+        }
     }
     catch (const std::exception& e) {
         qWarning() << "BluetoothBatteryMonitor: Error during device scan:" << e.what();
@@ -342,13 +418,11 @@ void BluetoothBatteryWorker::updateDeviceBatteries()
     }
 }
 
-// Efficient method using WinRT APIs directly
 void BluetoothBatteryWorker::readDeviceBatteryLevel(const QString& deviceId)
 {
     if (!m_isMonitoring) {
         return;
     }
-
     BluetoothDeviceBattery batteryInfo;
     {
         QMutexLocker locker(&m_devicesMutex);
@@ -357,30 +431,46 @@ void BluetoothBatteryWorker::readDeviceBatteryLevel(const QString& deviceId)
         }
         batteryInfo = m_devices[deviceId];
     }
-
     try {
         // First check if main device is connected
         std::wstring deviceIdStd = deviceId.toStdWString();
         winrt::hstring deviceIdHstring{ deviceIdStd };
-        auto bluetoothDevice = winrt::Windows::Devices::Bluetooth::BluetoothDevice::FromIdAsync(deviceIdHstring).get();
+
+        auto asyncOp = winrt::Windows::Devices::Bluetooth::BluetoothDevice::FromIdAsync(deviceIdHstring);
+        if (!asyncOp) {
+            qDebug() << "BluetoothBatteryMonitor: Failed to create async operation for device:" << deviceId;
+            return;
+        }
+
+        auto bluetoothDevice = asyncOp.get();
 
         if (bluetoothDevice) {
             batteryInfo.isConnected = (bluetoothDevice.ConnectionStatus() ==
                                        winrt::Windows::Devices::Bluetooth::BluetoothConnectionStatus::Connected);
-
             uint64_t deviceAddress = bluetoothDevice.BluetoothAddress();
             batteryInfo.macAddress = bluetoothAddressToString(deviceAddress);
-
             if (bluetoothDevice.ClassOfDevice()) {
                 uint32_t cod = bluetoothDevice.ClassOfDevice().RawValue();
                 batteryInfo.deviceType = getDeviceTypeFromClassOfDevice(cod);
             }
+        } else {
+            // Device not accessible, mark as disconnected
+            batteryInfo.isConnected = false;
+            batteryInfo.hasBatteryInfo = false;
+            batteryInfo.batteryLevel = -1;
+            batteryInfo.batteryStatus = "UNAVAILABLE";
         }
 
         // Only check battery if device is connected
         if (batteryInfo.isConnected) {
             findBatteryInfoEfficiently(batteryInfo);
+        } else {
+            batteryInfo.hasBatteryInfo = false;
+            batteryInfo.batteryLevel = -1;
+            batteryInfo.batteryStatus = "UNAVAILABLE";
         }
+
+        batteryInfo.lastUpdated = QDateTime::currentMSecsSinceEpoch();
 
         // Update cache and emit signal
         {
@@ -388,14 +478,51 @@ void BluetoothBatteryWorker::readDeviceBatteryLevel(const QString& deviceId)
             m_devices[deviceId] = batteryInfo;
             m_macToDeviceId[batteryInfo.macAddress] = deviceId;
         }
-
         // Save to persistent cache after battery update
         saveCachedDevices();
-
         emit deviceBatteryChanged(batteryInfo);
+    }
+    catch (winrt::hresult_error const& ex) {
+        HRESULT hr = ex.code();
+
+        // Handle specific error codes gracefully
+        if (hr == static_cast<HRESULT>(0x800710DF)) { // ERROR_DEVICE_NOT_READY
+            qDebug() << "BluetoothBatteryMonitor: Device not ready:" << deviceId;
+            // Mark device as disconnected but don't treat as error
+            batteryInfo.isConnected = false;
+            batteryInfo.hasBatteryInfo = false;
+            batteryInfo.batteryLevel = -1;
+            batteryInfo.batteryStatus = "UNAVAILABLE";
+            batteryInfo.lastUpdated = QDateTime::currentMSecsSinceEpoch();
+
+            {
+                QMutexLocker locker(&m_devicesMutex);
+                m_devices[deviceId] = batteryInfo;
+                m_macToDeviceId[batteryInfo.macAddress] = deviceId;
+            }
+            saveCachedDevices();
+            emit deviceBatteryChanged(batteryInfo);
+            return;
+        }
+        else if (hr == static_cast<HRESULT>(0x80070490)) { // ERROR_NOT_FOUND
+            qDebug() << "BluetoothBatteryMonitor: Device not found:" << deviceId;
+            return;
+        }
+        else if (hr == static_cast<HRESULT>(0x80070005)) { // ERROR_ACCESS_DENIED
+            qDebug() << "BluetoothBatteryMonitor: Access denied for device:" << deviceId;
+            return;
+        }
+        else {
+            qWarning() << "BluetoothBatteryMonitor: WinRT error for device" << deviceId
+                       << "HRESULT:" << QString::number(hr, 16)
+                       << "Message:" << QString::fromWCharArray(ex.message().c_str());
+        }
     }
     catch (const std::exception& e) {
         qWarning() << "BluetoothBatteryMonitor: Error reading device info for" << deviceId << ":" << e.what();
+    }
+    catch (...) {
+        qWarning() << "BluetoothBatteryMonitor: Unknown error reading device info for" << deviceId;
     }
 }
 
