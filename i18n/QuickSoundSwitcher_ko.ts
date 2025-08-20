@@ -13,11 +13,11 @@
     </message>
     <message>
         <source>Top</source>
-        <translation>맨 위</translation>
+        <translation>상단</translation>
     </message>
     <message>
         <source>Bottom</source>
-        <translation>맨 아래</translation>
+        <translation>하단</translation>
     </message>
     <message>
         <source>Left</source>
@@ -153,7 +153,7 @@
     </message>
     <message>
         <source>Battery</source>
-        <translation type="unfinished"></translation>
+        <translation>배터리</translation>
     </message>
 </context>
 <context>
@@ -463,7 +463,7 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Sound keepalive</source>
-        <translation>사운드가 살아있게 유지</translation>
+        <translation>사운드 계속 유지</translation>
     </message>
     <message>
         <source>Emit an inaudible sound to keep bluetooth devices awake</source>
@@ -499,35 +499,36 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Monitor battery using HeadsetControl for supported devices</source>
-        <translation>지원되는 장치의 헤드셋 제어를 사용하여 배터리 모니터링합니다</translation>
+        <translation>지원되는 장치의 헤드셋 제어를 사용하여 배터리를 모니터링합니다</translation>
     </message>
 </context>
 <context>
     <name>HeadsetControlPane</name>
     <message>
         <source>No compatible device found.</source>
-        <translation type="unfinished"></translation>
+        <translation>호환되는 장치를 찾을 수 없습니다.</translation>
     </message>
     <message>
         <source>HeadsetControl monitoring is disabled
 You can enable it in the General tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>헤드셋 제어 모니터링이 비활성화되었습니다
+일반 탭에서 활성화할 수 있습니다.</translation>
     </message>
     <message>
         <source>Headset Lighting</source>
-        <translation type="unfinished"></translation>
+        <translation>헤드셋 조명</translation>
     </message>
     <message>
         <source>Toggle RGB lights on your headset</source>
-        <translation type="unfinished"></translation>
+        <translation>헤드셋의 RGB 조명 전환</translation>
     </message>
     <message>
         <source>Microphone Sidetone</source>
-        <translation type="unfinished"></translation>
+        <translation>마이크 사이드톤</translation>
     </message>
     <message>
         <source>Adjust your voice feedback level</source>
-        <translation type="unfinished"></translation>
+        <translation>음성 피드백 수준 조정</translation>
     </message>
 </context>
 <context>
@@ -585,7 +586,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Unknow author</source>
-        <translation>비너스걸💋</translation>
+        <translation>비너스걸💋: https://venusgirls.tistory.com/</translation>
     </message>
     <message>
         <source>Translation last updated</source>
@@ -770,7 +771,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>HeadsetControl</source>
-        <translation type="unfinished"></translation>
+        <translation>헤드셋 제어</translation>
     </message>
 </context>
 <context>
