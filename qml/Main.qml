@@ -1103,23 +1103,35 @@ ApplicationWindow {
                                 source: "qrc:/icons/brightness.svg"
                             }
 
-                            Slider {
-                                id: brightnessSlider
-                                from: 0
-                                to: 100
-                                Layout.fillWidth: true
-                                value: MonitorManager.brightness
-                                onPressedChanged: {
-                                    if (!pressed) {
-                                        MonitorManager.brightness = value
-                                    }
+                            ColumnLayout {
+                                spacing: -4
+
+                                Label {
+                                    visible: UserSettings.displayDevAppLabel
+                                    opacity: 0.5
+                                    text: qsTr("Brightness")
+                                    Layout.leftMargin: 18
+                                    Layout.rightMargin: 25
                                 }
 
-                                ToolTip {
-                                    parent: brightnessSlider.handle
-                                    visible: brightnessSlider.pressed || brightnessSlider.hovered
-                                    delay: brightnessSlider.pressed ? 0 : 1000
-                                    text: Math.round(brightnessSlider.value).toString()
+                                Slider {
+                                    id: brightnessSlider
+                                    from: 0
+                                    to: 100
+                                    Layout.fillWidth: true
+                                    value: MonitorManager.brightness
+                                    onPressedChanged: {
+                                        if (!pressed) {
+                                            MonitorManager.brightness = value
+                                        }
+                                    }
+
+                                    ToolTip {
+                                        parent: brightnessSlider.handle
+                                        visible: brightnessSlider.pressed || brightnessSlider.hovered
+                                        delay: brightnessSlider.pressed ? 0 : 1000
+                                        text: Math.round(brightnessSlider.value).toString()
+                                    }
                                 }
                             }
                         }

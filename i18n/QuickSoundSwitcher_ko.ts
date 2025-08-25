@@ -699,6 +699,10 @@ You can enable it in the General tab.</source>
         <source>Update available</source>
         <translation>업데이트 가능</translation>
     </message>
+    <message>
+        <source>Brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QuickSoundSwitcher</name>

@@ -647,6 +647,10 @@ Puoi abilitarlo nella scheda Generale.</translation>
         <source>Mute in Background</source>
         <translation>Audio off in background</translation>
     </message>
+    <message>
+        <source>Brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QuickSoundSwitcher</name>
