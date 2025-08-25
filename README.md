@@ -1,10 +1,10 @@
-# QuickSoundSwitcher
+# QontrolPanel
 
-[![Version](https://img.shields.io/github/v/release/odizinne/quicksoundswitcher)]()
-[![Github All Releases](https://img.shields.io/github/downloads/odizinne/quicksoundswitcher/total.svg)]()
-[![license](https://img.shields.io/github/license/odizinne/quicksoundswitcher)]()
+[![Version](https://img.shields.io/github/v/release/odizinne/qontrolpanel)]()
+[![Github All Releases](https://img.shields.io/github/downloads/odizinne/qontrolpanel/total.svg)]()
+[![license](https://img.shields.io/github/license/odizinne/qontrolpanel)]()
 
-QuickSoundSwitcher is an enhanced audio panel for Windows.  
+QontrolPanel is an enhanced audio panel for Windows.  
 It provide output and input volume / device / mute control as well as application volume mixer.  
 
 ![image](.assets/screenshot.png)
@@ -26,8 +26,8 @@ Translators should have a look [here](.github/TRANSLATIONS.md).
 
 ## Installation
 
-Download latest version [here](https://github.com/Odizinne/QuickSoundSwitcher/releases/latest).  
-Use the provided installer or download the archive, extract it, and run `bin/QuickSoundSwitcher.exe`.
+Download latest version [here](https://github.com/Odizinne/QontrolPanel/releases/latest).  
+Use the provided installer or download the archive, extract it, and run `bin/QontrolPanel.exe`.
 
 ## Build the project
 
