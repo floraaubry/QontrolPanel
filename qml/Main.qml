@@ -838,145 +838,205 @@ ApplicationWindow {
                         id: appLayout
                         spacing: 5
                         visible: UserSettings.panelMode < 2 && AudioBridge.isReady && AudioBridge.applications.rowCount() > 0
+                        Layout.fillWidth: true
 
-                        Repeater {
-                            id: appRepeater
-                            model: AudioBridge.groupedApplications
-                            delegate: ColumnLayout {
-                                id: appDelegateRoot
-                                spacing: 5
-                                Layout.fillWidth: true
-                                required property var model
-                                required property int index
+                        ScrollView {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: {
+                                if (UserSettings.avoidApplicationsOverflow && appRepeater.count > 4) {
+                                    return 4 * 45 + 3 * 5  // 4 apps * 45px height + 3 spacings * 5px
+                                } else {
+                                    console.log(appRepeater.count * 45 + Math.max(0, (appRepeater.count - 1) * 5))
+                                    return appRepeater.count * 45 + Math.max(0, (appRepeater.count - 1) * 5)
+                                }
+                            }
+                            clip: false
+                            ScrollBar.vertical: ScrollBar {
+                                id: verticalScrollBar
+                                parent: parent
+                                anchors.top: parent.top
+                                anchors.right: parent.right
+                                anchors.bottom: parent.bottom
+                                anchors.rightMargin: -8
+                                width: 8
 
-                                readonly property real applicationListHeight: individualAppsRect.expandedNeededHeight
+                                policy: (UserSettings.avoidApplicationsOverflow && appRepeater.count > 4) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
 
-                                RowLayout {
-                                    Layout.preferredHeight: 40
-                                    Layout.fillWidth: true
-                                    spacing: 0
+                                contentItem: Rectangle {
+                                    implicitWidth: 6
+                                    implicitHeight: 6
+                                    radius: width / 2
+                                    color: Constants.darkMode ? "#9f9f9f" : "#8a8a8a"
+                                    opacity: 0.0
 
-                                    NFToolButton {
-                                        id: executableMuteButton
-                                        Layout.preferredWidth: 40
-                                        Layout.preferredHeight: 40
-                                        flat: !checked
-                                        checkable: true
-                                        highlighted: checked
-                                        checked: appDelegateRoot.model.allMuted
-                                        ToolTip.text: appDelegateRoot.model.displayName
-                                        ToolTip.visible: hovered
-                                        ToolTip.delay: 1000
-                                        opacity: highlighted ? 0.3 : (enabled ? 1 : 0.5)
-                                        icon.color: "transparent"
-                                        icon.source: appDelegateRoot.model.displayName === qsTr("System sounds") ? Constants.systemIcon : appDelegateRoot.model.iconPath
-
-                                        onClicked: {
-                                            AudioBridge.setExecutableMute(appDelegateRoot.model.executableName, checked)
-                                        }
-
-                                        Component.onCompleted: {
-                                            palette.accent = palette.button
+                                    states: State {
+                                        name: "active"
+                                        when: verticalScrollBar.policy === ScrollBar.AlwaysOn || (verticalScrollBar.active && verticalScrollBar.size < 1.0)
+                                        PropertyChanges {
+                                            target: verticalScrollBar.contentItem
+                                            opacity: 0.75
                                         }
                                     }
 
-                                    ColumnLayout {
-                                        spacing: -4
-
-                                        Label {
-                                            visible: UserSettings.displayDevAppLabel
-                                            opacity: UserSettings.chatMixEnabled ? 0.3 : 0.5
-                                            elide: Text.ElideRight
-                                            Layout.preferredWidth: 200
-                                            Layout.leftMargin: 18
-                                            Layout.rightMargin: 25
-                                            text: {
-                                                let name = appDelegateRoot.model.displayName
-                                                if (UserSettings.chatMixEnabled && AudioBridge.isCommApp(name)) {
-                                                    name += " (Comm)"
-                                                }
-                                                return name
-                                            }
-
-                                            MouseArea {
-                                                anchors.fill: parent
-                                                acceptedButtons: Qt.RightButton
-                                                onClicked: function(mouse) {
-                                                    if (mouse.button === Qt.RightButton && appDelegateRoot.model.executableName !== "System sounds") {
-                                                        executableRenameContextMenu.originalName = appDelegateRoot.model.executableName
-                                                        executableRenameContextMenu.currentCustomName = AudioBridge.getCustomExecutableName(appDelegateRoot.model.executableName)
-                                                        executableRenameContextMenu.popup()
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        ProgressSlider {
-                                            onActiveFocusChanged: {
-                                                focus = false
-                                            }
-                                            id: executableVolumeSlider
-                                            from: 0
-                                            to: 100
-                                            enabled: !UserSettings.chatMixEnabled && !executableMuteButton.highlighted
-                                            opacity: enabled ? 1 : 0.5
-                                            Layout.fillWidth: true
-                                            displayProgress: appDelegateRoot.model.displayName !== qsTr("System sounds")
-                                            audioLevel: appDelegateRoot.model.displayName !== qsTr("System sounds")
-                                                        ? (appDelegateRoot.model.averageAudioLevel || 0)
-                                                        : 0
-
-                                            value: pressed ? value : appDelegateRoot.model.averageVolume
-
-                                            onValueChanged: {
-                                                if (!UserSettings.chatMixEnabled && pressed) {
-                                                    AudioBridge.setExecutableVolume(appDelegateRoot.model.executableName, value)
-                                                }
-                                            }
-
-                                            onPressedChanged: {
-                                                if (!pressed && !UserSettings.chatMixEnabled) {
-                                                    AudioBridge.setExecutableVolume(appDelegateRoot.model.executableName, value)
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    NFToolButton {
-                                        onActiveFocusChanged: {
-                                            focus = false
-                                        }
-
-                                        icon.source: "qrc:/icons/arrow.svg"
-                                        rotation: individualAppsRect.expanded ? 90 : 0
-                                        visible: appDelegateRoot.model.sessionCount > 1
-                                        Layout.preferredHeight: 35
-                                        Layout.preferredWidth: 35
-
-                                        Behavior on rotation {
+                                    transitions: Transition {
+                                        from: "active"
+                                        SequentialAnimation {
+                                            PauseAnimation { duration: 450 }
                                             NumberAnimation {
-                                                duration: 150
-                                                easing.type: Easing.Linear
+                                                target: verticalScrollBar.contentItem
+                                                duration: 200
+                                                property: "opacity"
+                                                to: 0.0
                                             }
-                                        }
-
-                                        onClicked: {
-                                            individualAppsRect.expanded = !individualAppsRect.expanded
                                         }
                                     }
                                 }
+                            }
 
-                                ApplicationsListView {
-                                    id: individualAppsRect
-                                    model: AudioBridge.getSessionsForExecutable(appDelegateRoot.model.executableName)
-                                    executableName: appDelegateRoot.model.executableName
+                            ColumnLayout {
+                                width: appLayout.width
+                                spacing: 5
 
-                                    onApplicationVolumeChanged: function(appId, volume) {
-                                        AudioBridge.setApplicationVolume(appId, volume)
-                                    }
+                                Repeater {
+                                    id: appRepeater
+                                    model: AudioBridge.groupedApplications
+                                    delegate: ColumnLayout {
+                                        id: appDelegateRoot
+                                        spacing: 5
+                                        Layout.fillWidth: true
+                                        required property var model
+                                        required property int index
 
-                                    onApplicationMuteChanged: function(appId, muted) {
-                                        AudioBridge.setApplicationMute(appId, muted)
+                                        readonly property real applicationListHeight: individualAppsRect.expandedNeededHeight
+
+                                        RowLayout {
+                                            Layout.preferredHeight: 40
+                                            Layout.fillWidth: true
+                                            spacing: 0
+
+                                            NFToolButton {
+                                                id: executableMuteButton
+                                                Layout.preferredWidth: 40
+                                                Layout.preferredHeight: 40
+                                                flat: !checked
+                                                checkable: true
+                                                highlighted: checked
+                                                checked: appDelegateRoot.model.allMuted
+                                                ToolTip.text: appDelegateRoot.model.displayName
+                                                ToolTip.visible: hovered
+                                                ToolTip.delay: 1000
+                                                opacity: highlighted ? 0.3 : (enabled ? 1 : 0.5)
+                                                icon.color: "transparent"
+                                                icon.source: appDelegateRoot.model.displayName === qsTr("System sounds") ? Constants.systemIcon : appDelegateRoot.model.iconPath
+
+                                                onClicked: {
+                                                    AudioBridge.setExecutableMute(appDelegateRoot.model.executableName, checked)
+                                                }
+
+                                                Component.onCompleted: {
+                                                    palette.accent = palette.button
+                                                }
+                                            }
+
+                                            ColumnLayout {
+                                                spacing: -4
+
+                                                Label {
+                                                    visible: UserSettings.displayDevAppLabel
+                                                    opacity: UserSettings.chatMixEnabled ? 0.3 : 0.5
+                                                    elide: Text.ElideRight
+                                                    Layout.preferredWidth: 200
+                                                    Layout.leftMargin: 18
+                                                    Layout.rightMargin: 25
+                                                    text: {
+                                                        let name = appDelegateRoot.model.displayName
+                                                        if (UserSettings.chatMixEnabled && AudioBridge.isCommApp(name)) {
+                                                            name += " (Comm)"
+                                                        }
+                                                        return name
+                                                    }
+
+                                                    MouseArea {
+                                                        anchors.fill: parent
+                                                        acceptedButtons: Qt.RightButton
+                                                        onClicked: function(mouse) {
+                                                            if (mouse.button === Qt.RightButton && appDelegateRoot.model.executableName !== "System sounds") {
+                                                                executableRenameContextMenu.originalName = appDelegateRoot.model.executableName
+                                                                executableRenameContextMenu.currentCustomName = AudioBridge.getCustomExecutableName(appDelegateRoot.model.executableName)
+                                                                executableRenameContextMenu.popup()
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                ProgressSlider {
+                                                    onActiveFocusChanged: {
+                                                        focus = false
+                                                    }
+                                                    id: executableVolumeSlider
+                                                    from: 0
+                                                    to: 100
+                                                    enabled: !UserSettings.chatMixEnabled && !executableMuteButton.highlighted
+                                                    opacity: enabled ? 1 : 0.5
+                                                    Layout.fillWidth: true
+                                                    displayProgress: appDelegateRoot.model.displayName !== qsTr("System sounds")
+                                                    audioLevel: appDelegateRoot.model.displayName !== qsTr("System sounds")
+                                                                ? (appDelegateRoot.model.averageAudioLevel || 0)
+                                                                : 0
+
+                                                    value: pressed ? value : appDelegateRoot.model.averageVolume
+
+                                                    onValueChanged: {
+                                                        if (!UserSettings.chatMixEnabled && pressed) {
+                                                            AudioBridge.setExecutableVolume(appDelegateRoot.model.executableName, value)
+                                                        }
+                                                    }
+
+                                                    onPressedChanged: {
+                                                        if (!pressed && !UserSettings.chatMixEnabled) {
+                                                            AudioBridge.setExecutableVolume(appDelegateRoot.model.executableName, value)
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            NFToolButton {
+                                                onActiveFocusChanged: {
+                                                    focus = false
+                                                }
+
+                                                icon.source: "qrc:/icons/arrow.svg"
+                                                rotation: individualAppsRect.expanded ? 90 : 0
+                                                visible: appDelegateRoot.model.sessionCount > 1
+                                                Layout.preferredHeight: 35
+                                                Layout.preferredWidth: 35
+
+                                                Behavior on rotation {
+                                                    NumberAnimation {
+                                                        duration: 150
+                                                        easing.type: Easing.Linear
+                                                    }
+                                                }
+
+                                                onClicked: {
+                                                    individualAppsRect.expanded = !individualAppsRect.expanded
+                                                }
+                                            }
+                                        }
+
+                                        ApplicationsListView {
+                                            id: individualAppsRect
+                                            model: AudioBridge.getSessionsForExecutable(appDelegateRoot.model.executableName)
+                                            executableName: appDelegateRoot.model.executableName
+
+                                            onApplicationVolumeChanged: function(appId, volume) {
+                                                AudioBridge.setApplicationVolume(appId, volume)
+                                            }
+
+                                            onApplicationMuteChanged: function(appId, muted) {
+                                                AudioBridge.setApplicationMute(appId, muted)
+                                            }
+                                        }
                                     }
                                 }
                             }

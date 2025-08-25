@@ -131,6 +131,14 @@
         <source>Battery</source>
         <translation>Batteria</translation>
     </message>
+    <message>
+        <source>Avoid applications overflow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wrap applications in scrollview when more than 4 applications are displayed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ApplicationsListView</name>

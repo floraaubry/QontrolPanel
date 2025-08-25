@@ -162,6 +162,17 @@ ColumnLayout {
                     onActivated: UserSettings.iconStyle = currentIndex
                 }
             }
+
+            Card {
+                Layout.fillWidth: true
+                title: qsTr("Avoid applications overflow")
+                description: qsTr("Wrap applications in scrollview when more than 4 applications are displayed")
+
+                additionalControl: LabeledSwitch {
+                    checked: UserSettings.avoidApplicationsOverflow
+                    onClicked: UserSettings.avoidApplicationsOverflow = checked
+                }
+            }
         }
     }
 }
