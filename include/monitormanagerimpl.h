@@ -31,6 +31,11 @@ private:
     std::function<void()> changeCallback;
     IWbemServices* pWMIService;
 
+    // Night Light registry management
+    HKEY m_nightLightRegKey;
+    void initNightLightRegistry();
+    void cleanupNightLightRegistry();
+
 public:
     MonitorManagerImpl();
     ~MonitorManagerImpl();
@@ -44,6 +49,13 @@ public:
     bool testDDCCI(int monitorIndex);
     int getCachedBrightness(int monitorIndex);
     void setChangeCallback(std::function<void()> callback);
+
+    // Night Light functionality
+    bool isNightLightSupported();
+    bool isNightLightEnabled();
+    void enableNightLight();
+    void disableNightLight();
+    void toggleNightLight();
 
 private:
     void initializeWMI();

@@ -822,7 +822,11 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Update started. Application will restart.</source>
-        <translation>Aggiornamento completato. L&apos;applicazione verrà riavviata.</translation>
+        <translation type="vanished">Aggiornamento completato. L&apos;applicazione verrà riavviata.</translation>
+    </message>
+    <message>
+        <source>Update started.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

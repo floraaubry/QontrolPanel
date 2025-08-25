@@ -1,22 +1,29 @@
 #include "monitormanagerimpl.h"
 #include <algorithm>
-#include <iostream>
+#include <vector>
 
 MonitorManagerImpl::MonitorManagerImpl()
     : messageWindow(nullptr)
     , pWMIService(nullptr)
+    , m_nightLightRegKey(nullptr)
 {
     initializeWMI();
+    initNightLightRegistry();
     enumerateMonitors();
+    detectLaptopDisplays();
     setupChangeDetection();
 }
 
 MonitorManagerImpl::~MonitorManagerImpl() {
     cleanup();
+    cleanupNightLightRegistry();
+
     if (pWMIService) {
         pWMIService->Release();
-        CoUninitialize();
+        pWMIService = nullptr;
     }
+
+    CoUninitialize();
 }
 
 void MonitorManagerImpl::enumerateMonitors() {
@@ -125,24 +132,23 @@ void MonitorManagerImpl::initializeWMI() {
         return;
     }
 
-    hres = CoSetProxyBlanket(pWMIService, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL,
-                             RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
-
+    hres = CoSetProxyBlanket(pWMIService, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL, RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
     pLoc->Release();
 }
 
 void MonitorManagerImpl::detectLaptopDisplays() {
-    // Check if this is a laptop by looking for battery
-    SYSTEM_POWER_STATUS powerStatus;
-    if (GetSystemPowerStatus(&powerStatus) && powerStatus.BatteryFlag != 128) {
-        // Has battery, likely a laptop - add internal display entry
-        MonitorInfo laptopInfo = {};
-        laptopInfo.isLaptopDisplay = true;
-        laptopInfo.ddcciTested = true;
-        laptopInfo.ddcciWorking = true;
-        laptopInfo.cachedBrightness = getLaptopBrightness();
-
-        monitors.insert(monitors.begin(), laptopInfo); // Add as first monitor
+    // Mark any monitors that might be laptop displays
+    for (auto& monitor : monitors) {
+        std::wstring name = monitor.physicalMonitor.szPhysicalMonitorDescription;
+        // Common laptop display identifiers
+        if (name.find(L"Generic PnP Monitor") != std::wstring::npos ||
+            name.find(L"Default Monitor") != std::wstring::npos ||
+            name.empty()) {
+            // Further check if this is actually a laptop display via WMI
+            if (pWMIService && getLaptopBrightness() != -1) {
+                monitor.isLaptopDisplay = true;
+            }
+        }
     }
 }
 
@@ -165,22 +171,19 @@ bool MonitorManagerImpl::setLaptopBrightness(int brightness) {
         HRESULT hr = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
         if (uReturn == 0) break;
 
-        // Call WmiSetBrightness method
+        // Get the method
         IWbemClassObject* pClass = NULL;
-        hres = pWMIService->GetObject(bstr_t("WmiMonitorBrightnessMethods"), 0, NULL, &pClass, NULL);
-
+        hres = pWMIService->GetObject(bstr_t(L"WmiMonitorBrightnessMethods"), 0, NULL, &pClass, NULL);
         if (SUCCEEDED(hres)) {
             IWbemClassObject* pInParamsDefinition = NULL;
             hres = pClass->GetMethod(L"WmiSetBrightness", 0, &pInParamsDefinition, NULL);
-
             if (SUCCEEDED(hres)) {
                 IWbemClassObject* pClassInstance = NULL;
                 hres = pInParamsDefinition->SpawnInstance(0, &pClassInstance);
-
                 if (SUCCEEDED(hres)) {
                     VARIANT varTimeout, varBrightness;
                     varTimeout.vt = VT_UI4;
-                    varTimeout.uintVal = 0;
+                    varTimeout.ulVal = 0;
                     varBrightness.vt = VT_UI1;
                     varBrightness.bVal = (BYTE)brightness;
 
@@ -310,4 +313,102 @@ void MonitorManagerImpl::cleanup() {
         DestroyWindow(messageWindow);
         messageWindow = nullptr;
     }
+}
+
+// Night Light implementation
+void MonitorManagerImpl::initNightLightRegistry()
+{
+    const std::wstring keyPath = L"Software\\Microsoft\\Windows\\CurrentVersion\\CloudStore\\Store\\DefaultAccount\\Current\\default$windows.data.bluelightreduction.bluelightreductionstate\\windows.data.bluelightreduction.bluelightreductionstate";
+
+    LONG result = RegOpenKeyEx(HKEY_CURRENT_USER, keyPath.c_str(), 0, KEY_READ | KEY_WRITE, &m_nightLightRegKey);
+    if (result != ERROR_SUCCESS) {
+        m_nightLightRegKey = nullptr;
+    }
+}
+
+void MonitorManagerImpl::cleanupNightLightRegistry()
+{
+    if (m_nightLightRegKey) {
+        RegCloseKey(m_nightLightRegKey);
+        m_nightLightRegKey = nullptr;
+    }
+}
+
+bool MonitorManagerImpl::isNightLightSupported()
+{
+    return m_nightLightRegKey != nullptr;
+}
+
+bool MonitorManagerImpl::isNightLightEnabled()
+{
+    if (!isNightLightSupported()) return false;
+
+    BYTE data[1024];
+    DWORD dataSize = sizeof(data);
+
+    if (RegQueryValueEx(m_nightLightRegKey, L"Data", nullptr, nullptr, data, &dataSize) != ERROR_SUCCESS) {
+        return false;
+    }
+
+    std::vector<BYTE> bytes(data, data + dataSize);
+    if (bytes.size() < 19) return false;
+
+    return bytes[18] == 0x15; // 21 in decimal = enabled
+}
+
+void MonitorManagerImpl::enableNightLight()
+{
+    if (isNightLightSupported() && !isNightLightEnabled()) {
+        toggleNightLight();
+    }
+}
+
+void MonitorManagerImpl::disableNightLight()
+{
+    if (isNightLightSupported() && isNightLightEnabled()) {
+        toggleNightLight();
+    }
+}
+
+void MonitorManagerImpl::toggleNightLight()
+{
+    if (!isNightLightSupported()) return;
+
+    BYTE data[1024];
+    DWORD dataSize = sizeof(data);
+
+    if (RegQueryValueEx(m_nightLightRegKey, L"Data", nullptr, nullptr, data, &dataSize) != ERROR_SUCCESS) {
+        return;
+    }
+
+    std::vector<BYTE> newData;
+    bool currentlyEnabled = isNightLightEnabled();
+
+    if (currentlyEnabled) {
+        // Disable: Allocate 41 bytes and modify the necessary fields
+        newData.resize(41, 0);
+        std::copy(data, data + 22, newData.begin());
+        std::copy(data + 25, data + 43, newData.begin() + 23);
+        newData[18] = 0x13; // Disable
+    } else {
+        // Enable: Allocate 43 bytes and modify the necessary fields
+        newData.resize(43, 0);
+        std::copy(data, data + 22, newData.begin());
+        std::copy(data + 23, data + 41, newData.begin() + 25);
+        newData[18] = 0x15; // Enable
+        newData[23] = 0x10;
+        newData[24] = 0x00;
+    }
+
+    // Increment bytes from index 10 to 14 (version tracking)
+    for (int i = 10; i < 15; ++i) {
+        if (newData[i] != 0xff) {
+            newData[i]++;
+            break;
+        }
+    }
+
+    // Set the modified data back to the registry
+    DWORD newDataSize = static_cast<DWORD>(newData.size());
+    RegSetValueEx(m_nightLightRegKey, L"Data", 0, REG_BINARY, newData.data(), newDataSize);
 }

@@ -917,7 +917,11 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Update started. Application will restart.</source>
-        <translation>업데이트가 시작되었습니다. 응용 프로그램이 재시작됩니다.</translation>
+        <translation type="vanished">업데이트가 시작되었습니다. 응용 프로그램이 재시작됩니다.</translation>
+    </message>
+    <message>
+        <source>Update started.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

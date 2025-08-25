@@ -12,6 +12,8 @@ MonitorManager::MonitorManager(QObject *parent)
     , m_impl(new MonitorManagerImpl())
     , m_monitorDetected(false)
     , m_currentBrightness(50)
+    , m_nightLightEnabled(false)
+    , m_nightLightSupported(false)
     , m_isUpdating(0)
 {
     m_instance = this;
@@ -24,6 +26,9 @@ MonitorManager::MonitorManager(QObject *parent)
 
     // Initial setup - run asynchronously
     performMonitorDetectionAsync();
+
+    // Check Night Light support and status
+    checkNightLightAsync();
 }
 
 MonitorManager::~MonitorManager() {
@@ -38,7 +43,7 @@ MonitorManager::~MonitorManager() {
     }
 
     delete m_impl;
-    m_impl = nullptr;  // Explicitly set to nullptr
+    m_impl = nullptr;
     m_instance = nullptr;
 }
 
@@ -73,6 +78,16 @@ bool MonitorManager::isUpdating() const
     return m_isUpdating.loadAcquire() > 0;
 }
 
+bool MonitorManager::nightLightEnabled() const
+{
+    return m_nightLightEnabled;
+}
+
+bool MonitorManager::nightLightSupported() const
+{
+    return m_nightLightSupported;
+}
+
 void MonitorManager::setBrightness(int value)
 {
     if (value < 0 || value > 100) {
@@ -87,9 +102,104 @@ void MonitorManager::setBrightness(int value)
     performBrightnessUpdateAsync(value);
 }
 
+void MonitorManager::setNightLightEnabled(bool enabled)
+{
+    if (!m_nightLightSupported) {
+        qDebug() << "Night Light not supported on this system";
+        return;
+    }
+
+    // Update the UI immediately for responsiveness
+    m_nightLightEnabled = enabled;
+    emit nightLightEnabledChanged();
+
+    // Perform the actual Night Light change asynchronously
+    performNightLightUpdateAsync(enabled);
+}
+
+void MonitorManager::toggleNightLight()
+{
+    setNightLightEnabled(!m_nightLightEnabled);
+}
+
 void MonitorManager::refreshMonitors()
 {
     performMonitorDetectionAsync();
+    checkNightLightAsync();
+}
+
+void MonitorManager::checkNightLightAsync()
+{
+    setIsUpdating(true);
+
+    QtConcurrent::run([this]() {
+        QMutexLocker locker(&m_mutex);
+
+        if (!m_impl) {
+            QMetaObject::invokeMethod(this, "onNightLightUpdateComplete",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(bool, false),
+                                      Q_ARG(bool, false));
+            return;
+        }
+
+        try {
+            bool supported = m_impl->isNightLightSupported();
+            bool enabled = supported ? m_impl->isNightLightEnabled() : false;
+
+            QMetaObject::invokeMethod(this, "onNightLightUpdateComplete",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(bool, supported),
+                                      Q_ARG(bool, enabled));
+        } catch (...) {
+            QMetaObject::invokeMethod(this, "onNightLightUpdateComplete",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(bool, false),
+                                      Q_ARG(bool, false));
+        }
+    });
+}
+
+void MonitorManager::performNightLightUpdateAsync(bool enabled)
+{
+    if (!m_nightLightSupported) {
+        return;
+    }
+
+    setIsUpdating(true);
+
+    QtConcurrent::run([this, enabled]() {
+        QMutexLocker locker(&m_mutex);
+
+        if (!m_impl) {
+            QMetaObject::invokeMethod(this, "onNightLightUpdateComplete",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(bool, false),
+                                      Q_ARG(bool, false));
+            return;
+        }
+
+        try {
+            if (enabled) {
+                m_impl->enableNightLight();
+            } else {
+                m_impl->disableNightLight();
+            }
+
+            // Get the actual state after the change
+            bool actualEnabled = m_impl->isNightLightEnabled();
+
+            QMetaObject::invokeMethod(this, "onNightLightUpdateComplete",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(bool, true),
+                                      Q_ARG(bool, actualEnabled));
+        } catch (...) {
+            QMetaObject::invokeMethod(this, "onNightLightUpdateComplete",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(bool, m_nightLightSupported),
+                                      Q_ARG(bool, m_nightLightEnabled));
+        }
+    });
 }
 
 void MonitorManager::performMonitorDetectionAsync()
@@ -104,7 +214,6 @@ void MonitorManager::performMonitorDetectionAsync()
     m_currentOperation = QtConcurrent::run([this]() {
         QMutexLocker locker(&m_mutex);
 
-        // Check if we're still valid and m_impl exists
         if (!m_impl) {
             QMetaObject::invokeMethod(this, "onMonitorDetectionComplete",
                                       Qt::QueuedConnection,
@@ -114,27 +223,21 @@ void MonitorManager::performMonitorDetectionAsync()
         }
 
         try {
-            // Re-enumerate monitors
             m_impl->enumerateMonitors();
 
-            // Check for working monitors
             bool hasWorkingMonitor = false;
             int lowestBrightness = 100;
             bool foundBrightness = false;
 
             int monitorCount = m_impl->getMonitorCount();
             for (int i = 0; i < monitorCount; i++) {
-                // Double-check m_impl is still valid before each operation
                 if (!m_impl) break;
 
-                // Test DDC/CI capability - this might block but it's now in background
                 if (m_impl->testDDCCI(i)) {
                     hasWorkingMonitor = true;
 
-                    // Check again before getting brightness
                     if (!m_impl) break;
 
-                    // Get current brightness - this might also block
                     int brightness = m_impl->getBrightnessInternal(i);
                     if (brightness != -1) {
                         lowestBrightness = std::min(lowestBrightness, brightness);
@@ -145,13 +248,11 @@ void MonitorManager::performMonitorDetectionAsync()
 
             int currentBrightness = foundBrightness ? lowestBrightness : -1;
 
-            // Schedule UI update on main thread
             QMetaObject::invokeMethod(this, "onMonitorDetectionComplete",
                                       Qt::QueuedConnection,
                                       Q_ARG(bool, hasWorkingMonitor),
                                       Q_ARG(int, currentBrightness));
         } catch (...) {
-            // Handle any exceptions and update UI
             QMetaObject::invokeMethod(this, "onMonitorDetectionComplete",
                                       Qt::QueuedConnection,
                                       Q_ARG(bool, false),
@@ -172,7 +273,6 @@ void MonitorManager::performBrightnessUpdateAsync(int value)
     m_currentOperation = QtConcurrent::run([this, value]() {
         QMutexLocker locker(&m_mutex);
 
-        // Check if we're still valid and m_impl exists
         if (!m_impl) {
             QMetaObject::invokeMethod(this, "onBrightnessUpdateComplete",
                                       Qt::QueuedConnection,
@@ -182,55 +282,27 @@ void MonitorManager::performBrightnessUpdateAsync(int value)
         }
 
         try {
-            // First, re-enumerate monitors to ensure all are present
-            m_impl->enumerateMonitors();
-
-            // Check if m_impl is still valid after enumeration
-            if (!m_impl) {
-                QMetaObject::invokeMethod(this, "onBrightnessUpdateComplete",
-                                          Qt::QueuedConnection,
-                                          Q_ARG(bool, false),
-                                          Q_ARG(int, value));
-                return;
-            }
-
-            // Then set brightness on all monitors
-            m_impl->setBrightnessAll(value);
-
-            // Check for working monitors and get actual brightness
             bool hasWorkingMonitor = false;
-            int lowestBrightness = 100;
-            bool foundBrightness = false;
+            int lowestBrightness = value;
 
             int monitorCount = m_impl->getMonitorCount();
             for (int i = 0; i < monitorCount; i++) {
-                // Double-check m_impl is still valid before each operation
                 if (!m_impl) break;
 
-                if (m_impl->testDDCCI(i)) {
+                if (m_impl->setBrightnessInternal(i, value)) {
                     hasWorkingMonitor = true;
-
-                    // Check again before getting brightness
-                    if (!m_impl) break;
-
-                    // Get actual brightness after setting
-                    int brightness = m_impl->getBrightnessInternal(i);
-                    if (brightness != -1) {
-                        lowestBrightness = std::min(lowestBrightness, brightness);
-                        foundBrightness = true;
+                    int actualBrightness = m_impl->getBrightnessInternal(i);
+                    if (actualBrightness != -1) {
+                        lowestBrightness = std::min(lowestBrightness, actualBrightness);
                     }
                 }
             }
 
-            int actualBrightness = foundBrightness ? lowestBrightness : value;
-
-            // Schedule UI update on main thread
             QMetaObject::invokeMethod(this, "onBrightnessUpdateComplete",
                                       Qt::QueuedConnection,
                                       Q_ARG(bool, hasWorkingMonitor),
-                                      Q_ARG(int, actualBrightness));
+                                      Q_ARG(int, lowestBrightness));
         } catch (...) {
-            // Handle any exceptions and update UI
             QMetaObject::invokeMethod(this, "onBrightnessUpdateComplete",
                                       Qt::QueuedConnection,
                                       Q_ARG(bool, false),
@@ -241,13 +313,11 @@ void MonitorManager::performBrightnessUpdateAsync(int value)
 
 void MonitorManager::onMonitorDetectionComplete(bool hasMonitors, int currentBrightness)
 {
-    // Update monitor detection state
     if (m_monitorDetected != hasMonitors) {
         m_monitorDetected = hasMonitors;
         emit monitorDetectedChanged();
     }
 
-    // Update brightness if we got a valid reading
     if (currentBrightness != -1 && m_currentBrightness != currentBrightness) {
         m_currentBrightness = currentBrightness;
         emit brightnessChanged();
@@ -258,16 +328,29 @@ void MonitorManager::onMonitorDetectionComplete(bool hasMonitors, int currentBri
 
 void MonitorManager::onBrightnessUpdateComplete(bool hasMonitors, int actualBrightness)
 {
-    // Update monitor detection state in case monitors changed
     if (m_monitorDetected != hasMonitors) {
         m_monitorDetected = hasMonitors;
         emit monitorDetectedChanged();
     }
 
-    // Update brightness with the actual value from hardware
     if (m_currentBrightness != actualBrightness) {
         m_currentBrightness = actualBrightness;
         emit brightnessChanged();
+    }
+
+    setIsUpdating(false);
+}
+
+void MonitorManager::onNightLightUpdateComplete(bool supported, bool enabled)
+{
+    if (m_nightLightSupported != supported) {
+        m_nightLightSupported = supported;
+        emit nightLightSupportedChanged();
+    }
+
+    if (m_nightLightEnabled != enabled) {
+        m_nightLightEnabled = enabled;
+        emit nightLightEnabledChanged();
     }
 
     setIsUpdating(false);

@@ -242,6 +242,8 @@ ApplicationWindow {
             return
         }
 
+        MonitorManager.refreshMonitors()
+
         isAnimatingIn = true
         panel.taskbarPos = SoundPanelBridge.taskbarPosition
         panel.visible = true
@@ -1094,13 +1096,18 @@ ApplicationWindow {
                             Layout.preferredHeight: 40
                             spacing: 0
 
-                            IconImage {
+                            NFToolButton {
                                 Layout.preferredWidth: 40
                                 Layout.preferredHeight: 40
-                                sourceSize.width: 22
-                                sourceSize.height: 22
-                                color: palette.text
-                                source: "qrc:/icons/brightness.svg"
+                                enabled: MonitorManager.nightLightSupported
+                                onClicked: MonitorManager.toggleNightLight()
+                                IconImage {
+                                    anchors.centerIn: parent
+                                    sourceSize.width: 22
+                                    sourceSize.height: 22
+                                    color: palette.text
+                                    source: MonitorManager.nightLightEnabled ? "qrc:/icons/nightlight.svg" : "qrc:/icons/brightness.svg"
+                                }
                             }
 
                             ColumnLayout {

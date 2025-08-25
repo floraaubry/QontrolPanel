@@ -819,8 +819,8 @@ You can enable it in the General tab.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Update started. Application will restart.</source>
-        <translation></translation>
+        <source>Update started.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

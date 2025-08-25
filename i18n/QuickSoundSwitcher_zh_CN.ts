@@ -934,7 +934,7 @@ You can enable it in the General tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Update started. Application will restart.</source>
+        <source>Update started.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
