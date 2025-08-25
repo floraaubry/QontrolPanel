@@ -1,6 +1,6 @@
-#define AppName       "QuickSoundSwitcher"
-#define AppSourceDir  "..\build\QuickSoundSwitcher\"
-#define AppExeName    "QuickSoundSwitcher.exe"
+#define AppName       "QontrolPanel"
+#define AppSourceDir  "..\build\QontrolPanel\"
+#define AppExeName    "QontrolPanel.exe"
 #define                MajorVersion    
 #define                MinorVersion    
 #define                RevisionVersion    
@@ -8,7 +8,7 @@
 #define TempVersion    GetVersionComponents(AppSourceDir + "bin\" + AppExeName, MajorVersion, MinorVersion, RevisionVersion, BuildVersion)
 #define AppVersion     str(MajorVersion) + "." + str(MinorVersion) + "." + str(RevisionVersion)
 #define AppPublisher  "Odizinne"
-#define AppURL        "https://github.com/Odizinne/QuickSoundSwitcher"
+#define AppURL        "https://github.com/Odizinne/QontrolPanel"
 #define AppIcon       "..\Resources\icons\icon.ico"
 #define CurrentYear   GetDateTimeString('yyyy','','')
 
@@ -47,7 +47,7 @@ DefaultGroupName={#AppName}
 DefaultDirName={localappdata}\Programs\{#AppName}
 
 PrivilegesRequired=lowest
-OutputBaseFilename=QuickSoundSwitcher_installer
+OutputBaseFilename=QontrolPanel_installer
 Compression=lzma
 SolidCompression=yes
 UsedUserAreasWarning=no

@@ -49,8 +49,8 @@ def analyze_ts_file(ts_file_path):
         return None
 
 def extract_language_code(filename):
-    if filename.startswith('QuickSoundSwitcher_') and filename.endswith('.ts'):
-        return filename[len('QuickSoundSwitcher_'):-len('.ts')]
+    if filename.startswith('QontrolPanel_') and filename.endswith('.ts'):
+        return filename[len('QontrolPanel_'):-len('.ts')]
     
     return filename
 
