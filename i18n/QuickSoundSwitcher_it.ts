@@ -463,11 +463,11 @@ Se vuoi supportare il mio lavoro, qualsiasi contributo sarebbe molto apprezzato!
     </message>
     <message>
         <source>Allow brightness control</source>
-        <translation type="unfinished"></translation>
+        <translation>Consenti controllo luminosità</translation>
     </message>
     <message>
         <source>Experimental</source>
-        <translation type="unfinished"></translation>
+        <translation>Sperimentale</translation>
     </message>
 </context>
 <context>
@@ -530,11 +530,11 @@ Puoi abilitarlo nella scheda Generale.</translation>
     <name>LabeledSwitch</name>
     <message>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation>ON</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation>OFF</translation>
     </message>
 </context>
 <context>
@@ -561,7 +561,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>22.07.2025</translation>
+        <translation>25.07.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -660,7 +660,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Luminosità</translation>
     </message>
 </context>
 <context>
@@ -821,12 +821,8 @@ Puoi abilitarlo nella scheda Generale.</translation>
         <translation>Questa versione è aggiornata</translation>
     </message>
     <message>
-        <source>Update started. Application will restart.</source>
-        <translation type="vanished">Aggiornamento completato. L&apos;applicazione verrà riavviata.</translation>
-    </message>
-    <message>
         <source>Update started.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornamento avviato.</translation>
     </message>
 </context>
 </TS>
