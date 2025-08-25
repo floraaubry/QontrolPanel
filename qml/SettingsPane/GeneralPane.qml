@@ -69,24 +69,11 @@ ColumnLayout {
             Card {
                 Layout.fillWidth: true
                 title: qsTr("Allow brightness control")
-                //description: qsTr("")
+                description: qsTr("Experimental")
 
                 additionalControl: Switch {
                     checked: UserSettings.allowBrightnessControl
                     onClicked: UserSettings.allowBrightnessControl = checked
-                }
-            }
-
-            Slider {
-                from: 0
-                to: 100
-                value: MonitorManager.brightness
-                enabled: MonitorManager.monitorDetected && UserSettings.allowBrightnessControl
-
-                onValueChanged: {
-                    //if (pressed) { // Only change when user is dragging
-                        MonitorManager.brightness = value
-                    //}
                 }
             }
 

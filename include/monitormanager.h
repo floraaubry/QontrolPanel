@@ -3,6 +3,9 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QtQml/qqmlregistration.h>
+#include <QFuture>
+#include <QMutex>
+#include <QAtomicInt>
 
 // Forward declare the implementation class to avoid Windows headers in Qt code
 class MonitorManagerImpl;
@@ -15,6 +18,7 @@ class MonitorManager : public QObject
 
     Q_PROPERTY(bool monitorDetected READ monitorDetected NOTIFY monitorDetectedChanged)
     Q_PROPERTY(int brightness READ brightness WRITE setBrightness NOTIFY brightnessChanged)
+    Q_PROPERTY(bool isUpdating READ isUpdating NOTIFY isUpdatingChanged)
 
 public:
     explicit MonitorManager(QObject *parent = nullptr);
@@ -26,6 +30,7 @@ public:
     // QML Properties
     bool monitorDetected() const;
     int brightness() const;
+    bool isUpdating() const;
 
     // QML Methods
     Q_INVOKABLE void setBrightness(int value);
@@ -34,6 +39,11 @@ public:
 signals:
     void monitorDetectedChanged();
     void brightnessChanged();
+    void isUpdatingChanged();
+
+private slots:
+    void onMonitorDetectionComplete(bool hasMonitors, int currentBrightness);
+    void onBrightnessUpdateComplete(bool hasMonitors, int actualBrightness);
 
 private:
     static MonitorManager* m_instance;
@@ -41,6 +51,11 @@ private:
     bool m_monitorDetected;
     int m_currentBrightness;
 
-    void updateMonitorDetection();
-    void retrieveCurrentBrightness();
+    QAtomicInt m_isUpdating;
+    QMutex m_mutex;
+    QFuture<void> m_currentOperation;
+
+    void setIsUpdating(bool updating);
+    void performMonitorDetectionAsync();
+    void performBrightnessUpdateAsync(int value);
 };

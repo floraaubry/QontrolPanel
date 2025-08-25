@@ -529,6 +529,10 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
         <source>Allow brightness control</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Experimental</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HeadsetControlPane</name>

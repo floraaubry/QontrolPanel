@@ -516,6 +516,10 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>Allow brightness control</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Experimental</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HeadsetControlPane</name>

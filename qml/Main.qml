@@ -1075,6 +1075,57 @@ ApplicationWindow {
                     }
 
                     Rectangle {
+                        visible: brightnessLayout.visible
+                        Layout.preferredHeight: 1
+                        Layout.fillWidth: true
+                        color: Constants.separatorColor
+                        opacity: 0.15
+                        Layout.rightMargin: -14
+                        Layout.leftMargin: -14
+                    }
+
+                    ColumnLayout {
+                        visible: MonitorManager.monitorDetected && UserSettings.allowBrightnessControl
+                        id: brightnessLayout
+                        spacing: 5
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 40
+                            spacing: 0
+
+                            IconImage {
+                                Layout.preferredWidth: 40
+                                Layout.preferredHeight: 40
+                                sourceSize.width: 22
+                                sourceSize.height: 22
+                                color: palette.text
+                                source: "qrc:/icons/brightness.svg"
+                            }
+
+                            Slider {
+                                id: brightnessSlider
+                                from: 0
+                                to: 100
+                                Layout.fillWidth: true
+                                value: MonitorManager.brightness
+                                onPressedChanged: {
+                                    if (!pressed) {
+                                        MonitorManager.brightness = value
+                                    }
+                                }
+
+                                ToolTip {
+                                    parent: brightnessSlider.handle
+                                    visible: brightnessSlider.pressed || brightnessSlider.hovered
+                                    delay: brightnessSlider.pressed ? 0 : 1000
+                                    text: Math.round(brightnessSlider.value).toString()
+                                }
+                            }
+                        }
+                    }
+
+                    Rectangle {
                         color: Constants.footerColor
                         Layout.fillWidth: true
                         Layout.fillHeight: false
