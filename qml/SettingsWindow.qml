@@ -70,6 +70,7 @@ ApplicationWindow {
 
         Item {
             Layout.preferredWidth: 200
+            Layout.preferredHeight: 35
             Layout.fillHeight: true
 
             ColumnLayout {

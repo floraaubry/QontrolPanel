@@ -504,10 +504,6 @@ You can enable it in the General tab.</source>
         <translation type="obsolete">Beenden</translation>
     </message>
     <message>
-        <source>Welcome to Quick Sound Switcher!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Get Started</source>
         <translation type="unfinished"></translation>
     </message>
@@ -525,6 +521,10 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Automatic translations update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to QontrolPanel!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

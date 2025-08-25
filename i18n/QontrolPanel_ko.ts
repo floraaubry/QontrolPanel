@@ -555,7 +555,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Welcome to Quick Sound Switcher!</source>
-        <translation>Quick Sound Switcher에 오신 것을 환영합니다!</translation>
+        <translation type="vanished">Quick Sound Switcher에 오신 것을 환영합니다!</translation>
     </message>
     <message>
         <source>Get Started</source>
@@ -576,6 +576,10 @@ You can enable it in the General tab.</source>
     <message>
         <source>Automatic translations update</source>
         <translation>자동 번역 업데이트</translation>
+    </message>
+    <message>
+        <source>Welcome to QontrolPanel!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

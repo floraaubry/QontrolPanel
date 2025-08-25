@@ -503,7 +503,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     <name>IntroWindow</name>
     <message>
         <source>Welcome to Quick Sound Switcher!</source>
-        <translation>Benvenuto in Quick Sound Switcher!</translation>
+        <translation type="vanished">Benvenuto in Quick Sound Switcher!</translation>
     </message>
     <message>
         <source>Get Started</source>
@@ -524,6 +524,10 @@ Puoi abilitarlo nella scheda Generale.</translation>
     <message>
         <source>Automatic translations update</source>
         <translation>Aggiornamento automatico traduzioni</translation>
+    </message>
+    <message>
+        <source>Welcome to QontrolPanel!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

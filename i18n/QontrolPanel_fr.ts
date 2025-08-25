@@ -586,7 +586,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Welcome to Quick Sound Switcher!</source>
-        <translation>Bienvenue dans Quick Sound Switcher!</translation>
+        <translation type="vanished">Bienvenue dans Quick Sound Switcher!</translation>
     </message>
     <message>
         <source>Get Started</source>
@@ -607,6 +607,10 @@ You can enable it in the General tab.</source>
     <message>
         <source>Automatic translations update</source>
         <translation>Téléchargment automatique des traductions</translation>
+    </message>
+    <message>
+        <source>Welcome to QontrolPanel!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
