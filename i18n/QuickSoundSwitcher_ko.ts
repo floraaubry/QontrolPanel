@@ -501,6 +501,10 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>Monitor battery using HeadsetControl for supported devices</source>
         <translation>지원되는 장치의 헤드셋 제어를 사용하여 배터리를 모니터링합니다</translation>
     </message>
+    <message>
+        <source>Allow brightness control</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HeadsetControlPane</name>

@@ -504,6 +504,10 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>Monitor battery using HeadsetControl for supported devices</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Allow brightness control</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HeadsetControlPane</name>

@@ -39,4 +39,5 @@ Settings {
     property bool headsetcontrolMonitoring: true
     property bool headsetcontrolLights: true
     property int headsetcontrolSidetone: 0
+    property bool allowBrightnessControl: false
 }

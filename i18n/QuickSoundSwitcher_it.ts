@@ -461,6 +461,10 @@ Se vuoi supportare il mio lavoro, qualsiasi contributo sarebbe molto apprezzato!
         <source>Monitor battery using HeadsetControl for supported devices</source>
         <translation>Monitora la batteria usando il controllo cuffie per dispositivi supportati</translation>
     </message>
+    <message>
+        <source>Allow brightness control</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HeadsetControlPane</name>

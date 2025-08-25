@@ -525,6 +525,10 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
         <source>Monitor battery using HeadsetControl for supported devices</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Allow brightness control</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HeadsetControlPane</name>
