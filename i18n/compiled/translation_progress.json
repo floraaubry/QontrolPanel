@@ -1,16 +1,9 @@
 {
-  "zh_CN": 0,
-  "QontrolPanel_de.ts": 0,
-  "ko": 0,
-  "ru": 0,
-  "QontrolPanel_en.ts": 85,
-  "QontrolPanel_zh_CN.ts": 53,
-  "QontrolPanel_ko.ts": 96,
-  "QontrolPanel_ru.ts": 53,
-  "fr": 0,
+  "zh_CN": 53,
+  "ko": 96,
+  "ru": 53,
+  "fr": 90,
   "de": 0,
-  "it": 0,
-  "en": 0,
-  "QontrolPanel_fr.ts": 90,
-  "QontrolPanel_it.ts": 96
+  "it": 96,
+  "en": 85
 }
