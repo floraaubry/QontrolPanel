@@ -183,18 +183,10 @@ void Updater::installExecutable(const QString& newExePath)
     dir.cdUp();
     QString targetDir = QDir::toNativeSeparators(dir.absolutePath());
 
-    QStringList arguments;
-    arguments << "/CLOSEAPPLICATIONS";
-    arguments << "/FORCECLOSEAPPLICATIONS";
-    arguments << "/RESTARTAPPLICATIONS";
-    arguments << QString("/DIR=%1").arg(targetDir);
-    arguments << "/SILENT";
-    arguments << "/NOCANCEL";
-
-    bool started = QProcess::startDetached(newExePath, arguments);
+    bool started = QProcess::startDetached(newExePath);
 
     if (started) {
-        emit updateFinished(true, tr("Update started. Application will restart."));
+        emit updateFinished(true, tr("Update started."));
         QApplication::quit();
     } else {
         emit updateFinished(false, "Failed to start update executable");

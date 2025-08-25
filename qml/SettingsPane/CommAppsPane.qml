@@ -37,7 +37,7 @@ ColumnLayout {
                 width: parent.width
                 title: qsTr("Activate ChatMix")
 
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     id: activateChatMixSwitch
                     checked: UserSettings.activateChatmix
                     onClicked: {
@@ -64,7 +64,7 @@ ColumnLayout {
                 title: qsTr("Enable ChatMix")
                 description: qsTr("Control communication apps separately from other applications")
 
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     checked: UserSettings.chatMixEnabled
                     onClicked: {
                         if (checked) {

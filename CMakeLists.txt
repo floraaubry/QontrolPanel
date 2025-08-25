@@ -37,6 +37,8 @@ set(SOURCES
     src/headsetcontrolmonitor.cpp
     src/bluetoothbatterymonitor.cpp
     src/headsetcontrolbridge.cpp
+    src/monitormanager.cpp
+    src/monitormanagerimpl.cpp
 )
 
 set(HEADERS
@@ -52,6 +54,8 @@ set(HEADERS
     include/headsetcontrolmonitor.h
     include/bluetoothbatterymonitor.h
     include/headsetcontrolbridge.h
+    include/monitormanager.h
+    include/monitormanagerimpl.h
 )
 
 # Get git commit hash
@@ -120,6 +124,7 @@ set(QML_FILES
     qml/DevicesListView.qml
     qml/MediaFlyoutContent.qml
     qml/Card.qml
+    qml/LabeledSwitch.qml
     qml/SettingsPane/AppearancePane.qml
     qml/SettingsPane/GeneralPane.qml
     qml/SettingsPane/LanguagePane.qml
@@ -153,8 +158,6 @@ qt_add_qml_module(QuickSoundSwitcher
     URI Odizinne.QuickSoundSwitcher
     VERSION 1.0
     QML_FILES ${QML_FILES} ${QML_SINGLETONS}
-    SOURCES include/monitormanager.h src/monitormanager.cpp
-    SOURCES include/monitormanagerimpl.h src/monitormanagerimpl.cpp
 )
 
 target_include_directories(QuickSoundSwitcher PRIVATE

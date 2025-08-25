@@ -38,7 +38,7 @@ ColumnLayout {
                 title: qsTr("Sound keepalive")
                 description: qsTr("Emit an inaudible sound to keep bluetooth devices awake")
 
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     checked: UserSettings.keepAlive
                     onClicked: UserSettings.keepAlive = checked
                 }
@@ -49,7 +49,7 @@ ColumnLayout {
                 title: qsTr("Run at system startup")
                 description: qsTr("QSS will boot up when your computer starts")
 
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     checked: SoundPanelBridge.getShortcutState()
                     onClicked: SoundPanelBridge.setStartupShortcut(checked)
                 }
@@ -60,7 +60,7 @@ ColumnLayout {
                 title: qsTr("Close device list automatically")
                 description: qsTr("Device list will automatically close after selecting a device")
 
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     checked: UserSettings.closeDeviceListOnClick
                     onClicked: UserSettings.closeDeviceListOnClick = checked
                 }
@@ -71,7 +71,7 @@ ColumnLayout {
                 title: qsTr("Allow brightness control")
                 description: qsTr("Experimental")
 
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     checked: UserSettings.allowBrightnessControl
                     onClicked: UserSettings.allowBrightnessControl = checked
                 }
@@ -82,7 +82,7 @@ ColumnLayout {
                 title: qsTr("HeadsetControl Integration")
                 description: qsTr("Monitor battery using HeadsetControl for supported devices")
 
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     checked: UserSettings.headsetcontrolMonitoring
                     onClicked: {
                         UserSettings.headsetcontrolMonitoring = checked

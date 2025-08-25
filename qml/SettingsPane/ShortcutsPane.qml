@@ -28,7 +28,7 @@ ColumnLayout {
                 title: qsTr("Enable global shortcuts")
                 description: qsTr("Allow QuickSoundSwitcher to respond to keyboard shortcuts globally")
 
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     checked: UserSettings.globalShortcutsEnabled
                     onClicked: UserSettings.globalShortcutsEnabled = checked
                 }
@@ -37,7 +37,7 @@ ColumnLayout {
             Card {
                 Layout.fillWidth: true
                 title: qsTr("Notification on ChatMix toggle")
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     checked: UserSettings.chatMixShortcutNotification
                     onClicked: UserSettings.chatMixShortcutNotification = checked
                 }

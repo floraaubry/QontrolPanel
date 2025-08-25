@@ -100,7 +100,7 @@ ColumnLayout {
                 title: qsTr("Applications and devices label")
                 description: ""
 
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     checked: UserSettings.displayDevAppLabel
                     onClicked: UserSettings.displayDevAppLabel = checked
                 }
@@ -111,7 +111,7 @@ ColumnLayout {
                 title: qsTr("Show audio level")
                 description: qsTr("Display audio level value in slider")
 
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     checked: UserSettings.showAudioLevel
                     onClicked: UserSettings.showAudioLevel = checked
                 }
@@ -121,7 +121,7 @@ ColumnLayout {
                 Layout.fillWidth: true
                 title: qsTr("Opacity animations")
 
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     checked: UserSettings.opacityAnimations
                     onClicked: UserSettings.opacityAnimations = checked
                 }
@@ -131,7 +131,7 @@ ColumnLayout {
                 Layout.fillWidth: true
                 title: qsTr("Display device icon")
 
-                additionalControl: Switch {
+                additionalControl: LabeledSwitch {
                     checked: UserSettings.deviceIcon
                     onClicked: UserSettings.deviceIcon = checked
                 }

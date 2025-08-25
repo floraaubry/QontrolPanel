@@ -42,7 +42,7 @@ ColumnLayout {
                     title: qsTr("Headset Lighting")
                     description: qsTr("Toggle RGB lights on your headset")
 
-                    additionalControl: Switch {
+                    additionalControl: LabeledSwitch {
                         checked: UserSettings.headsetcontrolLights
                         onClicked:{
                             UserSettings.headsetcontrolLights = checked

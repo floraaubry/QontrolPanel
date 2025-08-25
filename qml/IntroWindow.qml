@@ -102,7 +102,7 @@ ApplicationWindow {
                     Layout.fillWidth: true
                 }
 
-                Switch {
+                LabeledSwitch {
                     checked: UserSettings.autoFetchForAppUpdates
                     onClicked: UserSettings.autoFetchForAppUpdates = checked
                 }
@@ -115,7 +115,7 @@ ApplicationWindow {
                     Layout.fillWidth: true
                 }
 
-                Switch {
+                LabeledSwitch {
                     checked: UserSettings.autoUpdateTranslations
                     onClicked: UserSettings.autoUpdateTranslations = checked
                 }

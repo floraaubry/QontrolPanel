@@ -527,6 +527,17 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
 </context>
 <context>
+    <name>LabeledSwitch</name>
+    <message>
+        <source>On</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LanguagePane</name>
     <message>
         <source>Application language</source>

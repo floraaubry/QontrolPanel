@@ -79,7 +79,7 @@ ColumnLayout {
                     title: qsTr("Auto update translations")
                     description: qsTr("Fetch for translations update at startup and every 4 hours")
 
-                    additionalControl: Switch {
+                    additionalControl: LabeledSwitch {
                         checked: UserSettings.autoUpdateTranslations
                         onClicked: UserSettings.autoUpdateTranslations = checked
                     }

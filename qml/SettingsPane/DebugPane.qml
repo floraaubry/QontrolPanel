@@ -89,7 +89,7 @@ ColumnLayout {
                     title: qsTr("Auto check for app updates")
                     description: qsTr("Check for application updates at startup and every 4 hours")
 
-                    additionalControl: Switch {
+                    additionalControl: LabeledSwitch {
                         checked: UserSettings.autoFetchForAppUpdates
                         onClicked: UserSettings.autoFetchForAppUpdates = checked
                     }
