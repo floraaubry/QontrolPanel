@@ -503,11 +503,11 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Allow brightness control</source>
-        <translation type="unfinished"></translation>
+        <translation>밝기 제어 허용</translation>
     </message>
     <message>
         <source>Experimental</source>
-        <translation type="unfinished"></translation>
+        <translation>실험적</translation>
     </message>
 </context>
 <context>
@@ -582,11 +582,11 @@ You can enable it in the General tab.</source>
     <name>LabeledSwitch</name>
     <message>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation>켜기</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation>끄기</translation>
     </message>
 </context>
 <context>
@@ -712,7 +712,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>밝기</translation>
     </message>
 </context>
 <context>
@@ -921,7 +921,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Update started.</source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트가 시작되었습니다.</translation>
     </message>
 </context>
 </TS>
