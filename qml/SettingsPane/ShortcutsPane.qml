@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.FluentWinUI3
-import Odizinne.QuickSoundSwitcher
+import Odizinne.QontrolPanel
 
 ColumnLayout {
     id: lyt
@@ -26,7 +26,7 @@ ColumnLayout {
             Card {
                 Layout.fillWidth: true
                 title: qsTr("Enable global shortcuts")
-                description: qsTr("Allow QuickSoundSwitcher to respond to keyboard shortcuts globally")
+                description: qsTr("Allow QontrolPanel to respond to keyboard shortcuts globally")
 
                 additionalControl: LabeledSwitch {
                     checked: UserSettings.globalShortcutsEnabled

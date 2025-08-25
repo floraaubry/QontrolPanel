@@ -1,7 +1,7 @@
 pragma Singleton
 
 import QtQuick
-import Odizinne.QuickSoundSwitcher
+import Odizinne.QontrolPanel
 
 QtObject {
     signal easterEggRequested()

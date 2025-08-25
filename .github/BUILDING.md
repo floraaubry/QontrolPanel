@@ -1,4 +1,4 @@
-## Building QuickSoundSwitcher from sources
+## Building QontrolPanel from sources
 
 ### Prerequistes
 - Git for Windows (for commit extraction at build time)
@@ -39,7 +39,7 @@ You can then start the install
 
 ### Compiling the project
 
-Open QtCreator, open project, and load QuickSoundSwitcher CMakeLists.txt.  
+Open QtCreator, open project, and load QontrolPanel CMakeLists.txt.  
 In the kit configuration, you can just leave it to default and click on configure project.
 
 ![image](../.assets/qt_kit.png)
@@ -48,6 +48,6 @@ In QtCrator, bottom left, you can click the Run button.
 
 ![image](../.assets/build_run.png)
 
-Be sure to have closed any previous instance of QuickSoundSwitcher, or the new one will refuse to open.
+Be sure to have closed any previous instance of QontrolPanel, or the new one will refuse to open.
 
 Subsequant builds will be much faster than the initial one.

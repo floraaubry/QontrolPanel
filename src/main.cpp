@@ -1,4 +1,4 @@
-#include "quicksoundswitcher.h"
+#include "qontrolpanel.h"
 #include <QApplication>
 #include <QProcess>
 #include <QLocalSocket>
@@ -8,7 +8,7 @@
 bool tryConnectToExistingInstance()
 {
     QLocalSocket socket;
-    socket.connectToServer("QuickSoundSwitcher");
+    socket.connectToServer("QontrolPanel");
 
     if (socket.waitForConnected(1000)) {
         socket.write("show_panel");
@@ -26,14 +26,14 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setQuitOnLastWindowClosed(false);
     a.setOrganizationName("Odizinne");
-    a.setApplicationName("QuickSoundSwitcher");
+    a.setApplicationName("QontrolPanel");
 
     if (tryConnectToExistingInstance()) {
         qDebug() << "Sent show panel request to existing instance";
         return 0;
     }
 
-    QuickSoundSwitcher w;
+    QontrolPanel w;
 
     return a.exec();
 }

@@ -5,7 +5,7 @@ import QtQuick
 import QtQuick.Controls.FluentWinUI3
 import QtQuick.Controls.FluentWinUI3.impl as Impl
 import QtQuick.Templates as T
-import Odizinne.QuickSoundSwitcher
+import Odizinne.QontrolPanel
 
 Slider {
     id: control

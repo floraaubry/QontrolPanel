@@ -1,6 +1,6 @@
 import QtQuick
 import QtMultimedia
-import Odizinne.QuickSoundSwitcher
+import Odizinne.QontrolPanel
 
 Item {
     id: root

@@ -1,6 +1,6 @@
 pragma Singleton
 import QtQuick
-import Odizinne.QuickSoundSwitcher
+import Odizinne.QontrolPanel
 
 Item {
     property bool darkMode: SoundPanelBridge.darkMode

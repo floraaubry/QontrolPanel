@@ -50,10 +50,10 @@ void Updater::checkForUpdates()
     // Clear previous release notes
     setReleaseNotes("");
 
-    QString urlString = "https://api.github.com/repos/Odizinne/QuickSoundSwitcher/releases/latest";
+    QString urlString = "https://api.github.com/repos/Odizinne/QontrolPanel/releases/latest";
     QUrl url{urlString};
     QNetworkRequest request{url};
-    request.setHeader(QNetworkRequest::UserAgentHeader, "QuickSoundSwitcher-Updater");
+    request.setHeader(QNetworkRequest::UserAgentHeader, "QontrolPanel-Updater");
 
     QNetworkReply* reply = m_networkManager->get(request);
     connect(reply, &QNetworkReply::finished, this, &Updater::onVersionCheckFinished);
@@ -93,7 +93,7 @@ void Updater::onVersionCheckFinished()
     for (const auto& asset : assets) {
         QJsonObject assetObj = asset.toObject();
         QString name = assetObj["name"].toString();
-        if (name.endsWith(".exe") && name.contains("QuickSoundSwitcher")) {
+        if (name.endsWith(".exe") && name.contains("QontrolPanel")) {
             m_downloadUrl = assetObj["browser_download_url"].toString();
             break;
         }
@@ -161,7 +161,7 @@ void Updater::onDownloadFinished()
 
     // Save to temp file
     QString tempDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-    QString tempFile = tempDir + "/QuickSoundSwitcher_update.exe";
+    QString tempFile = tempDir + "/QontrolPanel_update.exe";
 
     QFile file(tempFile);
     if (!file.open(QIODevice::WriteOnly)) {

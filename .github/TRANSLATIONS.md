@@ -1,4 +1,4 @@
-## Translate QuickSoundSwitcher
+## Translate QontrolPanel
 
 ### Install Qt linguist
 
@@ -6,7 +6,7 @@ Please follow qt installation in build guide to install Qt linguist.
 
 ### Testing your changes
 
-You can override the qm files in your QSS install (default: `%localappdata%\programs\QuickSoundSwitcher\bin\i18n`) with `file` -> `release as...`
+You can override the qm files in your QSS install (default: `%localappdata%\programs\QontrolPanel\bin\i18n`) with `file` -> `release as...`
 
 ### Validating your changes
 

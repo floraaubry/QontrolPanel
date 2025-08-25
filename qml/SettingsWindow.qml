@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick.Controls.FluentWinUI3
 import QtQuick.Layouts
 import QtQuick
-import Odizinne.QuickSoundSwitcher
+import Odizinne.QontrolPanel
 
 ApplicationWindow {
     id: root
@@ -13,7 +13,7 @@ ApplicationWindow {
     minimumWidth: 900
     visible: false
     transientParent: null
-    title: qsTr("QuickSoundSwitcher - Settings")
+    title: qsTr("QontrolPanel - Settings")
     palette.accent: Constants.accentColor
 
     function showUpdatePane() {

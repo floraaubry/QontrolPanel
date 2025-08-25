@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.FluentWinUI3
 import QtQuick.Controls.impl
 import QtQuick.Window
-import Odizinne.QuickSoundSwitcher
+import Odizinne.QontrolPanel
 import Qt.labs.platform as Platform
 
 ApplicationWindow {

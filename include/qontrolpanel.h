@@ -8,14 +8,14 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 
-class QuickSoundSwitcher : public QWidget
+class QontrolPanel : public QWidget
 {
     Q_OBJECT
 
 public:
-    QuickSoundSwitcher(QWidget *parent = nullptr);
-    ~QuickSoundSwitcher();
-    static QuickSoundSwitcher* instance;
+    QontrolPanel(QWidget *parent = nullptr);
+    ~QontrolPanel();
+    static QontrolPanel* instance;
 
 private slots:
     void onLanguageChanged();

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(QuickSoundSwitcher VERSION 1.7.5 LANGUAGES C CXX)
+project(QontrolPanel VERSION 1.8.0 LANGUAGES C CXX)
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation directory" FORCE)
 set(CMAKE_CXX_STANDARD 20)
@@ -27,7 +27,7 @@ include(cmake/languages.cmake)
 set(SOURCES
     src/audiomanager.cpp
     src/audiobridge.cpp
-    src/quicksoundswitcher.cpp
+    src/QontrolPanel.cpp
     src/shortcutmanager.cpp
     src/soundpanelbridge.cpp
     src/main.cpp
@@ -45,7 +45,7 @@ set(HEADERS
     include/audiomanager.h
     include/audiobridge.h
     include/policyconfig.h
-    include/quicksoundswitcher.h
+    include/qontrolpanel.h
     include/shortcutmanager.h
     include/soundpanelbridge.h
     include/mediasessionmanager.h
@@ -108,7 +108,7 @@ configure_file(
     @ONLY
 )
 
-qt_add_executable(QuickSoundSwitcher WIN32 MACOSX_BUNDLE
+qt_add_executable(QontrolPanel WIN32 MACOSX_BUNDLE
     ${SOURCES}
     ${HEADERS}
     resources/icons/icons.qrc
@@ -154,18 +154,18 @@ set_source_files_properties(${QML_SINGLETONS}
     PROPERTIES QT_QML_SINGLETON_TYPE TRUE
 )
 
-qt_add_qml_module(QuickSoundSwitcher
-    URI Odizinne.QuickSoundSwitcher
+qt_add_qml_module(QontrolPanel
+    URI Odizinne.QontrolPanel
     VERSION 1.0
     QML_FILES ${QML_FILES} ${QML_SINGLETONS}
 )
 
-target_include_directories(QuickSoundSwitcher PRIVATE
+target_include_directories(QontrolPanel PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-target_link_libraries(QuickSoundSwitcher PRIVATE
+target_link_libraries(QontrolPanel PRIVATE
     Qt::Core
     Qt::Gui
     Qt::Qml
@@ -178,7 +178,7 @@ target_link_libraries(QuickSoundSwitcher PRIVATE
     windowsapp
 )
 
-target_compile_definitions(QuickSoundSwitcher PRIVATE
+target_compile_definitions(QontrolPanel PRIVATE
     UNICODE
     WINRT_LEAN_AND_MEAN
     NOMINMAX
@@ -186,7 +186,7 @@ target_compile_definitions(QuickSoundSwitcher PRIVATE
 )
 
 if(WIN32 AND MSVC)
-    target_compile_options(QuickSoundSwitcher PRIVATE "/await")
+    target_compile_options(QontrolPanel PRIVATE "/await")
 endif()
 
 get_ts_files(TS_FILES ${CMAKE_PROJECT_NAME})
@@ -213,13 +213,13 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/dependencies/
     COMPONENT Runtime
 )
 
-install(TARGETS QuickSoundSwitcher
+install(TARGETS QontrolPanel
     BUNDLE DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 qt_generate_deploy_qml_app_script(
-    TARGET QuickSoundSwitcher
+    TARGET QontrolPanel
     OUTPUT_SCRIPT deploy_script
     NO_TRANSLATIONS
     DEPLOY_TOOL_OPTIONS --no-compiler-runtime --no-opengl-sw --no-system-dxc-compiler --no-system-d3d-compiler --skip-plugin-types designer,iconengines,qmllint,generic,networkinformation,help,qmltooling,sqldrivers,qmlls

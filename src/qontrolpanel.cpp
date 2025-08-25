@@ -1,4 +1,4 @@
-#include "quicksoundswitcher.h"
+#include "qontrolpanel.h"
 #include "soundpanelbridge.h"
 #include "mediasessionmanager.h"
 #include <QMenu>
@@ -12,16 +12,16 @@
 #include <Windows.h>
 #include <QProcess>
 
-HHOOK QuickSoundSwitcher::keyboardHook = NULL;
-HHOOK QuickSoundSwitcher::mouseHook = NULL;
-QuickSoundSwitcher* QuickSoundSwitcher::instance = nullptr;
+HHOOK QontrolPanel::keyboardHook = NULL;
+HHOOK QontrolPanel::mouseHook = NULL;
+QontrolPanel* QontrolPanel::instance = nullptr;
 static bool validMouseDown = false;
 
-QuickSoundSwitcher::QuickSoundSwitcher(QWidget *parent)
+QontrolPanel::QontrolPanel(QWidget *parent)
     : QWidget(parent)
     , engine(nullptr)
     , panelWindow(nullptr)
-    , settings("Odizinne", "QuickSoundSwitcher")
+    , settings("Odizinne", "QontrolPanel")
     , outputDeviceAction(nullptr)
     , inputDeviceAction(nullptr)
     , currentOutputDevice("")
@@ -39,11 +39,11 @@ QuickSoundSwitcher::QuickSoundSwitcher(QWidget *parent)
 
     if (SoundPanelBridge::instance()) {
         connect(SoundPanelBridge::instance(), &SoundPanelBridge::languageChanged,
-                this, &QuickSoundSwitcher::onLanguageChanged);
+                this, &QontrolPanel::onLanguageChanged);
     }
 }
 
-QuickSoundSwitcher::~QuickSoundSwitcher()
+QontrolPanel::~QontrolPanel()
 {
     MediaSessionManager::cleanup();
     uninstallGlobalMouseHook();
@@ -53,14 +53,14 @@ QuickSoundSwitcher::~QuickSoundSwitcher()
     instance = nullptr;
 }
 
-void QuickSoundSwitcher::initializeQMLEngine()
+void QontrolPanel::initializeQMLEngine()
 {
     if (engine) {
         return;
     }
 
     engine = new QQmlApplicationEngine(this);
-    engine->loadFromModule("Odizinne.QuickSoundSwitcher", "Main");
+    engine->loadFromModule("Odizinne.QontrolPanel", "Main");
 
     if (!engine->rootObjects().isEmpty()) {
         panelWindow = qobject_cast<QWindow*>(engine->rootObjects().first());
@@ -68,7 +68,7 @@ void QuickSoundSwitcher::initializeQMLEngine()
             panelWindow->setProperty("visible", false);
 
             connect(panelWindow, &QWindow::visibleChanged,
-                    this, &QuickSoundSwitcher::onPanelVisibilityChanged);
+                    this, &QontrolPanel::onPanelVisibilityChanged);
 
             connect(panelWindow, SIGNAL(globalShortcutsToggled(bool)),
                     this, SLOT(onGlobalShortcutsToggled(bool)));
@@ -76,7 +76,7 @@ void QuickSoundSwitcher::initializeQMLEngine()
     }
 }
 
-void QuickSoundSwitcher::onGlobalShortcutsToggled(bool enabled)
+void QontrolPanel::onGlobalShortcutsToggled(bool enabled)
 {
     if (enabled) {
         installKeyboardHook();
@@ -85,7 +85,7 @@ void QuickSoundSwitcher::onGlobalShortcutsToggled(bool enabled)
     }
 }
 
-void QuickSoundSwitcher::onPanelVisibilityChanged(bool visible)
+void QontrolPanel::onPanelVisibilityChanged(bool visible)
 {
     isPanelVisible = visible;
 
@@ -96,7 +96,7 @@ void QuickSoundSwitcher::onPanelVisibilityChanged(bool visible)
     }
 }
 
-void QuickSoundSwitcher::destroyQMLEngine()
+void QontrolPanel::destroyQMLEngine()
 {
     if (engine) {
         engine->deleteLater();
@@ -105,7 +105,7 @@ void QuickSoundSwitcher::destroyQMLEngine()
     panelWindow = nullptr;
 }
 
-QString QuickSoundSwitcher::elideDeviceText(const QString& deviceName, int volume, bool muted)
+QString QontrolPanel::elideDeviceText(const QString& deviceName, int volume, bool muted)
 {
     QFontMetrics metrics(QApplication::font());
 
@@ -120,14 +120,14 @@ QString QuickSoundSwitcher::elideDeviceText(const QString& deviceName, int volum
     return QString("%1%2").arg(elidedName, volumeText);
 }
 
-void QuickSoundSwitcher::installGlobalMouseHook()
+void QontrolPanel::installGlobalMouseHook()
 {
     if (mouseHook == NULL) {
         mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseProc, NULL, 0);
     }
 }
 
-void QuickSoundSwitcher::uninstallGlobalMouseHook()
+void QontrolPanel::uninstallGlobalMouseHook()
 {
     if (mouseHook != NULL) {
         UnhookWindowsHookEx(mouseHook);
@@ -135,14 +135,14 @@ void QuickSoundSwitcher::uninstallGlobalMouseHook()
     }
 }
 
-void QuickSoundSwitcher::installKeyboardHook()
+void QontrolPanel::installKeyboardHook()
 {
     if (keyboardHook == NULL) {
         keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardProc, NULL, 0);
     }
 }
 
-void QuickSoundSwitcher::uninstallKeyboardHook()
+void QontrolPanel::uninstallKeyboardHook()
 {
     if (keyboardHook != NULL) {
         UnhookWindowsHookEx(keyboardHook);
@@ -150,7 +150,7 @@ void QuickSoundSwitcher::uninstallKeyboardHook()
     }
 }
 
-LRESULT CALLBACK QuickSoundSwitcher::MouseProc(int nCode, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK QontrolPanel::MouseProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
     if (nCode == HC_ACTION) {
         if (wParam == WM_LBUTTONDOWN || wParam == WM_RBUTTONDOWN) {
@@ -185,7 +185,7 @@ LRESULT CALLBACK QuickSoundSwitcher::MouseProc(int nCode, WPARAM wParam, LPARAM 
     return CallNextHookEx(NULL, nCode, wParam, lParam);
 }
 
-bool QuickSoundSwitcher::isModifierPressed(int qtModifier)
+bool QontrolPanel::isModifierPressed(int qtModifier)
 {
     bool result = true;
     if (qtModifier & Qt::ControlModifier) {
@@ -200,7 +200,7 @@ bool QuickSoundSwitcher::isModifierPressed(int qtModifier)
     return result;
 }
 
-int QuickSoundSwitcher::qtKeyToVirtualKey(int qtKey)
+int QontrolPanel::qtKeyToVirtualKey(int qtKey)
 {
     // Convert common Qt keys to Windows virtual keys
     switch (qtKey) {
@@ -246,7 +246,7 @@ int QuickSoundSwitcher::qtKeyToVirtualKey(int qtKey)
     }
 }
 
-LRESULT CALLBACK QuickSoundSwitcher::KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK QontrolPanel::KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
     if (nCode == HC_ACTION) {
         PKBDLLHOOKSTRUCT pKeyboard = reinterpret_cast<PKBDLLHOOKSTRUCT>(lParam);
@@ -263,7 +263,7 @@ LRESULT CALLBACK QuickSoundSwitcher::KeyboardProc(int nCode, WPARAM wParam, LPAR
     return CallNextHookEx(keyboardHook, nCode, wParam, lParam);
 }
 
-bool QuickSoundSwitcher::handleCustomShortcut(DWORD vkCode)
+bool QontrolPanel::handleCustomShortcut(DWORD vkCode)
 {
     if (!settings.value("globalShortcutsEnabled", true).toBool()) {
         return false;
@@ -292,7 +292,7 @@ bool QuickSoundSwitcher::handleCustomShortcut(DWORD vkCode)
     return false;
 }
 
-void QuickSoundSwitcher::toggleChatMix()
+void QontrolPanel::toggleChatMix()
 {
     if (!settings.value("activateChatmix", false).toBool()) {
         return;
@@ -312,7 +312,7 @@ void QuickSoundSwitcher::toggleChatMix()
     }
 }
 
-void QuickSoundSwitcher::togglePanel()
+void QontrolPanel::togglePanel()
 {
     if (!panelWindow) return;
 
@@ -323,40 +323,40 @@ void QuickSoundSwitcher::togglePanel()
     }
 }
 
-void QuickSoundSwitcher::onLanguageChanged()
+void QontrolPanel::onLanguageChanged()
 {
     if (engine) {
         engine->retranslate();
     }
 }
 
-void QuickSoundSwitcher::setupLocalServer()
+void QontrolPanel::setupLocalServer()
 {
     localServer = new QLocalServer(this);
 
     // Remove any existing server (in case of unclean shutdown)
-    QLocalServer::removeServer("QuickSoundSwitcher");
+    QLocalServer::removeServer("QontrolPanel");
 
-    if (!localServer->listen("QuickSoundSwitcher")) {
+    if (!localServer->listen("QontrolPanel")) {
         qWarning() << "Failed to create local server:" << localServer->errorString();
         return;
     }
 
     connect(localServer, &QLocalServer::newConnection,
-            this, &QuickSoundSwitcher::onNewConnection);
+            this, &QontrolPanel::onNewConnection);
 }
 
-void QuickSoundSwitcher::cleanupLocalServer()
+void QontrolPanel::cleanupLocalServer()
 {
     if (localServer) {
         localServer->close();
-        QLocalServer::removeServer("QuickSoundSwitcher");
+        QLocalServer::removeServer("QontrolPanel");
         delete localServer;
         localServer = nullptr;
     }
 }
 
-void QuickSoundSwitcher::onNewConnection()
+void QontrolPanel::onNewConnection()
 {
     QLocalSocket* clientSocket = localServer->nextPendingConnection();
     if (!clientSocket) {
@@ -379,10 +379,10 @@ void QuickSoundSwitcher::onNewConnection()
     });
 
     connect(clientSocket, &QLocalSocket::disconnected,
-            this, &QuickSoundSwitcher::onClientDisconnected);
+            this, &QontrolPanel::onClientDisconnected);
 }
 
-void QuickSoundSwitcher::onClientDisconnected()
+void QontrolPanel::onClientDisconnected()
 {
     QLocalSocket* clientSocket = qobject_cast<QLocalSocket*>(sender());
     if (clientSocket) {

@@ -1,7 +1,7 @@
 import QtQuick.Controls.FluentWinUI3
 import QtQuick.Layouts
 import QtQuick
-import Odizinne.QuickSoundSwitcher
+import Odizinne.QontrolPanel
 
 ColumnLayout {
     spacing: 3

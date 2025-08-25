@@ -48,7 +48,7 @@ jobs:
         shell: pwsh
         run: |
           $releaseDir = "build/install"
-          $newDir = "QuickSoundSwitcher"
+          $newDir = "QontrolPanel"
           if (Test-Path $releaseDir) {
               Rename-Item -Path $releaseDir -NewName $newDir
           } else {
@@ -59,15 +59,15 @@ jobs:
       - name: Zip binaries folder
         shell: pwsh
         run: |
-          $zipFile = "build/QuickSoundSwitcher_win64_msvc2022.zip"
-          $folder = "build/QuickSoundSwitcher"
+          $zipFile = "build/QontrolPanel_win64_msvc2022.zip"
+          $folder = "build/QontrolPanel"
           Compress-Archive -Path $folder -DestinationPath $zipFile
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: QuickSoundSwitcher_win64_msvc2022
-          path: build/QuickSoundSwitcher_win64_msvc2022.zip
+          name: QontrolPanel_win64_msvc2022
+          path: build/QontrolPanel_win64_msvc2022.zip
 
       - name: Update .iss version
         shell: pwsh
@@ -85,5 +85,5 @@ jobs:
       - name: Upload Installer
         uses: actions/upload-artifact@v4
         with:
-          name: QuickSoundSwitcher_Installer
-          path: tools/Output/QuickSoundSwitcher_Installer.exe
+          name: QontrolPanel_Installer
+          path: tools/Output/QontrolPanel_Installer.exe

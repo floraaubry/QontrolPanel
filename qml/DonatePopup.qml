@@ -1,6 +1,6 @@
 import QtQuick.Controls.FluentWinUI3
 import QtQuick
-import Odizinne.QuickSoundSwitcher
+import Odizinne.QontrolPanel
 Dialog {
     id: donatePopup
     modal: true

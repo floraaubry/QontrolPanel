@@ -23,7 +23,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow: build.yml
           workflow_conclusion: success
-          name: QuickSoundSwitcher_win64_msvc2022
+          name: QontrolPanel_win64_msvc2022
           run_id: ${{ inputs.workflow_run_id }}
           if_no_artifact_found: fail
 
@@ -33,7 +33,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow: build.yml
           workflow_conclusion: success
-          name: QuickSoundSwitcher_Installer
+          name: QontrolPanel_Installer
           run_id: ${{ inputs.workflow_run_id }}
           if_no_artifact_found: fail
 
@@ -61,8 +61,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: QuickSoundSwitcher_win64_msvc2022.zip
-          asset_name: QuickSoundSwitcher_win64_msvc2022.zip
+          asset_path: QontrolPanel_win64_msvc2022.zip
+          asset_name: QontrolPanel_win64_msvc2022.zip
           asset_content_type: application/zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -71,8 +71,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: QuickSoundSwitcher_Installer.exe 
-          asset_name: QuickSoundSwitcher_Installer.exe  
+          asset_path: QontrolPanel_Installer.exe 
+          asset_name: QontrolPanel_Installer.exe  
           asset_content_type: application/vnd.microsoft.portable-executable
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

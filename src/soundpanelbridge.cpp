@@ -18,7 +18,7 @@ SoundPanelBridge* SoundPanelBridge::m_instance = nullptr;
 
 SoundPanelBridge::SoundPanelBridge(QObject* parent)
     : QObject(parent)
-    , settings("Odizinne", "QuickSoundSwitcher")
+    , settings("Odizinne", "QontrolPanel")
     , m_currentPanelMode(0)
     , m_darkMode(QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark)
     , translator(new QTranslator(this))
@@ -105,12 +105,12 @@ void SoundPanelBridge::checkForTranslationUpdates()
 
 bool SoundPanelBridge::getShortcutState()
 {
-    return ShortcutManager::isShortcutPresent("QuickSoundSwitcher.lnk");
+    return ShortcutManager::isShortcutPresent("QontrolPanel.lnk");
 }
 
 void SoundPanelBridge::setStartupShortcut(bool enabled)
 {
-    ShortcutManager::manageShortcut(enabled, "QuickSoundSwitcher.lnk");
+    ShortcutManager::manageShortcut(enabled, "QontrolPanel.lnk");
 }
 
 int SoundPanelBridge::panelMode() const
@@ -220,7 +220,7 @@ void SoundPanelBridge::changeApplicationLanguage(int languageIndex)
         languageCode = getLanguageCodeFromIndex(languageIndex);
     }
 
-    QString translationFile = QString("./i18n/QuickSoundSwitcher_%1.qm").arg(languageCode);
+    QString translationFile = QString("./i18n/QontrolPanel_%1.qm").arg(languageCode);
     if (translator->load(translationFile)) {
         qGuiApp->installTranslator(translator);
     } else {
@@ -298,7 +298,7 @@ void SoundPanelBridge::downloadLatestTranslations()
     m_failedDownloads = 0;
 
     QStringList languageCodes = getLanguageCodes();
-    QString baseUrl = "https://github.com/Odizinne/QuickSoundSwitcher/raw/refs/heads/main/i18n/compiled/QuickSoundSwitcher_%1.qm";
+    QString baseUrl = "https://github.com/Odizinne/QontrolPanel/raw/refs/heads/main/i18n/compiled/QontrolPanel_%1.qm";
 
     m_totalDownloads = languageCodes.size();
     emit translationDownloadStarted();
@@ -331,7 +331,7 @@ void SoundPanelBridge::downloadTranslationFile(const QString& languageCode, cons
     QNetworkRequest request;
     request.setUrl(url);
 
-    QString userAgent = QString("QuickSoundSwitcher/%1").arg(APP_VERSION_STRING);
+    QString userAgent = QString("QontrolPanel/%1").arg(APP_VERSION_STRING);
     request.setRawHeader("User-Agent", userAgent.toUtf8());
     request.setAttribute(QNetworkRequest::Http2AllowedAttribute, false);
     request.setRawHeader("Accept", "*/*");
@@ -367,7 +367,7 @@ void SoundPanelBridge::onTranslationFileDownloaded()
 
     if (reply->error() == QNetworkReply::NoError) {
         QString downloadPath = getTranslationDownloadPath();
-        QString fileName = QString("QuickSoundSwitcher_%1.qm").arg(languageCode);
+        QString fileName = QString("QontrolPanel_%1.qm").arg(languageCode);
         QString filePath = downloadPath + "/" + fileName;
 
         QDir().mkpath(downloadPath);
@@ -503,10 +503,10 @@ void SoundPanelBridge::loadTranslationProgressData()
 
 void SoundPanelBridge::downloadTranslationProgressFile()
 {
-    QString githubUrl = "https://raw.githubusercontent.com/Odizinne/QuickSoundSwitcher/main/i18n/compiled/translation_progress.json";
+    QString githubUrl = "https://raw.githubusercontent.com/Odizinne/QontrolPanel/main/i18n/compiled/translation_progress.json";
 
     QNetworkRequest request(githubUrl);
-    request.setHeader(QNetworkRequest::UserAgentHeader, "QuickSoundSwitcher");
+    request.setHeader(QNetworkRequest::UserAgentHeader, "QontrolPanel");
 
     QNetworkReply* reply = m_networkManager->get(request);
 

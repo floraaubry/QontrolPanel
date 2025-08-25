@@ -1,6 +1,6 @@
 import QtQuick
 import Qt.labs.platform as Platform
-import Odizinne.QuickSoundSwitcher
+import Odizinne.QontrolPanel
 
 Platform.SystemTrayIcon {
     id: systemTray

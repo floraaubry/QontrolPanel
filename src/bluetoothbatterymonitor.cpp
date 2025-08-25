@@ -40,7 +40,7 @@ BluetoothBatteryWorker::BluetoothBatteryWorker()
     , m_deviceAddedToken(nullptr)
     , m_deviceRemovedToken(nullptr)
     , m_deviceUpdatedToken(nullptr)
-    , m_settings("Odizinne", "QuickSoundSwitcher")
+    , m_settings("Odizinne", "QontrolPanel")
 {
     //m_scanTimer = new QTimer(this);
     //m_batteryUpdateTimer = new QTimer(this);
@@ -826,7 +826,7 @@ BluetoothBatteryMonitor::~BluetoothBatteryMonitor()
 void BluetoothBatteryMonitor::loadCachedDevicesFromWorker()
 {
     // Load cached devices from settings for instant UI population
-    QSettings settings("Odizinne", "QuickSoundSwitcher");
+    QSettings settings("Odizinne", "QontrolPanel");
 
     int size = settings.beginReadArray("bluetoothDevices");
     QList<BluetoothDeviceBattery> cachedDevices;

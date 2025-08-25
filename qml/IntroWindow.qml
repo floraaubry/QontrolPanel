@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.FluentWinUI3
 import QtMultimedia
-import Odizinne.QuickSoundSwitcher
+import Odizinne.QontrolPanel
 
 ApplicationWindow {
     id: introWindow
@@ -49,7 +49,7 @@ ApplicationWindow {
             spacing: 20
 
             Label {
-                text: qsTr("Welcome to Quick Sound Switcher!")
+                text: qsTr("Welcome to QontrolPanel!")
                 font.pixelSize: 22
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter

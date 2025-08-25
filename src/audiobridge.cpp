@@ -492,7 +492,7 @@ AudioBridge::AudioBridge(QObject *parent)
 }
 
 AudioBridge::~AudioBridge() {
-    QSettings settings("Odizinne", "QuickSoundSwitcher");
+    QSettings settings("Odizinne", "QontrolPanel");
     bool activateChatMix = settings.value("activateChatmix").toBool();
     bool chatMixEnabled = settings.value("chatMixEnabled").toBool();
 
@@ -798,7 +798,7 @@ void AudioBridge::applyChatMixToApplications(int value)
 
 void AudioBridge::restoreOriginalVolumes()
 {
-    QSettings settings("Odizinne", "QuickSoundSwitcher");
+    QSettings settings("Odizinne", "QontrolPanel");
     int restoreVolume = settings.value("chatmixRestoreVolume").toInt();
 
     if (!m_isReady) {
@@ -826,12 +826,12 @@ void AudioBridge::restoreOriginalVolumes()
 
 void AudioBridge::applyChatMixIfEnabled()
 {
-    QSettings settings("Odizinne", "QuickSoundSwitcher");
+    QSettings settings("Odizinne", "QontrolPanel");
     bool activateChatMix = settings.value("activateChatmix").toBool();
     bool chatMixEnabled = settings.value("chatMixEnabled").toBool();
 
     if (activateChatMix && chatMixEnabled) {
-        QSettings settings("Odizinne", "QuickSoundSwitcher");
+        QSettings settings("Odizinne", "QontrolPanel");
         applyChatMixToApplications(settings.value("chatMixValue").toInt());
     }
 }
@@ -1067,7 +1067,7 @@ void AudioBridge::onInitializationComplete()
 
 void AudioBridge::restoreOriginalVolumesSync()
 {
-    QSettings settings("Odizinne", "QuickSoundSwitcher");
+    QSettings settings("Odizinne", "QontrolPanel");
     int restoreVolume = settings.value("chatmixRestoreVolume").toInt();
 
     if (!m_isReady) {
