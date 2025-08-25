@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de" sourcelanguage="en">
+<TS version="2.1" language="de_DE">
 <context>
     <name>AppearancePane</name>
     <message>
@@ -32,10 +32,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Panel X margin</source>
         <translation type="unfinished"></translation>
     </message>
@@ -52,6 +48,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Hidden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Media info display</source>
         <translation type="unfinished"></translation>
     </message>
@@ -65,10 +65,6 @@
     </message>
     <message>
         <source>Panel (informative)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -96,7 +92,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Choose the color of the system tray icon</source>
+        <source>Choose the appearance of the system tray icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -112,11 +108,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tray icon style</source>
+        <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Choose the appearance of the system tray icon</source>
+        <source>Choose the color of the system tray icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tray icon style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -136,14 +136,6 @@
     <name>ApplicationsListView</name>
     <message>
         <source>System sounds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unlock</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Lock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -174,6 +166,14 @@
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unlock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lock</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AudioWorker</name>
@@ -200,23 +200,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Activate ChatMix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Enable ChatMix</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Control communication apps separately from other applications</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ChatMix volume</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The volume to set for non communication applications when ChatMix is enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -232,11 +220,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add application names that should be treated as communication apps</source>
+        <source>Discord</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add App</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ChatMix volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add application names that should be treated as communication apps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -256,10 +252,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Activate</source>
         <translation type="unfinished"></translation>
     </message>
@@ -272,11 +264,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Discord</source>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The volume to set for non communication applications when ChatMix is enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate ChatMix</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -284,50 +284,6 @@
     <name>DebugPane</name>
     <message>
         <source>Debug and information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Application Updates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Version %1 is available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Checking...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Downloading...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Download and Install</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Check for Updates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Release notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View what&apos;s new in version %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Auto check for app updates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Check for application updates at startup and every 4 hours</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -347,11 +303,55 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Version %1</source>
+        <source>Application Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version %1 is available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check for Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download and Install</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Release notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View what&apos;s new in version %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No release notes available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto check for app updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check for application updates at startup and every 4 hours</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -359,10 +359,6 @@
     <name>DevicesListView</name>
     <message>
         <source>Rename Device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Change Icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -375,6 +371,10 @@
     </message>
     <message>
         <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change Icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -453,14 +453,6 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allow brightness control</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Experimental</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>HeadsetControl Integration</source>
         <translation type="unfinished"></translation>
     </message>
@@ -468,9 +460,26 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>Monitor battery using HeadsetControl for supported devices</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Allow brightness control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Experimental</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HeadsetControlPane</name>
+    <message>
+        <source>No compatible device found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HeadsetControl monitoring is disabled
+You can enable it in the General tab.</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Headset Lighting</source>
         <translation type="unfinished"></translation>
@@ -487,20 +496,19 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
         <source>Adjust your voice feedback level</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>No compatible device found.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>HeadsetControl monitoring is disabled
-You can enable it in the General tab.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>IntroWindow</name>
     <message>
+        <source>Exit</source>
+        <translation type="obsolete">Beenden</translation>
+    </message>
+    <message>
         <source>Welcome to Quick Sound Switcher!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get Started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -519,10 +527,6 @@ You can enable it in the General tab.</source>
         <source>Automatic translations update</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Get Started</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>LabeledSwitch</name>
@@ -539,6 +543,26 @@ You can enable it in the General tab.</source>
     <name>LanguagePane</name>
     <message>
         <source>Application language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknow author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation last updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknow date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -574,10 +598,6 @@ You can enable it in the General tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>System</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Translation Progress</source>
         <translation type="unfinished"></translation>
     </message>
@@ -587,22 +607,6 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Fetch for new translation to get data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Translation author</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknow author</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Translation last updated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknow date</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -622,10 +626,6 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>ChatMix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Brightness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -660,15 +660,23 @@ You can enable it in the General tab.</source>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QontrolPanel</name>
     <message>
-        <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <source>Exit</source>
+        <translation type="vanished">Beenden</translation>
     </message>
     <message>
         <source>Enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -699,15 +707,15 @@ You can enable it in the General tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>HeadsetControl</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HeadsetControl</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -754,10 +762,6 @@ You can enable it in the General tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Set ChatMix Shortcut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Press the desired key combination</source>
         <translation type="unfinished"></translation>
     </message>
@@ -767,6 +771,10 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set ChatMix Shortcut</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -796,15 +804,15 @@ You can enable it in the General tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Exit</source>
+        <translation type="unfinished">Beenden</translation>
+    </message>
+    <message>
         <source>Windows sound settings (Legacy)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Windows sound settings (Modern)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
