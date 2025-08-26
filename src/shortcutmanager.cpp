@@ -1,28 +1,25 @@
 #include "shortcutmanager.h"
 #include <QCoreApplication>
+#include <QSettings>
 #include <QDir>
-#include <QFile>
-#include <QShortcut>
-#include <QStandardPaths>
 
 void ShortcutManager::manageShortcut(bool state, QString shortcutName)
 {
-    QString applicationPath = QCoreApplication::applicationFilePath();
-    QString startupPath = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QDir::separator() + "Startup";
-    QString shortcutPath = startupPath + QDir::separator() + shortcutName;
+    QSettings registry("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+                       QSettings::NativeFormat);
 
     if (state) {
-        QFile::link(applicationPath, shortcutPath);
+        QString applicationPath = QDir::toNativeSeparators(QCoreApplication::applicationFilePath());
+        registry.setValue(shortcutName, applicationPath);
     } else {
-        QFile::remove(shortcutPath);
+        registry.remove(shortcutName);
     }
 }
 
 bool ShortcutManager::isShortcutPresent(QString shortcutName)
 {
-    QString startupPath = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QDir::separator() + "Startup";
-    QString shortcutPath = startupPath + QDir::separator() + shortcutName;
+    QSettings registry("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+                       QSettings::NativeFormat);
 
-    return QFile::exists(shortcutPath);
+    return registry.contains(shortcutName);
 }
-
