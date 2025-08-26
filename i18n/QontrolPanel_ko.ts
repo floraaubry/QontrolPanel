@@ -145,7 +145,7 @@
     </message>
     <message>
         <source>Normal</source>
-        <translation>보통</translation>
+        <translation>정상</translation>
     </message>
     <message>
         <source>Filled</source>
@@ -157,18 +157,18 @@
     </message>
     <message>
         <source>Avoid applications overflow</source>
-        <translation type="unfinished"></translation>
+        <translation>응용 프로그램 오버플로 방지</translation>
     </message>
     <message>
         <source>Wrap applications in scrollview when more than 4 applications are displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>4개 이상의 응용 프로그램이 표시될 때 스크롤 보기로 감싸기</translation>
     </message>
 </context>
 <context>
     <name>ApplicationsListView</name>
     <message>
         <source>System sounds</source>
-        <translation>시스템 사운드</translation>
+        <translation>시스템 소리</translation>
     </message>
     <message>
         <source>Rename Application</source>
@@ -211,7 +211,7 @@
     <name>AudioWorker</name>
     <message>
         <source>System sounds</source>
-        <translation>시스템 사운드</translation>
+        <translation>시스템 소리</translation>
     </message>
 </context>
 <context>
@@ -511,11 +511,11 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Allow brightness control</source>
-        <translation type="unfinished"></translation>
+        <translation>밝기 제어 허용</translation>
     </message>
     <message>
         <source>Experimental</source>
-        <translation type="unfinished"></translation>
+        <translation>실험적</translation>
     </message>
 </context>
 <context>
@@ -587,18 +587,18 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Welcome to QontrolPanel!</source>
-        <translation type="unfinished"></translation>
+        <translation>QontrolPanel에 오신 것을 환영합니다!</translation>
     </message>
 </context>
 <context>
     <name>LabeledSwitch</name>
     <message>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation>켜기</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation>끄기</translation>
     </message>
 </context>
 <context>
@@ -724,7 +724,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>밝기</translation>
     </message>
 </context>
 <context>
@@ -933,7 +933,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Update started.</source>
-        <translation type="unfinished"></translation>
+        <translation>업데이트가 시작되었습니다.</translation>
     </message>
 </context>
 </TS>
