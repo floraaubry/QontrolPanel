@@ -133,11 +133,11 @@
     </message>
     <message>
         <source>Avoid applications overflow</source>
-        <translation type="unfinished"></translation>
+        <translation>Evita sovrapposizione applicazioni</translation>
     </message>
     <message>
         <source>Wrap applications in scrollview when more than 4 applications are displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>Quando vengono visualizzate più di 4 applicazioni raccoglile in ScrollView</translation>
     </message>
 </context>
 <context>
@@ -236,10 +236,6 @@
         <translation>Aggiungi app</translation>
     </message>
     <message>
-        <source>Activate ChatMix</source>
-        <translation>Attiva ChatMix</translation>
-    </message>
-    <message>
         <source>ChatMix volume</source>
         <translation>Volume ChatMix</translation>
     </message>
@@ -286,6 +282,10 @@
     <message>
         <source>The volume to set for non communication applications when ChatMix is enabled</source>
         <translation>Il volume da impostare per applicazioni non di comunicazione quando Chatmix è abilitato</translation>
+    </message>
+    <message>
+        <source>Activate ChatMix</source>
+        <translation>Attiva ChatMix</translation>
     </message>
 </context>
 <context>
@@ -471,11 +471,11 @@ Se vuoi supportare il mio lavoro, qualsiasi contributo sarebbe molto apprezzato!
     </message>
     <message>
         <source>Allow brightness control</source>
-        <translation type="unfinished"></translation>
+        <translation>Consenti controllo luminosità</translation>
     </message>
     <message>
         <source>Experimental</source>
-        <translation type="unfinished"></translation>
+        <translation>Sperimentale</translation>
     </message>
 </context>
 <context>
@@ -510,10 +510,6 @@ Puoi abilitarlo nella scheda Generale.</translation>
 <context>
     <name>IntroWindow</name>
     <message>
-        <source>Welcome to Quick Sound Switcher!</source>
-        <translation type="vanished">Benvenuto in Quick Sound Switcher!</translation>
-    </message>
-    <message>
         <source>Get Started</source>
         <translation>Iniziamo</translation>
     </message>
@@ -535,18 +531,18 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Welcome to QontrolPanel!</source>
-        <translation type="unfinished"></translation>
+        <translation>Benvenuto in QontrolPanel!</translation>
     </message>
 </context>
 <context>
     <name>LabeledSwitch</name>
     <message>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation>ON</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation>OFF</translation>
     </message>
 </context>
 <context>
@@ -573,7 +569,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>22.07.2025</translation>
+        <translation>25.07.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -623,6 +619,14 @@ Puoi abilitarlo nella scheda Generale.</translation>
 <context>
     <name>Main</name>
     <message>
+        <source>Update Available</source>
+        <translation>Disponibile aggiornamento</translation>
+    </message>
+    <message>
+        <source>Version %1 is available for download</source>
+        <translation>È disponibile la versione %1</translation>
+    </message>
+    <message>
         <source>System sounds</source>
         <translation>Suoni sistema</translation>
     </message>
@@ -631,8 +635,20 @@ Puoi abilitarlo nella scheda Generale.</translation>
         <translation>ChatMix</translation>
     </message>
     <message>
+        <source>Update available</source>
+        <translation>Disponibile aggiornamento</translation>
+    </message>
+    <message>
+        <source>Rename Application</source>
+        <translation>Rinomina applicazione</translation>
+    </message>
+    <message>
         <source>Reset to Original Name</source>
         <translation>Ripristina nome originale</translation>
+    </message>
+    <message>
+        <source>Mute in Background</source>
+        <translation>Audio off in background</translation>
     </message>
     <message>
         <source>Original name: </source>
@@ -651,28 +667,8 @@ Puoi abilitarlo nella scheda Generale.</translation>
         <translation>Salva</translation>
     </message>
     <message>
-        <source>Update Available</source>
-        <translation>Disponibile aggiornamento</translation>
-    </message>
-    <message>
-        <source>Version %1 is available for download</source>
-        <translation>È disponibile la versione %1</translation>
-    </message>
-    <message>
-        <source>Update available</source>
-        <translation>Disponibile aggiornamento</translation>
-    </message>
-    <message>
-        <source>Rename Application</source>
-        <translation>Rinomina applicazione</translation>
-    </message>
-    <message>
-        <source>Mute in Background</source>
-        <translation>Audio off in background</translation>
-    </message>
-    <message>
         <source>Brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Luminosità</translation>
     </message>
 </context>
 <context>
@@ -683,11 +679,11 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation>Disabilitato</translation>
+        <translation>Disoabilitato</translation>
     </message>
     <message>
         <source>ChatMix %1</source>
-        <translation>ChatMix: %1</translation>
+        <translation>ChatMix %1</translation>
     </message>
 </context>
 <context>
@@ -737,7 +733,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Allow QontrolPanel to respond to keyboard shortcuts globally</source>
-        <translation>Consenti a QontrolPanel di rispondere alle combinazioni tasti a livello globale</translation>
+        <translation>Consenti a Qontrolpanel di rispondere alle scorciatoie da tastiera a livello globale</translation>
     </message>
     <message>
         <source>Notification on ChatMix toggle</source>
@@ -811,7 +807,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Esci da QontrolPanel</translation>
+        <translation>Esci da QuickSoundSwitcher</translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>
@@ -833,12 +829,8 @@ Puoi abilitarlo nella scheda Generale.</translation>
         <translation>Questa versione è aggiornata</translation>
     </message>
     <message>
-        <source>Update started. Application will restart.</source>
-        <translation type="vanished">Aggiornamento completato. L&apos;applicazione verrà riavviata.</translation>
-    </message>
-    <message>
         <source>Update started.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornamento avviato.</translation>
     </message>
 </context>
 </TS>
