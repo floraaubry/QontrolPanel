@@ -42,6 +42,7 @@ public slots:
     void toggleNightLight();
     void setDDCCIBrightness(int brightness, int delayMs);
     void setWMIBrightness(int brightness);
+    void cleanup();
 
 signals:
     void monitorsReady(const QList<Monitor>& monitors);

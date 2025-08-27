@@ -46,7 +46,23 @@ MonitorWorker::MonitorWorker(QObject *parent)
 
 MonitorWorker::~MonitorWorker()
 {
+    if (m_ddcciBrightnessTimer && m_ddcciBrightnessTimer->isActive()) {
+        m_ddcciBrightnessTimer->stop();
+    }
+
     delete m_impl;
+}
+
+void MonitorWorker::cleanup()
+{
+    // Stop and cleanup the timer from the correct thread
+    if (m_ddcciBrightnessTimer) {
+        m_ddcciBrightnessTimer->stop();
+        m_ddcciBrightnessTimer->deleteLater();
+        m_ddcciBrightnessTimer = nullptr;
+    }
+
+    m_hasPendingDDCCIBrightness = false;
 }
 
 void MonitorWorker::enumerateMonitors()
@@ -477,6 +493,9 @@ void MonitorManager::cleanup()
         return;
     }
 
+    // Stop the timer from the worker thread before quitting
+    QMetaObject::invokeMethod(s_worker, "cleanup", Qt::BlockingQueuedConnection);
+
     s_workerThread->quit();
     s_workerThread->wait();
 
@@ -572,12 +591,12 @@ int MonitorManager::getMonitorBrightness(const QString& monitorId)
 {
     QMutexLocker locker(&s_cacheMutex);
 
-    for (const Monitor& monitor : s_cachedMonitors) {
+    for (const Monitor& monitor : std::as_const(s_cachedMonitors)) {
         if (monitor.id == monitorId) {
             return monitor.brightness;
         }
     }
-    return 50; // Default value
+    return 50;
 }
 
 bool MonitorManager::getNightLightEnabled()
