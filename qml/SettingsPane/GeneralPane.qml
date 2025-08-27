@@ -69,11 +69,39 @@ ColumnLayout {
             Card {
                 Layout.fillWidth: true
                 title: qsTr("Allow brightness control")
-                description: qsTr("Experimental")
+                //description: qsTr("Experimental")
 
                 additionalControl: LabeledSwitch {
                     checked: UserSettings.allowBrightnessControl
                     onClicked: UserSettings.allowBrightnessControl = checked
+                }
+            }
+
+            Card {
+                Layout.fillWidth: true
+                title: qsTr("DDC/CI brightness update rate")
+                description: qsTr("Controls how frequently brightness commands are sent to external monitors")
+                additionalControl: ComboBox {
+                    Layout.preferredHeight: 35
+                    Layout.preferredWidth: 160
+                    model: [qsTr("Normal"), qsTr("Fast"), qsTr("Faster"), qsTr("Lightspeed")]
+                    currentIndex: {
+                        switch(UserSettings.ddcciQueueDelay) {
+                            case 500: return 0
+                            case 250: return 1
+                            case 100: return 2
+                            case 1: return 3
+                            default: return 0
+                        }
+                    }
+                    onActivated: {
+                        switch(currentIndex) {
+                            case 0: UserSettings.ddcciQueueDelay = 500; break
+                            case 1: UserSettings.ddcciQueueDelay = 250; break
+                            case 2: UserSettings.ddcciQueueDelay = 100; break
+                            case 3: UserSettings.ddcciQueueDelay = 1; break
+                        }
+                    }
                 }
             }
 

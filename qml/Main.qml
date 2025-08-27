@@ -93,7 +93,6 @@ ApplicationWindow {
             }
             MonitorManager.refreshMonitors()
             brightnessSlider.value = MonitorManager.brightness
-            console.log(MonitorManager.brightness)
         }
     }
 
@@ -849,7 +848,6 @@ ApplicationWindow {
                                 if (UserSettings.avoidApplicationsOverflow && appRepeater.count > 4) {
                                     return 4 * 45 + 3 * 5  // 4 apps * 45px height + 3 spacings * 5px
                                 } else {
-                                    console.log(appRepeater.count * 45 + Math.max(0, (appRepeater.count - 1) * 5))
                                     return appRepeater.count * 45 + Math.max(0, (appRepeater.count - 1) * 5)
                                 }
                             }
@@ -1189,16 +1187,10 @@ ApplicationWindow {
                                     from: 0
                                     to: 100
                                     Layout.fillWidth: true
-                                    //value: pressed ? value : MonitorManager.brightness
                                     onValueChanged: {
                                         if (pressed) {
                                             MonitorManager.setWMIBrightness(Math.round(value))
-                                        }
-                                    }
-
-                                    onPressedChanged: {
-                                        if (!pressed) {
-                                            MonitorManager.setDDCCIBrightness(Math.round(value))
+                                            MonitorManager.setDDCCIBrightness(Math.round(value), UserSettings.ddcciQueueDelay)
                                         }
                                     }
 

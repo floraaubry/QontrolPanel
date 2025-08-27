@@ -41,4 +41,5 @@ Settings {
     property int headsetcontrolSidetone: 0
     property bool allowBrightnessControl: true
     property bool avoidApplicationsOverflow: false
+    property int ddcciQueueDelay: 500
 }

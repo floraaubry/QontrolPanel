@@ -475,7 +475,31 @@ Se vuoi supportare il mio lavoro, qualsiasi contributo sarebbe molto apprezzato!
     </message>
     <message>
         <source>Experimental</source>
-        <translation>Sperimentale</translation>
+        <translation type="vanished">Sperimentale</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation type="unfinished">Normale</translation>
+    </message>
+    <message>
+        <source>Fast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Faster</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lightspeed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DDC/CI brightness update rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controls how frequently brightness commands are sent to external monitors</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -40,7 +40,7 @@ public slots:
     void checkNightLightStatus();
     void setNightLight(bool enabled);
     void toggleNightLight();
-    void setDDCCIBrightness(int brightness);
+    void setDDCCIBrightness(int brightness, int delayMs);
     void setWMIBrightness(int brightness);
 
 signals:
@@ -58,6 +58,10 @@ private:
     QMutex m_monitorsMutex;
 
     void updateMonitorFromImpl();
+
+    QTimer* m_ddcciBrightnessTimer;
+    int m_pendingDDCCIBrightness;
+    bool m_hasPendingDDCCIBrightness;
 };
 
 class MonitorManager : public QObject
@@ -87,7 +91,7 @@ public:
     static void setNightLightAsync(bool enabled);
     static void toggleNightLightAsync();
 
-    static void setDDCCIBrightnessAsync(int brightness);
+    static void setDDCCIBrightnessAsync(int brightness, int delayMs);
     static void setWMIBrightnessAsync(int brightness);
 
     // Cached getters (thread-safe, non-blocking)
@@ -108,7 +112,7 @@ public:
     Q_INVOKABLE void setNightLightEnabled(bool enabled);
     Q_INVOKABLE void toggleNightLight();
 
-    Q_INVOKABLE void setDDCCIBrightness(int brightness);
+    Q_INVOKABLE void setDDCCIBrightness(int brightness, int delayMs);
     Q_INVOKABLE void setWMIBrightness(int brightness);
 
 signals:

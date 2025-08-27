@@ -2,6 +2,7 @@
 #include "monitormanagerimpl.h"
 #include <QApplication>
 #include <QDebug>
+#include <QTimer>
 
 // Static member definitions
 MonitorWorker* MonitorManager::s_worker = nullptr;
@@ -16,6 +17,9 @@ QMutex MonitorManager::s_cacheMutex;
 MonitorWorker::MonitorWorker(QObject *parent)
     : QObject(parent)
     , m_impl(new MonitorManagerImpl())
+    , m_ddcciBrightnessTimer(new QTimer(this))
+    , m_pendingDDCCIBrightness(0)
+    , m_hasPendingDDCCIBrightness(false)
 {
     // Set up callback from impl to worker thread
     m_impl->setChangeCallback([this]() {
@@ -26,6 +30,18 @@ MonitorWorker::MonitorWorker(QObject *parent)
     // Initial enumeration
     enumerateMonitors();
     checkNightLightStatus();
+
+    m_ddcciBrightnessTimer->setSingleShot(true);
+    connect(m_ddcciBrightnessTimer, &QTimer::timeout, this, [this]() {
+        // If we have a pending brightness change, execute it
+        if (m_hasPendingDDCCIBrightness) {
+            int brightness = m_pendingDDCCIBrightness;
+            m_hasPendingDDCCIBrightness = false;
+
+            // Execute the pending brightness change with same delay
+            setDDCCIBrightness(brightness, 16);
+        }
+    });
 }
 
 MonitorWorker::~MonitorWorker()
@@ -208,15 +224,30 @@ void MonitorWorker::toggleNightLight()
     emit nightLightChanged(enabled);
 }
 
-void MonitorWorker::setDDCCIBrightness(int brightness)
+void MonitorWorker::setDDCCIBrightness(int brightness, int delayMs)
 {
+    // If timer is already running, buffer this request
+    if (m_ddcciBrightnessTimer->isActive()) {
+        // If we already have a pending request, just update it (don't queue multiple)
+        if (m_hasPendingDDCCIBrightness) {
+            m_pendingDDCCIBrightness = brightness;
+            return; // Just update the pending value and return
+        }
+
+        // Buffer this request
+        m_pendingDDCCIBrightness = brightness;
+        m_hasPendingDDCCIBrightness = true;
+        return;
+    }
+
+    // Execute the brightness change immediately
     QMutexLocker locker(&m_monitorsMutex);
 
     if (!m_impl) {
         return;
     }
 
-    qDebug() << "Setting DDC/CI brightness to" << brightness << "for all external monitors";
+    qDebug() << "Setting DDC/CI brightness to" << brightness << "for all external monitors with delay" << delayMs << "ms";
 
     bool anySuccess = false;
 
@@ -239,6 +270,9 @@ void MonitorWorker::setDDCCIBrightness(int brightness)
     if (anySuccess) {
         emit ddcciBrightnessChanged(brightness);
     }
+
+    // Start the timer to block subsequent calls
+    m_ddcciBrightnessTimer->start(delayMs);
 }
 
 void MonitorWorker::setWMIBrightness(int brightness)
@@ -615,12 +649,11 @@ void MonitorManager::updateNightLightCache(bool supported, bool enabled)
     s_nightLightEnabled = enabled;
 }
 
-// Static async methods
-void MonitorManager::setDDCCIBrightnessAsync(int brightness)
+void MonitorManager::setDDCCIBrightnessAsync(int brightness, int delayMs)
 {
     if (s_worker) {
         QMetaObject::invokeMethod(s_worker, "setDDCCIBrightness", Qt::QueuedConnection,
-                                  Q_ARG(int, brightness));
+                                  Q_ARG(int, brightness), Q_ARG(int, delayMs));
     }
 }
 
@@ -632,10 +665,9 @@ void MonitorManager::setWMIBrightnessAsync(int brightness)
     }
 }
 
-// QML methods
-void MonitorManager::setDDCCIBrightness(int brightness)
+void MonitorManager::setDDCCIBrightness(int brightness, int delayMs)
 {
-    setDDCCIBrightnessAsync(brightness);
+    setDDCCIBrightnessAsync(brightness, delayMs);
 }
 
 void MonitorManager::setWMIBrightness(int brightness)
