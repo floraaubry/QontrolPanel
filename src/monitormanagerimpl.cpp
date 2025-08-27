@@ -9,8 +9,6 @@ MonitorManagerImpl::MonitorManagerImpl()
     , pWMIService(nullptr)
     , m_nightLightRegKey(nullptr)
 {
-    qDebug() << "MonitorManagerImpl constructor start";
-
     // Initialize COM for this specific thread with consistent apartment model
     HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
     if (FAILED(hr) && hr != RPC_E_CHANGED_MODE) {
@@ -26,8 +24,6 @@ MonitorManagerImpl::MonitorManagerImpl()
     initNightLightRegistry();
     enumerateMonitors();
     setupChangeDetection();
-
-    qDebug() << "MonitorManagerImpl constructor end";
 }
 
 MonitorManagerImpl::~MonitorManagerImpl() {
@@ -49,8 +45,6 @@ bool MonitorManagerImpl::ensureWMIConnection() {
         quickWMIHealthCheck()) {
         return true;
     }
-
-    qDebug() << "WMI connection needs (re)initialization";
 
     // Clean up existing connection
     if (pWMIService) {
@@ -128,7 +122,6 @@ void MonitorManagerImpl::initializeWMI() {
     }
 
     pLoc->Release();
-    qDebug() << "WMI initialization" << (pWMIService ? "successful" : "failed");
 }
 
 void MonitorManagerImpl::cleanupWMI() {
@@ -226,8 +219,6 @@ void MonitorManagerImpl::setChangeCallback(std::function<void()> callback) {
 }
 
 void MonitorManagerImpl::detectLaptopDisplays() {
-    qDebug() << "Detecting laptop displays";
-
     bool wmiHasBrightnessSupport = false;
 
     if (ensureWMIConnection()) {
@@ -245,7 +236,6 @@ void MonitorManagerImpl::detectLaptopDisplays() {
             HRESULT hr = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
             if (uReturn > 0) {
                 wmiHasBrightnessSupport = true;
-                qDebug() << "WMI brightness control available";
                 if (pclsObj) pclsObj->Release();
             }
             pEnumerator->Release();
@@ -253,8 +243,6 @@ void MonitorManagerImpl::detectLaptopDisplays() {
     }
 
     if (wmiHasBrightnessSupport) {
-        qDebug() << "WMI brightness detected - ensuring laptop display exists";
-
         // Check if we already have a laptop display
         bool hasLaptopDisplay = false;
         for (const auto& monitor : monitors) {
@@ -266,7 +254,6 @@ void MonitorManagerImpl::detectLaptopDisplays() {
 
         // If no laptop display exists, create one
         if (!hasLaptopDisplay) {
-            qDebug() << "Creating virtual laptop display";
             MonitorInfo laptopMonitor = {};
             laptopMonitor.physicalMonitor.hPhysicalMonitor = NULL;
             wcscpy_s(laptopMonitor.physicalMonitor.szPhysicalMonitorDescription,
@@ -278,7 +265,6 @@ void MonitorManagerImpl::detectLaptopDisplays() {
             laptopMonitor.cachedBrightness = getLaptopBrightness();
 
             monitors.insert(monitors.begin(), laptopMonitor);
-            qDebug() << "Added laptop display to monitor list";
         } else {
             // Update existing laptop display brightness
             for (auto& monitor : monitors) {
@@ -289,20 +275,9 @@ void MonitorManagerImpl::detectLaptopDisplays() {
             }
         }
     }
-
-    qDebug() << "Total monitors after laptop detection:" << monitors.size();
-    for (size_t i = 0; i < monitors.size(); i++) {
-        qDebug() << "Monitor" << i << ":"
-                 << QString::fromStdWString(monitors[i].physicalMonitor.szPhysicalMonitorDescription)
-                 << "Laptop:" << monitors[i].isLaptopDisplay
-                 << "DDC/CI:" << monitors[i].ddcciWorking
-                 << "Cached brightness:" << monitors[i].cachedBrightness;
-    }
 }
 
 bool MonitorManagerImpl::setLaptopBrightness(int brightness) {
-    qDebug() << "Setting laptop brightness to" << brightness;
-
     if (!ensureWMIConnection()) {
         qDebug() << "WMI connection unavailable";
         return false;
@@ -366,7 +341,6 @@ bool MonitorManagerImpl::setLaptopBrightness(int brightness) {
 
                             if (SUCCEEDED(hres)) {
                                 success = true;
-                                qDebug() << "Successfully set laptop brightness to" << brightness;
                             } else {
                                 qDebug() << "ExecMethod failed:" << QString::number(hres, 16);
                             }
