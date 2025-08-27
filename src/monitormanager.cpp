@@ -69,12 +69,11 @@ void MonitorWorker::updateMonitorFromImpl()
         monitor.isLaptopDisplay = (monitor.name.contains("Laptop", Qt::CaseInsensitive) ||
                                    monitor.name.contains("Internal", Qt::CaseInsensitive));
 
-        if (monitor.brightness == -1) {
-            monitor.brightness = m_impl->getBrightnessInternal(i);
-        }
-
-        if (monitor.brightness == -1) {
-            monitor.brightness = 50; // Default
+        int currentBrightness = m_impl->getBrightnessInternal(i);
+        if (currentBrightness != -1) {
+            monitor.brightness = currentBrightness;
+        } else {
+            monitor.brightness = 50; // Default only if we can't read it
             monitor.isSupported = false;
         }
 
@@ -431,6 +430,9 @@ void MonitorManager::initialize()
 
     qDebug() << "Starting worker thread...";
     s_workerThread->start();
+
+    QMetaObject::invokeMethod(s_worker, "enumerateMonitors", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(s_worker, "refreshBrightnessLevels", Qt::QueuedConnection);
 
     qDebug() << "MonitorManager initialization complete";
 }
