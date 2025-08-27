@@ -91,6 +91,9 @@ ApplicationWindow {
                 AudioBridge.startAudioLevelMonitoring()
                 AudioBridge.startApplicationAudioLevelMonitoring()
             }
+            MonitorManager.refreshMonitors()
+            brightnessSlider.value = MonitorManager.brightness
+            console.log(MonitorManager.brightness)
         }
     }
 
@@ -1186,7 +1189,7 @@ ApplicationWindow {
                                     from: 0
                                     to: 100
                                     Layout.fillWidth: true
-                                    value: pressed ? value : MonitorManager.brightness
+                                    //value: pressed ? value : MonitorManager.brightness
                                     onValueChanged: {
                                         if (pressed) {
                                             MonitorManager.setWMIBrightness(Math.round(value))

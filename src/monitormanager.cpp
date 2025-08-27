@@ -17,7 +17,6 @@ MonitorWorker::MonitorWorker(QObject *parent)
     : QObject(parent)
     , m_impl(new MonitorManagerImpl())
 {
-    qDebug() << "pass";
     // Set up callback from impl to worker thread
     m_impl->setChangeCallback([this]() {
         // This callback runs in worker thread, so we can call enumerateMonitors directly
