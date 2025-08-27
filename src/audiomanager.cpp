@@ -442,7 +442,6 @@ AudioWorker::AudioWorker()
     , m_inputMuted(false)
     , m_audioLevelTimer(nullptr)
     , m_sessionManagerInvalid(false)
-    , m_bluetoothBatteryMonitor(nullptr)
     , m_headsetControlMonitor(nullptr)
 {
     qRegisterMetaType<AudioApplication>("AudioApplication");
@@ -450,15 +449,9 @@ AudioWorker::AudioWorker()
     qRegisterMetaType<AudioDevice>("AudioDevice");
     qRegisterMetaType<QList<AudioDevice>>("QList<AudioDevice>");
 
-    //m_bluetoothBatteryMonitor = BluetoothBatteryMonitor::instance();
-    //connect(m_bluetoothBatteryMonitor, &BluetoothBatteryMonitor::deviceBatteryUpdated,
-    //        this, &AudioWorker::onBluetoothDeviceBatteryUpdated);
-
     m_headsetControlMonitor = new HeadsetControlMonitor(this);
     connect(m_headsetControlMonitor, &HeadsetControlMonitor::headsetDataUpdated,
             this, &AudioWorker::onHeadsetDataUpdated);
-
-    //m_bluetoothBatteryMonitor->startMonitoring();
 }
 
 AudioWorker::~AudioWorker()
@@ -511,10 +504,6 @@ void AudioWorker::initialize()
 
 void AudioWorker::cleanup()
 {
-    if (m_bluetoothBatteryMonitor) {
-        m_bluetoothBatteryMonitor->stopMonitoring();
-    }
-
     if (m_audioLevelTimer) {
         m_audioLevelTimer->stop();
         delete m_audioLevelTimer;
@@ -611,75 +600,6 @@ void AudioWorker::cleanup()
     CoUninitialize();
 }
 
-void AudioWorker::onBluetoothDeviceBatteryUpdated(const BluetoothDeviceBattery& bluetoothDevice)
-{
-    updateDevicesWithBluetoothBattery(bluetoothDevice);
-    emit devicesChanged(m_devices);
-}
-
-void AudioWorker::updateDevicesWithBluetoothBattery(const BluetoothDeviceBattery& bluetoothDevice)
-{
-    for (AudioDevice& audioDevice : m_devices) {
-        if (!audioDevice.macAddress.isEmpty() && !bluetoothDevice.macAddress.isEmpty()) {
-            if (normalizeBluetoothAddress(audioDevice.macAddress) ==
-                normalizeBluetoothAddress(bluetoothDevice.macAddress)) {
-                updateAudioDeviceBatteryFromBluetooth(audioDevice, bluetoothDevice);
-                break;
-            }
-        }
-    }
-}
-
-void AudioWorker::updateAudioDeviceBatteryFromBluetooth(AudioDevice& audioDevice, const BluetoothDeviceBattery& bluetoothDevice)
-{
-    if (bluetoothDevice.hasBatteryInfo && bluetoothDevice.batteryLevel >= 0) {
-        audioDevice.batteryPercentage = bluetoothDevice.batteryLevel;
-
-        if (bluetoothDevice.batteryStatus == "AVAILABLE") {
-            audioDevice.batteryStatus = "BATTERY_AVAILABLE";
-        } else if (bluetoothDevice.batteryStatus == "CHARGING") {
-            audioDevice.batteryStatus = "BATTERY_CHARGING";
-        } else if (bluetoothDevice.batteryStatus == "CRITICAL") {
-            audioDevice.batteryStatus = "BATTERY_AVAILABLE";
-        } else {
-            audioDevice.batteryStatus = "BATTERY_UNAVAILABLE";
-        }
-
-        if (!bluetoothDevice.macAddress.isEmpty()) {
-            audioDevice.macAddress = bluetoothDevice.macAddress;
-        }
-        if (!bluetoothDevice.vendorId.isEmpty()) {
-            audioDevice.vendorId = bluetoothDevice.vendorId;
-        }
-        if (!bluetoothDevice.productId.isEmpty()) {
-            audioDevice.productId = bluetoothDevice.productId;
-        }
-    } else if (!bluetoothDevice.isConnected) {
-        audioDevice.batteryPercentage = -1;
-        audioDevice.batteryStatus = "BATTERY_UNAVAILABLE";
-    }
-}
-
-QString AudioWorker::normalizeBluetoothAddress(const QString& address)
-{
-    // Normalize to uppercase with colons: XX:XX:XX:XX:XX:XX
-    QString normalized = address.toUpper();
-    normalized.replace("-", ":");
-    return normalized;
-}
-
-void AudioWorker::updateAllBluetoothDeviceBatteries()
-{
-    if (!m_bluetoothBatteryMonitor) {
-        return;
-    }
-
-    QList<BluetoothDeviceBattery> bluetoothDevices = m_bluetoothBatteryMonitor->getCachedDevices();
-    for (const BluetoothDeviceBattery& bluetoothDevice : bluetoothDevices) {
-        updateDevicesWithBluetoothBattery(bluetoothDevice);
-    }
-}
-
 void AudioWorker::onHeadsetDataUpdated(const QList<HeadsetControlDevice>& headsetDevices)
 {
     updateDevicesBatteryInfo(headsetDevices);
@@ -691,7 +611,7 @@ void AudioWorker::updateDevicesBatteryInfo(const QList<HeadsetControlDevice>& he
 
     for (AudioDevice& audioDevice : m_devices) {
         bool foundMatch = false;
-        bool hadHeadsetBattery = (audioDevice.batteryPercentage != -1 && audioDevice.macAddress.isEmpty());
+        bool hadHeadsetBattery = (audioDevice.batteryPercentage != -1);
 
         // Find matching headset by VID/PID (only if we have devices to check)
         for (const HeadsetControlDevice& headsetDevice : headsetDevices) {
@@ -709,15 +629,11 @@ void AudioWorker::updateDevicesBatteryInfo(const QList<HeadsetControlDevice>& he
             }
         }
 
-        // Reset battery info for non-Bluetooth devices that had HeadsetControl battery but no longer match
         if (hadHeadsetBattery && !foundMatch) {
             audioDevice.batteryPercentage = -1;
             audioDevice.batteryStatus = "BATTERY_UNAVAILABLE";
         }
     }
-
-    // Update with current Bluetooth devices (this should preserve Bluetooth battery info)
-    updateAllBluetoothDeviceBatteries();
 }
 
 bool AudioWorker::hasProcessId(DWORD processId)
@@ -986,19 +902,6 @@ void AudioWorker::updateCurrentVolumes()
     }
 }
 
-void AudioWorker::updateDevicesBatteryInfoFromCache()
-{
-    if (!m_bluetoothBatteryMonitor) {
-        return;
-    }
-
-    QList<BluetoothDeviceBattery> cachedBluetoothDevices = m_bluetoothBatteryMonitor->getCachedDevices();
-
-    for (const BluetoothDeviceBattery& bluetoothDevice : cachedBluetoothDevices) {
-        updateDevicesWithBluetoothBattery(bluetoothDevice);
-    }
-}
-
 void AudioWorker::enumerateDevices()
 {
     if (!m_deviceEnumerator) {
@@ -1065,7 +968,6 @@ void AudioWorker::enumerateDevices()
 
     m_devices = newDevices;
 
-    updateDevicesBatteryInfoFromCache();
 
     if (m_headsetControlMonitor && m_headsetControlMonitor->isMonitoring()) {
         QList<HeadsetControlDevice> cachedDevices = m_headsetControlMonitor->getCachedDevices();
@@ -1132,14 +1034,14 @@ AudioDevice AudioWorker::createAudioDeviceFromInterface(IMMDevice* device, EData
         audioDevice.name = "Unknown Device";
     }
 
-    // Extract USB VID/PID and Bluetooth MAC address information
+    // Extract USB VID/PID only
     CComPtr<IPropertyStore> propertyStore;
     hr = device->OpenPropertyStore(STGM_READ, &propertyStore);
     if (SUCCEEDED(hr)) {
         DWORD propertyCount = 0;
         hr = propertyStore->GetCount(&propertyCount);
         if (SUCCEEDED(hr)) {
-            for (DWORD i = 0; i < propertyCount && audioDevice.macAddress.isEmpty(); ++i) {
+            for (DWORD i = 0; i < propertyCount; ++i) {
                 PROPERTYKEY propertyKey;
                 PROPVARIANT propVariant;
                 PropVariantInit(&propVariant);
@@ -1157,26 +1059,6 @@ AudioDevice AudioWorker::createAudioDeviceFromInterface(IMMDevice* device, EData
                             if (match.hasMatch()) {
                                 audioDevice.vendorId = match.captured(1);
                                 audioDevice.productId = match.captured(2);
-                            }
-                        }
-
-                        // Look for Bluetooth MAC address (BTHENUM device path)
-                        if (propValue.contains("BTHENUM", Qt::CaseInsensitive)) {
-                            // Primary: Look for device MAC after &0& in BTHENUM path
-                            QRegularExpression deviceMacRegex(R"(&0&([0-9A-Fa-f]{12})(_[cC]|\#))");
-                            QRegularExpressionMatch match = deviceMacRegex.match(propValue);
-
-                            if (match.hasMatch()) {
-                                QString macCandidate = match.captured(1);
-                                QString formattedMac = QString("%1:%2:%3:%4:%5:%6")
-                                                           .arg(macCandidate.mid(0, 2))
-                                                           .arg(macCandidate.mid(2, 2))
-                                                           .arg(macCandidate.mid(4, 2))
-                                                           .arg(macCandidate.mid(6, 2))
-                                                           .arg(macCandidate.mid(8, 2))
-                                                           .arg(macCandidate.mid(10, 2));
-
-                                audioDevice.macAddress = normalizeBluetoothAddress(formattedMac);
                             }
                         }
                     }

@@ -12,7 +12,7 @@
 #include <audiopolicy.h>
 #include "policyconfig.h"
 #include "headsetcontrolmonitor.h"
-#include "bluetoothbatterymonitor.h"
+
 // Forward declarations
 class AudioWorker;
 
@@ -41,9 +41,8 @@ struct AudioDevice {
     bool isDefaultCommunication;
     bool isInput;
     QString state;
-    QString vendorId;            // USB VID or Bluetooth vendor ID
-    QString productId;           // USB PID or Bluetooth product ID
-    QString macAddress;          // Bluetooth MAC address (if applicable)
+    QString vendorId;            // USB VID
+    QString productId;           // USB PID
     int batteryPercentage;       // Battery level 0-100, -1 if not available
     QString batteryStatus;       // "BATTERY_AVAILABLE", "BATTERY_CHARGING", "BATTERY_UNAVAILABLE"
 
@@ -170,7 +169,6 @@ private slots:
     void startApplicationAudioLevelMonitoring();
     void stopApplicationAudioLevelMonitoring();
     void onHeadsetDataUpdated(const QList<HeadsetControlDevice>& headsetDevices);
-    void onBluetoothDeviceBatteryUpdated(const BluetoothDeviceBattery& bluetoothDevice);
 
 private:
     // COM objects
@@ -237,14 +235,8 @@ private:
     bool m_sessionManagerInvalid;
     bool ensureValidSessionManager();
     void updateDevicesBatteryInfo(const QList<HeadsetControlDevice>& headsetDevices);
-    void updateDevicesBatteryInfoFromCache();
 
-    BluetoothBatteryMonitor* m_bluetoothBatteryMonitor;
     HeadsetControlMonitor* m_headsetControlMonitor;
-    void updateDevicesWithBluetoothBattery(const BluetoothDeviceBattery& bluetoothDevice);
-    void updateAudioDeviceBatteryFromBluetooth(AudioDevice& audioDevice, const BluetoothDeviceBattery& bluetoothDevice);
-    QString normalizeBluetoothAddress(const QString& address);
-    void updateAllBluetoothDeviceBatteries();
 };
 
 // Device change notification callback

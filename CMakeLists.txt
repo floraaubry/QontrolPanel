@@ -35,7 +35,7 @@ set(SOURCES
     src/windowfocusmanager.cpp
     src/updater.cpp
     src/headsetcontrolmonitor.cpp
-    src/bluetoothbatterymonitor.cpp
+    #src/bluetoothbatterymonitor.cpp
     src/headsetcontrolbridge.cpp
     src/monitormanager.cpp
     src/monitormanagerimpl.cpp
@@ -52,7 +52,7 @@ set(HEADERS
     include/windowfocusmanager.h
     include/updater.h
     include/headsetcontrolmonitor.h
-    include/bluetoothbatterymonitor.h
+    #include/bluetoothbatterymonitor.h
     include/headsetcontrolbridge.h
     include/monitormanager.h
     include/monitormanagerimpl.h
