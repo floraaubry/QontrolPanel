@@ -1,5 +1,7 @@
 #include "monitormanagerimpl.h"
 #include <algorithm>
+#include <qdebug.h>
+#include <qlogging.h>
 #include <vector>
 
 MonitorManagerImpl::MonitorManagerImpl()
@@ -7,23 +9,135 @@ MonitorManagerImpl::MonitorManagerImpl()
     , pWMIService(nullptr)
     , m_nightLightRegKey(nullptr)
 {
-    initializeWMI();
+    qDebug() << "MonitorManagerImpl constructor start";
+
+    // Initialize COM for this specific thread with consistent apartment model
+    HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+    if (FAILED(hr) && hr != RPC_E_CHANGED_MODE) {
+        qDebug() << "COM initialization failed:" << QString::number(hr, 16);
+        // Try with multithreaded model as fallback
+        hr = CoInitializeEx(NULL, COINIT_MULTITHREADED | COINIT_DISABLE_OLE1DDE);
+        if (FAILED(hr) && hr != RPC_E_CHANGED_MODE) {
+            qDebug() << "COM initialization failed completely:" << QString::number(hr, 16);
+        }
+    }
+
+    // Initialize components
     initNightLightRegistry();
     enumerateMonitors();
-    detectLaptopDisplays();
     setupChangeDetection();
+
+    qDebug() << "MonitorManagerImpl constructor end";
 }
 
 MonitorManagerImpl::~MonitorManagerImpl() {
     cleanup();
     cleanupNightLightRegistry();
+    cleanupWMI();
+    CoUninitialize();
+}
 
+bool MonitorManagerImpl::ensureWMIConnection() {
+    std::lock_guard<std::mutex> lock(m_wmiMutex);
+
+    auto now = std::chrono::steady_clock::now();
+
+    // If WMI was recently initialized and passes health check, keep it
+    if (pWMIService &&
+        m_wmiInitialized.load() &&
+        (now - m_lastWMIInit) < WMI_CACHE_DURATION &&
+        quickWMIHealthCheck()) {
+        return true;
+    }
+
+    qDebug() << "WMI connection needs (re)initialization";
+
+    // Clean up existing connection
     if (pWMIService) {
         pWMIService->Release();
         pWMIService = nullptr;
     }
 
-    CoUninitialize();
+    // Initialize fresh connection
+    initializeWMI();
+    m_lastWMIInit = now;
+    m_wmiInitialized.store(pWMIService != nullptr);
+
+    return pWMIService != nullptr;
+}
+
+bool MonitorManagerImpl::quickWMIHealthCheck() {
+    if (!pWMIService) return false;
+
+    // Quick health check without debug spam
+    IEnumWbemClassObject* pTest = nullptr;
+    HRESULT testResult = pWMIService->ExecQuery(
+        bstr_t("WQL"),
+        bstr_t("SELECT * FROM Win32_ComputerSystem"),
+        WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
+        NULL, &pTest);
+
+    bool healthy = SUCCEEDED(testResult);
+    if (pTest) pTest->Release();
+
+    if (!healthy) {
+        qDebug() << "WMI health check failed:" << QString::number(testResult, 16);
+    }
+
+    return healthy;
+}
+
+void MonitorManagerImpl::initializeWMI() {
+    qDebug() << "WMI initialization start";
+
+    // Initialize security
+    HRESULT hres = CoInitializeSecurity(
+        NULL, -1, NULL, NULL,
+        RPC_C_AUTHN_LEVEL_NONE,
+        RPC_C_IMP_LEVEL_IMPERSONATE,
+        NULL, EOAC_NONE, NULL
+        );
+
+    if (FAILED(hres) && hres != RPC_E_TOO_LATE) {
+        qDebug() << "CoInitializeSecurity failed:" << QString::number(hres, 16);
+    }
+
+    // Create WMI locator
+    IWbemLocator* pLoc = nullptr;
+    hres = CoCreateInstance(CLSID_WbemLocator, 0, CLSCTX_INPROC_SERVER, IID_IWbemLocator, (LPVOID*)&pLoc);
+    if (FAILED(hres)) {
+        qDebug() << "Failed to create WMI locator:" << QString::number(hres, 16);
+        return;
+    }
+
+    // Connect to WMI namespace
+    hres = pLoc->ConnectServer(_bstr_t(L"ROOT\\WMI"), NULL, NULL, 0, NULL, 0, 0, &pWMIService);
+    if (FAILED(hres)) {
+        qDebug() << "ConnectServer failed:" << QString::number(hres, 16);
+        pLoc->Release();
+        return;
+    }
+
+    // Set proxy blanket
+    hres = CoSetProxyBlanket(pWMIService, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL,
+                             RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
+    if (FAILED(hres)) {
+        qDebug() << "CoSetProxyBlanket failed:" << QString::number(hres, 16);
+        pWMIService->Release();
+        pWMIService = nullptr;
+    }
+
+    pLoc->Release();
+    qDebug() << "WMI initialization" << (pWMIService ? "successful" : "failed");
+}
+
+void MonitorManagerImpl::cleanupWMI() {
+    std::lock_guard<std::mutex> lock(m_wmiMutex);
+    if (pWMIService) {
+        pWMIService->Release();
+        pWMIService = nullptr;
+    }
+    m_wmiInitialized.store(false);
 }
 
 void MonitorManagerImpl::enumerateMonitors() {
@@ -62,15 +176,8 @@ bool MonitorManagerImpl::setBrightnessAll(int brightness) {
     bool allSuccess = true;
     for (int i = 0; i < getMonitorCount(); i++) {
         if (monitors[i].isLaptopDisplay || testDDCCI(i)) {
-            printf("Setting monitor %d (%s) brightness to %d... ",
-                   i,
-                   monitors[i].isLaptopDisplay ? "Laptop" : "External",
-                   brightness);
             bool success = setBrightnessInternal(i, brightness);
-            printf("%s\n", success ? "OK" : "Failed");
             if (!success) allSuccess = false;
-        } else {
-            printf("Skipping monitor %d (DDC/CI not working)\n", i);
         }
     }
     return allSuccess;
@@ -98,7 +205,7 @@ bool MonitorManagerImpl::testDDCCI(int monitorIndex) {
     if (monitorIndex < 0 || monitorIndex >= monitors.size()) return false;
 
     if (monitors[monitorIndex].isLaptopDisplay) {
-        return true; // Laptop displays use WMI, always "working" if WMI is available
+        return true;
     }
 
     if (monitors[monitorIndex].ddcciTested) {
@@ -118,42 +225,88 @@ void MonitorManagerImpl::setChangeCallback(std::function<void()> callback) {
     changeCallback = callback;
 }
 
-void MonitorManagerImpl::initializeWMI() {
-    HRESULT hres = CoInitializeEx(0, COINIT_MULTITHREADED);
-    if (FAILED(hres)) return;
+void MonitorManagerImpl::detectLaptopDisplays() {
+    qDebug() << "Detecting laptop displays";
 
-    IWbemLocator* pLoc = NULL;
-    hres = CoCreateInstance(CLSID_WbemLocator, 0, CLSCTX_INPROC_SERVER, IID_IWbemLocator, (LPVOID*)&pLoc);
-    if (FAILED(hres)) return;
+    bool wmiHasBrightnessSupport = false;
 
-    hres = pLoc->ConnectServer(_bstr_t(L"ROOT\\WMI"), NULL, NULL, 0, NULL, 0, 0, &pWMIService);
-    if (FAILED(hres)) {
-        pLoc->Release();
-        return;
+    if (ensureWMIConnection()) {
+        // Check for WMI brightness methods
+        IEnumWbemClassObject* pEnumerator = NULL;
+        HRESULT hres = pWMIService->ExecQuery(
+            bstr_t("WQL"),
+            bstr_t("SELECT * FROM WmiMonitorBrightnessMethods"),
+            WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
+            NULL, &pEnumerator);
+
+        if (SUCCEEDED(hres)) {
+            IWbemClassObject* pclsObj = NULL;
+            ULONG uReturn = 0;
+            HRESULT hr = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+            if (uReturn > 0) {
+                wmiHasBrightnessSupport = true;
+                qDebug() << "WMI brightness control available";
+                if (pclsObj) pclsObj->Release();
+            }
+            pEnumerator->Release();
+        }
     }
 
-    hres = CoSetProxyBlanket(pWMIService, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL, RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
-    pLoc->Release();
-}
+    if (wmiHasBrightnessSupport) {
+        qDebug() << "WMI brightness detected - ensuring laptop display exists";
 
-void MonitorManagerImpl::detectLaptopDisplays() {
-    // Mark any monitors that might be laptop displays
-    for (auto& monitor : monitors) {
-        std::wstring name = monitor.physicalMonitor.szPhysicalMonitorDescription;
-        // Common laptop display identifiers
-        if (name.find(L"Generic PnP Monitor") != std::wstring::npos ||
-            name.find(L"Default Monitor") != std::wstring::npos ||
-            name.empty()) {
-            // Further check if this is actually a laptop display via WMI
-            if (pWMIService && getLaptopBrightness() != -1) {
-                monitor.isLaptopDisplay = true;
+        // Check if we already have a laptop display
+        bool hasLaptopDisplay = false;
+        for (const auto& monitor : monitors) {
+            if (monitor.isLaptopDisplay) {
+                hasLaptopDisplay = true;
+                break;
             }
         }
+
+        // If no laptop display exists, create one
+        if (!hasLaptopDisplay) {
+            qDebug() << "Creating virtual laptop display";
+            MonitorInfo laptopMonitor = {};
+            laptopMonitor.physicalMonitor.hPhysicalMonitor = NULL;
+            wcscpy_s(laptopMonitor.physicalMonitor.szPhysicalMonitorDescription,
+                     PHYSICAL_MONITOR_DESCRIPTION_SIZE, L"Laptop Internal Display");
+            laptopMonitor.deviceName = L"LAPTOP";
+            laptopMonitor.ddcciTested = true;
+            laptopMonitor.ddcciWorking = false;
+            laptopMonitor.isLaptopDisplay = true;
+            laptopMonitor.cachedBrightness = getLaptopBrightness();
+
+            monitors.insert(monitors.begin(), laptopMonitor);
+            qDebug() << "Added laptop display to monitor list";
+        } else {
+            // Update existing laptop display brightness
+            for (auto& monitor : monitors) {
+                if (monitor.isLaptopDisplay) {
+                    monitor.cachedBrightness = getLaptopBrightness();
+                    break;
+                }
+            }
+        }
+    }
+
+    qDebug() << "Total monitors after laptop detection:" << monitors.size();
+    for (size_t i = 0; i < monitors.size(); i++) {
+        qDebug() << "Monitor" << i << ":"
+                 << QString::fromStdWString(monitors[i].physicalMonitor.szPhysicalMonitorDescription)
+                 << "Laptop:" << monitors[i].isLaptopDisplay
+                 << "DDC/CI:" << monitors[i].ddcciWorking
+                 << "Cached brightness:" << monitors[i].cachedBrightness;
     }
 }
 
 bool MonitorManagerImpl::setLaptopBrightness(int brightness) {
-    if (!pWMIService) return false;
+    qDebug() << "Setting laptop brightness to" << brightness;
+
+    if (!ensureWMIConnection()) {
+        qDebug() << "WMI connection unavailable";
+        return false;
+    }
 
     IEnumWbemClassObject* pEnumerator = NULL;
     HRESULT hres = pWMIService->ExecQuery(
@@ -162,16 +315,20 @@ bool MonitorManagerImpl::setLaptopBrightness(int brightness) {
         WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
         NULL, &pEnumerator);
 
-    if (FAILED(hres)) return false;
+    if (FAILED(hres)) {
+        qDebug() << "WMI brightness methods query failed:" << QString::number(hres, 16);
+        return false;
+    }
 
     IWbemClassObject* pclsObj = NULL;
     ULONG uReturn = 0;
+    bool success = false;
 
     while (pEnumerator) {
         HRESULT hr = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
         if (uReturn == 0) break;
 
-        // Get the method
+        // Get the method class
         IWbemClassObject* pClass = NULL;
         hres = pWMIService->GetObject(bstr_t(L"WmiMonitorBrightnessMethods"), 0, NULL, &pClass, NULL);
         if (SUCCEEDED(hres)) {
@@ -180,25 +337,47 @@ bool MonitorManagerImpl::setLaptopBrightness(int brightness) {
             if (SUCCEEDED(hres)) {
                 IWbemClassObject* pClassInstance = NULL;
                 hres = pInParamsDefinition->SpawnInstance(0, &pClassInstance);
+
                 if (SUCCEEDED(hres)) {
-                    VARIANT varTimeout, varBrightness;
-                    varTimeout.vt = VT_UI4;
-                    varTimeout.ulVal = 0;
+                    // Set parameters
+                    VARIANT varBrightness, varTimeout;
+                    VariantInit(&varBrightness);
+                    VariantInit(&varTimeout);
+
                     varBrightness.vt = VT_UI1;
                     varBrightness.bVal = (BYTE)brightness;
 
-                    pClassInstance->Put(L"Timeout", 0, &varTimeout, 0);
-                    pClassInstance->Put(L"Brightness", 0, &varBrightness, 0);
+                    varTimeout.vt = VT_I4;
+                    varTimeout.lVal = 0;
 
-                    // Get the instance path
-                    VARIANT vtProp;
-                    pclsObj->Get(L"__PATH", 0, &vtProp, 0, 0);
+                    HRESULT putBrightness = pClassInstance->Put(L"Brightness", 0, &varBrightness, 0);
+                    HRESULT putTimeout = pClassInstance->Put(L"Timeout", 0, &varTimeout, 0);
 
-                    IWbemClassObject* pOutParams = NULL;
-                    _bstr_t methodName(L"WmiSetBrightness");
-                    hres = pWMIService->ExecMethod(vtProp.bstrVal, methodName, 0, NULL, pClassInstance, &pOutParams, NULL);
-                    VariantClear(&vtProp);
-                    if (pOutParams) pOutParams->Release();
+                    if (SUCCEEDED(putBrightness)) {
+                        // Execute method
+                        VARIANT vtProp;
+                        VariantInit(&vtProp);
+                        HRESULT pathResult = pclsObj->Get(L"__PATH", 0, &vtProp, 0, 0);
+
+                        if (SUCCEEDED(pathResult) && vtProp.vt == VT_BSTR) {
+                            IWbemClassObject* pOutParams = NULL;
+                            hres = pWMIService->ExecMethod(vtProp.bstrVal, _bstr_t(L"WmiSetBrightness"),
+                                                           0, NULL, pClassInstance, &pOutParams, NULL);
+
+                            if (SUCCEEDED(hres)) {
+                                success = true;
+                                qDebug() << "Successfully set laptop brightness to" << brightness;
+                            } else {
+                                qDebug() << "ExecMethod failed:" << QString::number(hres, 16);
+                            }
+
+                            if (pOutParams) pOutParams->Release();
+                        }
+                        VariantClear(&vtProp);
+                    }
+
+                    VariantClear(&varBrightness);
+                    VariantClear(&varTimeout);
                     pClassInstance->Release();
                 }
                 pInParamsDefinition->Release();
@@ -207,15 +386,17 @@ bool MonitorManagerImpl::setLaptopBrightness(int brightness) {
         }
 
         pclsObj->Release();
-        break; // Only set for first instance
+        break;
     }
 
-    pEnumerator->Release();
-    return SUCCEEDED(hres);
+    if (pEnumerator) pEnumerator->Release();
+    return success;
 }
 
 int MonitorManagerImpl::getLaptopBrightness() {
-    if (!pWMIService) return -1;
+    if (!ensureWMIConnection()) {
+        return -1;
+    }
 
     IEnumWbemClassObject* pEnumerator = NULL;
     HRESULT hres = pWMIService->ExecQuery(
@@ -316,31 +497,26 @@ void MonitorManagerImpl::cleanup() {
 }
 
 // Night Light implementation
-void MonitorManagerImpl::initNightLightRegistry()
-{
+void MonitorManagerImpl::initNightLightRegistry() {
     const std::wstring keyPath = L"Software\\Microsoft\\Windows\\CurrentVersion\\CloudStore\\Store\\DefaultAccount\\Current\\default$windows.data.bluelightreduction.bluelightreductionstate\\windows.data.bluelightreduction.bluelightreductionstate";
-
     LONG result = RegOpenKeyEx(HKEY_CURRENT_USER, keyPath.c_str(), 0, KEY_READ | KEY_WRITE, &m_nightLightRegKey);
     if (result != ERROR_SUCCESS) {
         m_nightLightRegKey = nullptr;
     }
 }
 
-void MonitorManagerImpl::cleanupNightLightRegistry()
-{
+void MonitorManagerImpl::cleanupNightLightRegistry() {
     if (m_nightLightRegKey) {
         RegCloseKey(m_nightLightRegKey);
         m_nightLightRegKey = nullptr;
     }
 }
 
-bool MonitorManagerImpl::isNightLightSupported()
-{
+bool MonitorManagerImpl::isNightLightSupported() {
     return m_nightLightRegKey != nullptr;
 }
 
-bool MonitorManagerImpl::isNightLightEnabled()
-{
+bool MonitorManagerImpl::isNightLightEnabled() {
     if (!isNightLightSupported()) return false;
 
     BYTE data[1024];
@@ -353,25 +529,22 @@ bool MonitorManagerImpl::isNightLightEnabled()
     std::vector<BYTE> bytes(data, data + dataSize);
     if (bytes.size() < 19) return false;
 
-    return bytes[18] == 0x15; // 21 in decimal = enabled
+    return bytes[18] == 0x15;
 }
 
-void MonitorManagerImpl::enableNightLight()
-{
+void MonitorManagerImpl::enableNightLight() {
     if (isNightLightSupported() && !isNightLightEnabled()) {
         toggleNightLight();
     }
 }
 
-void MonitorManagerImpl::disableNightLight()
-{
+void MonitorManagerImpl::disableNightLight() {
     if (isNightLightSupported() && isNightLightEnabled()) {
         toggleNightLight();
     }
 }
 
-void MonitorManagerImpl::toggleNightLight()
-{
+void MonitorManagerImpl::toggleNightLight() {
     if (!isNightLightSupported()) return;
 
     BYTE data[1024];
@@ -385,22 +558,19 @@ void MonitorManagerImpl::toggleNightLight()
     bool currentlyEnabled = isNightLightEnabled();
 
     if (currentlyEnabled) {
-        // Disable: Allocate 41 bytes and modify the necessary fields
         newData.resize(41, 0);
         std::copy(data, data + 22, newData.begin());
         std::copy(data + 25, data + 43, newData.begin() + 23);
-        newData[18] = 0x13; // Disable
+        newData[18] = 0x13;
     } else {
-        // Enable: Allocate 43 bytes and modify the necessary fields
         newData.resize(43, 0);
         std::copy(data, data + 22, newData.begin());
         std::copy(data + 23, data + 41, newData.begin() + 25);
-        newData[18] = 0x15; // Enable
+        newData[18] = 0x15;
         newData[23] = 0x10;
         newData[24] = 0x00;
     }
 
-    // Increment bytes from index 10 to 14 (version tracking)
     for (int i = 10; i < 15; ++i) {
         if (newData[i] != 0xff) {
             newData[i]++;
@@ -408,7 +578,6 @@ void MonitorManagerImpl::toggleNightLight()
         }
     }
 
-    // Set the modified data back to the registry
     DWORD newDataSize = static_cast<DWORD>(newData.size());
     RegSetValueEx(m_nightLightRegKey, L"Data", 0, REG_BINARY, newData.data(), newDataSize);
 }

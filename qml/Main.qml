@@ -1186,10 +1186,16 @@ ApplicationWindow {
                                     from: 0
                                     to: 100
                                     Layout.fillWidth: true
-                                    value: MonitorManager.brightness
+                                    value: pressed ? value : MonitorManager.brightness
+                                    onValueChanged: {
+                                        if (pressed) {
+                                            MonitorManager.setWMIBrightness(Math.round(value))
+                                        }
+                                    }
+
                                     onPressedChanged: {
                                         if (!pressed) {
-                                            MonitorManager.brightness = value
+                                            MonitorManager.setDDCCIBrightness(Math.round(value))
                                         }
                                     }
 
