@@ -474,32 +474,28 @@ Se vuoi supportare il mio lavoro, qualsiasi contributo sarebbe molto apprezzato!
         <translation>Consenti controllo luminosità</translation>
     </message>
     <message>
-        <source>Experimental</source>
-        <translation type="vanished">Sperimentale</translation>
-    </message>
-    <message>
         <source>Normal</source>
-        <translation type="unfinished">Normale</translation>
+        <translation>Normale</translation>
     </message>
     <message>
         <source>Fast</source>
-        <translation type="unfinished"></translation>
+        <translation>Veloce</translation>
     </message>
     <message>
         <source>Faster</source>
-        <translation type="unfinished"></translation>
+        <translation>Molto veloce</translation>
     </message>
     <message>
         <source>Lightspeed</source>
-        <translation type="unfinished"></translation>
+        <translation>Velocità luci</translation>
     </message>
     <message>
         <source>DDC/CI brightness update rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Frequnza aggiornamento luminosità DDC/CI</translation>
     </message>
     <message>
         <source>Controls how frequently brightness commands are sent to external monitors</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlla la frequenza con cui i comandi di luminosità vengono inviati a monitor esterni</translation>
     </message>
 </context>
 <context>
@@ -593,7 +589,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>25.07.2025</translation>
+        <translation>28.07.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -703,7 +699,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation>Disoabilitato</translation>
+        <translation>Disabilitato</translation>
     </message>
     <message>
         <source>ChatMix %1</source>
