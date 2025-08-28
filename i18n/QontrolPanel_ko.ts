@@ -423,8 +423,8 @@
     <message>
         <source>This app is made with care by an independent developer and is not financed by ad revenue.
 If you&apos;d like to support my work, any contribution would be greatly appreciated!</source>
-        <translation>이 앱은 독립 개발자가 신중하게 제작했으며 광고 수익으로 자금을 조달하지 않습니다.
-제 작업을 지원해 주신다면, 어떤 기여라도 해주시면 대단히 감사하겠습니다!</translation>
+        <translation>이 앱은 독립 개발자가 정성껏 제작했으며 광고 수익으로 운영되지 않습니다.
+제 작업을 후원하고 싶으시다면, 어떤 기부든 환영합니다!</translation>
     </message>
     <message>
         <source>Support</source>
@@ -432,7 +432,7 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Maybe later</source>
-        <translation>나중에요</translation>
+        <translation>나중에</translation>
     </message>
 </context>
 <context>
@@ -519,27 +519,27 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Normal</source>
-        <translation type="unfinished">정상</translation>
+        <translation>정상</translation>
     </message>
     <message>
         <source>Fast</source>
-        <translation type="unfinished"></translation>
+        <translation>빠르게</translation>
     </message>
     <message>
         <source>Faster</source>
-        <translation type="unfinished"></translation>
+        <translation>더 빠르게</translation>
     </message>
     <message>
         <source>Lightspeed</source>
-        <translation type="unfinished"></translation>
+        <translation>광속</translation>
     </message>
     <message>
         <source>DDC/CI brightness update rate</source>
-        <translation type="unfinished"></translation>
+        <translation>DDC/CI 밝기 업데이트 속도</translation>
     </message>
     <message>
         <source>Controls how frequently brightness commands are sent to external monitors</source>
-        <translation type="unfinished"></translation>
+        <translation>밝기 명령이 외부 모니터로 전송되는 빈도 제어</translation>
     </message>
 </context>
 <context>
@@ -595,7 +595,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>The tray icon is probably hidden and can be added to the tray area by dragging it as shown in the video below.</source>
-        <translation>트레이 아이콘은 아마도 숨겨져 있을 것이며 아래 동영상과 같이 끌어서 트레이 영역에 추가할 수 있습니다.</translation>
+        <translation>트레이 아이콘이 숨겨져 있을 수 있으며, 아래 동영상에서 보여주는 대로 드래그하여 트레이 영역에 추가할 수 있습니다.</translation>
     </message>
     <message>
         <source>You can then click on the tray icon to reveal the panel.</source>
