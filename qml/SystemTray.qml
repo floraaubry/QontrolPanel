@@ -8,7 +8,7 @@ Platform.SystemTrayIcon {
     signal togglePanelRequested()
     signal showIntroRequested()
     icon.source: Constants.getTrayIcon(AudioBridge.outputVolume, AudioBridge.outputMuted)
-    tooltip: "Quick Sound Switcher"
+    tooltip: "QontrolPanel"
 
     Component.onCompleted: {
         if (UserSettings.firstRun === undefined || UserSettings.firstRun === true) {
