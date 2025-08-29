@@ -1852,22 +1852,28 @@ void AudioManager::cleanup()
 
     if (!m_workerThread) return;
 
+    // Step 1: Tell worker to cleanup from its own thread
     if (m_worker) {
         QMetaObject::invokeMethod(m_worker, "cleanup", Qt::QueuedConnection);
+
+        // Step 2: Tell worker to delete itself from its own thread
+        QMetaObject::invokeMethod(m_worker, "deleteLater", Qt::QueuedConnection);
+        m_worker = nullptr; // Clear pointer immediately
     }
 
+    // Step 3: Quit the thread and wait for it to finish
     m_workerThread->quit();
     if (!m_workerThread->wait(5000)) {
+        qWarning() << "AudioWorker thread did not finish gracefully, terminating...";
         m_workerThread->terminate();
-        m_workerThread->wait();
+        m_workerThread->wait(1000); // Give it a bit more time after terminate
     }
 
-    delete m_worker;
-    m_worker = nullptr;
-
+    // Step 4: Now safe to delete the thread
     delete m_workerThread;
     m_workerThread = nullptr;
 
+    // Clear cache
     QMutexLocker cacheLock(&m_cacheMutex);
     m_cachedOutputVolume = 0;
     m_cachedInputVolume = 0;

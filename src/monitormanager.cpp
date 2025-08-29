@@ -489,20 +489,27 @@ void MonitorManager::initialize()
 
 void MonitorManager::cleanup()
 {
-    if (!s_worker || !s_workerThread) {
-        return;
+    if (!s_workerThread) return;
+
+    // Step 1: Tell worker to cleanup from its own thread
+    if (s_worker) {
+        QMetaObject::invokeMethod(s_worker, "cleanup", Qt::QueuedConnection);
+
+        // Step 2: Tell worker to delete itself from its own thread
+        QMetaObject::invokeMethod(s_worker, "deleteLater", Qt::QueuedConnection);
+        s_worker = nullptr;
     }
 
-    // Stop the timer from the worker thread before quitting
-    QMetaObject::invokeMethod(s_worker, "cleanup", Qt::BlockingQueuedConnection);
-
+    // Step 3: Quit thread and wait
     s_workerThread->quit();
-    s_workerThread->wait();
+    if (!s_workerThread->wait(5000)) {
+        qWarning() << "MonitorWorker thread did not finish gracefully, terminating...";
+        s_workerThread->terminate();
+        s_workerThread->wait(1000);
+    }
 
-    delete s_worker;
+    // Step 4: Delete thread
     delete s_workerThread;
-
-    s_worker = nullptr;
     s_workerThread = nullptr;
 }
 
