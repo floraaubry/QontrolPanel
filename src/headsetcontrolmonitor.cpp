@@ -134,12 +134,14 @@ void HeadsetControlMonitor::executeHeadsetControlCommand(const QStringList& argu
                 commandProcess->deleteLater();
             });
 
-    commandProcess->start(executablePath, arguments);
+    // Add error handling for command startup failures
+    connect(commandProcess, &QProcess::errorOccurred, this,
+            [commandProcess](QProcess::ProcessError error) {
+                qWarning() << "HeadsetControl command process error:" << error;
+                commandProcess->deleteLater();
+            });
 
-    if (!commandProcess->waitForStarted(3000)) {
-        qWarning() << "Failed to start HeadsetControl command process";
-        commandProcess->deleteLater();
-    }
+    commandProcess->start(executablePath, arguments);
 }
 
 void HeadsetControlMonitor::fetchHeadsetInfo()
@@ -165,16 +167,20 @@ void HeadsetControlMonitor::fetchHeadsetInfo()
     connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, &HeadsetControlMonitor::onProcessFinished);
 
+    // Add error handling for startup failures
+    connect(m_process, &QProcess::errorOccurred, this,
+            [this](QProcess::ProcessError error) {
+                qWarning() << "HeadsetControl process error:" << error;
+                if (m_process) {
+                    m_process->deleteLater();
+                    m_process = nullptr;
+                }
+            });
+
     QStringList arguments;
     arguments << "-o" << "JSON";
 
     m_process->start(executablePath, arguments);
-
-    if (!m_process->waitForStarted(3000)) {
-        qWarning() << "Failed to start HeadsetControl process";
-        m_process->deleteLater();
-        m_process = nullptr;
-    }
 }
 
 void HeadsetControlMonitor::onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus)
