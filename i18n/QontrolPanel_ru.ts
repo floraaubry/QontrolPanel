@@ -930,6 +930,10 @@ You can enable it in the General tab.</source>
         <source>Windows sound settings (Modern)</source>
         <translation type="unfinished">Настройки звука Windows (Новые)</translation>
     </message>
+    <message>
+        <source>QontrolPanel settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Updater</name>

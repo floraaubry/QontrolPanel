@@ -7,6 +7,7 @@ Platform.SystemTrayIcon {
     visible: true
     signal togglePanelRequested()
     signal showIntroRequested()
+    signal settingsWindowRequested()
     icon.source: Constants.getTrayIcon(AudioBridge.outputVolume, AudioBridge.outputMuted)
     tooltip: "QontrolPanel"
 
@@ -43,6 +44,10 @@ Platform.SystemTrayIcon {
         Platform.MenuItem {
             text: qsTr("Windows sound settings (Modern)")
             onTriggered: SoundPanelBridge.openModernSoundSettings()
+        }
+        Platform.MenuItem {
+            text: qsTr("QontrolPanel settings")
+            onTriggered: systemTray.settingsWindowRequested()
         }
         Platform.MenuSeparator {}
         Platform.MenuItem {

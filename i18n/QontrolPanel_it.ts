@@ -837,6 +837,10 @@ Puoi abilitarlo nella scheda Generale.</translation>
         <source>Windows sound settings (Modern)</source>
         <translation>Impostazioni audio Windows (moderne)</translation>
     </message>
+    <message>
+        <source>QontrolPanel settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Updater</name>

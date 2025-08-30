@@ -940,6 +940,10 @@ You can enable it in the General tab.</source>
         <source>Windows sound settings (Modern)</source>
         <translation>Windows 사운드 설정 (모던)</translation>
     </message>
+    <message>
+        <source>QontrolPanel settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Updater</name>

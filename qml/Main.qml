@@ -441,6 +441,12 @@ ApplicationWindow {
 
     SettingsWindow {
         id: settingsWindow
+        Connections {
+            target: systemTray
+            function onSettingsWindowRequested() {
+                settingsWindow.show()
+            }
+        }
     }
 
     Item {
