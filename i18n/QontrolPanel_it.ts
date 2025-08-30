@@ -589,7 +589,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>28.07.2025</translation>
+        <translation>29.08.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -839,7 +839,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>QontrolPanel settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni QontrolPanel</translation>
     </message>
 </context>
 <context>
