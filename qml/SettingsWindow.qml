@@ -7,10 +7,10 @@ import Odizinne.QontrolPanel
 
 ApplicationWindow {
     id: root
-    height: 450
-    minimumHeight: 450
-    width: 900
-    minimumWidth: 900
+    height: 585
+    minimumHeight: 585
+    width: 1100
+    minimumWidth: 1100
     visible: false
     transientParent: null
     title: qsTr("QontrolPanel - Settings")
