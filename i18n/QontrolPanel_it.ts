@@ -289,6 +289,80 @@
     </message>
 </context>
 <context>
+    <name>ComponentsPane</name>
+    <message>
+        <source>Components</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable power menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show power button in the panel footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable brightness control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable HeadsetControl integration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Monitor battery using HeadsetControl for supported devices</source>
+        <translation type="unfinished">Monitora la batteria usando il controllo cuffie per dispositivi supportati</translation>
+    </message>
+</context>
+<context>
+    <name>ConfirmPowerActionDialog</name>
+    <message>
+        <source>System will hibernate in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System will restart in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System will shutdown in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You will be signed out in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hibernate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annulla</translation>
+    </message>
+    <message>
+        <source>Action</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DebugPane</name>
     <message>
         <source>Debug and information</source>
@@ -463,15 +537,15 @@ Se vuoi supportare il mio lavoro, qualsiasi contributo sarebbe molto apprezzato!
     </message>
     <message>
         <source>HeadsetControl Integration</source>
-        <translation>Integrazione controllo cuffie</translation>
+        <translation type="vanished">Integrazione controllo cuffie</translation>
     </message>
     <message>
         <source>Monitor battery using HeadsetControl for supported devices</source>
-        <translation>Monitora la batteria usando il controllo cuffie per dispositivi supportati</translation>
+        <translation type="vanished">Monitora la batteria usando il controllo cuffie per dispositivi supportati</translation>
     </message>
     <message>
         <source>Allow brightness control</source>
-        <translation>Consenti controllo luminosità</translation>
+        <translation type="vanished">Consenti controllo luminosità</translation>
     </message>
     <message>
         <source>Normal</source>
@@ -496,6 +570,14 @@ Se vuoi supportare il mio lavoro, qualsiasi contributo sarebbe molto apprezzato!
     <message>
         <source>Controls how frequently brightness commands are sent to external monitors</source>
         <translation>Controlla la frequenza con cui i comandi di luminosità vengono inviati a monitor esterni</translation>
+    </message>
+    <message>
+        <source>Show power action confirmation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Power action confirmation timeout</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -690,6 +772,34 @@ Puoi abilitarlo nella scheda Generale.</translation>
         <source>Brightness</source>
         <translation>Luminosità</translation>
     </message>
+    <message>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sleep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hibernate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lock</source>
+        <translation type="unfinished">Blocca</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch User</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QontrolPanel</name>
@@ -739,6 +849,10 @@ Puoi abilitarlo nella scheda Generale.</translation>
     <message>
         <source>HeadsetControl</source>
         <translation>Controllo cuffie</translation>
+    </message>
+    <message>
+        <source>Components</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -14,6 +14,16 @@
 #include "languages.h"
 #include "updater.h"
 
+#include <powrprof.h>
+#include <wtsapi32.h>
+#include <lm.h>
+
+#pragma comment(lib, "powrprof.lib")
+#pragma comment(lib, "wtsapi32.lib")
+#pragma comment(lib, "netapi32.lib")
+#pragma comment(lib, "user32.lib")
+
+
 SoundPanelBridge* SoundPanelBridge::m_instance = nullptr;
 
 SoundPanelBridge::SoundPanelBridge(QObject* parent)
@@ -595,4 +605,143 @@ void SoundPanelBridge::updateDarkModeFromSystem()
 void SoundPanelBridge::onColorSchemeChanged()
 {
     updateDarkModeFromSystem();
+}
+
+bool SoundPanelBridge::hasMultipleUsers()
+{
+    LPUSER_INFO_1 buffer = nullptr;
+    DWORD entriesRead = 0;
+    DWORD totalEntries = 0;
+    DWORD realUserCount = 0;
+
+    NET_API_STATUS status = NetUserEnum(nullptr, 1, FILTER_NORMAL_ACCOUNT,
+                                        (LPBYTE*)&buffer, MAX_PREFERRED_LENGTH,
+                                        &entriesRead, &totalEntries, nullptr);
+
+    if (status == NERR_Success) {
+        for (DWORD i = 0; i < entriesRead; i++) {
+            // Skip built-in system accounts
+            QString username = QString::fromWCharArray(buffer[i].usri1_name);
+
+            // Skip common system accounts
+            if (username.compare("Administrator", Qt::CaseInsensitive) != 0 &&
+                username.compare("Guest", Qt::CaseInsensitive) != 0 &&
+                username.compare("DefaultAccount", Qt::CaseInsensitive) != 0 &&
+                username.compare("WDAGUtilityAccount", Qt::CaseInsensitive) != 0 &&
+                !username.startsWith("_") &&
+                !(buffer[i].usri1_flags & UF_ACCOUNTDISABLE)) {
+
+                realUserCount++;
+                qDebug() << "Real user found:" << username;
+            } else {
+                qDebug() << "Skipping system account:" << username;
+            }
+        }
+
+        NetApiBufferFree(buffer);
+        bool result = realUserCount > 1;
+        qDebug() << "Real users found:" << realUserCount << "hasMultipleUsers returning:" << result;
+        return result;
+    }
+
+    qDebug() << "hasMultipleUsers returning false (error)";
+    return false;
+}
+
+bool SoundPanelBridge::isHibernateSupported()
+{
+    SYSTEM_POWER_CAPABILITIES powerCaps;
+    ZeroMemory(&powerCaps, sizeof(powerCaps));
+
+    if (GetPwrCapabilities(&powerCaps)) {
+        bool result = powerCaps.SystemS4 && powerCaps.HiberFilePresent;
+        qDebug() << "Hibernate - SystemS4:" << powerCaps.SystemS4
+                 << "HiberFilePresent:" << powerCaps.HiberFilePresent
+                 << "Result:" << result;
+        return result;
+    }
+
+    qDebug() << "isHibernateSupported returning false (GetPwrCapabilities failed)";
+    return false;
+}
+
+bool SoundPanelBridge::isSleepSupported()
+{
+    SYSTEM_POWER_CAPABILITIES powerCaps;
+    if (GetPwrCapabilities(&powerCaps)) {
+        return powerCaps.SystemS1 || powerCaps.SystemS2 || powerCaps.SystemS3;
+    }
+    return false;
+}
+
+bool SoundPanelBridge::enableShutdownPrivilege()
+{
+    HANDLE hToken;
+    TOKEN_PRIVILEGES tkp;
+
+    // Get a token for this process
+    if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
+        return false;
+    }
+
+    // Get the LUID for the shutdown privilege
+    LookupPrivilegeValue(NULL, SE_SHUTDOWN_NAME, &tkp.Privileges[0].Luid);
+
+    tkp.PrivilegeCount = 1;
+    tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+
+    // Get the shutdown privilege for this process
+    AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)NULL, 0);
+
+    if (GetLastError() != ERROR_SUCCESS) {
+        CloseHandle(hToken);
+        return false;
+    }
+
+    CloseHandle(hToken);
+    return true;
+}
+
+bool SoundPanelBridge::shutdown()
+{
+    if (!enableShutdownPrivilege()) {
+        return false;
+    }
+
+    return ExitWindowsEx(EWX_SHUTDOWN | EWX_FORCE, SHTDN_REASON_MAJOR_APPLICATION);
+}
+
+bool SoundPanelBridge::restart()
+{
+    if (!enableShutdownPrivilege()) {
+        return false;
+    }
+
+    return ExitWindowsEx(EWX_REBOOT | EWX_FORCE, SHTDN_REASON_MAJOR_APPLICATION);
+}
+
+bool SoundPanelBridge::sleep()
+{
+    return SetSuspendState(FALSE, FALSE, FALSE);
+}
+
+bool SoundPanelBridge::hibernate()
+{
+    return SetSuspendState(TRUE, FALSE, FALSE);
+}
+
+bool SoundPanelBridge::lockAccount()
+{
+    return LockWorkStation();
+}
+
+bool SoundPanelBridge::signOut()
+{
+    return ExitWindowsEx(EWX_LOGOFF, SHTDN_REASON_MAJOR_APPLICATION);
+}
+
+bool SoundPanelBridge::switchAccount()
+{
+    // Lock workstation which allows user switching from lock screen
+    return LockWorkStation();
 }

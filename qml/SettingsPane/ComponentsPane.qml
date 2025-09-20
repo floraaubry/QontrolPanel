@@ -1,0 +1,61 @@
+pragma ComponentBehavior: Bound
+
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls.FluentWinUI3
+import Odizinne.QontrolPanel
+
+ColumnLayout {
+    spacing: 3
+
+    Label {
+        text: qsTr("Components")
+        font.pixelSize: 22
+        font.bold: true
+        Layout.bottomMargin: 15
+    }
+
+    Item {
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+
+        ScrollView {
+            anchors.fill: parent
+
+            ColumnLayout {
+                width: parent.width
+                spacing: 3
+
+                Card {
+                    Layout.fillWidth: true
+                    title: qsTr("Enable power menu")
+                    description: qsTr("Show power button in the panel footer")
+                    additionalControl: LabeledSwitch {
+                        checked: UserSettings.enablePowerMenu
+                        onClicked: UserSettings.enablePowerMenu = checked
+                    }
+                }
+
+                Card {
+                    Layout.fillWidth: true
+                    title: qsTr("Enable brightness control")
+                    description: qsTr("Show power button in the panel footer")
+                    additionalControl: LabeledSwitch {
+                        checked: UserSettings.allowBrightnessControl
+                        onClicked: UserSettings.allowBrightnessControl = checked
+                    }
+                }
+
+                Card {
+                    Layout.fillWidth: true
+                    title: qsTr("Enable HeadsetControl integration")
+                    description: qsTr("Monitor battery using HeadsetControl for supported devices")
+                    additionalControl: LabeledSwitch {
+                        checked: UserSettings.headsetcontrolMonitoring
+                        onClicked: UserSettings.headsetcontrolMonitoring = checked
+                    }
+                }
+            }
+        }
+    }
+}

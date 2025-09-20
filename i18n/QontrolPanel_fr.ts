@@ -329,6 +329,80 @@
     </message>
 </context>
 <context>
+    <name>ComponentsPane</name>
+    <message>
+        <source>Components</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable power menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show power button in the panel footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable brightness control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable HeadsetControl integration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Monitor battery using HeadsetControl for supported devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConfirmPowerActionDialog</name>
+    <message>
+        <source>System will hibernate in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System will restart in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System will shutdown in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You will be signed out in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hibernate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuler</translation>
+    </message>
+    <message>
+        <source>Action</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DebugPane</name>
     <message>
         <source>Debug and information</source>
@@ -526,18 +600,6 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
         <translation type="vanished">Contrôlez plusieurs flux provenant d’une seule application en meme temps</translation>
     </message>
     <message>
-        <source>HeadsetControl Integration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Monitor battery using HeadsetControl for supported devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allow brightness control</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Normal</source>
         <translation type="unfinished">Normale</translation>
     </message>
@@ -559,6 +621,14 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
     </message>
     <message>
         <source>Controls how frequently brightness commands are sent to external monitors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show power action confirmation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Power action confirmation timeout</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -785,6 +855,34 @@ You can enable it in the General tab.</source>
         <source>Brightness</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sleep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hibernate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lock</source>
+        <translation type="unfinished">Déverouiller</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch User</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QontrolPanel</name>
@@ -861,6 +959,10 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>HeadsetControl</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Components</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

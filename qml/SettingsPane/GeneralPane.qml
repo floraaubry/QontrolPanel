@@ -68,12 +68,22 @@ ColumnLayout {
 
             Card {
                 Layout.fillWidth: true
-                title: qsTr("Allow brightness control")
-                //description: qsTr("Experimental")
-
+                title: qsTr("Show power action confirmation")
                 additionalControl: LabeledSwitch {
-                    checked: UserSettings.allowBrightnessControl
-                    onClicked: UserSettings.allowBrightnessControl = checked
+                    checked: UserSettings.showPowerDialogConfirmation
+                    onClicked: UserSettings.showPowerDialogConfirmation = checked
+                }
+            }
+
+            Card {
+                Layout.fillWidth: true
+                title: qsTr("Power action confirmation timeout")
+                additionalControl: SpinBox {
+                    from: 5
+                    to: 60
+                    editable: true
+                    value: UserSettings.confirmationTimeout
+                    onValueChanged: UserSettings.confirmationTimeout = value
                 }
             }
 
@@ -101,20 +111,6 @@ ColumnLayout {
                             case 2: UserSettings.ddcciQueueDelay = 100; break
                             case 3: UserSettings.ddcciQueueDelay = 1; break
                         }
-                    }
-                }
-            }
-
-            Card {
-                Layout.fillWidth: true
-                title: qsTr("HeadsetControl Integration")
-                description: qsTr("Monitor battery using HeadsetControl for supported devices")
-
-                additionalControl: LabeledSwitch {
-                    checked: UserSettings.headsetcontrolMonitoring
-                    onClicked: {
-                        UserSettings.headsetcontrolMonitoring = checked
-                        HeadsetControlBridge.setMonitoringEnabled(checked)
                     }
                 }
             }

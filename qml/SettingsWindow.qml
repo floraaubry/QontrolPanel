@@ -18,7 +18,7 @@ ApplicationWindow {
 
     function showUpdatePane() {
         show()
-        sidebarList.currentIndex = 6
+        sidebarList.currentIndex = 7
         stackView.push(debugPaneComponent)
     }
 
@@ -88,6 +88,10 @@ ApplicationWindow {
                             icon: "qrc:/icons/general.svg"
                         },
                         {
+                            text: qsTr("Components"),
+                            icon: "qrc:/icons/component.svg"
+                        },
+                        {
                             text: qsTr("Appearance"),
                             icon: "qrc:/icons/wand.svg"
                         },
@@ -119,7 +123,7 @@ ApplicationWindow {
 
                         function onLanguageIndexChanged() {
                             Qt.callLater(function() {
-                                sidebarList.currentIndex = 5
+                                sidebarList.currentIndex = 6
                             })
                         }
                     }
@@ -145,12 +149,13 @@ ApplicationWindow {
                                 sidebarList.currentIndex = index
                                 switch(index) {
                                     case 0: stackView.push(generalPaneComponent); break
-                                    case 1: stackView.push(appearancePaneComponent); break
-                                    case 2: stackView.push(commAppsPaneComponent); break
-                                    case 3: stackView.push(shortcutsPaneComponent); break
-                                    case 4: stackView.push(headsetControlPaneComponent); break
-                                    case 5: stackView.push(languagePaneComponent); break
-                                    case 6: stackView.push(debugPaneComponent); break
+                                    case 1: stackView.push(componentsPaneComponent); break
+                                    case 2: stackView.push(appearancePaneComponent); break
+                                    case 3: stackView.push(commAppsPaneComponent); break
+                                    case 4: stackView.push(shortcutsPaneComponent); break
+                                    case 5: stackView.push(headsetControlPaneComponent); break
+                                    case 6: stackView.push(languagePaneComponent); break
+                                    case 7: stackView.push(debugPaneComponent); break
                                 }
                             }
                         }
@@ -209,6 +214,11 @@ ApplicationWindow {
             Component {
                 id: generalPaneComponent
                 GeneralPane{}
+            }
+
+            Component {
+                id: componentsPaneComponent
+                ComponentsPane {}
             }
 
             Component {

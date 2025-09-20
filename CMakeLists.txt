@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(QontrolPanel VERSION 1.8.1 LANGUAGES C CXX)
+project(QontrolPanel VERSION 1.9.0 LANGUAGES C CXX)
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation directory" FORCE)
 set(CMAKE_CXX_STANDARD 20)
@@ -158,6 +158,9 @@ qt_add_qml_module(QontrolPanel
     URI Odizinne.QontrolPanel
     VERSION 1.0
     QML_FILES ${QML_FILES} ${QML_SINGLETONS}
+    QML_FILES qml/PowerMenuListView.qml
+    QML_FILES qml/ConfirmPowerActionDialog.qml
+    QML_FILES qml/SettingsPane/ComponentsPane.qml
 )
 
 target_include_directories(QontrolPanel PRIVATE

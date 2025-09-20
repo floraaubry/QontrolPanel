@@ -313,6 +313,80 @@
     </message>
 </context>
 <context>
+    <name>ComponentsPane</name>
+    <message>
+        <source>Components</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable power menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show power button in the panel footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable brightness control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable HeadsetControl integration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Monitor battery using HeadsetControl for supported devices</source>
+        <translation type="unfinished">지원되는 장치의 헤드셋 제어를 사용하여 배터리를 모니터링합니다</translation>
+    </message>
+</context>
+<context>
+    <name>ConfirmPowerActionDialog</name>
+    <message>
+        <source>System will hibernate in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System will restart in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System will shutdown in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You will be signed out in %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hibernate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">취소</translation>
+    </message>
+    <message>
+        <source>Action</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DebugPane</name>
     <message>
         <source>Debug and information</source>
@@ -503,15 +577,15 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>HeadsetControl Integration</source>
-        <translation>헤드셋 제어 통합</translation>
+        <translation type="vanished">헤드셋 제어 통합</translation>
     </message>
     <message>
         <source>Monitor battery using HeadsetControl for supported devices</source>
-        <translation>지원되는 장치의 헤드셋 제어를 사용하여 배터리를 모니터링합니다</translation>
+        <translation type="vanished">지원되는 장치의 헤드셋 제어를 사용하여 배터리를 모니터링합니다</translation>
     </message>
     <message>
         <source>Allow brightness control</source>
-        <translation>밝기 제어 허용</translation>
+        <translation type="vanished">밝기 제어 허용</translation>
     </message>
     <message>
         <source>Experimental</source>
@@ -540,6 +614,14 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     <message>
         <source>Controls how frequently brightness commands are sent to external monitors</source>
         <translation>밝기 명령이 외부 모니터로 전송되는 빈도 제어</translation>
+    </message>
+    <message>
+        <source>Show power action confirmation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Power action confirmation timeout</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -750,6 +832,34 @@ You can enable it in the General tab.</source>
         <source>Brightness</source>
         <translation>밝기</translation>
     </message>
+    <message>
+        <source>Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sleep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hibernate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lock</source>
+        <translation type="unfinished">잠금</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch User</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QontrolPanel</name>
@@ -831,6 +941,10 @@ You can enable it in the General tab.</source>
     <message>
         <source>HeadsetControl</source>
         <translation>헤드셋 제어</translation>
+    </message>
+    <message>
+        <source>Components</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

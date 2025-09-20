@@ -77,5 +77,6 @@
         <file>signout.svg</file>
         <file>sleep.svg</file>
         <file>switch.svg</file>
+        <file>component.svg</file>
     </qresource>
 </RCC>

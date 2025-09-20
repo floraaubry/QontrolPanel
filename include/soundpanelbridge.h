@@ -85,6 +85,16 @@ public:
     Q_INVOKABLE int getTranslationProgress(const QString& languageCode);
     Q_INVOKABLE bool hasTranslationProgressData();
 
+    Q_INVOKABLE bool hasMultipleUsers();
+    Q_INVOKABLE bool isSleepSupported();
+    Q_INVOKABLE bool isHibernateSupported();
+    Q_INVOKABLE bool shutdown();
+    Q_INVOKABLE bool restart();
+    Q_INVOKABLE bool sleep();
+    Q_INVOKABLE bool hibernate();
+    Q_INVOKABLE bool lockAccount();
+    Q_INVOKABLE bool signOut();
+    Q_INVOKABLE bool switchAccount();
 private slots:
     void checkForTranslationUpdates();
     void checkForAppUpdates();
@@ -143,4 +153,6 @@ private:
     void downloadTranslationProgressFile();
 
     QTimer* m_autoUpdateCheckTimer;
+
+    bool enableShutdownPrivilege();
 };

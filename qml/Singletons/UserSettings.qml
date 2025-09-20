@@ -42,4 +42,8 @@ Settings {
     property bool allowBrightnessControl: true
     property bool avoidApplicationsOverflow: false
     property int ddcciQueueDelay: 500
+
+    property bool enablePowerMenu: true
+    property bool showPowerDialogConfirmation: true
+    property int confirmationTimeout: 60
 }

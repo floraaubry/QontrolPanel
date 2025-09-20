@@ -18,13 +18,6 @@ ColumnLayout {
         Layout.bottomMargin: 15
     }
 
-    //Connections {
-    //    target: SoundPanelBridge
-    //    function onApplicationsChanged() {
-    //        SoundPanelBridge.updateMissingCommAppIcons()
-    //    }
-    //}
-
     ScrollView {
         Layout.fillWidth: true
         Layout.fillHeight: true
