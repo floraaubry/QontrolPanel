@@ -70,5 +70,12 @@
         <file>headsetcontrol/battery-60-charging-light.png</file>
         <file>headsetcontrol/battery-80-charging-dark.png</file>
         <file>headsetcontrol/battery-80-charging-light.png</file>
+        <file>hibernate.svg</file>
+        <file>lock.svg</file>
+        <file>restart.svg</file>
+        <file>shutdown.svg</file>
+        <file>signout.svg</file>
+        <file>sleep.svg</file>
+        <file>switch.svg</file>
     </qresource>
 </RCC>
