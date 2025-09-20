@@ -35,7 +35,6 @@ set(SOURCES
     src/windowfocusmanager.cpp
     src/updater.cpp
     src/headsetcontrolmonitor.cpp
-    #src/bluetoothbatterymonitor.cpp
     src/headsetcontrolbridge.cpp
     src/monitormanager.cpp
     src/monitormanagerimpl.cpp
@@ -52,7 +51,6 @@ set(HEADERS
     include/windowfocusmanager.h
     include/updater.h
     include/headsetcontrolmonitor.h
-    #include/bluetoothbatterymonitor.h
     include/headsetcontrolbridge.h
     include/monitormanager.h
     include/monitormanagerimpl.h
@@ -142,6 +140,8 @@ set(QML_FILES
     qml/IntroWindow.qml
     qml/DonatePopup.qml
     qml/DebugRectangle.qml
+    qml/ConfirmPowerActionDialog.qml
+    qml/SettingsPane/ComponentsPane.qml
 )
 
 set(QML_SINGLETONS
@@ -158,9 +158,6 @@ qt_add_qml_module(QontrolPanel
     URI Odizinne.QontrolPanel
     VERSION 1.0
     QML_FILES ${QML_FILES} ${QML_SINGLETONS}
-    QML_FILES qml/PowerMenuListView.qml
-    QML_FILES qml/ConfirmPowerActionDialog.qml
-    QML_FILES qml/SettingsPane/ComponentsPane.qml
 )
 
 target_include_directories(QontrolPanel PRIVATE
