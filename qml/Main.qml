@@ -1238,7 +1238,7 @@ ApplicationWindow {
                                     Layout.rightMargin: 25
                                 }
 
-                                Slider {
+                                NFSlider {
                                     id: brightnessSlider
                                     from: 0
                                     to: 100

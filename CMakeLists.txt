@@ -106,7 +106,7 @@ configure_file(
     @ONLY
 )
 
-qt_add_executable(QontrolPanel WIN32 MACOSX_BUNDLE
+qt_add_executable(QontrolPanel WIN32
     ${SOURCES}
     ${HEADERS}
     resources/icons/icons.qrc
@@ -119,29 +119,29 @@ set(QML_FILES
     qml/Main.qml
     qml/SettingsWindow.qml
     qml/KeepAlive.qml
-    qml/DevicesListView.qml
     qml/MediaFlyoutContent.qml
-    qml/Card.qml
-    qml/LabeledSwitch.qml
+    qml/IntroWindow.qml
+    qml/DonatePopup.qml
+    qml/ConfirmPowerActionDialog.qml
+    qml/SystemTray.qml
+    qml/ChatMixNotification.qml
+    qml/Common/ApplicationsListView.qml
+    qml/Common/NFToolButton.qml
+    qml/Common/NFSlider.qml
+    qml/Common/NFButton.qml
+    qml/Common/DevicesListView.qml
+    qml/Common/Card.qml
+    qml/Common/LabeledSwitch.qml
+    qml/Common/ProgressSlider.qml
     qml/SettingsPane/AppearancePane.qml
+    qml/SettingsPane/ComponentsPane.qml
     qml/SettingsPane/GeneralPane.qml
     qml/SettingsPane/LanguagePane.qml
     qml/SettingsPane/DebugPane.qml
     qml/SettingsPane/CommAppsPane.qml
     qml/SettingsPane/ShortcutsPane.qml
     qml/SettingsPane/HeadsetControlPane.qml
-    qml/ProgressSlider.qml
-    qml/ChatMixNotification.qml
-    qml/ApplicationsListView.qml
-    qml/SystemTray.qml
-    qml/NFToolButton.qml
-    qml/NFSlider.qml
-    qml/NFButton.qml
-    qml/IntroWindow.qml
-    qml/DonatePopup.qml
-    qml/DebugRectangle.qml
-    qml/ConfirmPowerActionDialog.qml
-    qml/SettingsPane/ComponentsPane.qml
+    qml/Debug/DebugRectangle.qml
 )
 
 set(QML_SINGLETONS
