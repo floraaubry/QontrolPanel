@@ -465,6 +465,26 @@ ApplicationWindow {
         hideAnimation.start()
     }
 
+    function shouldShowSeparator(currentLayoutIndex) {
+        const visibilities = [
+            UserSettings.enableDeviceManager,
+            UserSettings.enableApplicationMixer && AudioBridge.isReady && AudioBridge.applications.rowCount() > 0,
+            UserSettings.activateChatmix,
+            MonitorManager.monitorDetected && UserSettings.allowBrightnessControl
+        ]
+
+        // Current layout must be visible
+        if (!visibilities[currentLayoutIndex]) return false
+
+        // Check if ANY previous layout is visible
+        for (let i = 0; i < currentLayoutIndex; i++) {
+            if (visibilities[i]) return true
+        }
+
+        // No previous layout is visible, so don't show separator
+        return false
+    }
+
     Connections {
         target: SoundPanelBridge
         function onChatMixEnabledChanged(enabled) {
@@ -883,11 +903,12 @@ ApplicationWindow {
                     }
 
                     Rectangle {
+                        id: deviceLytSeparator
                         Layout.preferredHeight: 1
                         Layout.fillWidth: true
                         color: Constants.separatorColor
                         opacity: 0.15
-                        visible: UserSettings.enableApplicationMixer && UserSettings.enableDeviceManager && AudioBridge.isReady && AudioBridge.applications.rowCount() > 0
+                        visible: panel.shouldShowSeparator(1)
                         Layout.rightMargin: -14
                         Layout.leftMargin: -14
                     }
@@ -1101,7 +1122,8 @@ ApplicationWindow {
                     }
 
                     Rectangle {
-                        visible: UserSettings.activateChatmix
+                        id: appsLytSeparator
+                        visible: panel.shouldShowSeparator(2)
                         Layout.preferredHeight: 1
                         Layout.fillWidth: true
                         color: Constants.separatorColor
@@ -1194,7 +1216,8 @@ ApplicationWindow {
                     }
 
                     Rectangle {
-                        visible: brightnessLayout.visible
+                        id: chatMixLytSeparator
+                        visible: panel.shouldShowSeparator(3)
                         Layout.preferredHeight: 1
                         Layout.fillWidth: true
                         color: Constants.separatorColor
