@@ -428,16 +428,10 @@ ApplicationWindow {
             UserSettings.activateChatmix,
             MonitorManager.monitorDetected && UserSettings.allowBrightnessControl
         ]
-
-        // Current layout must be visible
         if (!visibilities[currentLayoutIndex]) return false
-
-        // Check if ANY previous layout is visible
         for (let i = 0; i < currentLayoutIndex; i++) {
             if (visibilities[i]) return true
         }
-
-        // No previous layout is visible, so don't show separator
         return false
     }
 
@@ -527,7 +521,7 @@ ApplicationWindow {
             columnSpacing: 0
             rowSpacing: 0
 
-            Item {
+            PanelSpacer {
                 id: topSpacer
                 Layout.row: 0
                 Layout.column: 0
@@ -535,26 +529,20 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.preferredHeight: (panel.taskbarPos === "top") ? UserSettings.yAxisMargin : 0
                 visible: panel.taskbarPos === "top"
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        panel.hidePanel()
-                    }
+                onClicked: {
+                    panel.hidePanel()
                 }
             }
 
-            Item {
+            PanelSpacer {
                 id: leftSpacer
                 Layout.row: 1
                 Layout.column: 0
                 Layout.fillHeight: true
                 Layout.preferredWidth: (panel.taskbarPos === "left") ? UserSettings.xAxisMargin : 0
                 visible: panel.taskbarPos === "left"
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        panel.hidePanel()
-                    }
+                onClicked: {
+                    panel.hidePanel()
                 }
             }
 
@@ -1383,7 +1371,7 @@ ApplicationWindow {
                 }
             }
 
-            Item {
+            PanelSpacer {
                 id: rightSpacer
                 Layout.row: 1
                 Layout.column: 2
@@ -1396,15 +1384,12 @@ ApplicationWindow {
                     }
                 }
                 visible: panel.taskbarPos === "top" || panel.taskbarPos === "bottom" || panel.taskbarPos === "right"
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        panel.hidePanel()
-                    }
+                onClicked: {
+                    panel.hidePanel()
                 }
             }
 
-            Item {
+            PanelSpacer {
                 id: bottomSpacer
                 Layout.row: 2
                 Layout.column: 0
@@ -1418,11 +1403,8 @@ ApplicationWindow {
                     }
                 }
                 visible: panel.taskbarPos === "bottom" || panel.taskbarPos === "left" || panel.taskbarPos === "right"
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        panel.hidePanel()
-                    }
+                onClicked: {
+                    panel.hidePanel()
                 }
             }
         }
