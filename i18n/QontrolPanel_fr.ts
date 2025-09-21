@@ -354,6 +354,26 @@
         <source>Monitor battery using HeadsetControl for supported devices</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Enable audio device manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display audio device manager in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable application volume mixer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display application volume mixer in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show brightness control in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConfirmPowerActionDialog</name>
@@ -541,23 +561,23 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
     </message>
     <message>
         <source>Panel mode</source>
-        <translation>Mode du panneau</translation>
+        <translation type="vanished">Mode du panneau</translation>
     </message>
     <message>
         <source>Choose what should be displayed in the panel</source>
-        <translation>Choisissez ce qui doit être affiché dans le panneau</translation>
+        <translation type="vanished">Choisissez ce qui doit être affiché dans le panneau</translation>
     </message>
     <message>
         <source>Devices + Mixer</source>
-        <translation>Périphériques + Mixer</translation>
+        <translation type="vanished">Périphériques + Mixer</translation>
     </message>
     <message>
         <source>Mixer only</source>
-        <translation>Mixer uniquement</translation>
+        <translation type="vanished">Mixer uniquement</translation>
     </message>
     <message>
         <source>Devices only</source>
-        <translation>Périphériques uniquement</translation>
+        <translation type="vanished">Périphériques uniquement</translation>
     </message>
     <message>
         <source>Link same input and output devices</source>

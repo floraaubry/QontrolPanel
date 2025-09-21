@@ -19,19 +19,6 @@ ColumnLayout {
         ColumnLayout {
             width: parent.width
             spacing: 3
-            Card {
-                Layout.fillWidth: true
-                title: qsTr("Panel mode")
-                description: qsTr("Choose what should be displayed in the panel")
-
-                additionalControl: ComboBox {
-                    Layout.preferredHeight: 35
-                    Layout.preferredWidth: 160
-                    model: [qsTr("Devices + Mixer"), qsTr("Mixer only"), qsTr("Devices only")]
-                    currentIndex: UserSettings.panelMode
-                    onActivated: UserSettings.panelMode = currentIndex
-                }
-            }
 
             Card {
                 Layout.fillWidth: true

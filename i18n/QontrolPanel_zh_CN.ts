@@ -350,6 +350,26 @@
         <source>Monitor battery using HeadsetControl for supported devices</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Enable audio device manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display audio device manager in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable application volume mixer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display application volume mixer in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show brightness control in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConfirmPowerActionDialog</name>
@@ -528,23 +548,23 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Panel mode</source>
-        <translation>面板模式</translation>
+        <translation type="vanished">面板模式</translation>
     </message>
     <message>
         <source>Choose what should be displayed in the panel</source>
-        <translation>选择在面板中显示什么内容</translation>
+        <translation type="vanished">选择在面板中显示什么内容</translation>
     </message>
     <message>
         <source>Devices + Mixer</source>
-        <translation>设备 + 合成器</translation>
+        <translation type="vanished">设备 + 合成器</translation>
     </message>
     <message>
         <source>Mixer only</source>
-        <translation>只显示合成器</translation>
+        <translation type="vanished">只显示合成器</translation>
     </message>
     <message>
         <source>Devices only</source>
-        <translation>只显示设备</translation>
+        <translation type="vanished">只显示设备</translation>
     </message>
     <message>
         <source>Link same input and output devices</source>

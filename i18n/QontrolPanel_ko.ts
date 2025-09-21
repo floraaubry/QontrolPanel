@@ -338,6 +338,26 @@
         <source>Monitor battery using HeadsetControl for supported devices</source>
         <translation type="unfinished">지원되는 장치의 헤드셋 제어를 사용하여 배터리를 모니터링합니다</translation>
     </message>
+    <message>
+        <source>Enable audio device manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display audio device manager in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable application volume mixer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display application volume mixer in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show brightness control in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConfirmPowerActionDialog</name>
@@ -517,23 +537,23 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Panel mode</source>
-        <translation>패널 모드</translation>
+        <translation type="vanished">패널 모드</translation>
     </message>
     <message>
         <source>Choose what should be displayed in the panel</source>
-        <translation>패널에 표시할 항목을 선택하세요</translation>
+        <translation type="vanished">패널에 표시할 항목을 선택하세요</translation>
     </message>
     <message>
         <source>Devices + Mixer</source>
-        <translation>장치 + 믹서</translation>
+        <translation type="vanished">장치 + 믹서</translation>
     </message>
     <message>
         <source>Mixer only</source>
-        <translation>믹서만</translation>
+        <translation type="vanished">믹서만</translation>
     </message>
     <message>
         <source>Devices only</source>
-        <translation>장치만</translation>
+        <translation type="vanished">장치만</translation>
     </message>
     <message>
         <source>Link same input and output devices</source>

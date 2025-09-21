@@ -342,6 +342,26 @@
         <source>Monitor battery using HeadsetControl for supported devices</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Enable audio device manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display audio device manager in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable application volume mixer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display application volume mixer in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show brightness control in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConfirmPowerActionDialog</name>
@@ -520,23 +540,23 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Panel mode</source>
-        <translation>Режим панели</translation>
+        <translation type="vanished">Режим панели</translation>
     </message>
     <message>
         <source>Choose what should be displayed in the panel</source>
-        <translation>Выберите, что должно отображаться в панели</translation>
+        <translation type="vanished">Выберите, что должно отображаться в панели</translation>
     </message>
     <message>
         <source>Devices + Mixer</source>
-        <translation>Совмещённый</translation>
+        <translation type="vanished">Совмещённый</translation>
     </message>
     <message>
         <source>Mixer only</source>
-        <translation>Только микшер</translation>
+        <translation type="vanished">Только микшер</translation>
     </message>
     <message>
         <source>Devices only</source>
-        <translation>Только устройства</translation>
+        <translation type="vanished">Только устройства</translation>
     </message>
     <message>
         <source>Link same input and output devices</source>

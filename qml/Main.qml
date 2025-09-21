@@ -708,7 +708,7 @@ ApplicationWindow {
                     ColumnLayout {
                         id: deviceLayout
                         spacing: 5
-                        visible: UserSettings.panelMode === 0 || UserSettings.panelMode === 2
+                        visible: UserSettings.enableDeviceManager
 
                         RowLayout {
                             Layout.fillWidth: true
@@ -887,7 +887,7 @@ ApplicationWindow {
                         Layout.fillWidth: true
                         color: Constants.separatorColor
                         opacity: 0.15
-                        visible: UserSettings.panelMode === 0 && AudioBridge.isReady && AudioBridge.applications.rowCount() > 0
+                        visible: UserSettings.enableApplicationMixer && UserSettings.enableDeviceManager && AudioBridge.isReady && AudioBridge.applications.rowCount() > 0
                         Layout.rightMargin: -14
                         Layout.leftMargin: -14
                     }
@@ -895,7 +895,7 @@ ApplicationWindow {
                     ColumnLayout {
                         id: appLayout
                         spacing: 5
-                        visible: UserSettings.panelMode < 2 && AudioBridge.isReady && AudioBridge.applications.rowCount() > 0
+                        visible: UserSettings.enableApplicationMixer && AudioBridge.isReady && AudioBridge.applications.rowCount() > 0
                         Layout.fillWidth: true
 
                         ScrollView {
@@ -1238,7 +1238,7 @@ ApplicationWindow {
                                     Layout.rightMargin: 25
                                 }
 
-                                NFSlider {
+                                Slider {
                                     id: brightnessSlider
                                     from: 0
                                     to: 100
@@ -1276,7 +1276,6 @@ ApplicationWindow {
                             height: 1
                             color: Constants.footerBorderColor
                             opacity: 0.15
-                            visible: UserSettings.panelMode === 0
                             anchors.top: parent.top
                             anchors.right: parent.right
                             anchors.left: parent.left

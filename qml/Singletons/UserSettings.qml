@@ -3,7 +3,9 @@ pragma Singleton
 import QtCore
 
 Settings {
-    property int panelMode: 0
+    //property int panelMode: 0
+    property bool enableDeviceManager: true
+    property bool enableApplicationMixer: true
     property bool keepAlive: false
     property int panelPosition: 1
     property int taskbarOffset: 0

@@ -1,5 +1,4 @@
 pragma ComponentBehavior: Bound
-
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.FluentWinUI3
@@ -7,25 +6,41 @@ import Odizinne.QontrolPanel
 
 ColumnLayout {
     spacing: 3
-
     Label {
         text: qsTr("Components")
         font.pixelSize: 22
         font.bold: true
         Layout.bottomMargin: 15
     }
-
     Item {
         Layout.fillWidth: true
         Layout.fillHeight: true
-
         ScrollView {
             anchors.fill: parent
-
             ColumnLayout {
                 width: parent.width
                 spacing: 3
 
+                Card {
+                    Layout.fillWidth: true
+                    title: qsTr("Enable audio device manager")
+                    description: qsTr("Display audio device manager in panel")
+                    enabled: UserSettings.enableApplicationMixer
+                    additionalControl: LabeledSwitch {
+                        checked: UserSettings.enableDeviceManager
+                        onClicked: UserSettings.enableDeviceManager = checked
+                    }
+                }
+                Card {
+                    Layout.fillWidth: true
+                    title: qsTr("Enable application volume mixer")
+                    description: qsTr("Display application volume mixer in panel")
+                    enabled: UserSettings.enableDeviceManager
+                    additionalControl: LabeledSwitch {
+                        checked: UserSettings.enableApplicationMixer
+                        onClicked: UserSettings.enableApplicationMixer = checked
+                    }
+                }
                 Card {
                     Layout.fillWidth: true
                     title: qsTr("Enable power menu")
@@ -35,17 +50,15 @@ ColumnLayout {
                         onClicked: UserSettings.enablePowerMenu = checked
                     }
                 }
-
                 Card {
                     Layout.fillWidth: true
                     title: qsTr("Enable brightness control")
-                    description: qsTr("Show power button in the panel footer")
+                    description: qsTr("Show brightness control in panel")
                     additionalControl: LabeledSwitch {
                         checked: UserSettings.allowBrightnessControl
                         onClicked: UserSettings.allowBrightnessControl = checked
                     }
                 }
-
                 Card {
                     Layout.fillWidth: true
                     title: qsTr("Enable HeadsetControl integration")

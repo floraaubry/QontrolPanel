@@ -314,6 +314,26 @@
         <source>Monitor battery using HeadsetControl for supported devices</source>
         <translation type="unfinished">Monitora la batteria usando il controllo cuffie per dispositivi supportati</translation>
     </message>
+    <message>
+        <source>Enable audio device manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display audio device manager in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable application volume mixer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display application volume mixer in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show brightness control in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConfirmPowerActionDialog</name>
@@ -493,23 +513,23 @@ Se vuoi supportare il mio lavoro, qualsiasi contributo sarebbe molto apprezzato!
     </message>
     <message>
         <source>Panel mode</source>
-        <translation>Modo pannello</translation>
+        <translation type="vanished">Modo pannello</translation>
     </message>
     <message>
         <source>Choose what should be displayed in the panel</source>
-        <translation>Scegli cosa visualizzare nel pannello</translation>
+        <translation type="vanished">Scegli cosa visualizzare nel pannello</translation>
     </message>
     <message>
         <source>Devices + Mixer</source>
-        <translation>Dispositivi + mixer</translation>
+        <translation type="vanished">Dispositivi + mixer</translation>
     </message>
     <message>
         <source>Mixer only</source>
-        <translation>Solo mixer</translation>
+        <translation type="vanished">Solo mixer</translation>
     </message>
     <message>
         <source>Devices only</source>
-        <translation>Solo dispositivi</translation>
+        <translation type="vanished">Solo dispositivi</translation>
     </message>
     <message>
         <source>Sound keepalive</source>
