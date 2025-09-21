@@ -292,74 +292,74 @@
     <name>ComponentsPane</name>
     <message>
         <source>Components</source>
-        <translation type="unfinished"></translation>
+        <translation>Componenti</translation>
     </message>
     <message>
         <source>Enable power menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita menu alimentazione</translation>
     </message>
     <message>
         <source>Show power button in the panel footer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza pulsante alimentazione nel pannello inferiore</translation>
     </message>
     <message>
         <source>Enable brightness control</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita controllo luminosità</translation>
     </message>
     <message>
         <source>Enable HeadsetControl integration</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita integrazione controllo cuffie</translation>
     </message>
     <message>
         <source>Monitor battery using HeadsetControl for supported devices</source>
-        <translation type="unfinished">Monitora la batteria usando il controllo cuffie per dispositivi supportati</translation>
+        <translation>Monitora batteria usando il controllo cuffie per dispositivi supportati</translation>
     </message>
 </context>
 <context>
     <name>ConfirmPowerActionDialog</name>
     <message>
         <source>System will hibernate in %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>Il sistema entrerà in ibernazione tra %1 secondi</translation>
     </message>
     <message>
         <source>System will restart in %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>Il sistema si riavvierà tra %1 secondi</translation>
     </message>
     <message>
         <source>System will shutdown in %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>Il sistema si spegnerà tra %1 secondi</translation>
     </message>
     <message>
         <source>You will be signed out in %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>Il sistema si scollegherà tra %1 secondi</translation>
     </message>
     <message>
         <source>Hibernate</source>
-        <translation type="unfinished"></translation>
+        <translation>Iberna</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Riavvia</translation>
     </message>
     <message>
         <source>Shutdown</source>
-        <translation type="unfinished"></translation>
+        <translation>Spegni</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Scollega</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annulla</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Azione</translation>
     </message>
 </context>
 <context>
@@ -565,7 +565,7 @@ Se vuoi supportare il mio lavoro, qualsiasi contributo sarebbe molto apprezzato!
     </message>
     <message>
         <source>DDC/CI brightness update rate</source>
-        <translation>Frequnza aggiornamento luminosità DDC/CI</translation>
+        <translation>Frequenza aggiornamento luminosità DDC/CI</translation>
     </message>
     <message>
         <source>Controls how frequently brightness commands are sent to external monitors</source>
@@ -573,11 +573,11 @@ Se vuoi supportare il mio lavoro, qualsiasi contributo sarebbe molto apprezzato!
     </message>
     <message>
         <source>Show power action confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza conferma azione alimentazione</translation>
     </message>
     <message>
         <source>Power action confirmation timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Timeout conferma azione alimentazione</translation>
     </message>
 </context>
 <context>
@@ -671,7 +671,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>29.08.2025</translation>
+        <translation>21.09.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -774,31 +774,31 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Shutdown</source>
-        <translation type="unfinished"></translation>
+        <translation>Spegni</translation>
     </message>
     <message>
         <source>Sleep</source>
-        <translation type="unfinished"></translation>
+        <translation>Sleep</translation>
     </message>
     <message>
         <source>Hibernate</source>
-        <translation type="unfinished"></translation>
+        <translation>Iberna</translation>
     </message>
     <message>
         <source>Lock</source>
-        <translation type="unfinished">Blocca</translation>
+        <translation>Blocca</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Scollega</translation>
     </message>
     <message>
         <source>Switch User</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambia utente</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Riavvia</translation>
     </message>
 </context>
 <context>
@@ -852,7 +852,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Components</source>
-        <translation type="unfinished"></translation>
+        <translation>Componenti</translation>
     </message>
 </context>
 <context>
