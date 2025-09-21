@@ -161,7 +161,7 @@
     </message>
     <message>
         <source>Wrap applications in scrollview when more than 4 applications are displayed</source>
-        <translation>4개 이상의 응용 프로그램이 표시될 때 스크롤 보기로 감싸기</translation>
+        <translation>4개 이상의 응용 프로그램이 표시되면 스크롤 보기로 감싸기</translation>
     </message>
 </context>
 <context>
@@ -316,94 +316,94 @@
     <name>ComponentsPane</name>
     <message>
         <source>Components</source>
-        <translation type="unfinished"></translation>
+        <translation>구성 요소</translation>
     </message>
     <message>
         <source>Enable power menu</source>
-        <translation type="unfinished"></translation>
+        <translation>전원 메뉴 사용함</translation>
     </message>
     <message>
         <source>Show power button in the panel footer</source>
-        <translation type="unfinished"></translation>
+        <translation>패널 하단에 전원 버튼 표시</translation>
     </message>
     <message>
         <source>Enable brightness control</source>
-        <translation type="unfinished"></translation>
+        <translation>밝기 제어 사용함</translation>
     </message>
     <message>
         <source>Enable HeadsetControl integration</source>
-        <translation type="unfinished"></translation>
+        <translation>헤드셋 제어 통합 사용함</translation>
     </message>
     <message>
         <source>Monitor battery using HeadsetControl for supported devices</source>
-        <translation type="unfinished">지원되는 장치의 헤드셋 제어를 사용하여 배터리를 모니터링합니다</translation>
+        <translation>지원되는 장치의 헤드셋 제어를 사용하여 배터리 모니터링</translation>
     </message>
     <message>
         <source>Enable audio device manager</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 장치 관리자 사용</translation>
     </message>
     <message>
         <source>Display audio device manager in panel</source>
-        <translation type="unfinished"></translation>
+        <translation>패널에 오디오 장치 관리자 표시</translation>
     </message>
     <message>
         <source>Enable application volume mixer</source>
-        <translation type="unfinished"></translation>
+        <translation>응용 프로그램 볼륨 믹서 사용함</translation>
     </message>
     <message>
         <source>Display application volume mixer in panel</source>
-        <translation type="unfinished"></translation>
+        <translation>패널에 응용 프로그램 볼륨 믹서 표시</translation>
     </message>
     <message>
         <source>Show brightness control in panel</source>
-        <translation type="unfinished"></translation>
+        <translation>패널에 밝기 제어 표시</translation>
     </message>
 </context>
 <context>
     <name>ConfirmPowerActionDialog</name>
     <message>
         <source>System will hibernate in %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>시스템이 %1초 후에 최대 절전 모드로 전환됩니다</translation>
     </message>
     <message>
         <source>System will restart in %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>시스템이 %1초 후에 다시 시작됩니다</translation>
     </message>
     <message>
         <source>System will shutdown in %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>시스템이 %1초 후에 종료됩니다</translation>
     </message>
     <message>
         <source>You will be signed out in %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>%1초 후에 로그아웃됩니다</translation>
     </message>
     <message>
         <source>Hibernate</source>
-        <translation type="unfinished"></translation>
+        <translation>최대 절전 모드</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>다시 시작</translation>
     </message>
     <message>
         <source>Shutdown</source>
-        <translation type="unfinished"></translation>
+        <translation>시스템 종료</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation type="unfinished"></translation>
+        <translation>로그아웃</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">취소</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>동작</translation>
     </message>
 </context>
 <context>
@@ -575,23 +575,23 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Panel mode</source>
-        <translation type="vanished">패널 모드</translation>
+        <translation>패널 모드</translation>
     </message>
     <message>
         <source>Choose what should be displayed in the panel</source>
-        <translation type="vanished">패널에 표시할 항목을 선택하세요</translation>
+        <translation>패널에 표시할 항목을 선택하세요</translation>
     </message>
     <message>
         <source>Devices + Mixer</source>
-        <translation type="vanished">장치 + 믹서</translation>
+        <translation>장치 + 믹서</translation>
     </message>
     <message>
         <source>Mixer only</source>
-        <translation type="vanished">믹서만</translation>
+        <translation>믹서만</translation>
     </message>
     <message>
         <source>Devices only</source>
-        <translation type="vanished">장치만</translation>
+        <translation>장치만</translation>
     </message>
     <message>
         <source>Link same input and output devices</source>
@@ -675,11 +675,11 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Show power action confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>전원 동작 확인 표시</translation>
     </message>
     <message>
         <source>Power action confirmation timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>전원 동작 확인 시간 초과</translation>
     </message>
 </context>
 <context>
@@ -891,39 +891,32 @@ You can enable it in the General tab.</source>
         <translation>밝기</translation>
     </message>
     <message>
-        <source>Lock</source>
-        <translation type="obsolete">잠금</translation>
+        <source>Shutdown</source>
+        <translation>시스템 종료</translation>
     </message>
-</context>
-<context>
-    <name>PowerMenu</name>
     <message>
         <source>Sleep</source>
-        <translation type="unfinished"></translation>
+        <translation>절전 모드</translation>
     </message>
     <message>
         <source>Hibernate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Restart</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shutdown</source>
-        <translation type="unfinished"></translation>
+        <translation>최대 절전 모드</translation>
     </message>
     <message>
         <source>Lock</source>
-        <translation type="unfinished">잠금</translation>
+        <translation>잠금</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation type="unfinished"></translation>
+        <translation>로그아웃</translation>
     </message>
     <message>
         <source>Switch User</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 전환</translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <translation>다시 시작</translation>
     </message>
 </context>
 <context>
@@ -1009,7 +1002,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Components</source>
-        <translation type="unfinished"></translation>
+        <translation>구성 요소</translation>
     </message>
 </context>
 <context>
@@ -1121,7 +1114,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>QontrolPanel settings</source>
-        <translation type="unfinished"></translation>
+        <translation>QontrolPanel 설정</translation>
     </message>
 </context>
 <context>
