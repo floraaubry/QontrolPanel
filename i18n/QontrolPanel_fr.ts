@@ -554,6 +554,44 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
     </message>
 </context>
 <context>
+    <name>ExecutableRenameContextMenu</name>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished">Renommer</translation>
+    </message>
+    <message>
+        <source>Reset to Original Name</source>
+        <translation type="unfinished">Par défaut</translation>
+    </message>
+    <message>
+        <source>Mute in Background</source>
+        <translation type="unfinished">Couper en arriere plan</translation>
+    </message>
+</context>
+<context>
+    <name>ExecutableRenameDialog</name>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished">Renommer</translation>
+    </message>
+    <message>
+        <source>Original name: </source>
+        <translation type="unfinished">Nom original: </translation>
+    </message>
+    <message>
+        <source>Custom name:</source>
+        <translation type="unfinished">Nom personnalisé:</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuler</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Sauvegarder</translation>
+    </message>
+</context>
+<context>
     <name>GeneralPane</name>
     <message>
         <source>General Settings</source>
@@ -829,31 +867,31 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Rename Application</source>
-        <translation>Renommer</translation>
+        <translation type="vanished">Renommer</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation>Par défaut</translation>
+        <translation type="vanished">Par défaut</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation>Nom original: </translation>
+        <translation type="vanished">Nom original: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation>Nom personnalisé:</translation>
+        <translation type="vanished">Nom personnalisé:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuler</translation>
+        <translation type="vanished">Annuler</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Sauvegarder</translation>
+        <translation type="vanished">Sauvegarder</translation>
     </message>
     <message>
         <source>Mute in Background</source>
-        <translation>Couper en arriere plan</translation>
+        <translation type="vanished">Couper en arriere plan</translation>
     </message>
     <message>
         <source>Update Available</source>

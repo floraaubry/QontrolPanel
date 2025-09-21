@@ -541,6 +541,44 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
 </context>
 <context>
+    <name>ExecutableRenameContextMenu</name>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to Original Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mute in Background</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExecutableRenameDialog</name>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Original name: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GeneralPane</name>
     <message>
         <source>General Settings</source>
@@ -804,7 +842,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
     <message>
         <source>Update Available</source>
@@ -820,30 +858,6 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Update available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rename Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reset to Original Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mute in Background</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Original name: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Custom name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -530,6 +530,44 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
 </context>
 <context>
+    <name>ExecutableRenameContextMenu</name>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished">응용 프로그램 이름 바꾸기</translation>
+    </message>
+    <message>
+        <source>Reset to Original Name</source>
+        <translation type="unfinished">원래 이름으로 재설정</translation>
+    </message>
+    <message>
+        <source>Mute in Background</source>
+        <translation type="unfinished">배경 음소거</translation>
+    </message>
+</context>
+<context>
+    <name>ExecutableRenameDialog</name>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished">응용 프로그램 이름 바꾸기</translation>
+    </message>
+    <message>
+        <source>Original name: </source>
+        <translation type="unfinished">원래 이름: </translation>
+    </message>
+    <message>
+        <source>Custom name:</source>
+        <translation type="unfinished">사용자 지정 이름:</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">취소</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">저장</translation>
+    </message>
+</context>
+<context>
     <name>GeneralPane</name>
     <message>
         <source>General Settings</source>
@@ -810,31 +848,31 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Rename Application</source>
-        <translation>응용 프로그램 이름 바꾸기</translation>
+        <translation type="vanished">응용 프로그램 이름 바꾸기</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation>원래 이름으로 재설정</translation>
+        <translation type="vanished">원래 이름으로 재설정</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation>원래 이름: </translation>
+        <translation type="vanished">원래 이름: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation>사용자 지정 이름:</translation>
+        <translation type="vanished">사용자 지정 이름:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>취소</translation>
+        <translation type="vanished">취소</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>저장</translation>
+        <translation type="vanished">저장</translation>
     </message>
     <message>
         <source>Mute in Background</source>
-        <translation>배경 음소거</translation>
+        <translation type="vanished">배경 음소거</translation>
     </message>
     <message>
         <source>Update Available</source>

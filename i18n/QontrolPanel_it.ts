@@ -506,6 +506,44 @@ Se vuoi supportare il mio lavoro, qualsiasi contributo sarebbe molto apprezzato!
     </message>
 </context>
 <context>
+    <name>ExecutableRenameContextMenu</name>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished">Rinomina applicazione</translation>
+    </message>
+    <message>
+        <source>Reset to Original Name</source>
+        <translation type="unfinished">Ripristina nome originale</translation>
+    </message>
+    <message>
+        <source>Mute in Background</source>
+        <translation type="unfinished">Audio off in background</translation>
+    </message>
+</context>
+<context>
+    <name>ExecutableRenameDialog</name>
+    <message>
+        <source>Rename Application</source>
+        <translation type="unfinished">Rinomina applicazione</translation>
+    </message>
+    <message>
+        <source>Original name: </source>
+        <translation type="unfinished">Nome originale: </translation>
+    </message>
+    <message>
+        <source>Custom name:</source>
+        <translation type="unfinished">Nome personalizzato:</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annulla</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Salva</translation>
+    </message>
+</context>
+<context>
     <name>GeneralPane</name>
     <message>
         <source>General Settings</source>
@@ -762,31 +800,31 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Rename Application</source>
-        <translation>Rinomina applicazione</translation>
+        <translation type="vanished">Rinomina applicazione</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation>Ripristina nome originale</translation>
+        <translation type="vanished">Ripristina nome originale</translation>
     </message>
     <message>
         <source>Mute in Background</source>
-        <translation>Audio off in background</translation>
+        <translation type="vanished">Audio off in background</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation>Nome originale: </translation>
+        <translation type="vanished">Nome originale: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation>Nome personalizzato:</translation>
+        <translation type="vanished">Nome personalizzato:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation type="vanished">Annulla</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation type="vanished">Salva</translation>
     </message>
     <message>
         <source>Brightness</source>
