@@ -907,8 +907,7 @@ ApplicationWindow {
                                         name: "active"
                                         when: verticalScrollBar.policy === ScrollBar.AlwaysOn || (verticalScrollBar.active && verticalScrollBar.size < 1.0)
                                         PropertyChanges {
-                                            target: verticalScrollBar.contentItem
-                                            opacity: 0.75
+                                            verticalScrollBar.contentItem.opacity: 0.75
                                         }
                                     }
 
