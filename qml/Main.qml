@@ -100,52 +100,8 @@ ApplicationWindow {
         SoundPanelBridge.startMediaMonitoring()
     }
 
-    ApplicationWindow {
+    PowerConfirmationWindow {
         id: powerConfirmationWindow
-        flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
-        width: Screen.width
-        height: Screen.height
-        color: "transparent"
-        visible: false
-        opacity: 0
-
-        Rectangle {
-            anchors.fill: parent
-            color: "black"
-            opacity: 0.7
-        }
-
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 200
-                easing.type: Easing.OutQuad
-            }
-        }
-
-        ConfirmPowerActionDialog {
-            id: powerActionDialog
-            anchors.centerIn: parent
-            onRequestClose: powerConfirmationWindow.hide()
-        }
-
-        function show() {
-            visible = true
-            opacity = 1
-        }
-
-        function hide() {
-            powerActionDialog.close()
-            opacity = 0
-        }
-
-        onOpacityChanged: {
-            if (opacity === 0 && visible) {
-                visible = false
-                console.log("window clsoed")
-            } else if (opacity === 1 && visible) {
-                powerActionDialog.open()
-            }
-        }
     }
 
     Connections {
@@ -1413,84 +1369,13 @@ ApplicationWindow {
                                     powerMenu.visible ? powerMenu.close() : powerMenu.open()
                                 }
 
-                                Menu {
+                                PowerMenu {
                                     id: powerMenu
                                     y: parent.y - powerMenu.height
                                     x: parent.x
-
-                                    MenuItem {
-                                        enabled: SoundPanelBridge.isSleepSupported()
-                                        icon.source: "qrc:/icons/sleep.svg"
-                                        text: qsTr("Sleep")
-                                        onTriggered: SoundPanelBridge.sleep()
-                                    }
-
-                                    MenuItem {
-                                        icon.source: "qrc:/icons/hibernate.svg"
-                                        text: qsTr("Hibernate")
-                                        onTriggered: {
-                                            if (UserSettings.showPowerDialogConfirmation) {
-                                                powerActionDialog.action = 0
-                                                powerConfirmationWindow.show()
-                                            } else {
-                                                SoundPanelBridge.hibernate()
-                                            }
-                                        }
-                                        enabled: SoundPanelBridge.isHibernateSupported()
-                                    }
-
-                                    MenuItem {
-                                        icon.source: "qrc:/icons/restart.svg"
-                                        text: qsTr("Restart")
-                                        onTriggered: {
-                                            if (UserSettings.showPowerDialogConfirmation) {
-                                                powerActionDialog.action = 1
-                                                powerConfirmationWindow.show()
-                                            } else {
-                                                SoundPanelBridge.restart()
-                                            }
-                                        }
-                                    }
-
-                                    MenuItem {
-                                        icon.source: "qrc:/icons/shutdown.svg"
-                                        text: qsTr("Shutdown")
-                                        onTriggered: {
-                                            if (UserSettings.showPowerDialogConfirmation) {
-                                                powerActionDialog.action = 2
-                                                powerConfirmationWindow.show()
-                                            } else {
-                                                SoundPanelBridge.shutdown()
-                                            }
-                                        }
-                                    }
-
-                                    MenuSeparator {}
-
-                                    MenuItem {
-                                        icon.source: "qrc:/icons/lock.svg"
-                                        text: qsTr("Lock")
-                                        onTriggered: SoundPanelBridge.lockAccount()
-                                    }
-
-                                    MenuItem {
-                                        icon.source: "qrc:/icons/signout.svg"
-                                        text: qsTr("Sign Out")
-                                        onTriggered: {
-                                            if (UserSettings.showPowerDialogConfirmation) {
-                                                powerActionDialog.action = 3
-                                                powerConfirmationWindow.show()
-                                            } else {
-                                                SoundPanelBridge.signOut()
-                                            }
-                                        }
-                                    }
-
-                                    MenuItem {
-                                        icon.source: "qrc:/icons/switch.svg"
-                                        enabled: SoundPanelBridge.hasMultipleUsers()
-                                        text: qsTr("Switch User")
-                                        onTriggered: SoundPanelBridge.switchAccount()
+                                    onSetPowerAction: function(action) {
+                                        powerConfirmationWindow.setAction(action)
+                                        powerConfirmationWindow.show()
                                     }
                                 }
                             }

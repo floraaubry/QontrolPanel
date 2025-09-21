@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Layouts
 import QtQuick.Controls.FluentWinUI3
 import Odizinne.QontrolPanel
 
@@ -70,9 +71,29 @@ Dialog {
             }
         }
     }
-    Label {
-        text: dialog.text
+
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: 10
+        Label {
+            text: dialog.text
+        }
+
+        ProgressBar {
+            from: 0
+            to: UserSettings.confirmationTimeout
+            value: countdownTimer.remaining
+            Layout.fillWidth: true
+
+            Behavior on value {
+                NumberAnimation {
+                    duration: 1000
+                    easing.type: Easing.Linear
+                }
+            }
+        }
     }
+
     function performAction() {
         switch (action) {
         case 0:

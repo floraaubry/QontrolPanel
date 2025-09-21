@@ -834,16 +834,23 @@ You can enable it in the General tab.</source>
         <source>Brightness</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Shutdown</source>
-        <translation type="unfinished"></translation>
-    </message>
+</context>
+<context>
+    <name>PowerMenu</name>
     <message>
         <source>Sleep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hibernate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -856,10 +863,6 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Switch User</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Restart</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

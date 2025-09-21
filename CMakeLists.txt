@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(QontrolPanel VERSION 1.9.0 LANGUAGES C CXX)
+project(QontrolPanel VERSION 1.9.1 LANGUAGES C CXX)
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation directory" FORCE)
 set(CMAKE_CXX_STANDARD 20)
@@ -117,6 +117,8 @@ qt_add_executable(QontrolPanel WIN32
 
 set(QML_FILES
     qml/Main.qml
+    qml/PowerMenu.qml
+    qml/PowerConfirmationWindow.qml
     qml/SettingsWindow.qml
     qml/KeepAlive.qml
     qml/MediaFlyoutContent.qml
