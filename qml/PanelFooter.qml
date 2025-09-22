@@ -112,8 +112,9 @@ Rectangle {
 
         NFToolButton {
             icon.source: "qrc:/icons/settings.svg"
-            icon.width: 14
-            icon.height: 14
+            icon.width: 16
+            icon.height: 16
+            Layout.preferredHeight: width
             antialiasing: true
             onClicked: {
                 footer.showSettingsWindow()
@@ -123,9 +124,10 @@ Rectangle {
 
         NFToolButton {
             visible: UserSettings.enablePowerMenu
-            icon.source: "qrc:/icons/shutdown.svg"
+            icon.source: "qrc:/icons/power.svg"
             icon.width: 16
             icon.height: 16
+            Layout.preferredHeight: width
             antialiasing: true
             onClicked: powerMenu.visible ? powerMenu.close() : powerMenu.open()
 

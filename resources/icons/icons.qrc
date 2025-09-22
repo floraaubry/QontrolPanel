@@ -78,5 +78,6 @@
         <file>sleep.svg</file>
         <file>switch.svg</file>
         <file>component.svg</file>
+        <file>power.svg</file>
     </qresource>
 </RCC>
