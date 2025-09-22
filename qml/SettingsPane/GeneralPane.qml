@@ -78,9 +78,8 @@ ColumnLayout {
                 Layout.fillWidth: true
                 title: qsTr("DDC/CI brightness update rate")
                 description: qsTr("Controls how frequently brightness commands are sent to external monitors")
-                additionalControl: ComboBox {
+                additionalControl: CustomComboBox {
                     Layout.preferredHeight: 35
-                    Layout.preferredWidth: 160
                     model: [qsTr("Normal"), qsTr("Fast"), qsTr("Faster"), qsTr("Lightspeed")]
                     currentIndex: {
                         switch(UserSettings.ddcciQueueDelay) {

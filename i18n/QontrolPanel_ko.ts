@@ -575,23 +575,23 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Panel mode</source>
-        <translation>패널 모드</translation>
+        <translation type="vanished">패널 모드</translation>
     </message>
     <message>
         <source>Choose what should be displayed in the panel</source>
-        <translation>패널에 표시할 항목을 선택하세요</translation>
+        <translation type="vanished">패널에 표시할 항목을 선택하세요</translation>
     </message>
     <message>
         <source>Devices + Mixer</source>
-        <translation>장치 + 믹서</translation>
+        <translation type="vanished">장치 + 믹서</translation>
     </message>
     <message>
         <source>Mixer only</source>
-        <translation>믹서만</translation>
+        <translation type="vanished">믹서만</translation>
     </message>
     <message>
         <source>Devices only</source>
-        <translation>장치만</translation>
+        <translation type="vanished">장치만</translation>
     </message>
     <message>
         <source>Link same input and output devices</source>
@@ -892,31 +892,62 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Shutdown</source>
-        <translation>시스템 종료</translation>
+        <translation type="vanished">시스템 종료</translation>
     </message>
     <message>
         <source>Sleep</source>
-        <translation>절전 모드</translation>
+        <translation type="vanished">절전 모드</translation>
     </message>
     <message>
         <source>Hibernate</source>
-        <translation>최대 절전 모드</translation>
+        <translation type="vanished">최대 절전 모드</translation>
     </message>
     <message>
         <source>Lock</source>
-        <translation>잠금</translation>
+        <translation type="vanished">잠금</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation>로그아웃</translation>
+        <translation type="vanished">로그아웃</translation>
     </message>
     <message>
         <source>Switch User</source>
-        <translation>사용자 전환</translation>
+        <translation type="vanished">사용자 전환</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation>다시 시작</translation>
+        <translation type="vanished">다시 시작</translation>
+    </message>
+</context>
+<context>
+    <name>PowerMenu</name>
+    <message>
+        <source>Sleep</source>
+        <translation type="unfinished">절전 모드</translation>
+    </message>
+    <message>
+        <source>Hibernate</source>
+        <translation type="unfinished">최대 절전 모드</translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <translation type="unfinished">다시 시작</translation>
+    </message>
+    <message>
+        <source>Shutdown</source>
+        <translation type="unfinished">시스템 종료</translation>
+    </message>
+    <message>
+        <source>Lock</source>
+        <translation type="unfinished">잠금</translation>
+    </message>
+    <message>
+        <source>Sign Out</source>
+        <translation type="unfinished">로그아웃</translation>
+    </message>
+    <message>
+        <source>Switch User</source>
+        <translation type="unfinished">사용자 전환</translation>
     </message>
 </context>
 <context>

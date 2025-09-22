@@ -89,9 +89,8 @@ ColumnLayout {
                     Layout.fillWidth: true
                     title: qsTr("Application language")
 
-                    additionalControl: ComboBox {
+                    additionalControl: CustomComboBox {
                         Layout.preferredHeight: 35
-                        Layout.preferredWidth: 160
                         model: {
                             let names = [qsTr("System")]
                             names = names.concat(SoundPanelBridge.getLanguageNativeNames())

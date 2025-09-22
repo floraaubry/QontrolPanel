@@ -163,6 +163,7 @@ qt_add_qml_module(QontrolPanel
     URI Odizinne.QontrolPanel
     VERSION 1.0
     QML_FILES ${QML_FILES} ${QML_SINGLETONS}
+    QML_FILES qml/Common/CustomComboBox.qml
 )
 
 target_include_directories(QontrolPanel PRIVATE

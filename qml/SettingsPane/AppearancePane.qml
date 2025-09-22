@@ -24,9 +24,8 @@ ColumnLayout {
                 title: qsTr("Panel position")
                 description: ""
 
-                additionalControl: ComboBox {
+                additionalControl: CustomComboBox {
                     Layout.preferredHeight: 35
-                    Layout.preferredWidth: 160
                     model: [qsTr("Top"), qsTr("Bottom"), qsTr("Left"), qsTr("Right")]
                     currentIndex: UserSettings.panelPosition
                     onActivated: UserSettings.panelPosition = currentIndex
@@ -86,9 +85,8 @@ ColumnLayout {
                 title: qsTr("Media info display")
                 description: qsTr("Display currently playing media from Windows known sources")
 
-                additionalControl: ComboBox {
+                additionalControl: CustomComboBox {
                     Layout.preferredHeight: 35
-                    Layout.preferredWidth: 160
                     model: [qsTr("Flyout (interactive)"), qsTr("Panel (informative)"), qsTr("Hidden")]
                     currentIndex: UserSettings.mediaMode
                     onActivated: UserSettings.mediaMode = currentIndex
@@ -141,9 +139,8 @@ ColumnLayout {
                 Layout.fillWidth: true
                 title: qsTr("Tray icon theme")
                 description: qsTr("Choose the color of the system tray icon")
-                additionalControl: ComboBox {
+                additionalControl: CustomComboBox {
                     Layout.preferredHeight: 35
-                    Layout.preferredWidth: 160
                     model: [qsTr("Auto"), qsTr("Dark"), qsTr("Light")]
                     currentIndex: UserSettings.trayIconTheme
                     onActivated: UserSettings.trayIconTheme = currentIndex
@@ -154,9 +151,8 @@ ColumnLayout {
                 Layout.fillWidth: true
                 title: qsTr("Tray icon style")
                 description: qsTr("Choose the appearance of the system tray icon")
-                additionalControl: ComboBox {
+                additionalControl: CustomComboBox {
                     Layout.preferredHeight: 35
-                    Layout.preferredWidth: 160
                     model: [qsTr("Normal"), qsTr("Filled"), qsTr("Battery")]
                     currentIndex: UserSettings.iconStyle
                     onActivated: UserSettings.iconStyle = currentIndex
