@@ -903,7 +903,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Update available</source>
-        <translation>Mise à jour disponnible</translation>
+        <translation type="vanished">Mise à jour disponnible</translation>
     </message>
     <message>
         <source>ChatMix</source>
@@ -916,6 +916,13 @@ You can enable it in the General tab.</source>
     <message>
         <source>Lock</source>
         <translation type="obsolete">Déverouiller</translation>
+    </message>
+</context>
+<context>
+    <name>PanelFooter</name>
+    <message>
+        <source>Update available</source>
+        <translation type="unfinished">Mise à jour disponnible</translation>
     </message>
 </context>
 <context>

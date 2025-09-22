@@ -764,11 +764,18 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Update available</source>
-        <translation>Disponibile aggiornamento</translation>
+        <translation type="vanished">Disponibile aggiornamento</translation>
     </message>
     <message>
         <source>Brightness</source>
         <translation>Luminosità</translation>
+    </message>
+</context>
+<context>
+    <name>PanelFooter</name>
+    <message>
+        <source>Update available</source>
+        <translation type="unfinished">Disponibile aggiornamento</translation>
     </message>
 </context>
 <context>

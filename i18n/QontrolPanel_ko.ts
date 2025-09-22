@@ -884,7 +884,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Update available</source>
-        <translation>업데이트 가능</translation>
+        <translation type="vanished">업데이트 가능</translation>
     </message>
     <message>
         <source>Brightness</source>
@@ -917,6 +917,13 @@ You can enable it in the General tab.</source>
     <message>
         <source>Restart</source>
         <translation type="vanished">다시 시작</translation>
+    </message>
+</context>
+<context>
+    <name>PanelFooter</name>
+    <message>
+        <source>Update available</source>
+        <translation type="unfinished">업데이트 가능</translation>
     </message>
 </context>
 <context>

@@ -387,7 +387,7 @@ ApplicationWindow {
             }
         }
 
-        powerMenu.close()
+        panelFooter.closePowerMenu()
 
         isAnimatingOut = true
         panel.hideAnimationStarted()
@@ -531,9 +531,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.preferredHeight: (panel.taskbarPos === "top") ? UserSettings.yAxisMargin : 0
                 visible: panel.taskbarPos === "top"
-                onClicked: {
-                    panel.hidePanel()
-                }
+                onClicked: panel.hidePanel()
             }
 
             PanelSpacer {
@@ -543,9 +541,7 @@ ApplicationWindow {
                 Layout.fillHeight: true
                 Layout.preferredWidth: (panel.taskbarPos === "left") ? UserSettings.xAxisMargin : 0
                 visible: panel.taskbarPos === "left"
-                onClicked: {
-                    panel.hidePanel()
-                }
+                onClicked: panel.hidePanel()
             }
 
             Item {
@@ -578,7 +574,6 @@ ApplicationWindow {
                     visible: mediaLayout.visible
                     radius: 12
                     opacity: 0
-
                     onVisibleChanged: {
                         if (visible) {
                             fadeInAnimation.start()
@@ -684,6 +679,8 @@ ApplicationWindow {
                                 Layout.preferredHeight: 40
                                 Layout.preferredWidth: 40
                                 flat: true
+                                icon.source: volumeIcon
+                                onClicked: AudioBridge.setOutputMute(!AudioBridge.outputMuted)
                                 property string volumeIcon: {
                                     if (AudioBridge.outputMuted || AudioBridge.outputVolume === 0) {
                                         return "qrc:/icons/panel_volume_0.svg"
@@ -694,11 +691,6 @@ ApplicationWindow {
                                     } else {
                                         return "qrc:/icons/panel_volume_100.svg"
                                     }
-                                }
-
-                                icon.source: volumeIcon
-                                onClicked: {
-                                    AudioBridge.setOutputMute(!AudioBridge.outputMuted)
                                 }
                             }
 
@@ -721,13 +713,11 @@ ApplicationWindow {
                                     to: 100
                                     Layout.fillWidth: true
                                     audioLevel: AudioBridge.outputAudioLevel
-
                                     onValueChanged: {
                                         if (pressed) {
                                             AudioBridge.setOutputVolume(value)
                                         }
                                     }
-
                                     onPressedChanged: {
                                         if (!pressed) {
                                             AudioBridge.setOutputVolume(value)
@@ -743,15 +733,12 @@ ApplicationWindow {
                                 visible: AudioBridge.isReady && AudioBridge.outputDevices.count > 1
                                 Layout.preferredHeight: 35
                                 Layout.preferredWidth: 35
+                                onClicked: outputDevicesRect.expanded = !outputDevicesRect.expanded
                                 Behavior on rotation {
                                     NumberAnimation {
                                         duration: 150
                                         easing.type: Easing.Linear
                                     }
-                                }
-
-                                onClicked: {
-                                    outputDevicesRect.expanded = !outputDevicesRect.expanded
                                 }
                             }
                         }
@@ -778,9 +765,7 @@ ApplicationWindow {
                                 icon.source: AudioBridge.inputMuted ? "qrc:/icons/mic_muted.svg" : "qrc:/icons/mic.svg"
                                 icon.height: 16
                                 icon.width: 16
-                                onClicked: {
-                                    AudioBridge.setInputMute(!AudioBridge.inputMuted)
-                                }
+                                onClicked: AudioBridge.setInputMute(!AudioBridge.inputMuted)
                             }
 
                             ColumnLayout {
@@ -823,15 +808,12 @@ ApplicationWindow {
                                 Layout.preferredHeight: 35
                                 Layout.preferredWidth: 35
                                 visible: AudioBridge.isReady && AudioBridge.inputDevices.count > 1
+                                onClicked: inputDevicesRect.expanded = !inputDevicesRect.expanded
                                 Behavior on rotation {
                                     NumberAnimation {
                                         duration: 150
                                         easing.type: Easing.Linear
                                     }
-                                }
-
-                                onClicked: {
-                                    inputDevicesRect.expanded = !inputDevicesRect.expanded
                                 }
                             }
                         }
@@ -883,16 +865,13 @@ ApplicationWindow {
                                 anchors.bottom: parent.bottom
                                 anchors.rightMargin: -8
                                 width: 8
-
                                 policy: (UserSettings.avoidApplicationsOverflow && appRepeater.count > 4) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
-
                                 contentItem: Rectangle {
                                     implicitWidth: 6
                                     implicitHeight: 6
                                     radius: width / 2
                                     color: Constants.darkMode ? "#9f9f9f" : "#8a8a8a"
                                     opacity: 0.0
-
                                     states: State {
                                         name: "active"
                                         when: verticalScrollBar.policy === ScrollBar.AlwaysOn || (verticalScrollBar.active && verticalScrollBar.size < 1.0)
@@ -929,7 +908,6 @@ ApplicationWindow {
                                         Layout.fillWidth: true
                                         required property var model
                                         required property int index
-
                                         readonly property real applicationListHeight: individualAppsRect.expandedNeededHeight
 
                                         RowLayout {
@@ -951,14 +929,8 @@ ApplicationWindow {
                                                 opacity: highlighted ? 0.3 : (enabled ? 1 : 0.5)
                                                 icon.color: "transparent"
                                                 icon.source: appDelegateRoot.model.displayName === qsTr("System sounds") ? Constants.systemIcon : appDelegateRoot.model.iconPath
-
-                                                onClicked: {
-                                                    AudioBridge.setExecutableMute(appDelegateRoot.model.executableName, checked)
-                                                }
-
-                                                Component.onCompleted: {
-                                                    palette.accent = palette.button
-                                                }
+                                                onClicked: AudioBridge.setExecutableMute(appDelegateRoot.model.executableName, checked)
+                                                Component.onCompleted: palette.accent = palette.button
                                             }
 
                                             ColumnLayout {
@@ -993,12 +965,11 @@ ApplicationWindow {
                                                 }
 
                                                 ProgressSlider {
-                                                    onActiveFocusChanged: {
-                                                        focus = false
-                                                    }
+                                                    onActiveFocusChanged: focus = false
                                                     id: executableVolumeSlider
                                                     from: 0
                                                     to: 100
+                                                    value: pressed ? value : appDelegateRoot.model.averageVolume
                                                     enabled: !UserSettings.chatMixEnabled && !executableMuteButton.highlighted
                                                     opacity: enabled ? 1 : 0.5
                                                     Layout.fillWidth: true
@@ -1006,8 +977,6 @@ ApplicationWindow {
                                                     audioLevel: appDelegateRoot.model.displayName !== qsTr("System sounds")
                                                                 ? (appDelegateRoot.model.averageAudioLevel || 0)
                                                                 : 0
-
-                                                    value: pressed ? value : appDelegateRoot.model.averageVolume
 
                                                     onValueChanged: {
                                                         if (!UserSettings.chatMixEnabled && pressed) {
@@ -1024,25 +993,19 @@ ApplicationWindow {
                                             }
 
                                             NFToolButton {
-                                                onActiveFocusChanged: {
-                                                    focus = false
-                                                }
-
+                                                onActiveFocusChanged: focus = false
                                                 icon.source: "qrc:/icons/arrow.svg"
                                                 rotation: individualAppsRect.expanded ? 90 : 0
                                                 visible: appDelegateRoot.model.sessionCount > 1
                                                 Layout.preferredHeight: 35
                                                 Layout.preferredWidth: 35
+                                                onClicked: individualAppsRect.expanded = !individualAppsRect.expanded
 
                                                 Behavior on rotation {
                                                     NumberAnimation {
                                                         duration: 150
                                                         easing.type: Easing.Linear
                                                     }
-                                                }
-
-                                                onClicked: {
-                                                    individualAppsRect.expanded = !individualAppsRect.expanded
                                                 }
                                             }
                                         }
@@ -1097,11 +1060,7 @@ ApplicationWindow {
                                 checkable: true
                                 checked: !UserSettings.chatMixEnabled
                                 opacity: checked ? 0.3 : 1
-
-                                Component.onCompleted: {
-                                    palette.accent = palette.button
-                                }
-
+                                Component.onCompleted: palette.accent = palette.button
                                 onClicked: {
                                     UserSettings.chatMixEnabled = !checked
 
@@ -1231,145 +1190,20 @@ ApplicationWindow {
                         }
                     }
 
-                    Rectangle {
-                        color: Constants.footerColor
+                    PanelFooter {
+                        id: panelFooter
                         Layout.fillWidth: true
                         Layout.fillHeight: false
-                        bottomLeftRadius: 12
-                        bottomRightRadius: 12
                         Layout.preferredHeight: 50
                         Layout.leftMargin: -14
                         Layout.rightMargin: -14
                         Layout.bottomMargin: -14
-
-                        Rectangle {
-                            height: 1
-                            color: Constants.footerBorderColor
-                            opacity: 0.15
-                            anchors.top: parent.top
-                            anchors.right: parent.right
-                            anchors.left: parent.left
-                        }
-
-                        RowLayout {
-                            anchors.fill: parent
-                            anchors.leftMargin: 10
-                            anchors.rightMargin: 10
-                            spacing: 10
-
-                            Image {
-                                id: compactMedia
-                                Layout.preferredWidth: 32
-                                Layout.preferredHeight: 32
-                                Layout.alignment: Qt.AlignVCenter
-                                source: SoundPanelBridge.mediaArt || ""
-                                fillMode: Image.PreserveAspectCrop
-                                visible: SoundPanelBridge.mediaArt !== "" && UserSettings.mediaMode === 1
-                            }
-
-                            Item {
-                                Layout.preferredWidth: updateLyt.implicitWidth
-                                Layout.preferredHeight: Math.max(updateIcon.height, updateLabel.height)
-                                Layout.leftMargin: 10
-                                visible: !compactMedia.visible && Updater.updateAvailable
-
-                                RowLayout {
-                                    id: updateLyt
-                                    anchors.fill: parent
-                                    spacing: 10
-
-                                    IconImage {
-                                        id: updateIcon
-                                        source: "qrc:/icons/update.svg"
-                                        color: "#edb11a"
-                                        sourceSize.width: 16
-                                        sourceSize.height: 16
-                                    }
-                                    Label {
-                                        id: updateLabel
-                                        text: qsTr("Update available")
-                                        color: "#edb11a"
-                                    }
-                                }
-
-                                MouseArea {
-                                    anchors.fill: parent
-                                    cursorShape: Qt.PointingHandCursor
-                                    hoverEnabled: true
-                                    onEntered: {
-                                        updateLabel.font.underline = true
-                                    }
-                                    onExited: {
-                                        updateLabel.font.underline = false
-                                    }
-                                    onClicked: {
-                                        settingsWindow.showUpdatePane()
-                                    }
-                                }
-                            }
-
-                            ColumnLayout {
-                                spacing: 2
-                                Layout.fillWidth: true
-                                Item {
-                                    Layout.fillHeight: true
-                                    Layout.fillWidth: true
-                                }
-
-                                Label {
-                                    text: SoundPanelBridge.mediaTitle || ""
-                                    font.pixelSize: 14
-                                    font.bold: true
-                                    elide: Text.ElideRight
-                                    Layout.fillWidth: true
-                                    visible: UserSettings.mediaMode === 1
-                                }
-
-                                Label {
-                                    text: SoundPanelBridge.mediaArtist || ""
-                                    font.pixelSize: 12
-                                    opacity: 0.7
-                                    elide: Text.ElideRight
-                                    Layout.fillWidth: true
-                                    visible: UserSettings.mediaMode === 1
-                                }
-
-                                Item {
-                                    Layout.fillHeight: true
-                                }
-                            }
-
-                            NFToolButton {
-                                icon.source: "qrc:/icons/settings.svg"
-                                icon.width: 14
-                                icon.height: 14
-                                antialiasing: true
-                                onClicked: {
-                                    settingsWindow.show()
-                                    panel.hidePanel()
-                                }
-                            }
-
-                            NFToolButton {
-                                visible: UserSettings.enablePowerMenu
-                                icon.source: "qrc:/icons/shutdown.svg"
-                                icon.width: 16
-                                icon.height: 16
-                                antialiasing: true
-                                onClicked: {
-                                    powerMenu.visible ? powerMenu.close() : powerMenu.open()
-                                }
-
-                                PowerMenu {
-                                    id: powerMenu
-                                    y: parent.y - powerMenu.height - 15
-                                    x: parent.x
-                                    onSetPowerAction: function(action) {
-                                        powerConfirmationWindow.setAction(action)
-                                        powerConfirmationWindow.show()
-                                    }
-                                }
-                            }
+                        onHidePanel: panel.hidePanel()
+                        onShowSettingsWindow: settingsWindow.show()
+                        onShowUpdatePane: settingsWindow.showUpdatePane()
+                        onShowPowerConfirmationWindow: function(action) {
+                            powerConfirmationWindow.setAction(action)
+                            powerConfirmationWindow.show()
                         }
                     }
                 }
@@ -1388,9 +1222,7 @@ ApplicationWindow {
                     }
                 }
                 visible: panel.taskbarPos === "top" || panel.taskbarPos === "bottom" || panel.taskbarPos === "right"
-                onClicked: {
-                    panel.hidePanel()
-                }
+                onClicked: panel.hidePanel()
             }
 
             PanelSpacer {
@@ -1407,9 +1239,7 @@ ApplicationWindow {
                     }
                 }
                 visible: panel.taskbarPos === "bottom" || panel.taskbarPos === "left" || panel.taskbarPos === "right"
-                onClicked: {
-                    panel.hidePanel()
-                }
+                onClicked: panel.hidePanel()
             }
         }
     }

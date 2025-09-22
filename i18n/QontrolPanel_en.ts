@@ -761,11 +761,14 @@ You can enable it in the General tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Update available</source>
+        <source>Brightness</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>PanelFooter</name>
     <message>
-        <source>Brightness</source>
+        <source>Update available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
