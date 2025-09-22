@@ -98,6 +98,8 @@ ApplicationWindow {
 
     Component.onCompleted: {
         SoundPanelBridge.startMediaMonitoring()
+        console.log("pass")
+        MonitorManager.setDDCCIBrightness(Math.round(UserSettings.ddcciBrightness), UserSettings.ddcciQueueDelay)
     }
 
     PowerConfirmationWindow {
@@ -1208,11 +1210,13 @@ ApplicationWindow {
                                     id: brightnessSlider
                                     from: 0
                                     to: 100
+                                    value: UserSettings.ddcciBrightness
                                     Layout.fillWidth: true
                                     onValueChanged: {
                                         if (pressed) {
                                             MonitorManager.setWMIBrightness(Math.round(value))
                                             MonitorManager.setDDCCIBrightness(Math.round(value), UserSettings.ddcciQueueDelay)
+                                            UserSettings.ddcciBrightness = Math.round(value)
                                         }
                                     }
 

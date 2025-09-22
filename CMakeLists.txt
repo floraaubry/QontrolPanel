@@ -138,6 +138,7 @@ set(QML_FILES
     qml/Common/Card.qml
     qml/Common/LabeledSwitch.qml
     qml/Common/ProgressSlider.qml
+    qml/Common/CustomComboBox.qml
     qml/SettingsPane/AppearancePane.qml
     qml/SettingsPane/ComponentsPane.qml
     qml/SettingsPane/GeneralPane.qml
@@ -163,7 +164,6 @@ qt_add_qml_module(QontrolPanel
     URI Odizinne.QontrolPanel
     VERSION 1.0
     QML_FILES ${QML_FILES} ${QML_SINGLETONS}
-    QML_FILES qml/Common/CustomComboBox.qml
 )
 
 target_include_directories(QontrolPanel PRIVATE

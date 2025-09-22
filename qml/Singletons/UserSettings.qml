@@ -48,4 +48,6 @@ Settings {
     property bool enablePowerMenu: true
     property bool showPowerDialogConfirmation: true
     property int confirmationTimeout: 60
+
+    property int ddcciBrightness: 100
 }
