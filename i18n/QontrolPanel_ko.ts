@@ -533,38 +533,38 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     <name>ExecutableRenameContextMenu</name>
     <message>
         <source>Rename Application</source>
-        <translation type="unfinished">응용 프로그램 이름 바꾸기</translation>
+        <translation>응용 프로그램 이름 바꾸기</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation type="unfinished">원래 이름으로 재설정</translation>
+        <translation>원래 이름으로 재설정</translation>
     </message>
     <message>
         <source>Mute in Background</source>
-        <translation type="unfinished">배경 음소거</translation>
+        <translation>배경에서 음소거</translation>
     </message>
 </context>
 <context>
     <name>ExecutableRenameDialog</name>
     <message>
         <source>Rename Application</source>
-        <translation type="unfinished">응용 프로그램 이름 바꾸기</translation>
+        <translation>응용 프로그램 이름 바꾸기</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation type="unfinished">원래 이름: </translation>
+        <translation>원래 이름: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation type="unfinished">사용자 지정 이름:</translation>
+        <translation>사용자 지정 이름:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">취소</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">저장</translation>
+        <translation>저장</translation>
     </message>
 </context>
 <context>
@@ -923,38 +923,38 @@ You can enable it in the General tab.</source>
     <name>PanelFooter</name>
     <message>
         <source>Update available</source>
-        <translation type="unfinished">업데이트 가능</translation>
+        <translation>업데이트 가능</translation>
     </message>
 </context>
 <context>
     <name>PowerMenu</name>
     <message>
         <source>Sleep</source>
-        <translation type="unfinished">절전 모드</translation>
+        <translation>절전 모드</translation>
     </message>
     <message>
         <source>Hibernate</source>
-        <translation type="unfinished">최대 절전 모드</translation>
+        <translation>최대 절전 모드</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation type="unfinished">다시 시작</translation>
+        <translation>다시 시작</translation>
     </message>
     <message>
         <source>Shutdown</source>
-        <translation type="unfinished">시스템 종료</translation>
+        <translation>시스템 종료</translation>
     </message>
     <message>
         <source>Lock</source>
-        <translation type="unfinished">잠금</translation>
+        <translation>잠금</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation type="unfinished">로그아웃</translation>
+        <translation>로그아웃</translation>
     </message>
     <message>
         <source>Switch User</source>
-        <translation type="unfinished">사용자 전환</translation>
+        <translation>사용자 전환</translation>
     </message>
 </context>
 <context>
