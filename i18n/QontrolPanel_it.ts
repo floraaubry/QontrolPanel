@@ -697,7 +697,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>22.09.2025</translation>
+        <translation>23.09.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -763,10 +763,6 @@ Puoi abilitarlo nella scheda Generale.</translation>
         <translation>ChatMix</translation>
     </message>
     <message>
-        <source>Update available</source>
-        <translation type="vanished">Disponibile aggiornamento</translation>
-    </message>
-    <message>
         <source>Brightness</source>
         <translation>Luminosità</translation>
     </message>
@@ -775,7 +771,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     <name>PanelFooter</name>
     <message>
         <source>Update available</source>
-        <translation type="unfinished">Disponibile aggiornamento</translation>
+        <translation>Disponibile aggiornamento</translation>
     </message>
 </context>
 <context>
