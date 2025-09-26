@@ -304,7 +304,7 @@
     </message>
     <message>
         <source>Enable HeadsetControl integration</source>
-        <translation>Activer l&apos;intégration du contrôle du casque</translation>
+        <translation>Activer l&apos;intégration HeadsetControl</translation>
     </message>
     <message>
         <source>Components</source>
@@ -316,7 +316,7 @@
     </message>
     <message>
         <source>Monitor battery using HeadsetControl for supported devices</source>
-        <translation>Surveillez la batterie à l&apos;aide du contrôle du casque pour les périphériques pris en charge</translation>
+        <translation>Surveillez la batterie à l&apos;aide de HeadsetControl pour les périphériques pris en charge</translation>
     </message>
     <message>
         <source>Enable brightness control</source>
@@ -631,8 +631,16 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
     <message>
         <source>HeadsetControl monitoring is disabled
 You can enable it in the General tab.</source>
-        <translation>La surveillance du contrôle du casque est désactivée
+        <translation>La surveillance HeadsetControl est désactivée
 Vous pouvez l&apos;activer dans l&apos;onglet Général.</translation>
+    </message>
+    <message>
+        <source>Device battery</source>
+        <translation>Batterie du périphérique</translation>
+    </message>
+    <message>
+        <source>Charging</source>
+        <translation>Chargement</translation>
     </message>
 </context>
 <context>
@@ -824,7 +832,7 @@ Vous pouvez l&apos;activer dans l&apos;onglet Général.</translation>
     <name>SettingsWindow</name>
     <message>
         <source>HeadsetControl</source>
-        <translation>Contrôle du casque</translation>
+        <translation>HeadsetControl</translation>
     </message>
     <message>
         <source>Shortcuts</source>

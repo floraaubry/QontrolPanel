@@ -634,6 +634,14 @@ Puoi abilitarlo nella scheda Generale.</translation>
         <source>Adjust your voice feedback level</source>
         <translation>Regola il livello di feedback vocale</translation>
     </message>
+    <message>
+        <source>Device battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Charging</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IntroWindow</name>

@@ -36,6 +36,16 @@ ColumnLayout {
                 spacing: 3
 
                 Card {
+                    enabled: HeadsetControlBridge.hasLightsCapability
+                    Layout.fillWidth: true
+                    title: qsTr("Device battery")
+                    visible: HeadsetControlBridge.batteryStatus !== "BATTERY_UNAVAILABLE" && HeadsetControlBridge.anyDeviceFound
+                    additionalControl: Label {
+                        text: HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING" ? qsTr("Charging") : HeadsetControlBridge.batteryLevel + "%"
+                    }
+                }
+
+                Card {
                     visible: HeadsetControlBridge.anyDeviceFound
                     enabled: HeadsetControlBridge.hasLightsCapability
                     Layout.fillWidth: true

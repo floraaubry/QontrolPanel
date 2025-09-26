@@ -710,6 +710,14 @@ You can enable it in the General tab.</source>
         <source>Adjust your voice feedback level</source>
         <translation>음성 피드백 수준 조정</translation>
     </message>
+    <message>
+        <source>Device battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Charging</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IntroWindow</name>
