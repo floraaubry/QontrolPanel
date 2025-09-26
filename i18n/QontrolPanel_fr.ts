@@ -304,6 +304,7 @@
     </message>
     <message>
         <source>Enable HeadsetControl integration</source>
+        <translatorcomment>ne pas traduire &quot;HeadsetControl&quot;</translatorcomment>
         <translation>Activer l&apos;intégration HeadsetControl</translation>
     </message>
     <message>
@@ -316,6 +317,7 @@
     </message>
     <message>
         <source>Monitor battery using HeadsetControl for supported devices</source>
+        <translatorcomment>ne pas traduire &quot;HeadsetControl&quot;</translatorcomment>
         <translation>Surveillez la batterie à l&apos;aide de HeadsetControl pour les périphériques pris en charge</translation>
     </message>
     <message>
@@ -631,6 +633,7 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
     <message>
         <source>HeadsetControl monitoring is disabled
 You can enable it in the General tab.</source>
+        <translatorcomment>ne pas traduire &quot;HeadsetControl&quot;</translatorcomment>
         <translation>La surveillance HeadsetControl est désactivée
 Vous pouvez l&apos;activer dans l&apos;onglet Général.</translation>
     </message>
@@ -832,6 +835,7 @@ Vous pouvez l&apos;activer dans l&apos;onglet Général.</translation>
     <name>SettingsWindow</name>
     <message>
         <source>HeadsetControl</source>
+        <translatorcomment>ne pas traduire &quot;HeadsetControl&quot;</translatorcomment>
         <translation>HeadsetControl</translation>
     </message>
     <message>
