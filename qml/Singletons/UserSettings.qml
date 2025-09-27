@@ -3,7 +3,6 @@ pragma Singleton
 import QtCore
 
 Settings {
-    //property int panelMode: 0
     property bool enableDeviceManager: true
     property bool enableApplicationMixer: true
     property bool keepAlive: false
@@ -50,4 +49,17 @@ Settings {
     property int confirmationTimeout: 60
 
     property int ddcciBrightness: 100
+
+    property bool audioManagerLogging: true
+    property bool mediaSessionManagerLogging: true
+    property bool monitorManagerLogging: true
+    property bool soundPanelBridgeLogging: true
+    property bool updaterLogging: true
+    property bool shortcutManagerLogging: true
+    property bool coreLogging: true
+    property bool localServerLogging: true
+    property bool uiLogging: true
+    property bool powerManagerLogging: true
+    property bool headsetControlManagerLogging: true
+    property bool windowFocusManagerLogging: true
 }

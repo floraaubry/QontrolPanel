@@ -1,12 +1,26 @@
 #include "logmanager.h"
 #include <QDebug>
 #include <QDateTime>
+#include <QSettings>
 
 LogManager* LogManager::m_instance = nullptr;
 
 LogManager::LogManager(QObject *parent)
     : QObject(parent)
 {
+    QSettings settings("Odizinne", "QontrolPanel");
+    m_audioManagerLogging = settings.value("audioManagerLogging", true).toBool();
+    m_mediaSessionManagerLogging = settings.value("mediaSessionManagerLogging", true).toBool();
+    m_monitorManagerLogging = settings.value("monitorManagerLogging", true).toBool();
+    m_soundPanelBridgeLogging = settings.value("soundPanelBridgeLogging", true).toBool();
+    m_updaterLogging = settings.value("updaterLogging", true).toBool();
+    m_shortcutManagerLogging = settings.value("shortcutManagerLogging", true).toBool();
+    m_coreLogging = settings.value("coreLogging", true).toBool();
+    m_localServerLogging = settings.value("localServerLogging", true).toBool();
+    m_uiLogging = settings.value("uiLogging", true).toBool();
+    m_powerManagerLogging = settings.value("powerManagerLogging", true).toBool();
+    m_headsetControlManagerLogging = settings.value("headsetControlManagerLogging", true).toBool();
+    m_windowFocusManagerLogging = settings.value("windowFocusManagerLogging", true).toBool();
 }
 
 LogManager* LogManager::create(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
@@ -26,17 +40,115 @@ LogManager* LogManager::instance()
 
 void LogManager::sendLog(Sender sender, const QString &content)
 {
-    emitLog(sender, Info, content);
+    if (isLoggingEnabled(sender)) {
+        emitLog(sender, Info, content);
+    }
 }
 
 void LogManager::sendWarn(Sender sender, const QString &content)
 {
-    emitLog(sender, Warning, content);
+    if (isLoggingEnabled(sender)) {
+        emitLog(sender, Warning, content);
+    }
 }
 
 void LogManager::sendCritical(Sender sender, const QString &content)
 {
-    emitLog(sender, Critical, content);
+    if (isLoggingEnabled(sender)) {
+        emitLog(sender, Critical, content);
+    }
+}
+
+bool LogManager::isLoggingEnabled(Sender sender) const
+{
+    switch (sender) {
+    case AudioManager:
+        return m_audioManagerLogging;
+    case MediaSessionManager:
+        return m_mediaSessionManagerLogging;
+    case MonitorManager:
+        return m_monitorManagerLogging;
+    case SoundPanelBridge:
+        return m_soundPanelBridgeLogging;
+    case Updater:
+        return m_updaterLogging;
+    case ShortcutManager:
+        return m_shortcutManagerLogging;
+    case Core:
+        return m_coreLogging;
+    case LocalServer:
+        return m_localServerLogging;
+    case Ui:
+        return m_uiLogging;
+    case PowerManager:
+        return m_powerManagerLogging;
+    case HeadsetControlManager:
+        return m_headsetControlManagerLogging;
+    case WindowFocusManager:
+        return m_windowFocusManagerLogging;
+    default:
+        return true;
+    }
+}
+
+void LogManager::setAudioManagerLogging(bool enabled)
+{
+    m_audioManagerLogging = enabled;
+}
+
+void LogManager::setMediaSessionManagerLogging(bool enabled)
+{
+    m_mediaSessionManagerLogging = enabled;
+}
+
+void LogManager::setMonitorManagerLogging(bool enabled)
+{
+    m_monitorManagerLogging = enabled;
+}
+
+void LogManager::setSoundPanelBridgeLogging(bool enabled)
+{
+    m_soundPanelBridgeLogging = enabled;
+}
+
+void LogManager::setUpdaterLogging(bool enabled)
+{
+    m_updaterLogging = enabled;
+}
+
+void LogManager::setShortcutManagerLogging(bool enabled)
+{
+    m_shortcutManagerLogging = enabled;
+}
+
+void LogManager::setCoreLogging(bool enabled)
+{
+    m_coreLogging = enabled;
+}
+
+void LogManager::setLocalServerLogging(bool enabled)
+{
+    m_localServerLogging = enabled;
+}
+
+void LogManager::setUiLogging(bool enabled)
+{
+    m_uiLogging = enabled;
+}
+
+void LogManager::setPowerManagerLogging(bool enabled)
+{
+    m_powerManagerLogging = enabled;
+}
+
+void LogManager::setHeadsetControlManagerLogging(bool enabled)
+{
+    m_headsetControlManagerLogging = enabled;
+}
+
+void LogManager::setWindowFocusManagerLogging(bool enabled)
+{
+    m_windowFocusManagerLogging = enabled;
 }
 
 QString LogManager::senderToString(Sender sender) const

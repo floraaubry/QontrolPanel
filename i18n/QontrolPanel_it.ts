@@ -135,6 +135,10 @@
         <source>Avoid applications overflow</source>
         <translation>Evita sovrapposizione applicazioni</translation>
     </message>
+    <message>
+        <source>Wrap applications in CustomScrollView when more than 4 applications are displayed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ApplicationsListView</name>
@@ -753,6 +757,17 @@ Puoi abilitarlo nella scheda Generale.</translation>
     <message>
         <source>Fetch for new translation to get data</source>
         <translation>Scarica una nuova traduzione</translation>
+    </message>
+</context>
+<context>
+    <name>LoggingConfDialog</name>
+    <message>
+        <source>Log Categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable All Logging</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
