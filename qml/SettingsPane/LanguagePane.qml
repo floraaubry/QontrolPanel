@@ -19,7 +19,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
 
-        ScrollView {
+        CustomScrollView {
             anchors.fill: parent
 
             ColumnLayout {

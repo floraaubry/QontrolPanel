@@ -846,7 +846,7 @@ ApplicationWindow {
                         visible: UserSettings.enableApplicationMixer && AudioBridge.isReady && AudioBridge.applications.rowCount() > 0
                         Layout.fillWidth: true
 
-                        ScrollView {
+                        CustomScrollView {
                             Layout.fillWidth: true
                             Layout.preferredHeight: {
                                 if (UserSettings.avoidApplicationsOverflow && appRepeater.count > 4) {

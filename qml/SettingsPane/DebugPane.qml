@@ -27,7 +27,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
 
-        ScrollView {
+        CustomScrollView {
             anchors.fill: parent
 
             ColumnLayout {
@@ -226,7 +226,7 @@ ColumnLayout {
             anchors.centerIn: parent
             standardButtons: Dialog.Close
 
-            ScrollView {
+            CustomScrollView {
                 anchors.fill: parent
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 

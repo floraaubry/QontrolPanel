@@ -155,7 +155,6 @@ Rectangle {
                                 renameContextMenu.streamIndex = individualAppLayout.model.streamIndex
                                 renameContextMenu.currentCustomName = AudioBridge.getCustomApplicationName(individualAppLayout.model.name, individualAppLayout.model.streamIndex)
                                 renameContextMenu.popup()
-                                console.log(individualAppLayout.model.streamIndex)
                             }
                         }
                     }

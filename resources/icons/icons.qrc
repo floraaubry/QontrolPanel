@@ -79,5 +79,6 @@
         <file>switch.svg</file>
         <file>component.svg</file>
         <file>power.svg</file>
+        <file>chip.svg</file>
     </qresource>
 </RCC>

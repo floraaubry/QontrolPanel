@@ -19,7 +19,6 @@ public:
         SoundPanelBridge,
         Updater,
         ShortcutManager,
-        FileSystem,
         Core,
         LocalServer,
         Ui,

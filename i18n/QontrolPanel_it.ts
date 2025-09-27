@@ -137,7 +137,11 @@
     </message>
     <message>
         <source>Wrap applications in scrollview when more than 4 applications are displayed</source>
-        <translation>Quando vengono visualizzate più di 4 applicazioni raccoglile in ScrollView</translation>
+        <translation type="vanished">Quando vengono visualizzate più di 4 applicazioni raccoglile in ScrollView</translation>
+    </message>
+    <message>
+        <source>Wrap applications in CustomScrollView when more than 4 applications are displayed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

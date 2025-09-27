@@ -117,7 +117,7 @@ ApplicationWindow {
                         },
                         {
                             text: qsTr("Debug"),
-                            icon: "qrc:/icons/update.svg"
+                            icon: "qrc:/icons/chip.svg"
                         }
                     ]
                     currentIndex: 0
@@ -140,14 +140,12 @@ ApplicationWindow {
                         required property var modelData
                         required property int index
 
-                        property bool isCurrentItem: ListView.isCurrentItem
-
                         highlighted: ListView.isCurrentItem
                         icon.source: del.modelData.icon
                         text: del.modelData.text
                         icon.width: 18
                         icon.height: 18
-
+                        opacity: text === qsTr("Debug") && !ListView.isCurrentItem ? 0.5 : 1
                         onClicked: {
                             if (sidebarList.currentIndex !== index) {
                                 sidebarList.currentIndex = index
@@ -263,4 +261,3 @@ ApplicationWindow {
         }
     }
 }
-

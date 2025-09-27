@@ -164,7 +164,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wrap applications in scrollview when more than 4 applications are displayed</source>
+        <source>Wrap applications in CustomScrollView when more than 4 applications are displayed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

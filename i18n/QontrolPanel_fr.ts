@@ -65,7 +65,7 @@
     </message>
     <message>
         <source>Wrap applications in scrollview when more than 4 applications are displayed</source>
-        <translation>Envelopper les applications dans une vue déroulante lorsque plus de 4 applications sont affichées</translation>
+        <translation type="vanished">Envelopper les applications dans une vue déroulante lorsque plus de 4 applications sont affichées</translation>
     </message>
     <message>
         <source>Applications and devices label</source>
@@ -138,6 +138,10 @@
     <message>
         <source>Taskbar offset</source>
         <translation>Compensation de la barre des taches</translation>
+    </message>
+    <message>
+        <source>Wrap applications in CustomScrollView when more than 4 applications are displayed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

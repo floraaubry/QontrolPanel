@@ -18,7 +18,7 @@ ColumnLayout {
         Layout.bottomMargin: 15
     }
 
-    ScrollView {
+    CustomScrollView {
         Layout.fillWidth: true
         Layout.fillHeight: true
 

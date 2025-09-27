@@ -161,7 +161,11 @@
     </message>
     <message>
         <source>Wrap applications in scrollview when more than 4 applications are displayed</source>
-        <translation>4개 이상의 응용 프로그램이 표시되면 스크롤 보기로 감싸기</translation>
+        <translation type="vanished">4개 이상의 응용 프로그램이 표시되면 스크롤 보기로 감싸기</translation>
+    </message>
+    <message>
+        <source>Wrap applications in CustomScrollView when more than 4 applications are displayed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

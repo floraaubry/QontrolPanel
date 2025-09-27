@@ -38,6 +38,7 @@ set(SOURCES
     src/headsetcontrolbridge.cpp
     src/monitormanager.cpp
     src/monitormanagerimpl.cpp
+    src/logmanager.cpp
 )
 
 set(HEADERS
@@ -54,6 +55,7 @@ set(HEADERS
     include/headsetcontrolbridge.h
     include/monitormanager.h
     include/monitormanagerimpl.h
+    include/logmanager.h
 )
 
 # Get git commit hash
@@ -130,6 +132,7 @@ set(QML_FILES
     qml/ExecutableRenameContextMenu.qml
     qml/ExecutableRenameDialog.qml
     qml/PanelSpacer.qml
+    qml/PanelFooter.qml
     qml/Common/ApplicationsListView.qml
     qml/Common/NFToolButton.qml
     qml/Common/NFSlider.qml
@@ -139,6 +142,8 @@ set(QML_FILES
     qml/Common/LabeledSwitch.qml
     qml/Common/ProgressSlider.qml
     qml/Common/CustomComboBox.qml
+
+    qml/Common/CustomScrollView.qml
     qml/SettingsPane/AppearancePane.qml
     qml/SettingsPane/ComponentsPane.qml
     qml/SettingsPane/GeneralPane.qml
@@ -147,6 +152,7 @@ set(QML_FILES
     qml/SettingsPane/CommAppsPane.qml
     qml/SettingsPane/ShortcutsPane.qml
     qml/SettingsPane/HeadsetControlPane.qml
+    qml/SettingsPane/ConsolePane.qml
     qml/Debug/DebugRectangle.qml
 )
 
@@ -154,6 +160,7 @@ set(QML_SINGLETONS
     qml/Singletons/UserSettings.qml
     qml/Singletons/Constants.qml
     qml/Singletons/Context.qml
+    qml/Singletons/LogBridge.qml
 )
 
 set_source_files_properties(${QML_SINGLETONS}
@@ -164,9 +171,6 @@ qt_add_qml_module(QontrolPanel
     URI Odizinne.QontrolPanel
     VERSION 1.0
     QML_FILES ${QML_FILES} ${QML_SINGLETONS}
-    QML_FILES qml/PanelFooter.qml
-    SOURCES include/logmanager.h src/logmanager.cpp
-    QML_FILES qml/SettingsPane/ConsolePane.qml
 )
 
 target_include_directories(QontrolPanel PRIVATE

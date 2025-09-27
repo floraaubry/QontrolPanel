@@ -54,8 +54,6 @@ QString LogManager::senderToString(Sender sender) const
         return "Updater";
     case ShortcutManager:
         return "ShortcutManager";
-    case FileSystem:
-        return "FileSystem";
     case Core:
         return "Core";
     case LocalServer:
