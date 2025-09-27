@@ -135,14 +135,6 @@
         <source>Avoid applications overflow</source>
         <translation>Evita sovrapposizione applicazioni</translation>
     </message>
-    <message>
-        <source>Wrap applications in scrollview when more than 4 applications are displayed</source>
-        <translation type="vanished">Quando vengono visualizzate più di 4 applicazioni raccoglile in ScrollView</translation>
-    </message>
-    <message>
-        <source>Wrap applications in CustomScrollView when more than 4 applications are displayed</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>ApplicationsListView</name>
@@ -390,7 +382,7 @@
     <name>ConsolePane</name>
     <message>
         <source>Console output</source>
-        <translation type="unfinished"></translation>
+        <translation>Output console</translation>
     </message>
 </context>
 <context>
@@ -647,11 +639,11 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Device battery</source>
-        <translation type="unfinished"></translation>
+        <translation>Batteria dispositivo</translation>
     </message>
     <message>
         <source>Charging</source>
-        <translation type="unfinished"></translation>
+        <translation>In carica</translation>
     </message>
 </context>
 <context>
@@ -716,7 +708,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>23.09.2025</translation>
+        <translation>27.09.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -879,7 +871,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>Debug</translation>
     </message>
 </context>
 <context>
