@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     LogManager::instance()->sendLog(LogManager::Core, "Starting application");
 
     if (tryConnectToExistingInstance()) {
-        qDebug() << "Sent show panel request to existing instance";
+        LogManager::instance()->sendLog(LogManager::LocalServer, "Another instance is already running");
         return 0;
     }
 

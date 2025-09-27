@@ -1,6 +1,7 @@
 #include "qontrolpanel.h"
 #include "soundpanelbridge.h"
 #include "mediasessionmanager.h"
+#include "logmanager.h"
 #include <QMenu>
 #include <QApplication>
 #include <QScreen>
@@ -104,8 +105,6 @@ void QontrolPanel::destroyQMLEngine()
 QString QontrolPanel::elideDeviceText(const QString& deviceName, int volume, bool muted)
 {
     QFontMetrics metrics(QApplication::font());
-
-    // Calculate available width (menu width minus some padding)
     int maxWidth = 250;
 
     QString volumeText = QString(" %1%").arg(volume);
@@ -198,7 +197,6 @@ bool QontrolPanel::isModifierPressed(int qtModifier)
 
 int QontrolPanel::qtKeyToVirtualKey(int qtKey)
 {
-    // Convert common Qt keys to Windows virtual keys
     switch (qtKey) {
     case Qt::Key_A: return 0x41;
     case Qt::Key_B: return 0x42;
@@ -250,7 +248,7 @@ LRESULT CALLBACK QontrolPanel::KeyboardProc(int nCode, WPARAM wParam, LPARAM lPa
         if (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
             if (instance->settings.value("globalShortcutsEnabled", true).toBool()) {
                 if (instance->handleCustomShortcut(pKeyboard->vkCode)) {
-                    return 1; // Block the key event
+                    return 1;
                 }
             }
         }
@@ -329,8 +327,6 @@ void QontrolPanel::onLanguageChanged()
 void QontrolPanel::setupLocalServer()
 {
     localServer = new QLocalServer(this);
-
-    // Remove any existing server (in case of unclean shutdown)
     QLocalServer::removeServer("QontrolPanel");
 
     if (!localServer->listen("QontrolPanel")) {
@@ -367,6 +363,7 @@ void QontrolPanel::onNewConnection()
             if (panelWindow) {
                 if (SoundPanelBridge::instance()) {
                     QMetaObject::invokeMethod(panelWindow, "showPanel");
+                    LogManager::instance()->sendLog(LogManager::LocalServer, "Showing panel");
                 }
             }
         }
