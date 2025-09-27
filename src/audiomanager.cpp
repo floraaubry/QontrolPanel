@@ -1,4 +1,5 @@
 #include "audiomanager.h"
+#include "logmanager.h"
 #include <QDebug>
 #include <QMutexLocker>
 #include <QMetaObject>
@@ -461,44 +462,60 @@ AudioWorker::~AudioWorker()
 
 void AudioWorker::initialize()
 {
+    LogManager::instance()->sendLog(LogManager::AudioManager, "Initializing AudioWorker");
 
     HRESULT hr = initializeCOM();
     if (FAILED(hr)) {
-        qDebug() << "Failed to initialize COM, HRESULT:" << QString::number(hr, 16);
+        LogManager::instance()->sendCritical(LogManager::AudioManager,
+                                             QString("Failed to initialize COM, HRESULT: %1").arg(QString::number(hr, 16)));
         return;
     }
+
+    LogManager::instance()->sendLog(LogManager::AudioManager, "COM initialized successfully");
 
     // Create device enumerator
     hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_ALL,
                           __uuidof(IMMDeviceEnumerator), (void**)&m_deviceEnumerator);
     if (FAILED(hr)) {
-        qDebug() << "Failed to create device enumerator, HRESULT:" << QString::number(hr, 16);
+        LogManager::instance()->sendCritical(LogManager::AudioManager,
+                                             QString("Failed to create device enumerator, HRESULT: %1").arg(QString::number(hr, 16)));
         return;
     }
+
+    LogManager::instance()->sendLog(LogManager::AudioManager, "Device enumerator created successfully");
 
     // Create policy config for setting default devices
     hr = CoCreateInstance(__uuidof(CPolicyConfigClient), nullptr, CLSCTX_ALL,
                           __uuidof(IPolicyConfig), (void**)&m_policyConfig);
     if (FAILED(hr)) {
-        qDebug() << "Failed to create policy config, trying Vista version. HRESULT:" << QString::number(hr, 16);
+        LogManager::instance()->sendWarn(LogManager::AudioManager,
+                                         QString("Failed to create policy config, trying Vista version. HRESULT: %1").arg(QString::number(hr, 16)));
         hr = CoCreateInstance(__uuidof(CPolicyConfigVistaClient), nullptr, CLSCTX_ALL,
                               __uuidof(IPolicyConfigVista), (void**)&m_policyConfig);
         if (FAILED(hr)) {
-            qDebug() << "Failed to create Vista policy config, HRESULT:" << QString::number(hr, 16);
+            LogManager::instance()->sendCritical(LogManager::AudioManager,
+                                                 QString("Failed to create Vista policy config, HRESULT: %1").arg(QString::number(hr, 16)));
             m_policyConfig = nullptr;
+        } else {
+            LogManager::instance()->sendLog(LogManager::AudioManager, "Vista policy config created successfully");
         }
+    } else {
+        LogManager::instance()->sendLog(LogManager::AudioManager, "Policy config created successfully");
     }
 
     // Set up notifications
+    LogManager::instance()->sendLog(LogManager::AudioManager, "Setting up audio notifications");
     setupVolumeNotifications();
     setupSessionNotifications();
     setupDeviceNotifications();
 
     // Get initial state
+    LogManager::instance()->sendLog(LogManager::AudioManager, "Getting initial audio state");
     updateCurrentVolumes();
     enumerateDevices();
     enumerateApplications();
 
+    LogManager::instance()->sendLog(LogManager::AudioManager, "AudioWorker initialization complete");
     emit initializationComplete();
 }
 
@@ -765,8 +782,11 @@ void AudioWorker::setupVolumeNotifications()
 
 void AudioWorker::setupSessionNotifications()
 {
+    LogManager::instance()->sendLog(LogManager::AudioManager, "Setting up session notifications");
+
     // Clean up existing session notifications first
     if (m_sessionManager && m_sessionNotificationClient) {
+        LogManager::instance()->sendLog(LogManager::AudioManager, "Cleaning up existing session notifications");
         m_sessionManager->UnregisterSessionNotification(m_sessionNotificationClient);
         m_sessionNotificationClient->Release();
         m_sessionNotificationClient = nullptr;
@@ -775,31 +795,38 @@ void AudioWorker::setupSessionNotifications()
     }
 
     if (!m_deviceEnumerator) {
-        qDebug() << "ERROR: No device enumerator available";
+        LogManager::instance()->sendCritical(LogManager::AudioManager, "No device enumerator available for session notifications");
         return;
     }
 
     CComPtr<IMMDevice> device;
     HRESULT hr = m_deviceEnumerator->GetDefaultAudioEndpoint(eRender, eConsole, &device);
     if (FAILED(hr)) {
-        qDebug() << "ERROR: Failed to get default audio endpoint, HRESULT:" << QString::number(hr, 16);
+        LogManager::instance()->sendCritical(LogManager::AudioManager,
+                                             QString("Failed to get default audio endpoint for session notifications, HRESULT: %1").arg(QString::number(hr, 16)));
         return;
     }
+
+    LogManager::instance()->sendLog(LogManager::AudioManager, "Got default audio endpoint for session notifications");
 
     hr = device->Activate(__uuidof(IAudioSessionManager2), CLSCTX_ALL,
                           nullptr, (void**)&m_sessionManager);
     if (FAILED(hr)) {
-        qDebug() << "ERROR: Failed to activate session manager, HRESULT:" << QString::number(hr, 16);
+        LogManager::instance()->sendCritical(LogManager::AudioManager,
+                                             QString("Failed to activate session manager, HRESULT: %1").arg(QString::number(hr, 16)));
         return;
     }
 
-    m_sessionNotificationClient = new SessionNotificationClient(this);
+    LogManager::instance()->sendLog(LogManager::AudioManager, "Session manager activated successfully");
 
+    m_sessionNotificationClient = new SessionNotificationClient(this);
     hr = m_sessionManager->RegisterSessionNotification(m_sessionNotificationClient);
     if (SUCCEEDED(hr)) {
         m_sessionManagerInvalid = false; // Clear the invalid flag on successful setup
+        LogManager::instance()->sendLog(LogManager::AudioManager, "Session notifications registered successfully");
     } else {
-        qDebug() << "ERROR: Failed to register session notifications, HRESULT:" << QString::number(hr, 16);
+        LogManager::instance()->sendCritical(LogManager::AudioManager,
+                                             QString("Failed to register session notifications, HRESULT: %1").arg(QString::number(hr, 16)));
         m_sessionNotificationClient->Release();
         m_sessionNotificationClient = nullptr;
     }
@@ -860,8 +887,10 @@ void AudioWorker::setupDeviceNotifications()
     m_deviceNotificationClient = new DeviceNotificationClient(this);
     HRESULT hr = m_deviceEnumerator->RegisterEndpointNotificationCallback(m_deviceNotificationClient);
     if (SUCCEEDED(hr)) {
+        // Success - no additional logging needed since the original was empty
     } else {
-        qDebug() << "Failed to register device notifications, HRESULT:" << QString::number(hr, 16);
+        LogManager::instance()->sendCritical(LogManager::AudioManager,
+                                             QString("Failed to register device notifications, HRESULT: %1").arg(QString::number(hr, 16)));
         m_deviceNotificationClient->Release();
         m_deviceNotificationClient = nullptr;
     }
@@ -905,7 +934,7 @@ void AudioWorker::updateCurrentVolumes()
 void AudioWorker::enumerateDevices()
 {
     if (!m_deviceEnumerator) {
-        qDebug() << "No device enumerator available";
+        LogManager::instance()->sendCritical(LogManager::AudioManager, "No device enumerator available");
         return;
     }
 
@@ -919,7 +948,8 @@ void AudioWorker::enumerateDevices()
         CComPtr<IMMDeviceCollection> deviceCollection;
         HRESULT hr = m_deviceEnumerator->EnumAudioEndpoints(dataFlow, DEVICE_STATE_ACTIVE, &deviceCollection);
         if (FAILED(hr)) {
-            qDebug() << "Failed to enumerate" << flowName << "devices, HRESULT:" << QString::number(hr, 16);
+            LogManager::instance()->sendCritical(LogManager::AudioManager,
+                                                 QString("Failed to enumerate %1 devices, HRESULT: %2").arg(flowName, QString::number(hr, 16)));
             continue;
         }
 
@@ -1096,7 +1126,7 @@ QString AudioWorker::getDeviceProperty(IMMDevice* device, const PROPERTYKEY& key
 void AudioWorker::enumerateApplications()
 {
     if (!ensureValidSessionManager()) {
-        qDebug() << "Failed to restore session manager, skipping application enumeration";
+        LogManager::instance()->sendCritical(LogManager::AudioManager, "Failed to restore session manager, skipping application enumeration");
         return;
     }
 
@@ -1143,29 +1173,26 @@ void AudioWorker::enumerateApplications()
         HRESULT hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_ALL,
                                       __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator);
         if (FAILED(hr)) {
-            qDebug() << "Failed to create device enumerator";
+            LogManager::instance()->sendCritical(LogManager::AudioManager, "Failed to create device enumerator");
             return;
         }
-
         CComPtr<IMMDevice> pDevice;
         hr = pEnumerator->GetDefaultAudioEndpoint(eRender, eConsole, &pDevice);
         if (FAILED(hr)) {
-            qDebug() << "Failed to get default audio endpoint";
+            LogManager::instance()->sendCritical(LogManager::AudioManager, "Failed to get default audio endpoint");
             return;
         }
-
         hr = pDevice->Activate(__uuidof(IAudioSessionManager2), CLSCTX_ALL, nullptr, (void**)&tempSessionManager);
         if (FAILED(hr)) {
-            qDebug() << "Failed to get audio session manager";
+            LogManager::instance()->sendCritical(LogManager::AudioManager, "Failed to get audio session manager");
             return;
         }
         sessionManager = tempSessionManager;
     }
-
     CComPtr<IAudioSessionEnumerator> pSessionEnumerator;
     HRESULT hr = sessionManager->GetSessionEnumerator(&pSessionEnumerator);
     if (FAILED(hr)) {
-        qDebug() << "Failed to get session enumerator";
+        LogManager::instance()->sendCritical(LogManager::AudioManager, "Failed to get session enumerator");
         return;
     }
 
@@ -1245,7 +1272,7 @@ void AudioWorker::enumerateApplications()
         if (!isSystemSounds) {
             hr = sessionControl->QueryInterface(__uuidof(IAudioMeterInformation), (void**)&pMeterInfo);
             if (FAILED(hr)) {
-                qDebug() << "Failed to get meter info for session" << i;
+                LogManager::instance()->sendWarn(LogManager::AudioManager, QString("Failed to get meter info for session %1").arg(i));
             }
         }
 
@@ -1386,7 +1413,7 @@ void AudioWorker::enumerateApplications()
             } else {
                 eventsClient->Release();
                 tempData->sessionControl->Release();
-                qDebug() << "✗ Failed to register events for app:" << app.name;
+                LogManager::instance()->sendWarn(LogManager::AudioManager, QString("Failed to register events for app: %1").arg(app.name));
             }
 
             newApplications.append(app);
@@ -1698,17 +1725,16 @@ void AudioWorker::setApplicationMute(const QString& appId, bool mute)
 void AudioWorker::setDefaultDevice(const QString& deviceId, bool isInput, bool forCommunications)
 {
     if (!m_policyConfig) {
-        qDebug() << "No policy config available, cannot set default device";
+        LogManager::instance()->sendCritical(LogManager::AudioManager, "No policy config available, cannot set default device");
         return;
     }
 
     ERole role = forCommunications ? eCommunications : eConsole;
     std::wstring wDeviceId = deviceId.toStdWString();
-
     HRESULT hr = m_policyConfig->SetDefaultEndpoint(wDeviceId.c_str(), role);
-    if (SUCCEEDED(hr)) {
-    } else {
-        qDebug() << "Failed to set default device, HRESULT:" << QString::number(hr, 16);
+    if (!SUCCEEDED(hr)) {
+        LogManager::instance()->sendCritical(LogManager::AudioManager,
+                                             QString("Failed to set default device, HRESULT: %1").arg(QString::number(hr, 16)));
     }
 }
 
@@ -1758,17 +1784,15 @@ AudioManager* AudioManager::instance()
 void AudioManager::initialize()
 {
     QMutexLocker locker(&m_mutex);
-
     if (m_workerThread) {
-        qDebug() << "AudioManager already initialized";
+        LogManager::instance()->sendLog(LogManager::AudioManager, "AudioManager already initialized");
         return;
     }
 
     m_workerThread = new QThread(this);
     m_worker = new AudioWorker();
-
     if (!m_worker) {
-        qDebug() << "Failed to create AudioWorker";
+        LogManager::instance()->sendCritical(LogManager::AudioManager, "Failed to create AudioWorker");
         delete m_workerThread;
         m_workerThread = nullptr;
         return;
@@ -1852,28 +1876,22 @@ void AudioManager::cleanup()
 
     if (!m_workerThread) return;
 
-    // Step 1: Tell worker to cleanup from its own thread
     if (m_worker) {
         QMetaObject::invokeMethod(m_worker, "cleanup", Qt::QueuedConnection);
-
-        // Step 2: Tell worker to delete itself from its own thread
         QMetaObject::invokeMethod(m_worker, "deleteLater", Qt::QueuedConnection);
-        m_worker = nullptr; // Clear pointer immediately
+        m_worker = nullptr;
     }
 
-    // Step 3: Quit the thread and wait for it to finish
     m_workerThread->quit();
     if (!m_workerThread->wait(5000)) {
-        qWarning() << "AudioWorker thread did not finish gracefully, terminating...";
+        LogManager::instance()->sendWarn(LogManager::AudioManager, "AudioWorker thread did not finish gracefully, terminating...");
         m_workerThread->terminate();
-        m_workerThread->wait(1000); // Give it a bit more time after terminate
+        m_workerThread->wait(1000);
     }
 
-    // Step 4: Now safe to delete the thread
     delete m_workerThread;
     m_workerThread = nullptr;
 
-    // Clear cache
     QMutexLocker cacheLock(&m_cacheMutex);
     m_cachedOutputVolume = 0;
     m_cachedInputVolume = 0;
