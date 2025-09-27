@@ -5,14 +5,14 @@ import Odizinne.QontrolPanel
 Item {
     id: logBridge
 
-    property int maxLogEntries: 1000
-
+    property int maxLogEntries: 500
     property ListModel logModel: ListModel {}
     property ListModel filteredModel: ListModel {}
+    property string currentFilter: "All"
+    property var senderRegex: /^\[[^\]]+\]\s+(\w+)\s+\[\w+\]/
 
     signal logEntryAdded(string message, int type, string sender)
     signal logsCleared()
-    signal filterRequested(string selectedSender)
 
     Component.onCompleted: {
         LogManager.setQmlReady()
@@ -36,22 +36,29 @@ Item {
     function addLogEntry(message, type) {
         let sender = extractSenderFromMessage(message)
 
-        if (logModel.count >= maxLogEntries) {
-            logModel.remove(0, logModel.count - maxLogEntries + 1)
+        // Proper cleanup - remove excess entries FIRST
+        while (logModel.count >= maxLogEntries) {
+            logModel.remove(0)
         }
 
-        logModel.append({
+        let newEntry = {
             "message": message,
             "type": type,
             "sender": sender
-        })
+        }
+
+        logModel.append(newEntry)
+
+        // Only add to filtered model if it matches current filter
+        if (currentFilter === "All" || sender === currentFilter) {
+            filteredModel.append(newEntry)
+        }
 
         logEntryAdded(message, type, sender)
     }
 
     function extractSenderFromMessage(message) {
-        let regex = /^\[[^\]]+\]\s+(\w+)\s+\[\w+\]/
-        let match = message.match(regex)
+        let match = message.match(senderRegex)
         return match ? match[1] : "Unknown"
     }
 
@@ -62,11 +69,23 @@ Item {
     }
 
     function applyFilter(selectedSender) {
+        if (selectedSender === currentFilter) return // No change needed
+
+        currentFilter = selectedSender
         filteredModel.clear()
-        for (let i = 0; i < logModel.count; i++) {
-            let item = logModel.get(i)
-            if (selectedSender === "All" || item.sender === selectedSender) {
-                filteredModel.append(item)
+
+        if (selectedSender === "All") {
+            // Copy all entries
+            for (let i = 0; i < logModel.count; i++) {
+                filteredModel.append(logModel.get(i))
+            }
+        } else {
+            // Filter by sender
+            for (let i = 0; i < logModel.count; i++) {
+                let item = logModel.get(i)
+                if (item.sender === selectedSender) {
+                    filteredModel.append(item)
+                }
             }
         }
     }

@@ -19,8 +19,6 @@ ColumnLayout {
         target: LogBridge
 
         function onLogEntryAdded(message, type, sender) {
-            LogBridge.applyFilter(logViewer.selectedSender)
-
             if (logViewer.autoScroll) {
                 Qt.callLater(logViewer.scrollToBottom)
             }
