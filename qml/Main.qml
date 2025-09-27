@@ -251,8 +251,6 @@ ApplicationWindow {
             return
         }
 
-        MonitorManager.refreshMonitors()
-
         isAnimatingIn = true
         panel.taskbarPos = SoundPanelBridge.taskbarPosition
         panel.visible = true
