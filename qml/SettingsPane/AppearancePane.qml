@@ -162,7 +162,7 @@ ColumnLayout {
             Card {
                 Layout.fillWidth: true
                 title: qsTr("Avoid applications overflow")
-                description: qsTr("Wrap applications in CustomScrollView when more than 4 applications are displayed")
+                description: qsTr("Wrap applications in ScrollView when more than 4 applications are displayed")
 
                 additionalControl: LabeledSwitch {
                     checked: UserSettings.avoidApplicationsOverflow
