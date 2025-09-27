@@ -165,7 +165,7 @@
     </message>
     <message>
         <source>Wrap applications in CustomScrollView when more than 4 applications are displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>4개 이상의 응용 프로그램이 표시되는 경우 CustomScrollView에서 응용 프로그램을 줄바꿈</translation>
     </message>
 </context>
 <context>
@@ -414,7 +414,7 @@
     <name>ConsolePane</name>
     <message>
         <source>Console output</source>
-        <translation type="unfinished"></translation>
+        <translation>콘솔 출력</translation>
     </message>
 </context>
 <context>
@@ -723,11 +723,11 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Device battery</source>
-        <translation type="unfinished"></translation>
+        <translation>장치 배터리</translation>
     </message>
     <message>
         <source>Charging</source>
-        <translation type="unfinished"></translation>
+        <translation>충전 중</translation>
     </message>
 </context>
 <context>
