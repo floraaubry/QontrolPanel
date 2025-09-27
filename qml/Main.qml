@@ -98,7 +98,9 @@ ApplicationWindow {
 
     Component.onCompleted: {
         SoundPanelBridge.startMediaMonitoring()
-        MonitorManager.setDDCCIBrightness(Math.round(UserSettings.ddcciBrightness), UserSettings.ddcciQueueDelay)
+        if (UserSettings.allowBrightnessControl) {
+            MonitorManager.setDDCCIBrightness(Math.round(UserSettings.ddcciBrightness), UserSettings.ddcciQueueDelay)
+        }
     }
 
     PowerConfirmationWindow {
