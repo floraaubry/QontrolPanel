@@ -1127,20 +1127,6 @@ void AudioBridge::onInputAudioLevelChanged(int level)
 
 void AudioBridge::updateGroupForApplication(const QString& appId)
 {
-    // Debug: Check if the main model still has correct streamIndex values for Discord
-    if (appId.contains("11008") || appId.contains("20868")) {
-        qDebug() << "updateGroupForApplication called for Discord appId:" << appId;
-        for (int i = 0; i < m_applicationModel->rowCount(); ++i) {
-            QModelIndex index = m_applicationModel->index(i, 0);
-            QString execName = m_applicationModel->data(index, ApplicationModel::ExecutableNameRole).toString();
-            if (execName == "Discord") {
-                qDebug() << "  Discord in main model - Row:" << i
-                         << "StreamIndex:" << m_applicationModel->data(index, ApplicationModel::StreamIndexRole).toInt()
-                         << "AppId:" << m_applicationModel->data(index, ApplicationModel::IdRole).toString();
-            }
-        }
-    }
-
     // Find the executable name for this appId
     QString executableName;
     for (int i = 0; i < m_applicationModel->rowCount(); ++i) {

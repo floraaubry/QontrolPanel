@@ -13,7 +13,7 @@
 #include "mediasessionmanager.h"
 #include "languages.h"
 #include "updater.h"
-
+#include "logmanager.h"
 #include <powrprof.h>
 #include <wtsapi32.h>
 #include <lm.h>
@@ -487,61 +487,70 @@ QString SoundPanelBridge::getTranslationProgressPath() const
 void SoundPanelBridge::loadTranslationProgressData()
 {
     QString progressFilePath = getTranslationProgressPath();
-    QFile file(progressFilePath);
+    LogManager::instance()->sendLog(LogManager::SoundPanelBridge,
+                                    QString("Loading translation progress data from: %1").arg(progressFilePath));
 
+    QFile file(progressFilePath);
     if (!file.exists()) {
-        qDebug() << "Translation progress file does not exist:" << progressFilePath;
+        LogManager::instance()->sendWarn(LogManager::SoundPanelBridge,
+                                         QString("Translation progress file does not exist: %1").arg(progressFilePath));
         return;
     }
 
     if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "Failed to open translation progress file:" << file.errorString();
+        LogManager::instance()->sendCritical(LogManager::SoundPanelBridge,
+                                             QString("Failed to open translation progress file: %1").arg(file.errorString()));
         return;
     }
 
     QByteArray data = file.readAll();
     QJsonDocument doc = QJsonDocument::fromJson(data);
-
     if (doc.isNull()) {
-        qDebug() << "Failed to parse translation progress JSON";
+        LogManager::instance()->sendCritical(LogManager::SoundPanelBridge,
+                                             "Failed to parse translation progress JSON - invalid format");
         return;
     }
 
     m_translationProgress = doc.object();
+    LogManager::instance()->sendLog(LogManager::SoundPanelBridge,
+                                    "Translation progress data loaded successfully");
     emit translationProgressDataLoaded();
 }
 
 void SoundPanelBridge::downloadTranslationProgressFile()
 {
     QString githubUrl = "https://raw.githubusercontent.com/Odizinne/QontrolPanel/main/i18n/compiled/translation_progress.json";
+    LogManager::instance()->sendLog(LogManager::SoundPanelBridge,
+                                    QString("Downloading translation progress file from: %1").arg(githubUrl));
 
     QNetworkRequest request(githubUrl);
     request.setHeader(QNetworkRequest::UserAgentHeader, "QontrolPanel");
-
     QNetworkReply* reply = m_networkManager->get(request);
 
     connect(reply, &QNetworkReply::finished, [this, reply]() {
         if (reply->error() == QNetworkReply::NoError) {
             QByteArray data = reply->readAll();
+            LogManager::instance()->sendLog(LogManager::SoundPanelBridge,
+                                            QString("Translation progress data downloaded (%1 bytes)").arg(data.size()));
 
             // Save to file
             QString progressFilePath = getTranslationProgressPath();
             QFile file(progressFilePath);
-
             if (file.open(QIODevice::WriteOnly)) {
                 file.write(data);
                 file.close();
-                qDebug() << "Translation progress data downloaded successfully";
-
+                LogManager::instance()->sendLog(LogManager::SoundPanelBridge,
+                                                "Translation progress file saved successfully");
                 // Load the data
                 loadTranslationProgressData();
             } else {
-                qDebug() << "Failed to save translation progress file:" << file.errorString();
+                LogManager::instance()->sendCritical(LogManager::SoundPanelBridge,
+                                                     QString("Failed to save translation progress file: %1").arg(file.errorString()));
             }
         } else {
-            qDebug() << "Failed to download translation progress:" << reply->errorString();
+            LogManager::instance()->sendCritical(LogManager::SoundPanelBridge,
+                                                 QString("Failed to download translation progress: %1").arg(reply->errorString()));
         }
-
         reply->deleteLater();
     });
 }
@@ -609,20 +618,22 @@ void SoundPanelBridge::onColorSchemeChanged()
 
 bool SoundPanelBridge::hasMultipleUsers()
 {
+    LogManager::instance()->sendLog(LogManager::SoundPanelBridge, "Checking for multiple users on system");
+
     LPUSER_INFO_1 buffer = nullptr;
     DWORD entriesRead = 0;
     DWORD totalEntries = 0;
     DWORD realUserCount = 0;
-
     NET_API_STATUS status = NetUserEnum(nullptr, 1, FILTER_NORMAL_ACCOUNT,
                                         (LPBYTE*)&buffer, MAX_PREFERRED_LENGTH,
                                         &entriesRead, &totalEntries, nullptr);
-
     if (status == NERR_Success) {
+        LogManager::instance()->sendLog(LogManager::PowerManager,
+                                        QString("Found %1 user accounts, analyzing...").arg(entriesRead));
+
         for (DWORD i = 0; i < entriesRead; i++) {
             // Skip built-in system accounts
             QString username = QString::fromWCharArray(buffer[i].usri1_name);
-
             // Skip common system accounts
             if (username.compare("Administrator", Qt::CaseInsensitive) != 0 &&
                 username.compare("Guest", Qt::CaseInsensitive) != 0 &&
@@ -630,21 +641,24 @@ bool SoundPanelBridge::hasMultipleUsers()
                 username.compare("WDAGUtilityAccount", Qt::CaseInsensitive) != 0 &&
                 !username.startsWith("_") &&
                 !(buffer[i].usri1_flags & UF_ACCOUNTDISABLE)) {
-
                 realUserCount++;
-                qDebug() << "Real user found:" << username;
+                LogManager::instance()->sendLog(LogManager::PowerManager,
+                                                QString("Real user found: %1").arg(username));
             } else {
-                qDebug() << "Skipping system account:" << username;
+                LogManager::instance()->sendLog(LogManager::PowerManager,
+                                                QString("Skipping system account: %1").arg(username));
             }
         }
-
         NetApiBufferFree(buffer);
         bool result = realUserCount > 1;
-        qDebug() << "Real users found:" << realUserCount << "hasMultipleUsers returning:" << result;
+        LogManager::instance()->sendLog(LogManager::PowerManager,
+                                        QString("Real users found: %1, hasMultipleUsers returning: %2")
+                                            .arg(realUserCount).arg(result ? "true" : "false"));
         return result;
     }
 
-    qDebug() << "hasMultipleUsers returning false (error)";
+    LogManager::instance()->sendCritical(LogManager::PowerManager,
+                                         QString("Failed to enumerate users, NetUserEnum error: %1").arg(status));
     return false;
 }
 
@@ -654,14 +668,9 @@ bool SoundPanelBridge::isHibernateSupported()
     ZeroMemory(&powerCaps, sizeof(powerCaps));
 
     if (GetPwrCapabilities(&powerCaps)) {
-        bool result = powerCaps.SystemS4 && powerCaps.HiberFilePresent;
-        qDebug() << "Hibernate - SystemS4:" << powerCaps.SystemS4
-                 << "HiberFilePresent:" << powerCaps.HiberFilePresent
-                 << "Result:" << result;
-        return result;
+        return powerCaps.SystemS4 && powerCaps.HiberFilePresent;
     }
 
-    qDebug() << "isHibernateSupported returning false (GetPwrCapabilities failed)";
     return false;
 }
 

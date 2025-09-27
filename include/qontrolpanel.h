@@ -28,10 +28,6 @@ private:
     QQmlApplicationEngine* engine;
     QWindow* panelWindow;
     QSettings settings;
-    QAction *outputDeviceAction;
-    QAction *inputDeviceAction;
-    QString currentOutputDevice;
-    QString currentInputDevice;
 
     void initializeQMLEngine();
     void destroyQMLEngine();

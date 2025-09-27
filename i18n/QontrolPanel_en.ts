@@ -383,6 +383,13 @@
     </message>
 </context>
 <context>
+    <name>ConsolePane</name>
+    <message>
+        <source>Console output</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DebugPane</name>
     <message>
         <source>Debug and information</source>
@@ -862,6 +869,10 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Components</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Debug</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

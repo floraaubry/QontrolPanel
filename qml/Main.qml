@@ -425,11 +425,11 @@ ApplicationWindow {
 
     function shouldShowSeparator(currentLayoutIndex) {
         const visibilities = [
-            UserSettings.enableDeviceManager,
-            UserSettings.enableApplicationMixer && AudioBridge.isReady && AudioBridge.applications.rowCount() > 0,
-            UserSettings.activateChatmix,
-            MonitorManager.monitorDetected && UserSettings.allowBrightnessControl
-        ]
+                               UserSettings.enableDeviceManager,
+                               UserSettings.enableApplicationMixer && AudioBridge.isReady && AudioBridge.applications.rowCount() > 0,
+                               UserSettings.activateChatmix,
+                               MonitorManager.monitorDetected && UserSettings.allowBrightnessControl
+                           ]
         if (!visibilities[currentLayoutIndex]) return false
         for (let i = 0; i < currentLayoutIndex; i++) {
             if (visibilities[i]) return true

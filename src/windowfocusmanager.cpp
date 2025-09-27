@@ -9,6 +9,7 @@
 #include <QFileInfo>
 #include <QMetaObject>
 #include <psapi.h>
+#include "logmanager.h"
 
 #pragma comment(lib, "psapi.lib")
 
@@ -48,7 +49,8 @@ void WindowFocusManager::startMonitoring()
     if (m_winEventHook) {
         m_isMonitoring = true;
     } else {
-        qDebug() << "Failed to start window focus monitoring";
+        LogManager::instance()->sendCritical(LogManager::WindowFocusManager,
+                                             "Failed to start window focus monitoring");
     }
 }
 

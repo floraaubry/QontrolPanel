@@ -1,5 +1,5 @@
 #include "headsetcontrolmonitor.h"
-#include <QDebug>
+#include "logmanager.h"
 #include <QStandardPaths>
 #include <QCoreApplication>
 #include <QDir>
@@ -17,26 +17,34 @@ HeadsetControlMonitor::HeadsetControlMonitor(QObject *parent)
     , m_batteryLevel(0)
     , m_anyDeviceFound(false)
 {
+    LogManager::instance()->sendLog(LogManager::HeadsetControlManager, "HeadsetControlMonitor initialized");
+
     m_fetchTimer->setInterval(FETCH_INTERVAL_MS);
     m_fetchTimer->setSingleShot(false);
 
     connect(m_fetchTimer, &QTimer::timeout, this, &HeadsetControlMonitor::fetchHeadsetInfo);
 
     if (m_settings.value("headsetcontrolMonitoring", false).toBool()) {
+        LogManager::instance()->sendLog(LogManager::HeadsetControlManager, "Auto-starting headset monitoring from saved settings");
         startMonitoring();
     }
 }
 
 HeadsetControlMonitor::~HeadsetControlMonitor()
 {
+    LogManager::instance()->sendLog(LogManager::HeadsetControlManager, "HeadsetControlMonitor destructor called");
     stopMonitoring();
 }
 
 void HeadsetControlMonitor::startMonitoring()
 {
     if (m_isMonitoring) {
+        LogManager::instance()->sendLog(LogManager::HeadsetControlManager, "Headset monitoring already running, ignoring start request");
         return;
     }
+
+    LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
+                                    QString("Starting headset monitoring (fetch interval: %1ms)").arg(FETCH_INTERVAL_MS));
 
     m_isMonitoring = true;
 
@@ -52,10 +60,13 @@ void HeadsetControlMonitor::stopMonitoring()
         return;
     }
 
+    LogManager::instance()->sendLog(LogManager::HeadsetControlManager, "Stopping headset monitoring");
+
     m_isMonitoring = false;
     m_fetchTimer->stop();
 
     if (m_process && m_process->state() != QProcess::NotRunning) {
+        LogManager::instance()->sendLog(LogManager::HeadsetControlManager, "Terminating running HeadsetControl process");
         m_process->kill();
         m_process->waitForFinished(3000);
     }
@@ -79,6 +90,8 @@ void HeadsetControlMonitor::stopMonitoring()
 
     emit headsetDataUpdated(m_cachedDevices);
     emit monitoringStateChanged(false);
+
+    LogManager::instance()->sendLog(LogManager::HeadsetControlManager, "Headset monitoring stopped and data cleared");
 }
 
 bool HeadsetControlMonitor::isMonitoring() const
@@ -89,9 +102,12 @@ bool HeadsetControlMonitor::isMonitoring() const
 void HeadsetControlMonitor::setLights(bool enabled)
 {
     if (!m_hasLightsCapability) {
-        qWarning() << "Device does not support lights capability";
+        LogManager::instance()->sendWarn(LogManager::HeadsetControlManager, "Cannot set lights - device does not support lights capability");
         return;
     }
+
+    LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
+                                    QString("Setting headset lights: %1").arg(enabled ? "ON" : "OFF"));
 
     QStringList arguments;
     arguments << "-l" << (enabled ? "1" : "0");
@@ -101,11 +117,14 @@ void HeadsetControlMonitor::setLights(bool enabled)
 void HeadsetControlMonitor::setSidetone(int value)
 {
     if (!m_hasSidetoneCapability) {
-        qWarning() << "Device does not support sidetone capability";
+        LogManager::instance()->sendWarn(LogManager::HeadsetControlManager, "Cannot set sidetone - device does not support sidetone capability");
         return;
     }
 
     value = qBound(0, value, 128);
+
+    LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
+                                    QString("Setting headset sidetone to %1").arg(value));
 
     QStringList arguments;
     arguments << "-s" << QString::number(value);
@@ -116,20 +135,28 @@ void HeadsetControlMonitor::executeHeadsetControlCommand(const QStringList& argu
 {
     QString executablePath = getExecutablePath();
     if (!QFile::exists(executablePath)) {
-        qWarning() << "HeadsetControl executable not found at:" << executablePath;
+        LogManager::instance()->sendCritical(LogManager::HeadsetControlManager,
+                                             QString("HeadsetControl executable not found at: %1").arg(executablePath));
         return;
     }
+
+    LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
+                                    QString("Executing HeadsetControl command with arguments: %1").arg(arguments.join(" ")));
 
     QProcess* commandProcess = new QProcess(this);
 
     connect(commandProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             [commandProcess](int exitCode, QProcess::ExitStatus exitStatus) {
                 if (exitCode != 0 || exitStatus != QProcess::NormalExit) {
-                    qWarning() << "HeadsetControl command failed. Exit code:" << exitCode;
+                    LogManager::instance()->sendCritical(LogManager::HeadsetControlManager,
+                                                         QString("HeadsetControl command failed with exit code: %1").arg(exitCode));
                     QByteArray errorOutput = commandProcess->readAllStandardError();
                     if (!errorOutput.isEmpty()) {
-                        qWarning() << "Error output:" << errorOutput;
+                        LogManager::instance()->sendCritical(LogManager::HeadsetControlManager,
+                                                             QString("HeadsetControl error output: %1").arg(QString::fromUtf8(errorOutput)));
                     }
+                } else {
+                    LogManager::instance()->sendLog(LogManager::HeadsetControlManager, "HeadsetControl command executed successfully");
                 }
                 commandProcess->deleteLater();
             });
@@ -137,7 +164,8 @@ void HeadsetControlMonitor::executeHeadsetControlCommand(const QStringList& argu
     // Add error handling for command startup failures
     connect(commandProcess, &QProcess::errorOccurred, this,
             [commandProcess](QProcess::ProcessError error) {
-                qWarning() << "HeadsetControl command process error:" << error;
+                LogManager::instance()->sendCritical(LogManager::HeadsetControlManager,
+                                                     QString("HeadsetControl command process error: %1").arg(static_cast<int>(error)));
                 commandProcess->deleteLater();
             });
 
@@ -158,7 +186,8 @@ void HeadsetControlMonitor::fetchHeadsetInfo()
 
     QString executablePath = getExecutablePath();
     if (!QFile::exists(executablePath)) {
-        qWarning() << "HeadsetControl executable not found at:" << executablePath;
+        LogManager::instance()->sendCritical(LogManager::HeadsetControlManager,
+                                             QString("HeadsetControl executable not found at: %1").arg(executablePath));
         return;
     }
 
@@ -170,7 +199,8 @@ void HeadsetControlMonitor::fetchHeadsetInfo()
     // Add error handling for startup failures
     connect(m_process, &QProcess::errorOccurred, this,
             [this](QProcess::ProcessError error) {
-                qWarning() << "HeadsetControl process error:" << error;
+                LogManager::instance()->sendCritical(LogManager::HeadsetControlManager,
+                                                     QString("HeadsetControl process error: %1").arg(static_cast<int>(error)));
                 if (m_process) {
                     m_process->deleteLater();
                     m_process = nullptr;
@@ -198,9 +228,13 @@ void HeadsetControlMonitor::onProcessFinished(int exitCode, QProcess::ExitStatus
 
     if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
         QByteArray output = m_process->readAllStandardOutput();
+        LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
+                                        QString("HeadsetControl process completed successfully (%1 bytes output)").arg(output.size()));
         parseHeadsetControlOutput(output);
     } else if (exitCode == 1) {
         // No device found - clear cached data
+        LogManager::instance()->sendLog(LogManager::HeadsetControlManager, "No headset devices found");
+
         m_cachedDevices.clear();
         m_hasSidetoneCapability = false;
         m_hasLightsCapability = false;
@@ -219,11 +253,12 @@ void HeadsetControlMonitor::onProcessFinished(int exitCode, QProcess::ExitStatus
         }
         emit headsetDataUpdated(m_cachedDevices);
     } else {
-        qWarning() << "HeadsetControl process failed. Exit code:" << exitCode
-                   << "Status:" << exitStatus;
+        LogManager::instance()->sendCritical(LogManager::HeadsetControlManager,
+                                             QString("HeadsetControl process failed with exit code: %1, status: %2").arg(exitCode).arg(static_cast<int>(exitStatus)));
         QByteArray errorOutput = m_process->readAllStandardError();
         if (!errorOutput.isEmpty()) {
-            qWarning() << "Error output:" << errorOutput;
+            LogManager::instance()->sendCritical(LogManager::HeadsetControlManager,
+                                                 QString("HeadsetControl error output: %1").arg(QString::fromUtf8(errorOutput)));
         }
 
         // Still emit current cached devices on error
@@ -240,13 +275,15 @@ void HeadsetControlMonitor::parseHeadsetControlOutput(const QByteArray& output)
     QJsonDocument doc = QJsonDocument::fromJson(output, &error);
 
     if (error.error != QJsonParseError::NoError) {
-        qWarning() << "Failed to parse HeadsetControl JSON output:" << error.errorString();
+        LogManager::instance()->sendCritical(LogManager::HeadsetControlManager,
+                                             QString("Failed to parse HeadsetControl JSON output: %1").arg(error.errorString()));
         return;
     }
 
     QJsonObject root = doc.object();
     if (!root.contains("devices")) {
-        qWarning() << "HeadsetControl output missing 'devices' field";
+        LogManager::instance()->sendCritical(LogManager::HeadsetControlManager,
+                                             "HeadsetControl output missing 'devices' field");
         return;
     }
 
@@ -254,16 +291,22 @@ void HeadsetControlMonitor::parseHeadsetControlOutput(const QByteArray& output)
     QList<HeadsetControlDevice> newDevices;
 
     if (devicesArray.isEmpty()) {
+        LogManager::instance()->sendLog(LogManager::HeadsetControlManager, "No devices in HeadsetControl output");
         m_cachedDevices = newDevices;
         updateCapabilities();
         emit headsetDataUpdated(m_cachedDevices);
         return;
     }
 
+    LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
+                                    QString("Processing %1 headset devices from output").arg(devicesArray.size()));
+
     for (const QJsonValue& deviceValue : devicesArray) {
         QJsonObject deviceObj = deviceValue.toObject();
 
         if (deviceObj["status"].toString() != "success") {
+            LogManager::instance()->sendWarn(LogManager::HeadsetControlManager,
+                                             QString("Skipping device with non-success status: %1").arg(deviceObj["status"].toString()));
             continue;
         }
 
@@ -283,6 +326,9 @@ void HeadsetControlMonitor::parseHeadsetControlOutput(const QByteArray& output)
             QJsonObject batteryObj = deviceObj["battery"].toObject();
             device.batteryStatus = batteryObj["status"].toString();
             device.batteryLevel = batteryObj["level"].toInt();
+
+            LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
+                                            QString("Device %1: Battery %2 at %3%").arg(device.deviceName, device.batteryStatus).arg(device.batteryLevel));
         } else {
             device.batteryStatus = "BATTERY_UNAVAILABLE";
             device.batteryLevel = 0;
@@ -297,6 +343,10 @@ void HeadsetControlMonitor::parseHeadsetControlOutput(const QByteArray& output)
             m_batteryLevel = device.batteryLevel;
             emit batteryLevelChanged();
         }
+
+        LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
+                                        QString("Found headset device: %1 (%2 %3) with %4 capabilities")
+                                            .arg(device.deviceName, device.vendor, device.product).arg(device.capabilities.size()));
 
         newDevices.append(device);
     }
@@ -320,6 +370,10 @@ void HeadsetControlMonitor::updateCapabilities()
 
         newSidetoneCapability = device.capabilities.contains("CAP_SIDETONE");
         newLightsCapability = device.capabilities.contains("CAP_LIGHTS");
+
+        LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
+                                        QString("Device capabilities - Sidetone: %1, Lights: %2")
+                                            .arg(newSidetoneCapability ? "YES" : "NO", newLightsCapability ? "YES" : "NO"));
     }
 
     if (newSidetoneCapability != m_hasSidetoneCapability ||
@@ -339,11 +393,20 @@ void HeadsetControlMonitor::updateCapabilities()
         emit anyDeviceFoundChanged();
 
         if (!wasDeviceFound && newAnyDeviceFound) {
+            LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
+                                            "New headset device detected, applying saved settings");
+
             if (newLightsCapability) {
-                setLights(m_settings.value("headsetcontrolLights", false).toBool());
+                bool lightsEnabled = m_settings.value("headsetcontrolLights", false).toBool();
+                LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
+                                                QString("Applying saved lights setting: %1").arg(lightsEnabled ? "ON" : "OFF"));
+                setLights(lightsEnabled);
             }
             if (newSidetoneCapability) {
-                setSidetone(m_settings.value("headsetcontrolSidetone", 0).toInt());
+                int sidetoneValue = m_settings.value("headsetcontrolSidetone", 0).toInt();
+                LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
+                                                QString("Applying saved sidetone setting: %1").arg(sidetoneValue));
+                setSidetone(sidetoneValue);
             }
         }
     }

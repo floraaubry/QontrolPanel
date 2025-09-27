@@ -1,7 +1,7 @@
 #include "mediasessionmanager.h"
+#include "logmanager.h"
 #include <QMetaObject>
 #include <QMutexLocker>
-#include <QDebug>
 #include <QBuffer>
 #include <QByteArray>
 #include <QPixmap>
@@ -63,6 +63,9 @@ MediaInfo queryMediaInfoImpl() {
                 info.artist = QString::fromWCharArray(properties.Artist().c_str());
                 info.album = QString::fromWCharArray(properties.AlbumTitle().c_str());
 
+                LogManager::instance()->sendLog(LogManager::MediaSessionManager,
+                                                QString("Retrieved media info: %1 - %2").arg(info.artist, info.title));
+
                 // Fetch album art
                 try {
                     auto thumbnailRef = properties.Thumbnail();
@@ -95,29 +98,37 @@ MediaInfo queryMediaInfoImpl() {
 
                                         QString base64Image = processedImageData.toBase64();
                                         info.albumArt = QString("data:image/png;base64,%1").arg(base64Image);
+
+                                        LogManager::instance()->sendLog(LogManager::MediaSessionManager,
+                                                                        QString("Album art processed successfully (%1 bytes)").arg(processedImageData.size()));
                                     }
                                 }
                             }
                         }
                     }
                 } catch (...) {
-                    qDebug() << "Failed to fetch album art";
+                    LogManager::instance()->sendWarn(LogManager::MediaSessionManager, "Failed to fetch album art");
                 }
             }
 
             auto playbackInfo = currentSession.GetPlaybackInfo();
             if (playbackInfo) {
                 info.isPlaying = (playbackInfo.PlaybackStatus() == GlobalSystemMediaTransportControlsSessionPlaybackStatus::Playing);
+                LogManager::instance()->sendLog(LogManager::MediaSessionManager,
+                                                QString("Playback status: %1").arg(info.isPlaying ? "Playing" : "Paused/Stopped"));
             }
+        } else {
+            LogManager::instance()->sendLog(LogManager::MediaSessionManager, "No active media session found");
         }
     } catch (...) {
-        qDebug() << "Failed to query media session info";
+        LogManager::instance()->sendCritical(LogManager::MediaSessionManager, "Failed to query media session info");
     }
 
     return info;
 }
 
 void MediaWorker::initializeTimer() {
+    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Initializing media update timer");
     m_updateTimer = new QTimer(this);
     connect(m_updateTimer, &QTimer::timeout, this, &MediaWorker::queryMediaInfo);
 }
@@ -130,6 +141,12 @@ bool MediaWorker::ensureCurrentSession() {
 
         // If session changed, update notifications
         if (m_currentSession != currentSession) {
+            if (m_currentSession) {
+                LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Media session changed, updating notifications");
+            } else {
+                LogManager::instance()->sendLog(LogManager::MediaSessionManager, "New media session detected");
+            }
+
             cleanupSessionNotifications();
             m_currentSession = currentSession;
             if (m_currentSession) {
@@ -139,7 +156,7 @@ bool MediaWorker::ensureCurrentSession() {
 
         return m_currentSession != nullptr;
     } catch (...) {
-        qDebug() << "Failed to get current session";
+        LogManager::instance()->sendCritical(LogManager::MediaSessionManager, "Failed to get current session");
         return false;
     }
 }
@@ -148,6 +165,8 @@ void MediaWorker::setupSessionNotifications() {
     if (!m_currentSession) {
         return;
     }
+
+    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Setting up session event notifications");
 
     try {
         // Register for media properties changes (title, artist, album art)
@@ -168,13 +187,15 @@ void MediaWorker::setupSessionNotifications() {
                 QMetaObject::invokeMethod(this, "queryMediaInfo", Qt::QueuedConnection);
             });
 
+        LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Session event notifications registered successfully");
     } catch (...) {
-        qDebug() << "Failed to register session notifications";
+        LogManager::instance()->sendCritical(LogManager::MediaSessionManager, "Failed to register session notifications");
     }
 }
 
 void MediaWorker::cleanupSessionNotifications() {
     if (m_currentSession) {
+        LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Cleaning up session notifications");
         try {
             if (m_propertiesChangedToken.value != 0) {
                 m_currentSession.MediaPropertiesChanged(m_propertiesChangedToken);
@@ -184,8 +205,9 @@ void MediaWorker::cleanupSessionNotifications() {
                 m_currentSession.PlaybackInfoChanged(m_playbackInfoChangedToken);
                 m_playbackInfoChangedToken = {};
             }
+            LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Session notifications cleaned up successfully");
         } catch (...) {
-            qDebug() << "Error cleaning up session notifications";
+            LogManager::instance()->sendWarn(LogManager::MediaSessionManager, "Error cleaning up session notifications");
         }
     }
 }
@@ -196,6 +218,8 @@ void MediaWorker::queryMediaInfo() {
 }
 
 void MediaWorker::startMonitoring() {
+    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Starting media session monitoring");
+
     if (!m_updateTimer) {
         initializeTimer();
     }
@@ -205,66 +229,94 @@ void MediaWorker::startMonitoring() {
 
     // Start a slower timer as backup (since we now have event-driven updates)
     m_updateTimer->start(5000); // Update every 5 seconds as fallback
+    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Media monitoring started with 5s fallback timer");
 
     // Get initial state
     queryMediaInfo();
 }
 
 void MediaWorker::stopMonitoring() {
+    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Stopping media session monitoring");
+
     if (m_updateTimer) {
         m_updateTimer->stop();
     }
 
     cleanupSessionNotifications();
     m_currentSession = nullptr;
+
+    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Media monitoring stopped");
 }
 
 void MediaWorker::playPause() {
+    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Toggling play/pause");
+
     try {
         if (ensureCurrentSession() && m_currentSession) {
             m_currentSession.TryTogglePlayPauseAsync().get();
+            LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Play/pause toggled successfully");
             // No need to manually query - the event will trigger automatically
+        } else {
+            LogManager::instance()->sendWarn(LogManager::MediaSessionManager, "No active session for play/pause toggle");
         }
     } catch (...) {
-        qDebug() << "Failed to toggle play/pause";
+        LogManager::instance()->sendCritical(LogManager::MediaSessionManager, "Failed to toggle play/pause");
     }
 }
 
 void MediaWorker::nextTrack() {
+    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Skipping to next track");
+
     try {
         if (ensureCurrentSession() && m_currentSession) {
             m_currentSession.TrySkipNextAsync().get();
+            LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Successfully skipped to next track");
             // No need to manually query - the event will trigger automatically
+        } else {
+            LogManager::instance()->sendWarn(LogManager::MediaSessionManager, "No active session for next track");
         }
     } catch (...) {
-        qDebug() << "Failed to skip to next track";
+        LogManager::instance()->sendCritical(LogManager::MediaSessionManager, "Failed to skip to next track");
     }
 }
 
 void MediaWorker::previousTrack() {
+    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Skipping to previous track");
+
     try {
         if (ensureCurrentSession() && m_currentSession) {
             m_currentSession.TrySkipPreviousAsync().get();
+            LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Successfully skipped to previous track");
             // No need to manually query - the event will trigger automatically
+        } else {
+            LogManager::instance()->sendWarn(LogManager::MediaSessionManager, "No active session for previous track");
         }
     } catch (...) {
-        qDebug() << "Failed to skip to previous track";
+        LogManager::instance()->sendCritical(LogManager::MediaSessionManager, "Failed to skip to previous track");
     }
 }
 
 void MediaSessionManager::initialize() {
     QMutexLocker locker(&g_mediaInitMutex);
 
+    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Initializing MediaSessionManager");
+
     if (!g_mediaWorkerThread) {
         g_mediaWorkerThread = new QThread;
         g_mediaWorker = new MediaWorker;
         g_mediaWorker->moveToThread(g_mediaWorkerThread);
         g_mediaWorkerThread->start();
+
+        LogManager::instance()->sendLog(LogManager::MediaSessionManager, "MediaSessionManager worker thread started");
+    } else {
+        LogManager::instance()->sendLog(LogManager::MediaSessionManager, "MediaSessionManager already initialized");
     }
 }
 
 void MediaSessionManager::cleanup() {
     QMutexLocker locker(&g_mediaInitMutex);
+
+    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Cleaning up MediaSessionManager");
 
     if (g_mediaWorkerThread) {
         // Stop any timers and cleanup notifications before quitting thread
@@ -274,6 +326,7 @@ void MediaSessionManager::cleanup() {
 
         g_mediaWorkerThread->quit();
         if (!g_mediaWorkerThread->wait(3000)) {
+            LogManager::instance()->sendWarn(LogManager::MediaSessionManager, "Worker thread did not quit gracefully, terminating");
             g_mediaWorkerThread->terminate();
             g_mediaWorkerThread->wait(1000);
         }
@@ -282,6 +335,8 @@ void MediaSessionManager::cleanup() {
         delete g_mediaWorkerThread;
         g_mediaWorker = nullptr;
         g_mediaWorkerThread = nullptr;
+
+        LogManager::instance()->sendLog(LogManager::MediaSessionManager, "MediaSessionManager cleanup complete");
     }
 }
 

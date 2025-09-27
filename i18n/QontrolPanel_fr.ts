@@ -385,6 +385,13 @@
     </message>
 </context>
 <context>
+    <name>ConsolePane</name>
+    <message>
+        <source>Console output</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DebugPane</name>
     <message>
         <source>Show</source>
@@ -869,6 +876,10 @@ Vous pouvez l&apos;activer dans l&apos;onglet Général.</translation>
     <message>
         <source>QontrolPanel - Settings</source>
         <translation>QontrolPanel - Paramètres</translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

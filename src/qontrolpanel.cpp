@@ -22,10 +22,6 @@ QontrolPanel::QontrolPanel(QWidget *parent)
     , engine(nullptr)
     , panelWindow(nullptr)
     , settings("Odizinne", "QontrolPanel")
-    , outputDeviceAction(nullptr)
-    , inputDeviceAction(nullptr)
-    , currentOutputDevice("")
-    , currentInputDevice("")
     , localServer(nullptr)
 {
     MediaSessionManager::initialize();

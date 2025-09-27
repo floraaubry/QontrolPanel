@@ -11,6 +11,7 @@
 #include <QUrl>
 #include <QDebug>
 #include "version.h"
+#include "logmanager.h"
 
 Updater* Updater::m_instance = nullptr;
 
@@ -67,7 +68,8 @@ void Updater::onVersionCheckFinished()
     setChecking(false);
 
     if (reply->error() != QNetworkReply::NoError) {
-        qDebug() << "Update check failed:" << reply->errorString();
+        LogManager::instance()->sendCritical(LogManager::Updater,
+                                             QString("Update check failed: %1").arg(reply->errorString()));
         emit updateFinished(false, "Failed to check for updates: " + reply->errorString());
         return;
     }

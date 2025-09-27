@@ -407,6 +407,13 @@
     </message>
 </context>
 <context>
+    <name>ConsolePane</name>
+    <message>
+        <source>Console output</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DebugPane</name>
     <message>
         <source>Debug and information</source>
@@ -1036,7 +1043,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Debug</source>
-        <translation type="vanished">디버그</translation>
+        <translation>디버그</translation>
     </message>
     <message>
         <source>Updates</source>

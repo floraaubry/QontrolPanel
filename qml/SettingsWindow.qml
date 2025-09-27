@@ -114,6 +114,10 @@ ApplicationWindow {
                         {
                             text: qsTr("Updates"),
                             icon: "qrc:/icons/update.svg"
+                        },
+                        {
+                            text: qsTr("Debug"),
+                            icon: "qrc:/icons/update.svg"
                         }
                     ]
                     currentIndex: 0
@@ -156,6 +160,7 @@ ApplicationWindow {
                                     case 5: stackView.push(headsetControlPaneComponent); break
                                     case 6: stackView.push(languagePaneComponent); break
                                     case 7: stackView.push(debugPaneComponent); break
+                                    case 8: stackView.push(consolePaneComponent); break
                                 }
                             }
                         }
@@ -249,6 +254,11 @@ ApplicationWindow {
             Component {
                 id: debugPaneComponent
                 DebugPane {}
+            }
+
+            Component {
+                id: consolePaneComponent
+                ConsolePane {}
             }
         }
     }

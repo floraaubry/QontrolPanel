@@ -1,6 +1,6 @@
 #include "monitormanagerimpl.h"
+#include "logmanager.h"
 #include <algorithm>
-#include <qdebug.h>
 #include <qlogging.h>
 #include <vector>
 
@@ -9,24 +9,35 @@ MonitorManagerImpl::MonitorManagerImpl()
     , pWMIService(nullptr)
     , m_nightLightRegKey(nullptr)
 {
+    LogManager::instance()->sendLog(LogManager::MonitorManager, "Initializing MonitorManager");
+
     // Initialize COM for this specific thread with consistent apartment model
     HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
     if (FAILED(hr) && hr != RPC_E_CHANGED_MODE) {
-        qDebug() << "COM initialization failed:" << QString::number(hr, 16);
+        LogManager::instance()->sendWarn(LogManager::MonitorManager,
+                                         QString("COM initialization failed with apartment model: %1, trying multithreaded").arg(QString::number(hr, 16)));
         // Try with multithreaded model as fallback
         hr = CoInitializeEx(NULL, COINIT_MULTITHREADED | COINIT_DISABLE_OLE1DDE);
         if (FAILED(hr) && hr != RPC_E_CHANGED_MODE) {
-            qDebug() << "COM initialization failed completely:" << QString::number(hr, 16);
+            LogManager::instance()->sendCritical(LogManager::MonitorManager,
+                                                 QString("COM initialization failed completely: %1").arg(QString::number(hr, 16)));
+        } else {
+            LogManager::instance()->sendLog(LogManager::MonitorManager, "COM initialized with multithreaded model");
         }
+    } else {
+        LogManager::instance()->sendLog(LogManager::MonitorManager, "COM initialized with apartment model");
     }
 
     // Initialize components
     initNightLightRegistry();
     enumerateMonitors();
     setupChangeDetection();
+
+    LogManager::instance()->sendLog(LogManager::MonitorManager, "MonitorManager initialization complete");
 }
 
 MonitorManagerImpl::~MonitorManagerImpl() {
+    LogManager::instance()->sendLog(LogManager::MonitorManager, "Cleaning up MonitorManager");
     cleanup();
     cleanupNightLightRegistry();
     cleanupWMI();
@@ -75,14 +86,15 @@ bool MonitorManagerImpl::quickWMIHealthCheck() {
     if (pTest) pTest->Release();
 
     if (!healthy) {
-        qDebug() << "WMI health check failed:" << QString::number(testResult, 16);
+        LogManager::instance()->sendWarn(LogManager::MonitorManager,
+                                         QString("WMI health check failed: %1").arg(QString::number(testResult, 16)));
     }
 
     return healthy;
 }
 
 void MonitorManagerImpl::initializeWMI() {
-    qDebug() << "WMI initialization start";
+    LogManager::instance()->sendLog(LogManager::MonitorManager, "Initializing WMI connection");
 
     // Initialize security
     HRESULT hres = CoInitializeSecurity(
@@ -93,21 +105,24 @@ void MonitorManagerImpl::initializeWMI() {
         );
 
     if (FAILED(hres) && hres != RPC_E_TOO_LATE) {
-        qDebug() << "CoInitializeSecurity failed:" << QString::number(hres, 16);
+        LogManager::instance()->sendWarn(LogManager::MonitorManager,
+                                         QString("CoInitializeSecurity failed: %1").arg(QString::number(hres, 16)));
     }
 
     // Create WMI locator
     IWbemLocator* pLoc = nullptr;
     hres = CoCreateInstance(CLSID_WbemLocator, 0, CLSCTX_INPROC_SERVER, IID_IWbemLocator, (LPVOID*)&pLoc);
     if (FAILED(hres)) {
-        qDebug() << "Failed to create WMI locator:" << QString::number(hres, 16);
+        LogManager::instance()->sendCritical(LogManager::MonitorManager,
+                                             QString("Failed to create WMI locator: %1").arg(QString::number(hres, 16)));
         return;
     }
 
     // Connect to WMI namespace
     hres = pLoc->ConnectServer(_bstr_t(L"ROOT\\WMI"), NULL, NULL, 0, NULL, 0, 0, &pWMIService);
     if (FAILED(hres)) {
-        qDebug() << "ConnectServer failed:" << QString::number(hres, 16);
+        LogManager::instance()->sendCritical(LogManager::MonitorManager,
+                                             QString("WMI ConnectServer failed: %1").arg(QString::number(hres, 16)));
         pLoc->Release();
         return;
     }
@@ -116,9 +131,12 @@ void MonitorManagerImpl::initializeWMI() {
     hres = CoSetProxyBlanket(pWMIService, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL,
                              RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
     if (FAILED(hres)) {
-        qDebug() << "CoSetProxyBlanket failed:" << QString::number(hres, 16);
+        LogManager::instance()->sendCritical(LogManager::MonitorManager,
+                                             QString("CoSetProxyBlanket failed: %1").arg(QString::number(hres, 16)));
         pWMIService->Release();
         pWMIService = nullptr;
+    } else {
+        LogManager::instance()->sendLog(LogManager::MonitorManager, "WMI connection established successfully");
     }
 
     pLoc->Release();
@@ -129,14 +147,18 @@ void MonitorManagerImpl::cleanupWMI() {
     if (pWMIService) {
         pWMIService->Release();
         pWMIService = nullptr;
+        LogManager::instance()->sendLog(LogManager::MonitorManager, "WMI connection cleaned up");
     }
     m_wmiInitialized.store(false);
 }
 
 void MonitorManagerImpl::enumerateMonitors() {
+    LogManager::instance()->sendLog(LogManager::MonitorManager, "Enumerating monitors");
     cleanup();
     EnumDisplayMonitors(NULL, NULL, MonitorEnumProc, (LPARAM)this);
     detectLaptopDisplays();
+    LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                    QString("Monitor enumeration complete, found %1 monitors").arg(monitors.size()));
 }
 
 std::wstring MonitorManagerImpl::getMonitorName(int index) const {
@@ -152,12 +174,28 @@ bool MonitorManagerImpl::setBrightnessInternal(int monitorIndex, int brightness)
     if (monitorIndex < 0 || monitorIndex >= monitors.size()) return false;
     if (brightness < 0 || brightness > 100) return false;
 
+    LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                    QString("Setting brightness to %1% for monitor %2").arg(brightness).arg(monitorIndex));
+
     if (monitors[monitorIndex].isLaptopDisplay) {
-        return setLaptopBrightness(brightness);
+        bool result = setLaptopBrightness(brightness);
+        if (result) {
+            LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                            "Laptop brightness set successfully");
+        } else {
+            LogManager::instance()->sendWarn(LogManager::MonitorManager,
+                                             "Failed to set laptop brightness");
+        }
+        return result;
     } else {
         bool result = SetVCPFeature(monitors[monitorIndex].physicalMonitor.hPhysicalMonitor, 0x10, brightness);
         if (result) {
             monitors[monitorIndex].cachedBrightness = brightness;
+            LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                            QString("External monitor %1 brightness set successfully").arg(monitorIndex));
+        } else {
+            LogManager::instance()->sendWarn(LogManager::MonitorManager,
+                                             QString("Failed to set brightness for external monitor %1").arg(monitorIndex));
         }
         return result;
     }
@@ -166,6 +204,9 @@ bool MonitorManagerImpl::setBrightnessInternal(int monitorIndex, int brightness)
 bool MonitorManagerImpl::setBrightnessAll(int brightness) {
     if (brightness < 0 || brightness > 100) return false;
 
+    LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                    QString("Setting brightness to %1% for all monitors").arg(brightness));
+
     bool allSuccess = true;
     for (int i = 0; i < getMonitorCount(); i++) {
         if (monitors[i].isLaptopDisplay || testDDCCI(i)) {
@@ -173,6 +214,15 @@ bool MonitorManagerImpl::setBrightnessAll(int brightness) {
             if (!success) allSuccess = false;
         }
     }
+
+    if (allSuccess) {
+        LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                        "Successfully set brightness for all monitors");
+    } else {
+        LogManager::instance()->sendWarn(LogManager::MonitorManager,
+                                         "Failed to set brightness for some monitors");
+    }
+
     return allSuccess;
 }
 
@@ -205,8 +255,21 @@ bool MonitorManagerImpl::testDDCCI(int monitorIndex) {
         return monitors[monitorIndex].ddcciWorking;
     }
 
+    LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                    QString("Testing DDC/CI support for monitor %1").arg(monitorIndex));
+
     monitors[monitorIndex].ddcciTested = true;
-    return getBrightnessInternal(monitorIndex) != -1;
+    bool result = getBrightnessInternal(monitorIndex) != -1;
+
+    if (result) {
+        LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                        QString("Monitor %1 supports DDC/CI").arg(monitorIndex));
+    } else {
+        LogManager::instance()->sendWarn(LogManager::MonitorManager,
+                                         QString("Monitor %1 does not support DDC/CI").arg(monitorIndex));
+    }
+
+    return result;
 }
 
 int MonitorManagerImpl::getCachedBrightness(int monitorIndex) {
@@ -219,6 +282,8 @@ void MonitorManagerImpl::setChangeCallback(std::function<void()> callback) {
 }
 
 void MonitorManagerImpl::detectLaptopDisplays() {
+    LogManager::instance()->sendLog(LogManager::MonitorManager, "Detecting laptop displays");
+
     bool wmiHasBrightnessSupport = false;
 
     if (ensureWMIConnection()) {
@@ -236,9 +301,14 @@ void MonitorManagerImpl::detectLaptopDisplays() {
             HRESULT hr = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
             if (uReturn > 0) {
                 wmiHasBrightnessSupport = true;
+                LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                                "WMI brightness support detected");
                 if (pclsObj) pclsObj->Release();
             }
             pEnumerator->Release();
+        } else {
+            LogManager::instance()->sendWarn(LogManager::MonitorManager,
+                                             "Failed to query WMI brightness methods");
         }
     }
 
@@ -265,6 +335,8 @@ void MonitorManagerImpl::detectLaptopDisplays() {
             laptopMonitor.cachedBrightness = getLaptopBrightness();
 
             monitors.insert(monitors.begin(), laptopMonitor);
+            LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                            "Added laptop internal display to monitor list");
         } else {
             // Update existing laptop display brightness
             for (auto& monitor : monitors) {
@@ -273,13 +345,19 @@ void MonitorManagerImpl::detectLaptopDisplays() {
                     break;
                 }
             }
+            LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                            "Updated existing laptop display brightness");
         }
+    } else {
+        LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                        "No laptop display brightness support detected");
     }
 }
 
 bool MonitorManagerImpl::setLaptopBrightness(int brightness) {
     if (!ensureWMIConnection()) {
-        qDebug() << "WMI connection unavailable";
+        LogManager::instance()->sendCritical(LogManager::MonitorManager,
+                                             "WMI connection unavailable for laptop brightness control");
         return false;
     }
 
@@ -291,7 +369,8 @@ bool MonitorManagerImpl::setLaptopBrightness(int brightness) {
         NULL, &pEnumerator);
 
     if (FAILED(hres)) {
-        qDebug() << "WMI brightness methods query failed:" << QString::number(hres, 16);
+        LogManager::instance()->sendCritical(LogManager::MonitorManager,
+                                             QString("WMI brightness methods query failed: %1").arg(QString::number(hres, 16)));
         return false;
     }
 
@@ -342,7 +421,8 @@ bool MonitorManagerImpl::setLaptopBrightness(int brightness) {
                             if (SUCCEEDED(hres)) {
                                 success = true;
                             } else {
-                                qDebug() << "ExecMethod failed:" << QString::number(hres, 16);
+                                LogManager::instance()->sendCritical(LogManager::MonitorManager,
+                                                                     QString("WMI ExecMethod failed: %1").arg(QString::number(hres, 16)));
                             }
 
                             if (pOutParams) pOutParams->Release();
@@ -431,6 +511,9 @@ BOOL CALLBACK MonitorManagerImpl::MonitorEnumProc(HMONITOR hMonitor, HDC hdcMoni
 }
 
 void MonitorManagerImpl::setupChangeDetection() {
+    LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                    "Setting up monitor change detection");
+
     WNDCLASSW wc = {};
     wc.lpfnWndProc = WindowProc;
     wc.hInstance = GetModuleHandle(NULL);
@@ -441,12 +524,22 @@ void MonitorManagerImpl::setupChangeDetection() {
         L"MonitorChangeDetector", L"", 0, 0, 0, 0, 0,
         HWND_MESSAGE, NULL, GetModuleHandle(NULL), this);
     SetWindowLongPtr(messageWindow, GWLP_USERDATA, (LONG_PTR)this);
+
+    if (messageWindow) {
+        LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                        "Monitor change detection window created successfully");
+    } else {
+        LogManager::instance()->sendCritical(LogManager::MonitorManager,
+                                             "Failed to create monitor change detection window");
+    }
 }
 
 LRESULT CALLBACK MonitorManagerImpl::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     if (uMsg == WM_DISPLAYCHANGE) {
         MonitorManagerImpl* manager = (MonitorManagerImpl*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
         if (manager) {
+            LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                            "Display configuration changed, re-enumerating monitors");
             manager->enumerateMonitors();
             if (manager->changeCallback) {
                 manager->changeCallback();
@@ -472,10 +565,18 @@ void MonitorManagerImpl::cleanup() {
 
 // Night Light implementation
 void MonitorManagerImpl::initNightLightRegistry() {
+    LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                    "Initializing Night Light registry access");
+
     const std::wstring keyPath = L"Software\\Microsoft\\Windows\\CurrentVersion\\CloudStore\\Store\\DefaultAccount\\Current\\default$windows.data.bluelightreduction.bluelightreductionstate\\windows.data.bluelightreduction.bluelightreductionstate";
     LONG result = RegOpenKeyEx(HKEY_CURRENT_USER, keyPath.c_str(), 0, KEY_READ | KEY_WRITE, &m_nightLightRegKey);
     if (result != ERROR_SUCCESS) {
         m_nightLightRegKey = nullptr;
+        LogManager::instance()->sendWarn(LogManager::MonitorManager,
+                                         "Night Light registry key not accessible - feature not supported on this system");
+    } else {
+        LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                        "Night Light registry access initialized successfully");
     }
 }
 
@@ -483,6 +584,8 @@ void MonitorManagerImpl::cleanupNightLightRegistry() {
     if (m_nightLightRegKey) {
         RegCloseKey(m_nightLightRegKey);
         m_nightLightRegKey = nullptr;
+        LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                        "Night Light registry access cleaned up");
     }
 }
 
@@ -497,6 +600,8 @@ bool MonitorManagerImpl::isNightLightEnabled() {
     DWORD dataSize = sizeof(data);
 
     if (RegQueryValueEx(m_nightLightRegKey, L"Data", nullptr, nullptr, data, &dataSize) != ERROR_SUCCESS) {
+        LogManager::instance()->sendWarn(LogManager::MonitorManager,
+                                         "Failed to read Night Light registry data");
         return false;
     }
 
@@ -507,24 +612,32 @@ bool MonitorManagerImpl::isNightLightEnabled() {
 }
 
 void MonitorManagerImpl::enableNightLight() {
+    LogManager::instance()->sendLog(LogManager::MonitorManager, "Enabling Night Light");
     if (isNightLightSupported() && !isNightLightEnabled()) {
         toggleNightLight();
     }
 }
 
 void MonitorManagerImpl::disableNightLight() {
+    LogManager::instance()->sendLog(LogManager::MonitorManager, "Disabling Night Light");
     if (isNightLightSupported() && isNightLightEnabled()) {
         toggleNightLight();
     }
 }
 
 void MonitorManagerImpl::toggleNightLight() {
-    if (!isNightLightSupported()) return;
+    if (!isNightLightSupported()) {
+        LogManager::instance()->sendWarn(LogManager::MonitorManager,
+                                         "Cannot toggle Night Light - feature not supported");
+        return;
+    }
 
     BYTE data[1024];
     DWORD dataSize = sizeof(data);
 
     if (RegQueryValueEx(m_nightLightRegKey, L"Data", nullptr, nullptr, data, &dataSize) != ERROR_SUCCESS) {
+        LogManager::instance()->sendCritical(LogManager::MonitorManager,
+                                             "Failed to read Night Light registry data for toggle operation");
         return;
     }
 
@@ -553,5 +666,13 @@ void MonitorManagerImpl::toggleNightLight() {
     }
 
     DWORD newDataSize = static_cast<DWORD>(newData.size());
-    RegSetValueEx(m_nightLightRegKey, L"Data", 0, REG_BINARY, newData.data(), newDataSize);
+    LONG result = RegSetValueEx(m_nightLightRegKey, L"Data", 0, REG_BINARY, newData.data(), newDataSize);
+
+    if (result == ERROR_SUCCESS) {
+        LogManager::instance()->sendLog(LogManager::MonitorManager,
+                                        QString("Night Light %1 successfully").arg(currentlyEnabled ? "disabled" : "enabled"));
+    } else {
+        LogManager::instance()->sendCritical(LogManager::MonitorManager,
+                                             QString("Failed to toggle Night Light, registry write error: %1").arg(result));
+    }
 }

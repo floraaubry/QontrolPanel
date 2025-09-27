@@ -1,4 +1,5 @@
 #include "qontrolpanel.h"
+#include "logmanager.h"
 #include <QApplication>
 #include <QProcess>
 #include <QLocalSocket>
@@ -22,11 +23,17 @@ bool tryConnectToExistingInstance()
 
 int main(int argc, char *argv[])
 {
-    QLoggingCategory::setFilterRules("qt.multimedia.*=false");
+    QLoggingCategory::setFilterRules(
+        "qt.multimedia.*=false\n"
+        "qt.qpa.mime*=false"
+        );
+
     QApplication a(argc, argv);
     a.setQuitOnLastWindowClosed(false);
     a.setOrganizationName("Odizinne");
     a.setApplicationName("QontrolPanel");
+    qRegisterMetaType<LogManager::LogType>("LogType");
+    LogManager::instance()->sendLog(LogManager::Core, "Starting application");
 
     if (tryConnectToExistingInstance()) {
         qDebug() << "Sent show panel request to existing instance";
