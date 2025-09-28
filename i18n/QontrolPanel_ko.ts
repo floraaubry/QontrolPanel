@@ -165,7 +165,11 @@
     </message>
     <message>
         <source>Wrap applications in CustomScrollView when more than 4 applications are displayed</source>
-        <translation>4개 이상의 응용 프로그램이 표시되는 경우 CustomScrollView에서 응용 프로그램을 줄바꿈</translation>
+        <translation type="vanished">4개 이상의 응용 프로그램이 표시되는 경우 CustomScrollView에서 응용 프로그램을 줄바꿈</translation>
+    </message>
+    <message>
+        <source>Wrap applications in ScrollView when more than 4 applications are displayed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

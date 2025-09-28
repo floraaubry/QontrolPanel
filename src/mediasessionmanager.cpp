@@ -127,17 +127,49 @@ MediaInfo queryMediaInfoImpl() {
     return info;
 }
 
-void MediaWorker::initializeTimer() {
-    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Initializing media update timer");
-    m_updateTimer = new QTimer(this);
-    connect(m_updateTimer, &QTimer::timeout, this, &MediaWorker::queryMediaInfo);
+void MediaWorker::setupSessionManagerNotifications() {
+    try {
+        init_apartment();
+        m_sessionManager = GlobalSystemMediaTransportControlsSessionManager::RequestAsync().get();
+
+        // Listen for when sessions are added/removed
+        m_sessionsChangedToken = m_sessionManager.SessionsChanged(
+            [this](GlobalSystemMediaTransportControlsSessionManager const& sender, SessionsChangedEventArgs const& args) {
+                Q_UNUSED(sender)
+                Q_UNUSED(args)
+                QMetaObject::invokeMethod(this, [this]() {
+                    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Sessions changed, checking for new active session");
+                    ensureCurrentSession();
+                    queryMediaInfo();
+                }, Qt::QueuedConnection);
+            });
+
+        LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Session manager notifications registered");
+    } catch (...) {
+        LogManager::instance()->sendCritical(LogManager::MediaSessionManager, "Failed to setup session manager notifications");
+    }
+}
+
+void MediaWorker::cleanupSessionManagerNotifications() {
+    if (m_sessionManager && m_sessionsChangedToken.value != 0) {
+        try {
+            m_sessionManager.SessionsChanged(m_sessionsChangedToken);
+            m_sessionsChangedToken = {};
+            LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Session manager notifications cleaned up");
+        } catch (...) {
+            LogManager::instance()->sendWarn(LogManager::MediaSessionManager, "Error cleaning up session manager notifications");
+        }
+    }
 }
 
 bool MediaWorker::ensureCurrentSession() {
     try {
-        init_apartment();
-        auto sessionManager = GlobalSystemMediaTransportControlsSessionManager::RequestAsync().get();
-        auto currentSession = sessionManager.GetCurrentSession();
+        if (!m_sessionManager) {
+            init_apartment();
+            m_sessionManager = GlobalSystemMediaTransportControlsSessionManager::RequestAsync().get();
+        }
+
+        auto currentSession = m_sessionManager.GetCurrentSession();
 
         // If session changed, update notifications
         if (m_currentSession != currentSession) {
@@ -220,30 +252,20 @@ void MediaWorker::queryMediaInfo() {
 void MediaWorker::startMonitoring() {
     LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Starting media session monitoring");
 
-    if (!m_updateTimer) {
-        initializeTimer();
-    }
-
-    // Ensure we have a session and notifications are set up
+    setupSessionManagerNotifications();
     ensureCurrentSession();
-
-    // Start a slower timer as backup (since we now have event-driven updates)
-    m_updateTimer->start(5000); // Update every 5 seconds as fallback
-    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Media monitoring started with 5s fallback timer");
-
-    // Get initial state
     queryMediaInfo();
+
+    LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Media monitoring started (fully event-driven)");
 }
 
 void MediaWorker::stopMonitoring() {
     LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Stopping media session monitoring");
 
-    if (m_updateTimer) {
-        m_updateTimer->stop();
-    }
-
     cleanupSessionNotifications();
+    cleanupSessionManagerNotifications();
     m_currentSession = nullptr;
+    m_sessionManager = nullptr;
 
     LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Media monitoring stopped");
 }
@@ -255,7 +277,7 @@ void MediaWorker::playPause() {
         if (ensureCurrentSession() && m_currentSession) {
             m_currentSession.TryTogglePlayPauseAsync().get();
             LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Play/pause toggled successfully");
-            // No need to manually query - the event will trigger automatically
+            // Event will trigger automatically via PlaybackInfoChanged
         } else {
             LogManager::instance()->sendWarn(LogManager::MediaSessionManager, "No active session for play/pause toggle");
         }
@@ -271,7 +293,7 @@ void MediaWorker::nextTrack() {
         if (ensureCurrentSession() && m_currentSession) {
             m_currentSession.TrySkipNextAsync().get();
             LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Successfully skipped to next track");
-            // No need to manually query - the event will trigger automatically
+            // Event will trigger automatically via MediaPropertiesChanged
         } else {
             LogManager::instance()->sendWarn(LogManager::MediaSessionManager, "No active session for next track");
         }
@@ -287,7 +309,7 @@ void MediaWorker::previousTrack() {
         if (ensureCurrentSession() && m_currentSession) {
             m_currentSession.TrySkipPreviousAsync().get();
             LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Successfully skipped to previous track");
-            // No need to manually query - the event will trigger automatically
+            // Event will trigger automatically via MediaPropertiesChanged
         } else {
             LogManager::instance()->sendWarn(LogManager::MediaSessionManager, "No active session for previous track");
         }
@@ -319,7 +341,7 @@ void MediaSessionManager::cleanup() {
     LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Cleaning up MediaSessionManager");
 
     if (g_mediaWorkerThread) {
-        // Stop any timers and cleanup notifications before quitting thread
+        // Stop monitoring and cleanup notifications before quitting thread
         if (g_mediaWorker) {
             QMetaObject::invokeMethod(g_mediaWorker, "stopMonitoring", Qt::BlockingQueuedConnection);
         }

@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QObject>
 #include <QString>
 #include <QThread>
@@ -37,14 +36,16 @@ signals:
     void mediaInfoChanged(const MediaInfo& info);
 
 private:
-    QTimer* m_updateTimer = nullptr;
+    GlobalSystemMediaTransportControlsSessionManager m_sessionManager{ nullptr };
     GlobalSystemMediaTransportControlsSession m_currentSession{ nullptr };
 
     // Event tokens for cleanup
+    event_token m_sessionsChangedToken{};
     event_token m_propertiesChangedToken{};
     event_token m_playbackInfoChangedToken{};
 
-    void initializeTimer();
+    void setupSessionManagerNotifications();
+    void cleanupSessionManagerNotifications();
     void setupSessionNotifications();
     void cleanupSessionNotifications();
     bool ensureCurrentSession();
