@@ -137,7 +137,7 @@
     </message>
     <message>
         <source>Wrap applications in ScrollView when more than 4 applications are displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>In Vista scorrimento a capo automatico applicazioni quando vengono visualizzate più di 4 applicazioni</translation>
     </message>
 </context>
 <context>
@@ -712,7 +712,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>27.09.2025</translation>
+        <translation>29.09.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -763,11 +763,11 @@ Puoi abilitarlo nella scheda Generale.</translation>
     <name>LoggingConfDialog</name>
     <message>
         <source>Log Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Categorie registro eventi</translation>
     </message>
     <message>
         <source>Enable All Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita tutte le registrazioni</translation>
     </message>
 </context>
 <context>
