@@ -117,113 +117,113 @@
     </message>
     <message>
         <source>Opacity animations</source>
-        <translation type="unfinished"></translation>
+        <translation>动画透明度</translation>
     </message>
     <message>
         <source>Display device icon</source>
-        <translation type="unfinished"></translation>
+        <translation>显示设备图标</translation>
     </message>
     <message>
         <source>Tray icon theme</source>
-        <translation type="unfinished"></translation>
+        <translation>任务栏图标主题</translation>
     </message>
     <message>
         <source>Choose the appearance of the system tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation>选择系统栏图标风格</translation>
     </message>
     <message>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>自动</translation>
     </message>
     <message>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>暗黑</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>明亮</translation>
     </message>
     <message>
         <source>Windows taskbar size (Only set if using W11 and taskbar is not at screen bottom)</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows 任务栏尺寸（仅 W11 且任务栏不在底部可见）</translation>
     </message>
     <message>
         <source>Choose the color of the system tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation>选择系统栏图标颜色</translation>
     </message>
     <message>
         <source>Tray icon style</source>
-        <translation type="unfinished"></translation>
+        <translation>任务栏图标风格</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>正常</translation>
     </message>
     <message>
         <source>Filled</source>
-        <translation type="unfinished"></translation>
+        <translation>填充</translation>
     </message>
     <message>
         <source>Battery</source>
-        <translation type="unfinished"></translation>
+        <translation>电池</translation>
     </message>
     <message>
         <source>Avoid applications overflow</source>
-        <translation type="unfinished"></translation>
+        <translation>避免应用程序过界</translation>
     </message>
     <message>
         <source>Wrap applications in ScrollView when more than 4 applications are displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>滚动显示应用程序如果超过 4 个</translation>
     </message>
 </context>
 <context>
     <name>ApplicationsListView</name>
     <message>
         <source>System sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>系统声音</translation>
     </message>
     <message>
         <source>Rename Application</source>
-        <translation type="unfinished"></translation>
+        <translation>重命名应用程序</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation type="unfinished"></translation>
+        <translation>恢复应用程序名称</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation type="unfinished"></translation>
+        <translation>原始名称: </translation>
     </message>
     <message>
         <source>Stream index: </source>
-        <translation type="unfinished"></translation>
+        <translation>流索引: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation type="unfinished"></translation>
+        <translation>自定义名称: </translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>保存</translation>
     </message>
     <message>
         <source>Unlock</source>
-        <translation type="unfinished"></translation>
+        <translation>解锁</translation>
     </message>
     <message>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>锁定</translation>
     </message>
 </context>
 <context>
     <name>AudioWorker</name>
     <message>
         <source>System sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>系统声音</translation>
     </message>
 </context>
 <context>
@@ -328,101 +328,101 @@
     <name>ComponentsPane</name>
     <message>
         <source>Components</source>
-        <translation type="unfinished"></translation>
+        <translation>组件</translation>
     </message>
     <message>
         <source>Enable power menu</source>
-        <translation type="unfinished"></translation>
+        <translation>启用电源菜单</translation>
     </message>
     <message>
         <source>Show power button in the panel footer</source>
-        <translation type="unfinished"></translation>
+        <translation>在面板中显示电源按钮</translation>
     </message>
     <message>
         <source>Enable brightness control</source>
-        <translation type="unfinished"></translation>
+        <translation>启用亮度控制</translation>
     </message>
     <message>
         <source>Enable HeadsetControl integration</source>
-        <translation type="unfinished"></translation>
+        <translation>启用内置耳机控制</translation>
     </message>
     <message>
         <source>Monitor battery using HeadsetControl for supported devices</source>
-        <translation type="unfinished"></translation>
+        <translation>在支持的耳机控制中监控电量</translation>
     </message>
     <message>
         <source>Enable audio device manager</source>
-        <translation type="unfinished"></translation>
+        <translation>启用音频设备管理器</translation>
     </message>
     <message>
         <source>Display audio device manager in panel</source>
-        <translation type="unfinished"></translation>
+        <translation>在面板中显示音频设备管理器</translation>
     </message>
     <message>
         <source>Enable application volume mixer</source>
-        <translation type="unfinished"></translation>
+        <translation>启用应用程序混音器</translation>
     </message>
     <message>
         <source>Display application volume mixer in panel</source>
-        <translation type="unfinished"></translation>
+        <translation>在面板中显示应用程序混音器</translation>
     </message>
     <message>
         <source>Show brightness control in panel</source>
-        <translation type="unfinished"></translation>
+        <translation>在面板中显示亮度控制条</translation>
     </message>
 </context>
 <context>
     <name>ConfirmPowerActionDialog</name>
     <message>
         <source>System will hibernate in %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>系统将在 %1 秒后休眠</translation>
     </message>
     <message>
         <source>System will restart in %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>系统将在 %1 秒后重启</translation>
     </message>
     <message>
         <source>System will shutdown in %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>系统将在 %1 秒后关机</translation>
     </message>
     <message>
         <source>You will be signed out in %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>系统将在 %1 秒后注销</translation>
     </message>
     <message>
         <source>Hibernate</source>
-        <translation type="unfinished"></translation>
+        <translation>休眠</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>重启</translation>
     </message>
     <message>
         <source>Shutdown</source>
-        <translation type="unfinished"></translation>
+        <translation>关机</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation type="unfinished"></translation>
+        <translation>注销</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>确定</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>动作</translation>
     </message>
 </context>
 <context>
     <name>ConsolePane</name>
     <message>
         <source>Console output</source>
-        <translation type="unfinished"></translation>
+        <translation>控制台输出</translation>
     </message>
 </context>
 <context>
@@ -449,140 +449,140 @@
     </message>
     <message>
         <source>Application Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>应用程序更新</translation>
     </message>
     <message>
         <source>Version %1 is available</source>
-        <translation type="unfinished"></translation>
+        <translation>版本 %1 可用</translation>
     </message>
     <message>
         <source>Checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>检查中...</translation>
     </message>
     <message>
         <source>Downloading...</source>
-        <translation type="unfinished"></translation>
+        <translation>下载中...</translation>
     </message>
     <message>
         <source>Check for Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>检查更新</translation>
     </message>
     <message>
         <source>Download and Install</source>
-        <translation type="unfinished"></translation>
+        <translation>下载安装</translation>
     </message>
     <message>
         <source>Release notes</source>
-        <translation type="unfinished"></translation>
+        <translation>更新记录</translation>
     </message>
     <message>
         <source>View what&apos;s new in version %1</source>
-        <translation type="unfinished"></translation>
+        <translation>显示版本 %1 的更新内容</translation>
     </message>
     <message>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>显示</translation>
     </message>
     <message>
         <source>No release notes available</source>
-        <translation type="unfinished"></translation>
+        <translation>没有更新</translation>
     </message>
     <message>
         <source>Version %1</source>
-        <translation type="unfinished"></translation>
+        <translation>版本 %1</translation>
     </message>
     <message>
         <source>Auto check for app updates</source>
-        <translation type="unfinished"></translation>
+        <translation>自动检查应用程序更新</translation>
     </message>
     <message>
         <source>Check for application updates at startup and every 4 hours</source>
-        <translation type="unfinished"></translation>
+        <translation>应用程序启动时检查更新然后每 4 小时检查一次</translation>
     </message>
 </context>
 <context>
     <name>DevicesListView</name>
     <message>
         <source>Rename Device</source>
-        <translation type="unfinished"></translation>
+        <translation>设备改名</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation type="unfinished"></translation>
+        <translation>重置名称</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>保存</translation>
     </message>
     <message>
         <source>Change Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>更改图标</translation>
     </message>
     <message>
         <source>Change Device Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>更改设备图标</translation>
     </message>
 </context>
 <context>
     <name>DonatePopup</name>
     <message>
         <source>Found this app useful?</source>
-        <translation type="unfinished"></translation>
+        <translation>此程序有用？</translation>
     </message>
     <message>
         <source>This app is made with care by an independent developer and is not financed by ad revenue.
 If you&apos;d like to support my work, any contribution would be greatly appreciated!</source>
-        <translation type="unfinished"></translation>
+        <translation>此程序由独立开发者开发无广告资助请考虑捐助，感谢！</translation>
     </message>
     <message>
         <source>Support</source>
-        <translation type="unfinished"></translation>
+        <translation>支持</translation>
     </message>
     <message>
         <source>Maybe later</source>
-        <translation type="unfinished"></translation>
+        <translation>稍迟</translation>
     </message>
 </context>
 <context>
     <name>ExecutableRenameContextMenu</name>
     <message>
         <source>Rename Application</source>
-        <translation type="unfinished"></translation>
+        <translation>重命名应用程序</translation>
     </message>
     <message>
         <source>Reset to Original Name</source>
-        <translation type="unfinished"></translation>
+        <translation>重置名称</translation>
     </message>
     <message>
         <source>Mute in Background</source>
-        <translation type="unfinished"></translation>
+        <translation>背景静音</translation>
     </message>
 </context>
 <context>
     <name>ExecutableRenameDialog</name>
     <message>
         <source>Rename Application</source>
-        <translation type="unfinished"></translation>
+        <translation>重命名应用程序</translation>
     </message>
     <message>
         <source>Original name: </source>
-        <translation type="unfinished"></translation>
+        <translation>原名称: </translation>
     </message>
     <message>
         <source>Custom name:</source>
-        <translation type="unfinished"></translation>
+        <translation>自定义名称:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>保存</translation>
     </message>
 </context>
 <context>
@@ -653,71 +653,71 @@ If you&apos;d like to support my work, any contribution would be greatly appreci
     </message>
     <message>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>正常</translation>
     </message>
     <message>
         <source>Fast</source>
-        <translation type="unfinished"></translation>
+        <translation>快速</translation>
     </message>
     <message>
         <source>Faster</source>
-        <translation type="unfinished"></translation>
+        <translation>更快</translation>
     </message>
     <message>
         <source>Lightspeed</source>
-        <translation type="unfinished"></translation>
+        <translation>极速</translation>
     </message>
     <message>
         <source>DDC/CI brightness update rate</source>
-        <translation type="unfinished"></translation>
+        <translation>DDC/CI 亮度更新率</translation>
     </message>
     <message>
         <source>Controls how frequently brightness commands are sent to external monitors</source>
-        <translation type="unfinished"></translation>
+        <translation>控制亮度信号发送到外置显示器的频率</translation>
     </message>
     <message>
         <source>Show power action confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>显示电源动作确认</translation>
     </message>
     <message>
         <source>Power action confirmation timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>电源动作确认超时</translation>
     </message>
 </context>
 <context>
     <name>HeadsetControlPane</name>
     <message>
         <source>No compatible device found.</source>
-        <translation type="unfinished"></translation>
+        <translation>没有发现兼容的设备</translation>
     </message>
     <message>
         <source>HeadsetControl monitoring is disabled
 You can enable it in the General tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>耳机控制监听已禁用.你可以在通用设置中启用</translation>
     </message>
     <message>
         <source>Headset Lighting</source>
-        <translation type="unfinished"></translation>
+        <translation>耳机灯光</translation>
     </message>
     <message>
         <source>Toggle RGB lights on your headset</source>
-        <translation type="unfinished"></translation>
+        <translation>开关耳机上的 RGB 灯光</translation>
     </message>
     <message>
         <source>Microphone Sidetone</source>
-        <translation type="unfinished"></translation>
+        <translation>麦克风返听</translation>
     </message>
     <message>
         <source>Adjust your voice feedback level</source>
-        <translation type="unfinished"></translation>
+        <translation>调整语音返听音量</translation>
     </message>
     <message>
         <source>Device battery</source>
-        <translation type="unfinished"></translation>
+        <translation>设备电量</translation>
     </message>
     <message>
         <source>Charging</source>
-        <translation type="unfinished"></translation>
+        <translation>充电中...</translation>
     </message>
 </context>
 <context>
@@ -736,38 +736,38 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Get Started</source>
-        <translation type="unfinished"></translation>
+        <translation>开始</translation>
     </message>
     <message>
         <source>The tray icon is probably hidden and can be added to the tray area by dragging it as shown in the video below.</source>
-        <translation type="unfinished"></translation>
+        <translation>任务栏图标可能被隐藏了,可根据下图所示拉出</translation>
     </message>
     <message>
         <source>You can then click on the tray icon to reveal the panel.</source>
-        <translation type="unfinished"></translation>
+        <translation>即刻点击任务栏图标访问面板</translation>
     </message>
     <message>
         <source>Automatic application update fetching</source>
-        <translation type="unfinished"></translation>
+        <translation>自动更新信息拉取中</translation>
     </message>
     <message>
         <source>Automatic translations update</source>
-        <translation type="unfinished"></translation>
+        <translation>自动更新语言文件</translation>
     </message>
     <message>
         <source>Welcome to QontrolPanel!</source>
-        <translation type="unfinished"></translation>
+        <translation>欢迎来到 QontrolPanel!</translation>
     </message>
 </context>
 <context>
     <name>LabeledSwitch</name>
     <message>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation>开</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation>关</translation>
     </message>
 </context>
 <context>
@@ -802,7 +802,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Unknow date</source>
-        <translation type="unfinished">2025-07-07</translation>
+        <translation>2025-10-05</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -842,29 +842,29 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Current language completion</source>
-        <translation type="unfinished"></translation>
+        <translation>当前语言完成度</translation>
     </message>
     <message>
         <source>Fetch for new translation to get data</source>
-        <translation type="unfinished"></translation>
+        <translation>拉去新的语言文件</translation>
     </message>
 </context>
 <context>
     <name>LoggingConfDialog</name>
     <message>
         <source>Log Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>日志分类</translation>
     </message>
     <message>
         <source>Enable All Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>启用所有日志</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>ChatMix</source>
-        <translation type="unfinished">ChatMix</translation>
+        <translation>ChatMix</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -872,57 +872,57 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Update Available</source>
-        <translation type="unfinished"></translation>
+        <translation>有更新可用</translation>
     </message>
     <message>
         <source>Version %1 is available for download</source>
-        <translation type="unfinished"></translation>
+        <translation>版本 %1 可下载</translation>
     </message>
     <message>
         <source>System sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>系统声音</translation>
     </message>
     <message>
         <source>Brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>亮度</translation>
     </message>
 </context>
 <context>
     <name>PanelFooter</name>
     <message>
         <source>Update available</source>
-        <translation type="unfinished"></translation>
+        <translation>有更新可用</translation>
     </message>
 </context>
 <context>
     <name>PowerMenu</name>
     <message>
         <source>Sleep</source>
-        <translation type="unfinished"></translation>
+        <translation>睡眠</translation>
     </message>
     <message>
         <source>Hibernate</source>
-        <translation type="unfinished"></translation>
+        <translation>休眠</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>重启</translation>
     </message>
     <message>
         <source>Shutdown</source>
-        <translation type="unfinished"></translation>
+        <translation>关机</translation>
     </message>
     <message>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>锁定</translation>
     </message>
     <message>
         <source>Sign Out</source>
-        <translation type="unfinished"></translation>
+        <translation>注销</translation>
     </message>
     <message>
         <source>Switch User</source>
-        <translation type="unfinished"></translation>
+        <translation>切换用户</translation>
     </message>
 </context>
 <context>
@@ -1000,15 +1000,15 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>更新</translation>
     </message>
     <message>
         <source>HeadsetControl</source>
-        <translation type="unfinished"></translation>
+        <translation>耳机控制</translation>
     </message>
     <message>
         <source>Components</source>
-        <translation type="unfinished"></translation>
+        <translation>组件</translation>
     </message>
 </context>
 <context>
@@ -1100,42 +1100,42 @@ You can enable it in the General tab.</source>
     <name>SystemTray</name>
     <message>
         <source>Output: </source>
-        <translation type="unfinished"></translation>
+        <translation>输出: </translation>
     </message>
     <message>
         <source>Input: </source>
-        <translation type="unfinished"></translation>
+        <translation>输入: </translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished">退出</translation>
+        <translation>退出</translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>
-        <translation type="unfinished">Windows 声音设置（旧版）</translation>
+        <translation>Windows 声音设置（旧版）</translation>
     </message>
     <message>
         <source>Windows sound settings (Modern)</source>
-        <translation type="unfinished">Windows 声音设置（新版）</translation>
+        <translation>Windows 声音设置（新版）</translation>
     </message>
     <message>
         <source>QontrolPanel settings</source>
-        <translation type="unfinished"></translation>
+        <translation>QontrolPanel 设置</translation>
     </message>
 </context>
 <context>
     <name>Updater</name>
     <message>
         <source>Update available: </source>
-        <translation type="unfinished"></translation>
+        <translation>有更新可用: </translation>
     </message>
     <message>
         <source>You are using the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>你正在使用最新版本</translation>
     </message>
     <message>
         <source>Update started.</source>
-        <translation type="unfinished"></translation>
+        <translation>开始更新.</translation>
     </message>
 </context>
 </TS>
