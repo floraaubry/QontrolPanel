@@ -4,6 +4,7 @@
 #include <QThread>
 #include <QMutex>
 #include <QTimer>
+#include <QByteArray>
 #include <windows.h>
 #include <winrt/Windows.Media.Control.h>
 #include <winrt/Windows.Foundation.h>
@@ -44,11 +45,17 @@ private:
     event_token m_propertiesChangedToken{};
     event_token m_playbackInfoChangedToken{};
 
+    // Cache for album art to avoid reprocessing
+    QByteArray m_cachedRawAlbumArt;
+    QString m_cachedProcessedAlbumArt;
+
     void setupSessionManagerNotifications();
     void cleanupSessionManagerNotifications();
     void setupSessionNotifications();
     void cleanupSessionNotifications();
     bool ensureCurrentSession();
+
+    friend MediaInfo queryMediaInfoImpl(MediaWorker* worker);
 };
 
 namespace MediaSessionManager

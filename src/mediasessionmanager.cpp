@@ -48,7 +48,7 @@ QPixmap createRoundedPixmap(const QPixmap& source, int targetSize, int radius) {
     return rounded;
 }
 
-MediaInfo queryMediaInfoImpl() {
+MediaInfo queryMediaInfoImpl(MediaWorker* worker) {
     MediaInfo info;
 
     try {
@@ -83,24 +83,37 @@ MediaInfo queryMediaInfoImpl() {
 
                                     QByteArray originalImageData(reinterpret_cast<const char*>(buffer.data()), bytesLoaded);
 
-                                    // Load the image and create rounded corners
-                                    QPixmap originalPixmap;
-                                    if (originalPixmap.loadFromData(originalImageData)) {
-                                        // Create a rounded version
-                                        int targetSize = 64; // Target size for the rounded image
-                                        QPixmap roundedPixmap = createRoundedPixmap(originalPixmap, targetSize, 8);
+                                    // Check if album art has changed using cache
+                                    if (worker && originalImageData != worker->m_cachedRawAlbumArt) {
+                                        LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Album art changed, processing new image");
 
-                                        // Convert back to base64
-                                        QByteArray processedImageData;
-                                        QBuffer buffer(&processedImageData);
-                                        buffer.open(QIODevice::WriteOnly);
-                                        roundedPixmap.save(&buffer, "PNG");
+                                        // Load and process the image only if it changed
+                                        QPixmap originalPixmap;
+                                        if (originalPixmap.loadFromData(originalImageData)) {
+                                            int targetSize = 64;
+                                            QPixmap roundedPixmap = createRoundedPixmap(originalPixmap, targetSize, 8);
 
-                                        QString base64Image = processedImageData.toBase64();
-                                        info.albumArt = QString("data:image/png;base64,%1").arg(base64Image);
+                                            QByteArray processedImageData;
+                                            QBuffer buffer(&processedImageData);
+                                            buffer.open(QIODevice::WriteOnly);
+                                            roundedPixmap.save(&buffer, "PNG");
 
-                                        LogManager::instance()->sendLog(LogManager::MediaSessionManager,
-                                                                        QString("Album art processed successfully (%1 bytes)").arg(processedImageData.size()));
+                                            QString base64Image = processedImageData.toBase64();
+                                            QString dataUri = QString("data:image/png;base64,%1").arg(base64Image);
+
+                                            // Update cache
+                                            worker->m_cachedRawAlbumArt = originalImageData;
+                                            worker->m_cachedProcessedAlbumArt = dataUri;
+
+                                            info.albumArt = dataUri;
+
+                                            LogManager::instance()->sendLog(LogManager::MediaSessionManager,
+                                                                            QString("Album art processed successfully (%1 bytes)").arg(processedImageData.size()));
+                                        }
+                                    } else if (worker) {
+                                        // Use cached processed album art
+                                        info.albumArt = worker->m_cachedProcessedAlbumArt;
+                                        LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Using cached album art");
                                     }
                                 }
                             }
@@ -179,6 +192,11 @@ bool MediaWorker::ensureCurrentSession() {
                 LogManager::instance()->sendLog(LogManager::MediaSessionManager, "New media session detected");
             }
 
+            // Clear cache when session changes
+            m_cachedRawAlbumArt.clear();
+            m_cachedProcessedAlbumArt.clear();
+            LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Album art cache cleared due to session change");
+
             cleanupSessionNotifications();
             m_currentSession = currentSession;
             if (m_currentSession) {
@@ -245,12 +263,16 @@ void MediaWorker::cleanupSessionNotifications() {
 }
 
 void MediaWorker::queryMediaInfo() {
-    MediaInfo info = queryMediaInfoImpl();
+    MediaInfo info = queryMediaInfoImpl(this);
     emit mediaInfoChanged(info);
 }
 
 void MediaWorker::startMonitoring() {
     LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Starting media session monitoring");
+
+    // Clear cache on start
+    m_cachedRawAlbumArt.clear();
+    m_cachedProcessedAlbumArt.clear();
 
     setupSessionManagerNotifications();
     ensureCurrentSession();
@@ -266,6 +288,10 @@ void MediaWorker::stopMonitoring() {
     cleanupSessionManagerNotifications();
     m_currentSession = nullptr;
     m_sessionManager = nullptr;
+
+    // Clear cache on stop
+    m_cachedRawAlbumArt.clear();
+    m_cachedProcessedAlbumArt.clear();
 
     LogManager::instance()->sendLog(LogManager::MediaSessionManager, "Media monitoring stopped");
 }
