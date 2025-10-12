@@ -39,8 +39,8 @@ Slider {
 
     ToolTip {
         parent: control.handle
-        visible: control.pressed || control.hovered
-        delay: control.pressed ? 0 : 1000
+        visible: control.pressed
+        delay: 0
         text: Math.round(control.value).toString()
     }
 

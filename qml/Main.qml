@@ -711,6 +711,8 @@ ApplicationWindow {
                                     from: 0
                                     to: 100
                                     Layout.fillWidth: true
+                                    //ToolTip.text: Math.round(value)
+                                    //ToolTip.visible: pressed
                                     audioLevel: AudioBridge.outputAudioLevel
                                     onValueChanged: {
                                         if (pressed) {
