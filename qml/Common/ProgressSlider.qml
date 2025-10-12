@@ -37,9 +37,38 @@ Slider {
     readonly property bool __isDiscrete: stepSize >= Number.EPSILON
         && Math.abs(Math.round(__steps) - __steps) < Number.EPSILON
 
+    property bool __hoveredLongEnough: false
+
+    Timer {
+        id: hoverTimer
+        interval: 1000
+        repeat: false
+        onTriggered: control.__hoveredLongEnough = true
+    }
+
+    onHoveredChanged: {
+        if (hovered && !pressed) {
+            hoverTimer.start()
+        } else {
+            hoverTimer.stop()
+            __hoveredLongEnough = false
+        }
+    }
+
+    onPressedChanged: {
+        if (pressed) {
+            hoverTimer.stop()
+            __hoveredLongEnough = false
+        }
+        else if (hovered) {
+            hoverTimer.start()
+        }
+    }
+
     ToolTip {
+        id: controlToolTip
         parent: control.handle
-        visible: control.pressed
+        visible: control.pressed || control.__hoveredLongEnough
         delay: 0
         text: Math.round(control.value).toString()
     }
