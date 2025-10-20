@@ -51,7 +51,7 @@ void Updater::checkForUpdates()
     // Clear previous release notes
     setReleaseNotes("");
 
-    QString urlString = "https://api.github.com/repos/Odizinne/QontrolPanel/releases/latest";
+    QString urlString = "https://api.github.com/repos/floraaubry/QontrolPanel/releases/latest";
     QUrl url{urlString};
     QNetworkRequest request{url};
     request.setHeader(QNetworkRequest::UserAgentHeader, "QontrolPanel-Updater");
