@@ -348,7 +348,7 @@
     </message>
     <message>
         <source>Enable audio device manager</source>
-        <translation>오디오 장치 관리자 사용</translation>
+        <translation type="unfinished">오디오 장치 관리자 사용함</translation>
     </message>
     <message>
         <source>Display audio device manager in panel</source>
@@ -781,11 +781,11 @@ You can enable it in the General tab.</source>
     <name>LabeledSwitch</name>
     <message>
         <source>On</source>
-        <translation>켜기</translation>
+        <translation>켬</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation>끄기</translation>
+        <translation>끔</translation>
     </message>
 </context>
 <context>
