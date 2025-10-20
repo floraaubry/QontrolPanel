@@ -169,7 +169,7 @@
     </message>
     <message>
         <source>Wrap applications in ScrollView when more than 4 applications are displayed</source>
-        <translation type="unfinished"></translation>
+        <translation>4개 이상의 애플리케이션이 표시될 때 응용 프로그램을 스크롤 보기로 감싸기</translation>
     </message>
 </context>
 <context>
@@ -863,11 +863,11 @@ You can enable it in the General tab.</source>
     <name>LoggingConfDialog</name>
     <message>
         <source>Log Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>로그 범주</translation>
     </message>
     <message>
         <source>Enable All Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>모든 로그 기록 사용함</translation>
     </message>
 </context>
 <context>
