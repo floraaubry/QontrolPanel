@@ -308,7 +308,7 @@ void SoundPanelBridge::downloadLatestTranslations()
     m_failedDownloads = 0;
 
     QStringList languageCodes = getLanguageCodes();
-    QString baseUrl = "https://github.com/floraaubry/QontrolPanel/raw/refs/heads/main/i18n/compiled/QontrolPanel_%1.qm";
+    QString baseUrl = "https://github.com/Odizinne/QontrolPanel/raw/refs/heads/main/i18n/compiled/QontrolPanel_%1.qm";
 
     m_totalDownloads = languageCodes.size();
     emit translationDownloadStarted();
