@@ -17,6 +17,7 @@ Platform.SystemTrayIcon {
                 showIntroRequested()
             })
         }
+        Qt.callLater(systemTray.updateTooltipText)
     }
 
     onActivated: function(reason) {
@@ -67,5 +68,26 @@ Platform.SystemTrayIcon {
 
     function getInputDeviceInfo() {
         return AudioBridge.inputDeviceDisplayName || "Unknown Device"
+    }
+
+    function updateTooltipText() {
+        var baseTooltip = "QontrolPanel";
+        if (HeadsetControlBridge.anyDeviceFound &&
+            HeadsetControlBridge.batteryStatus !== "BATTERY_UNAVAILABLE") {
+            var batteryText = HeadsetControlBridge.batteryLevel + "%";
+            if (HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING") {
+                batteryText += " ⚡︎";
+            }
+            systemTray.tooltip = baseTooltip + " - " + batteryText;
+        } else {
+            systemTray.tooltip = baseTooltip;
+        }
+    }
+
+    property Connections headsetConnection: Connections {
+        target: HeadsetControlBridge
+        function onAnyDeviceFoundChanged() { systemTray.updateTooltipText() }
+        function onBatteryStatusChanged() { systemTray.updateTooltipText() }
+        function onBatteryLevelChanged() { systemTray.updateTooltipText() }
     }
 }
