@@ -76,5 +76,5 @@ private:
     int m_batteryLevel;
     bool m_anyDeviceFound;
 
-    static const int FETCH_INTERVAL_MS = 5000;
+    static const int FETCH_INTERVAL_MS = 10000;
 };
