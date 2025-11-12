@@ -105,6 +105,28 @@ Item {
         return `qrc:/icons/headsetcontrol/battery-${iconLevel}-${theme}.png`
     }
 
+    function getBatteryChargingIconStatic(batteryLevel) {
+        let theme = darkMode ? "light" : "dark"
+
+        if (batteryLevel === -1) return ""
+
+        // Map battery level to icon ranges
+        let iconLevel
+        if (batteryLevel >= 80) {
+            iconLevel = "100"
+        } else if (batteryLevel >= 60) {
+            iconLevel = "80"
+        } else if (batteryLevel >= 40) {
+            iconLevel = "60"
+        } else if (batteryLevel >= 20) {
+            iconLevel = "40"
+        } else {
+            iconLevel = "20"
+        }
+
+        return `qrc:/icons/headsetcontrol/battery-${iconLevel}-charging-${theme}.png`
+    }
+
     function getBatteryChargingIcon() {
         let theme = darkMode ? "light" : "dark"
 

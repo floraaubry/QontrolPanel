@@ -19,10 +19,6 @@ Rectangle {
         powerMenu.close()
     }
 
-    Component.onCompleted: {
-        Qt.callLater(footer.updateBatteryLabel)
-    }
-
     Rectangle {
         height: 1
         color: Constants.footerBorderColor
@@ -83,14 +79,45 @@ Rectangle {
             }
         }
 
-        Label {
-            id: batteryLabel
+        RowLayout {
+            id: batteryIndicator
             Layout.alignment: Qt.AlignVCenter
             Layout.leftMargin: 10
-            font.pixelSize: 12
-            opacity: 0.8
-            text: ""
-            visible: false
+            spacing: 5
+            Component.onCompleted: {
+                visible = Qt.binding(function() {
+                    return (HeadsetControlBridge.anyDeviceFound &&
+                            HeadsetControlBridge.batteryStatus !== "BATTERY_UNAVAILABLE" &&
+                            !compactMedia.visible &&
+                            !Updater.updateAvailable) ? true : false
+                })
+            }
+
+            Image {
+                id: batteryIcon
+                Layout.preferredWidth: 16
+                Layout.preferredHeight: 16
+                fillMode: Image.PreserveAspectFit
+                Component.onCompleted: {
+                    source = Qt.binding(function() {
+                        return (HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING")
+                        ? Constants.getBatteryChargingIconStatic(HeadsetControlBridge.batteryLevel)
+                        : Constants.getBatteryIcon(HeadsetControlBridge.batteryLevel);
+                    })
+                }
+            }
+
+            Label {
+                id: batteryLabel
+                Layout.topMargin: -2
+                font.pixelSize: 12
+                opacity: 0.8
+                Component.onCompleted: {
+                    text = Qt.binding(function() {
+                        return HeadsetControlBridge.batteryLevel + "%";
+                    })
+                }
+            }
         }
 
         ColumnLayout {
@@ -155,38 +182,4 @@ Rectangle {
             }
         }
     }
-
-    function updateBatteryLabel() {
-        var isVisible = HeadsetControlBridge.anyDeviceFound &&
-                        HeadsetControlBridge.batteryStatus !== "BATTERY_UNAVAILABLE" &&
-                        !compactMedia.visible &&
-                        !Updater.updateAvailable;
-        batteryLabel.visible = isVisible;
-        if (isVisible) {
-            var batteryText = HeadsetControlBridge.batteryLevel + "%";
-            if (HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING") {
-                batteryText += " ⚡︎";
-            }
-            batteryLabel.text = batteryText;
-        } else {
-            batteryLabel.text = "";
-        }
-    }
-
-    property Connections headsetConnection: Connections {
-        target: HeadsetControlBridge
-        function onAnyDeviceFoundChanged() { footer.updateBatteryLabel() }
-        function onBatteryStatusChanged() { footer.updateBatteryLabel() }
-        function onBatteryLevelChanged() { footer.updateBatteryLabel() }
-    }
-
-    property Connections mediaConnection: Connections {
-        target: compactMedia
-        function onVisibleChanged() { footer.updateBatteryLabel() }
-    }
-
-    property Connections updaterConnection: Connections {
-        target: Updater
-        function onUpdateAvailableChanged() { footer.updateBatteryLabel() }
-    }
 }

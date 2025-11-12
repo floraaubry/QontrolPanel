@@ -17,7 +17,7 @@ Platform.SystemTrayIcon {
                 showIntroRequested()
             })
         }
-        Qt.callLater(systemTray.updateTooltipText)
+        tooltip = Qt.binding(getTooltip);
     }
 
     onActivated: function(reason) {
@@ -70,24 +70,19 @@ Platform.SystemTrayIcon {
         return AudioBridge.inputDeviceDisplayName || "Unknown Device"
     }
 
-    function updateTooltipText() {
-        var baseTooltip = "QontrolPanel";
-        if (HeadsetControlBridge.anyDeviceFound &&
-            HeadsetControlBridge.batteryStatus !== "BATTERY_UNAVAILABLE") {
+    function getTooltip() {
+            var baseTooltip = "QontrolPanel";
+            var isWirelessHeadsetAvailable = !qsTr("") &&
+                    HeadsetControlBridge.anyDeviceFound &&
+                    HeadsetControlBridge.batteryStatus !== "BATTERY_UNAVAILABLE";
+            if (!isWirelessHeadsetAvailable) {
+                return baseTooltip;
+            }
+
             var batteryText = HeadsetControlBridge.batteryLevel + "%";
             if (HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING") {
-                batteryText += " ⚡︎";
+                batteryText += "⚡︎";
             }
-            systemTray.tooltip = baseTooltip + " - " + batteryText;
-        } else {
-            systemTray.tooltip = baseTooltip;
+            return baseTooltip + "\n\nBattery: " + batteryText;
         }
-    }
-
-    property Connections headsetConnection: Connections {
-        target: HeadsetControlBridge
-        function onAnyDeviceFoundChanged() { systemTray.updateTooltipText() }
-        function onBatteryStatusChanged() { systemTray.updateTooltipText() }
-        function onBatteryLevelChanged() { systemTray.updateTooltipText() }
-    }
 }
