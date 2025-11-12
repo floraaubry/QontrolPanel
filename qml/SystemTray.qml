@@ -79,10 +79,11 @@ Platform.SystemTrayIcon {
                 return baseTooltip;
             }
 
-            var batteryText = HeadsetControlBridge.batteryLevel + "%";
-            if (HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING") {
+            var batteryText = "\n\n";
+            batteryText += "🔋";
+            if (HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING")
                 batteryText += "⚡︎";
-            }
-            return baseTooltip + "\n\n🔋" + batteryText;
+            batteryText += HeadsetControlBridge.batteryLevel + "%";
+            return baseTooltip + batteryText;
         }
 }
