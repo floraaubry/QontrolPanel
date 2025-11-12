@@ -81,30 +81,21 @@ Rectangle {
 
         RowLayout {
             id: batteryIndicator
+            visible: UserSettings.displayBatteryFooter &&
+                     HeadsetControlBridge.anyDeviceFound &&
+                     HeadsetControlBridge.batteryStatus !== "BATTERY_UNAVAILABLE"
             Layout.alignment: Qt.AlignVCenter
             Layout.leftMargin: 10
             spacing: 5
-            Component.onCompleted: {
-                visible = Qt.binding(function() {
-                    return (HeadsetControlBridge.anyDeviceFound &&
-                            HeadsetControlBridge.batteryStatus !== "BATTERY_UNAVAILABLE" &&
-                            !compactMedia.visible &&
-                            !Updater.updateAvailable) ? true : false
-                })
-            }
 
             Image {
                 id: batteryIcon
                 Layout.preferredWidth: 16
                 Layout.preferredHeight: 16
                 fillMode: Image.PreserveAspectFit
-                Component.onCompleted: {
-                    source = Qt.binding(function() {
-                        return (HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING")
+                source: (HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING")
                         ? Constants.getBatteryChargingIconStatic(HeadsetControlBridge.batteryLevel)
-                        : Constants.getBatteryIcon(HeadsetControlBridge.batteryLevel);
-                    })
-                }
+                        : Constants.getBatteryIcon(HeadsetControlBridge.batteryLevel)
             }
 
             Label {
@@ -112,11 +103,7 @@ Rectangle {
                 Layout.topMargin: -2
                 font.pixelSize: 12
                 opacity: 0.8
-                Component.onCompleted: {
-                    text = Qt.binding(function() {
-                        return HeadsetControlBridge.batteryLevel + "%";
-                    })
-                }
+                text: HeadsetControlBridge.batteryLevel + "%"
             }
         }
 

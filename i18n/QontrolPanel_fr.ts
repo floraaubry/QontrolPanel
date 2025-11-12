@@ -634,6 +634,10 @@ Si vous souhaitez soutenir mon travail, toute contribution serait grandement app
         <translation>Effet local du microphone</translation>
     </message>
     <message>
+        <source>Show battery status in panel footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Headset Lighting</source>
         <translation>Éclairage du casque</translation>
     </message>
@@ -996,6 +1000,10 @@ Vous pouvez l&apos;activer dans l&apos;onglet Général.</translation>
     <message>
         <source>QontrolPanel settings</source>
         <translation>Paramètres de QontrolPanel</translation>
+    </message>
+    <message>
+        <source></source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

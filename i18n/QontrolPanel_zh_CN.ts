@@ -700,6 +700,10 @@ You can enable it in the General tab.</source>
         <translation>耳机灯光</translation>
     </message>
     <message>
+        <source>Show battery status in panel footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Toggle RGB lights on your headset</source>
         <translation>开关耳机上的 RGB 灯光</translation>
     </message>
@@ -1109,6 +1113,10 @@ You can enable it in the General tab.</source>
     <message>
         <source>Exit</source>
         <translation>退出</translation>
+    </message>
+    <message>
+        <source></source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>

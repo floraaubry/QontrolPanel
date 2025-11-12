@@ -47,6 +47,18 @@ ColumnLayout {
 
                 Card {
                     visible: HeadsetControlBridge.anyDeviceFound
+                    Layout.fillWidth: true
+                    title: qsTr("Show battery status in panel footer")
+                    additionalControl: LabeledSwitch {
+                        checked: UserSettings.displayBatteryFooter
+                        onClicked:{
+                            UserSettings.displayBatteryFooter = checked
+                        }
+                    }
+                }
+
+                Card {
+                    visible: HeadsetControlBridge.anyDeviceFound
                     enabled: HeadsetControlBridge.hasLightsCapability
                     Layout.fillWidth: true
                     title: qsTr("Headset Lighting")

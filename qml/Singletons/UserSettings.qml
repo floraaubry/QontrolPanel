@@ -62,4 +62,5 @@ Settings {
     property bool powerManagerLogging: true
     property bool headsetControlManagerLogging: true
     property bool windowFocusManagerLogging: true
+    property bool displayBatteryFooter: true
 }

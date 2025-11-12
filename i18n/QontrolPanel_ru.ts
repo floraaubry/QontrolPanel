@@ -692,6 +692,10 @@ You can enable it in the General tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Show battery status in panel footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Toggle RGB lights on your headset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1089,6 +1093,10 @@ You can enable it in the General tab.</source>
     <message>
         <source>Exit</source>
         <translation type="unfinished">Выход</translation>
+    </message>
+    <message>
+        <source></source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>

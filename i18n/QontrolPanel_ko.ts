@@ -714,6 +714,10 @@ You can enable it in the General tab.</source>
         <translation>헤드셋 조명</translation>
     </message>
     <message>
+        <source>Show battery status in panel footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Toggle RGB lights on your headset</source>
         <translation>헤드셋의 RGB 조명 전환</translation>
     </message>
@@ -1175,6 +1179,10 @@ You can enable it in the General tab.</source>
     <message>
         <source>Exit</source>
         <translation>종료</translation>
+    </message>
+    <message>
+        <source></source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>

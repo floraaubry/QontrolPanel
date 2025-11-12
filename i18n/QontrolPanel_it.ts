@@ -630,6 +630,10 @@ Puoi abilitarlo nella scheda Generale.</translation>
         <translation>Illuminazione auricolare</translation>
     </message>
     <message>
+        <source>Show battery status in panel footer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Toggle RGB lights on your headset</source>
         <translation>Attiva luci RGB dell&apos;auricolare</translation>
     </message>
@@ -976,6 +980,10 @@ Puoi abilitarlo nella scheda Generale.</translation>
     <message>
         <source>Exit</source>
         <translation>Esci da QuickSoundSwitcher</translation>
+    </message>
+    <message>
+        <source></source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>
