@@ -83,6 +83,6 @@ Platform.SystemTrayIcon {
             if (HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING") {
                 batteryText += "⚡︎";
             }
-            return baseTooltip + "\n\nBattery: " + batteryText;
+            return baseTooltip + "\n\n🔋" + batteryText;
         }
 }
