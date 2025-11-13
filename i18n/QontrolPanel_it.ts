@@ -631,7 +631,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Show battery status in panel footer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza stato batteria nel piè di pagina pannello</translation>
     </message>
     <message>
         <source>Toggle RGB lights on your headset</source>
@@ -716,7 +716,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>29.09.2025</translation>
+        <translation>13.11.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -980,10 +980,6 @@ Puoi abilitarlo nella scheda Generale.</translation>
     <message>
         <source>Exit</source>
         <translation>Esci da QuickSoundSwitcher</translation>
-    </message>
-    <message>
-        <source></source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>
