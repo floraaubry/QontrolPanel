@@ -44,6 +44,66 @@ Rectangle {
             visible: SoundPanelBridge.mediaArt !== "" && UserSettings.mediaMode === 1
         }
 
+        ColumnLayout {
+            spacing: 2
+            Layout.fillWidth: true
+            visible: UserSettings.mediaMode === 1 && SoundPanelBridge.mediaTitle !== "" && SoundPanelBridge.mediaArtist !== ""
+
+            Item {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+
+            Label {
+                text: SoundPanelBridge.mediaTitle || ""
+                font.pixelSize: 14
+                font.bold: true
+                elide: Text.ElideRight
+                Layout.fillWidth: true
+                visible: UserSettings.mediaMode === 1
+            }
+
+            Label {
+                text: SoundPanelBridge.mediaArtist || ""
+                font.pixelSize: 12
+                opacity: 0.7
+                elide: Text.ElideRight
+                Layout.fillWidth: true
+                visible: UserSettings.mediaMode === 1
+            }
+
+            Item {
+                Layout.fillHeight: true
+            }
+        }
+
+        RowLayout {
+            id: batteryIndicator
+            visible: UserSettings.displayBatteryFooter &&
+                     HeadsetControlBridge.anyDeviceFound &&
+                     HeadsetControlBridge.batteryStatus !== "BATTERY_UNAVAILABLE"
+            Layout.leftMargin: 10
+            spacing: 5
+
+            Image {
+                id: batteryIcon
+                Layout.preferredWidth: 16
+                Layout.preferredHeight: 16
+                fillMode: Image.PreserveAspectFit
+                source: (HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING")
+                        ? Constants.getBatteryChargingIconStatic(HeadsetControlBridge.batteryLevel)
+                        : Constants.getBatteryIcon(HeadsetControlBridge.batteryLevel)
+            }
+
+            Label {
+                id: batteryLabel
+                Layout.topMargin: -2
+                font.pixelSize: 12
+                opacity: 0.8
+                text: HeadsetControlBridge.batteryLevel + "%"
+            }
+        }
+
         Item {
             Layout.preferredWidth: updateLyt.implicitWidth
             Layout.preferredHeight: Math.max(updateIcon.height, updateLabel.height)
@@ -79,63 +139,9 @@ Rectangle {
             }
         }
 
-        RowLayout {
-            id: batteryIndicator
-            visible: UserSettings.displayBatteryFooter &&
-                     HeadsetControlBridge.anyDeviceFound &&
-                     HeadsetControlBridge.batteryStatus !== "BATTERY_UNAVAILABLE"
-            Layout.alignment: Qt.AlignVCenter
-            Layout.leftMargin: 10
-            spacing: 5
-
-            Image {
-                id: batteryIcon
-                Layout.preferredWidth: 16
-                Layout.preferredHeight: 16
-                fillMode: Image.PreserveAspectFit
-                source: (HeadsetControlBridge.batteryStatus === "BATTERY_CHARGING")
-                        ? Constants.getBatteryChargingIconStatic(HeadsetControlBridge.batteryLevel)
-                        : Constants.getBatteryIcon(HeadsetControlBridge.batteryLevel)
-            }
-
-            Label {
-                id: batteryLabel
-                Layout.topMargin: -2
-                font.pixelSize: 12
-                opacity: 0.8
-                text: HeadsetControlBridge.batteryLevel + "%"
-            }
-        }
-
-        ColumnLayout {
-            spacing: 2
+        Item {
             Layout.fillWidth: true
-            Item {
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-            }
-
-            Label {
-                text: SoundPanelBridge.mediaTitle || ""
-                font.pixelSize: 14
-                font.bold: true
-                elide: Text.ElideRight
-                Layout.fillWidth: true
-                visible: UserSettings.mediaMode === 1
-            }
-
-            Label {
-                text: SoundPanelBridge.mediaArtist || ""
-                font.pixelSize: 12
-                opacity: 0.7
-                elide: Text.ElideRight
-                Layout.fillWidth: true
-                visible: UserSettings.mediaMode === 1
-            }
-
-            Item {
-                Layout.fillHeight: true
-            }
+            visible: UserSettings.mediaMode === 1 && SoundPanelBridge.mediaTitle !== "" ? false : true
         }
 
         NFToolButton {

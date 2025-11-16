@@ -982,6 +982,10 @@ Puoi abilitarlo nella scheda Generale.</translation>
         <translation>Esci da QuickSoundSwitcher</translation>
     </message>
     <message>
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Windows sound settings (Legacy)</source>
         <translation>Impostazioni audio Windows (legacy)</translation>
     </message>
