@@ -13,8 +13,8 @@ HeadsetControlMonitor::HeadsetControlMonitor(QObject *parent)
     , m_hasSidetoneCapability(false)
     , m_hasLightsCapability(false)
     , m_deviceName("")
-    , m_batteryStatus("")
-    , m_batteryLevel(0)
+    , m_batteryStatus("BATTERY_UNAVAILABLE")
+    , m_batteryLevel(-1)
     , m_anyDeviceFound(false)
 {
     LogManager::instance()->sendLog(LogManager::HeadsetControlManager, "HeadsetControlMonitor initialized");
@@ -334,16 +334,6 @@ void HeadsetControlMonitor::parseHeadsetControlOutput(const QByteArray& output)
             device.batteryLevel = 0;
         }
 
-        if (device.batteryStatus != m_batteryStatus) {
-            m_batteryStatus = device.batteryStatus;
-            emit batteryStatusChanged();
-        }
-
-        if (device.batteryLevel != m_batteryLevel) {
-            m_batteryLevel = device.batteryLevel;
-            emit batteryLevelChanged();
-        }
-
         LogManager::instance()->sendLog(LogManager::HeadsetControlManager,
                                         QString("Found headset device: %1 (%2 %3) with %4 capabilities")
                                             .arg(device.deviceName, device.vendor, device.product).arg(device.capabilities.size()));
@@ -353,6 +343,20 @@ void HeadsetControlMonitor::parseHeadsetControlOutput(const QByteArray& output)
 
     m_cachedDevices = newDevices;
     updateCapabilities();
+
+    // Update bridge battery info from the first device with valid battery info
+    if (!m_cachedDevices.isEmpty()) {
+        const HeadsetControlDevice& primaryDevice = m_cachedDevices.first();
+        if (primaryDevice.batteryStatus != m_batteryStatus) {
+            m_batteryStatus = primaryDevice.batteryStatus;
+            emit batteryStatusChanged();
+        }
+        if (primaryDevice.batteryLevel != m_batteryLevel) {
+            m_batteryLevel = primaryDevice.batteryLevel;
+            emit batteryLevelChanged();
+        }
+    }
+
     emit headsetDataUpdated(m_cachedDevices);
 }
 

@@ -54,6 +54,13 @@ void HeadsetControlBridge::connectToMonitor()
                 this, &HeadsetControlBridge::onMonitorBatteryLevelChanged);
         connect(monitor, &HeadsetControlMonitor::anyDeviceFoundChanged,
                 this, &HeadsetControlBridge::onMonitorAnyDeviceFoundChanged);
+
+        // Emit signals to notify QML of current monitor values
+        emit capabilitiesChanged();
+        emit deviceNameChanged();
+        emit batteryStatusChanged();
+        emit batteryLevelChanged();
+        emit anyDeviceFoundChanged();
     } else {
         // Retry connection after a delay if monitor not found
         QTimer::singleShot(200, this, &HeadsetControlBridge::connectToMonitor);
@@ -121,13 +128,13 @@ QString HeadsetControlBridge::deviceName() const
 QString HeadsetControlBridge::batteryStatus() const
 {
     HeadsetControlMonitor* monitor = findMonitor();
-    return monitor ? monitor->batteryStatus() : QString();
+    return monitor ? monitor->batteryStatus() : QString("BATTERY_UNAVAILABLE");
 }
 
 int HeadsetControlBridge::batteryLevel() const
 {
     HeadsetControlMonitor* monitor = findMonitor();
-    return monitor ? monitor->batteryLevel() : 0;
+    return monitor ? monitor->batteryLevel() : -1;
 }
 
 bool HeadsetControlBridge::anyDeviceFound() const
