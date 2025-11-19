@@ -117,7 +117,7 @@
     </message>
     <message>
         <source>Panel theme</source>
-        <translation type="unfinished"></translation>
+        <translation>패널 테마</translation>
     </message>
     <message>
         <source>Choose the appearance of the system tray icon</source>
@@ -173,7 +173,7 @@
     </message>
     <message>
         <source>Wrap applications in ScrollView when more than 4 applications are displayed</source>
-        <translation>4개 이상의 애플리케이션이 표시될 때 응용 프로그램을 스크롤 보기로 감싸기</translation>
+        <translation>4개 이상의 응용 프로그램이 표시될 때 응용 프로그램을 스크롤 보기로 감싸기</translation>
     </message>
 </context>
 <context>
@@ -352,7 +352,7 @@
     </message>
     <message>
         <source>Enable audio device manager</source>
-        <translation type="unfinished">오디오 장치 관리자 사용함</translation>
+        <translation>오디오 장치 관리자 사용함</translation>
     </message>
     <message>
         <source>Display audio device manager in panel</source>
@@ -719,7 +719,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source>Show battery status in panel footer</source>
-        <translation type="unfinished"></translation>
+        <translation>패널 하단에 배터리 상태 표시</translation>
     </message>
     <message>
         <source>Toggle RGB lights on your headset</source>
@@ -1186,7 +1186,7 @@ You can enable it in the General tab.</source>
     </message>
     <message>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>
