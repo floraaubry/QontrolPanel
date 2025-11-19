@@ -92,6 +92,10 @@
         <translation>Tema icona barra sistema</translation>
     </message>
     <message>
+        <source>Panel theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Choose the appearance of the system tray icon</source>
         <translation>Scegli l&apos;aspetto dell&apos;icona della barra sistema</translation>
     </message>

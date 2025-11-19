@@ -149,6 +149,20 @@ ColumnLayout {
 
             Card {
                 Layout.fillWidth: true
+                title: qsTr("Panel theme")
+                additionalControl: CustomComboBox {
+                    Layout.preferredHeight: 35
+                    model: [qsTr("Auto"), qsTr("Dark"), qsTr("Light")]
+                    currentIndex: UserSettings.panelStyle
+                    onActivated: {
+                        UserSettings.panelStyle = currentIndex
+                        SoundPanelBridge.setStyle(currentIndex)
+                    }
+                }
+            }
+
+            Card {
+                Layout.fillWidth: true
                 title: qsTr("Tray icon style")
                 description: qsTr("Choose the appearance of the system tray icon")
                 additionalControl: CustomComboBox {

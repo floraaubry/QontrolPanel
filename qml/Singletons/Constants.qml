@@ -3,7 +3,8 @@ import QtQuick
 import Odizinne.QontrolPanel
 
 Item {
-    property bool darkMode: SoundPanelBridge.darkMode
+    id: constants
+    property bool darkMode: Qt.application.styleHints.colorScheme === Qt.ColorScheme.Dark
     property color accentColor: darkMode ? palette.accent : palette.highlight
     property color footerColor: darkMode ? "#1c1c1c" : "#eeeeee"
     property color footerBorderColor: darkMode ? "#0F0F0F" : "#A0A0A0"
@@ -23,23 +24,23 @@ Item {
         running: true
 
         onTriggered: {
-            switch (parent.chargingAnimationFrame) {
-            case 20:
+            switch (constants.chargingAnimationFrame) {
+                case 20:
                 parent.chargingAnimationFrame = 40
                 break
-            case 40:
+                case 40:
                 parent.chargingAnimationFrame = 60
                 break
-            case 60:
+                case 60:
                 parent.chargingAnimationFrame = 80
                 break
-            case 80:
+                case 80:
                 parent.chargingAnimationFrame = 100
                 break
-            case 100:
+                case 100:
                 parent.chargingAnimationFrame = 20
                 break
-            default:
+                default:
                 parent.chargingAnimationFrame = 20
                 break
             }

@@ -92,6 +92,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Panel theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Choose the appearance of the system tray icon</source>
         <translation type="unfinished"></translation>
     </message>

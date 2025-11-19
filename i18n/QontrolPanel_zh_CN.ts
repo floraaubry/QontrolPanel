@@ -152,6 +152,10 @@
         <translation>选择系统栏图标颜色</translation>
     </message>
     <message>
+        <source>Panel theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Tray icon style</source>
         <translation>任务栏图标风格</translation>
     </message>

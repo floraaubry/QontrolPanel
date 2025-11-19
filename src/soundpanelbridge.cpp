@@ -71,11 +71,6 @@ SoundPanelBridge::SoundPanelBridge(QObject* parent)
     if (settings.value("autoFetchForAppUpdates", false).toBool()) {
         QTimer::singleShot(5000, this, &SoundPanelBridge::checkForAppUpdates);
     }
-
-    if (QGuiApplication::styleHints()) {
-        connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged,
-                this, &SoundPanelBridge::onColorSchemeChanged);
-    }
 }
 
 SoundPanelBridge::~SoundPanelBridge()
@@ -596,26 +591,6 @@ void SoundPanelBridge::checkForAppUpdates()
     Updater::instance()->checkForUpdates();
 }
 
-bool SoundPanelBridge::darkMode() const
-{
-    return m_darkMode;
-}
-
-void SoundPanelBridge::updateDarkModeFromSystem()
-{
-    bool newDarkMode = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark;
-
-    if (m_darkMode != newDarkMode) {
-        m_darkMode = newDarkMode;
-        emit darkModeChanged();
-    }
-}
-
-void SoundPanelBridge::onColorSchemeChanged()
-{
-    updateDarkModeFromSystem();
-}
-
 bool SoundPanelBridge::hasMultipleUsers()
 {
     LogManager::instance()->sendLog(LogManager::SoundPanelBridge, "Checking for multiple users on system");
@@ -751,6 +726,22 @@ bool SoundPanelBridge::signOut()
 
 bool SoundPanelBridge::switchAccount()
 {
-    // Lock workstation which allows user switching from lock screen
     return LockWorkStation();
+}
+
+void SoundPanelBridge::setStyle(int style) {
+    switch (style) {
+    case 0:
+        qDebug() << "pass 0";
+        QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Unknown);
+        break;
+    case 1:
+        qDebug() << "pass 1";
+        QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Dark);
+        break;
+    case 2:
+        qDebug() << "pass 2";
+        QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Light);
+        break;
+    }
 }

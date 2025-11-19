@@ -63,4 +63,5 @@ Settings {
     property bool headsetControlManagerLogging: true
     property bool windowFocusManagerLogging: true
     property bool displayBatteryFooter: true
+    property int panelStyle: 0
 }

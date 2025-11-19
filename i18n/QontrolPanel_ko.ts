@@ -116,6 +116,10 @@
         <translation>트레이 아이콘 테마</translation>
     </message>
     <message>
+        <source>Panel theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Choose the appearance of the system tray icon</source>
         <translation>시스템 트레이 아이콘의 모양을 선택하세요</translation>
     </message>

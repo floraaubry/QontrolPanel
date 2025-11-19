@@ -24,6 +24,10 @@
         <translation>Clair</translation>
     </message>
     <message>
+        <source>Panel theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Avoid applications overflow</source>
         <translation>Éviter les débordements d&apos;applications</translation>
     </message>
