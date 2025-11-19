@@ -30,7 +30,6 @@ SoundPanelBridge::SoundPanelBridge(QObject* parent)
     : QObject(parent)
     , settings("Odizinne", "QontrolPanel")
     , m_currentPanelMode(0)
-    , m_darkMode(QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark)
     , translator(new QTranslator(this))
     , m_networkManager(new QNetworkAccessManager(this))
     , m_totalDownloads(0)
@@ -732,15 +731,12 @@ bool SoundPanelBridge::switchAccount()
 void SoundPanelBridge::setStyle(int style) {
     switch (style) {
     case 0:
-        qDebug() << "pass 0";
         QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Unknown);
         break;
     case 1:
-        qDebug() << "pass 1";
         QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Dark);
         break;
     case 2:
-        qDebug() << "pass 2";
         QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Light);
         break;
     }

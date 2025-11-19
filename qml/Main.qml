@@ -161,7 +161,7 @@ ApplicationWindow {
     }
 
     Shortcut {
-        sequence: StandardKey.Cancel
+        sequences: [StandardKey.Cancel]
         onActivated: {
             if (!panel.isAnimatingIn && !panel.isAnimatingOut && panel.visible) {
                 panel.hidePanel()
