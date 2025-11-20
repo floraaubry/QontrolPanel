@@ -93,7 +93,7 @@
     </message>
     <message>
         <source>Panel theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema pannello</translation>
     </message>
     <message>
         <source>Choose the appearance of the system tray icon</source>
@@ -728,7 +728,7 @@ Puoi abilitarlo nella scheda Generale.</translation>
     </message>
     <message>
         <source>Unknow date</source>
-        <translation>13.11.2025</translation>
+        <translation>20.11.2025</translation>
     </message>
     <message>
         <source>Update Translations</source>
@@ -992,10 +992,6 @@ Puoi abilitarlo nella scheda Generale.</translation>
     <message>
         <source>Exit</source>
         <translation>Esci da QuickSoundSwitcher</translation>
-    </message>
-    <message>
-        <source></source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Windows sound settings (Legacy)</source>
