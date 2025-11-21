@@ -707,7 +707,7 @@ ApplicationWindow {
                                 spacing: -4
                                 Label {
                                     visible: UserSettings.displayDevAppLabel
-                                    opacity: 0.5
+                                    opacity: 1
                                     elide: Text.ElideRight
                                     Layout.preferredWidth: outputSlider.implicitWidth - 30
                                     Layout.leftMargin: 18
@@ -783,7 +783,7 @@ ApplicationWindow {
                                 spacing: -4
                                 Label {
                                     visible: UserSettings.displayDevAppLabel
-                                    opacity: 0.5
+                                    opacity: 1
                                     elide: Text.ElideRight
                                     Layout.preferredWidth: inputSlider.implicitWidth - 30
                                     Layout.leftMargin: 18
@@ -949,7 +949,7 @@ ApplicationWindow {
 
                                                 Label {
                                                     visible: UserSettings.displayDevAppLabel
-                                                    opacity: UserSettings.chatMixEnabled ? 0.3 : 0.5
+                                                    opacity: UserSettings.chatMixEnabled ? 0.3 : 1
                                                     elide: Text.ElideRight
                                                     Layout.preferredWidth: 200
                                                     Layout.leftMargin: 18
@@ -1088,7 +1088,7 @@ ApplicationWindow {
 
                                 Label {
                                     visible: UserSettings.displayDevAppLabel
-                                    opacity: 0.5
+                                    opacity: 1
                                     text: qsTr("ChatMix")
                                     Layout.leftMargin: 18
                                     Layout.rightMargin: 25
@@ -1170,7 +1170,7 @@ ApplicationWindow {
 
                                 Label {
                                     visible: UserSettings.displayDevAppLabel
-                                    opacity: 0.5
+                                    opacity: 1
                                     text: qsTr("Brightness")
                                     Layout.leftMargin: 18
                                     Layout.rightMargin: 25
