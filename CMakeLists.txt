@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(QontrolPanel VERSION 1.9.7 LANGUAGES C CXX)
+project(QontrolPanel VERSION 1.9.8 LANGUAGES C CXX)
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation directory" FORCE)
 set(CMAKE_CXX_STANDARD 20)
