@@ -73,23 +73,23 @@
     </message>
     <message>
         <source>Hidden</source>
-        <translation>Скрыть</translation>
+        <translation type="vanished">Скрыть</translation>
     </message>
     <message>
         <source>Media info display</source>
-        <translation>Медиа дисплей</translation>
+        <translation type="vanished">Медиа дисплей</translation>
     </message>
     <message>
         <source>Display currently playing media from Windows known sources</source>
-        <translation>Отображение текущего медиа из Windows приложений</translation>
+        <translation type="vanished">Отображение текущего медиа из Windows приложений</translation>
     </message>
     <message>
         <source>Flyout (interactive)</source>
-        <translation>Всплывающее окно (интерактивное)</translation>
+        <translation type="vanished">Всплывающее окно (интерактивное)</translation>
     </message>
     <message>
         <source>Panel (informative)</source>
-        <translation>Панель (информационная)</translation>
+        <translation type="vanished">Панель (информационная)</translation>
     </message>
     <message>
         <source>Applications and devices label</source>
@@ -365,6 +365,14 @@
     <message>
         <source>Show brightness control in panel</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable media session manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display currently playing media from Windows known sources</source>
+        <translation type="unfinished">Отображение текущего медиа из Windows приложений</translation>
     </message>
 </context>
 <context>

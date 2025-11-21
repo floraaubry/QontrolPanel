@@ -34,49 +34,6 @@ Rectangle {
         anchors.rightMargin: 10
         spacing: 10
 
-        Image {
-            id: compactMedia
-            Layout.preferredWidth: 32
-            Layout.preferredHeight: 32
-            Layout.alignment: Qt.AlignVCenter
-            source: SoundPanelBridge.mediaArt || ""
-            fillMode: Image.PreserveAspectCrop
-            visible: SoundPanelBridge.mediaArt !== "" && UserSettings.mediaMode === 1
-        }
-
-        ColumnLayout {
-            spacing: 2
-            Layout.fillWidth: true
-            visible: UserSettings.mediaMode === 1 && SoundPanelBridge.mediaTitle !== "" && SoundPanelBridge.mediaArtist !== ""
-
-            Item {
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-            }
-
-            Label {
-                text: SoundPanelBridge.mediaTitle || ""
-                font.pixelSize: 14
-                font.bold: true
-                elide: Text.ElideRight
-                Layout.fillWidth: true
-                visible: UserSettings.mediaMode === 1
-            }
-
-            Label {
-                text: SoundPanelBridge.mediaArtist || ""
-                font.pixelSize: 12
-                opacity: 0.7
-                elide: Text.ElideRight
-                Layout.fillWidth: true
-                visible: UserSettings.mediaMode === 1
-            }
-
-            Item {
-                Layout.fillHeight: true
-            }
-        }
-
         RowLayout {
             id: batteryIndicator
             visible: UserSettings.displayBatteryFooter &&
@@ -108,7 +65,7 @@ Rectangle {
             Layout.preferredWidth: updateLyt.implicitWidth
             Layout.preferredHeight: Math.max(updateIcon.height, updateLabel.height)
             Layout.leftMargin: 10
-            visible: !compactMedia.visible && Updater.updateAvailable
+            visible: Updater.updateAvailable
 
             RowLayout {
                 id: updateLyt
@@ -141,7 +98,6 @@ Rectangle {
 
         Item {
             Layout.fillWidth: true
-            visible: UserSettings.mediaMode === 1 && SoundPanelBridge.mediaTitle !== "" ? false : true
         }
 
         NFToolButton {

@@ -76,6 +76,16 @@ ColumnLayout {
                         onClicked: UserSettings.headsetcontrolMonitoring = checked
                     }
                 }
+
+                Card {
+                    Layout.fillWidth: true
+                    title: qsTr("Enable media session manager")
+                    description: qsTr("Display currently playing media from Windows known sources")
+                    additionalControl: LabeledSwitch {
+                        checked: UserSettings.enableMediaSessionManager
+                        onClicked: UserSettings.enableMediaSessionManager = checked
+                    }
+                }
             }
         }
     }

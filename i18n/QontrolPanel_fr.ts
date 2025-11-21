@@ -45,7 +45,7 @@
     </message>
     <message>
         <source>Display currently playing media from Windows known sources</source>
-        <translation>Afficher les médias en cours de lecture depuis les sources reconnues de Windows</translation>
+        <translation type="vanished">Afficher les médias en cours de lecture depuis les sources reconnues de Windows</translation>
     </message>
     <message>
         <source>Bottom</source>
@@ -57,7 +57,7 @@
     </message>
     <message>
         <source>Hidden</source>
-        <translation>Masqué</translation>
+        <translation type="vanished">Masqué</translation>
     </message>
     <message>
         <source>Normal</source>
@@ -109,15 +109,15 @@
     </message>
     <message>
         <source>Media info display</source>
-        <translation>Affichage des infos média</translation>
+        <translation type="vanished">Affichage des infos média</translation>
     </message>
     <message>
         <source>Panel (informative)</source>
-        <translation>Panneau (informatif)</translation>
+        <translation type="vanished">Panneau (informatif)</translation>
     </message>
     <message>
         <source>Flyout (interactive)</source>
-        <translation>Flyout (interactif)</translation>
+        <translation type="vanished">Flyout (interactif)</translation>
     </message>
     <message>
         <source>Opacity animations</source>
@@ -314,6 +314,14 @@
         <source>Enable HeadsetControl integration</source>
         <translatorcomment>ne pas traduire &quot;HeadsetControl&quot;</translatorcomment>
         <translation>Activer l&apos;intégration HeadsetControl</translation>
+    </message>
+    <message>
+        <source>Enable media session manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display currently playing media from Windows known sources</source>
+        <translation type="unfinished">Afficher les médias en cours de lecture depuis les sources reconnues de Windows</translation>
     </message>
     <message>
         <source>Components</source>

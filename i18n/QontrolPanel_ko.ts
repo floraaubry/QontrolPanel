@@ -73,23 +73,23 @@
     </message>
     <message>
         <source>Hidden</source>
-        <translation>숨기기</translation>
+        <translation type="vanished">숨기기</translation>
     </message>
     <message>
         <source>Media info display</source>
-        <translation>미디어 정보 표시</translation>
+        <translation type="vanished">미디어 정보 표시</translation>
     </message>
     <message>
         <source>Display currently playing media from Windows known sources</source>
-        <translation>Windows에서 알려진 소스에서 현재 재생 중인 미디어 표시</translation>
+        <translation type="vanished">Windows에서 알려진 소스에서 현재 재생 중인 미디어 표시</translation>
     </message>
     <message>
         <source>Flyout (interactive)</source>
-        <translation>플라이아웃 (대화식)</translation>
+        <translation type="vanished">플라이아웃 (대화식)</translation>
     </message>
     <message>
         <source>Panel (informative)</source>
-        <translation>패널 (정보 제공)</translation>
+        <translation type="vanished">패널 (정보 제공)</translation>
     </message>
     <message>
         <source>Applications and devices label</source>
@@ -369,6 +369,14 @@
     <message>
         <source>Show brightness control in panel</source>
         <translation>패널에 밝기 제어 표시</translation>
+    </message>
+    <message>
+        <source>Enable media session manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display currently playing media from Windows known sources</source>
+        <translation type="unfinished">Windows에서 알려진 소스에서 현재 재생 중인 미디어 표시</translation>
     </message>
 </context>
 <context>

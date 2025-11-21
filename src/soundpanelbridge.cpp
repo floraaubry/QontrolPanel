@@ -187,9 +187,7 @@ void SoundPanelBridge::previousTrack() {
 }
 
 void SoundPanelBridge::startMediaMonitoring() {
-    if (settings.value("displayMediaInfos", true).toBool()) {
-        MediaSessionManager::startMonitoringAsync();
-    }
+    MediaSessionManager::startMonitoringAsync();
 }
 
 void SoundPanelBridge::stopMediaMonitoring() {

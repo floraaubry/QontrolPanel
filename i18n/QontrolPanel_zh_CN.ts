@@ -81,23 +81,23 @@
     </message>
     <message>
         <source>Hidden</source>
-        <translation>隐藏</translation>
+        <translation type="vanished">隐藏</translation>
     </message>
     <message>
         <source>Media info display</source>
-        <translation>媒体信息显示方式</translation>
+        <translation type="vanished">媒体信息显示方式</translation>
     </message>
     <message>
         <source>Display currently playing media from Windows known sources</source>
-        <translation>显示Windows识别的当前播放媒体信息</translation>
+        <translation type="vanished">显示Windows识别的当前播放媒体信息</translation>
     </message>
     <message>
         <source>Flyout (interactive)</source>
-        <translation>弹出面板（可交互）</translation>
+        <translation type="vanished">弹出面板（可交互）</translation>
     </message>
     <message>
         <source>Panel (informative)</source>
-        <translation>固定面板（仅显示信息）</translation>
+        <translation type="vanished">固定面板（仅显示信息）</translation>
     </message>
     <message>
         <source>Applications and devices label</source>
@@ -373,6 +373,14 @@
     <message>
         <source>Show brightness control in panel</source>
         <translation>在面板中显示亮度控制条</translation>
+    </message>
+    <message>
+        <source>Enable media session manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display currently playing media from Windows known sources</source>
+        <translation type="unfinished">显示Windows识别的当前播放媒体信息</translation>
     </message>
 </context>
 <context>

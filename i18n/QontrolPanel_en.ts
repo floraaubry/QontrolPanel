@@ -48,26 +48,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Hidden</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Media info display</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Display currently playing media from Windows known sources</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Flyout (interactive)</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Panel (informative)</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Applications and devices label</source>
         <translation></translation>
     </message>
@@ -336,6 +316,14 @@
     </message>
     <message>
         <source>Show brightness control in panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable media session manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display currently playing media from Windows known sources</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

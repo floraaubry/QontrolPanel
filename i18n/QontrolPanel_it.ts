@@ -49,23 +49,23 @@
     </message>
     <message>
         <source>Hidden</source>
-        <translation>Nascosto</translation>
+        <translation type="vanished">Nascosto</translation>
     </message>
     <message>
         <source>Media info display</source>
-        <translation>Visualizza info media</translation>
+        <translation type="vanished">Visualizza info media</translation>
     </message>
     <message>
         <source>Display currently playing media from Windows known sources</source>
-        <translation>Visualizza media in riproduzione da fonti Windows conosciute</translation>
+        <translation type="vanished">Visualizza media in riproduzione da fonti Windows conosciute</translation>
     </message>
     <message>
         <source>Flyout (interactive)</source>
-        <translation>Flyout (interattivo)</translation>
+        <translation type="vanished">Flyout (interattivo)</translation>
     </message>
     <message>
         <source>Panel (informative)</source>
-        <translation>Pannello (informativo)</translation>
+        <translation type="vanished">Pannello (informativo)</translation>
     </message>
     <message>
         <source>Applications and devices label</source>
@@ -337,6 +337,14 @@
     <message>
         <source>Show brightness control in panel</source>
         <translation>Visualizza controllo luminosità nel pannello</translation>
+    </message>
+    <message>
+        <source>Enable media session manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display currently playing media from Windows known sources</source>
+        <translation type="unfinished">Visualizza media in riproduzione da fonti Windows conosciute</translation>
     </message>
 </context>
 <context>

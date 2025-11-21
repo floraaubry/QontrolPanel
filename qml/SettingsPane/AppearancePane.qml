@@ -82,19 +82,6 @@ ColumnLayout {
 
             Card {
                 Layout.fillWidth: true
-                title: qsTr("Media info display")
-                description: qsTr("Display currently playing media from Windows known sources")
-
-                additionalControl: CustomComboBox {
-                    Layout.preferredHeight: 35
-                    model: [qsTr("Flyout (interactive)"), qsTr("Panel (informative)"), qsTr("Hidden")]
-                    currentIndex: UserSettings.mediaMode
-                    onActivated: UserSettings.mediaMode = currentIndex
-                }
-            }
-
-            Card {
-                Layout.fillWidth: true
                 title: qsTr("Applications and devices label")
                 description: ""
 
