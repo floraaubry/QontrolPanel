@@ -483,6 +483,33 @@
     </message>
 </context>
 <context>
+    <name>DeviceRenamingPane</name>
+    <message>
+        <source>Renaming</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Streams</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DevicesListView</name>
     <message>
         <source>Save</source>
@@ -895,6 +922,10 @@ Vous pouvez l&apos;activer dans l&apos;onglet Général.</translation>
     <message>
         <source>Appearance</source>
         <translation>Apparence</translation>
+    </message>
+    <message>
+        <source>Renaming</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Updates</source>

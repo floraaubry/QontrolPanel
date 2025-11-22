@@ -108,6 +108,10 @@ ApplicationWindow {
                             icon: "qrc:/icons/headsetcontrol.svg"
                         },
                         {
+                            text: qsTr("Renaming"),
+                            icon: "qrc:/icons/rename.svg"
+                        },
+                        {
                             text: qsTr("Language"),
                             icon: "qrc:/icons/language.svg"
                         },
@@ -156,9 +160,10 @@ ApplicationWindow {
                                     case 3: stackView.push(commAppsPaneComponent); break
                                     case 4: stackView.push(shortcutsPaneComponent); break
                                     case 5: stackView.push(headsetControlPaneComponent); break
-                                    case 6: stackView.push(languagePaneComponent); break
-                                    case 7: stackView.push(debugPaneComponent); break
-                                    case 8: stackView.push(consolePaneComponent); break
+                                    case 6: stackView.push(deviceRenamingPaneComponent); break
+                                    case 7: stackView.push(languagePaneComponent); break
+                                    case 8: stackView.push(debugPaneComponent); break
+                                    case 9: stackView.push(consolePaneComponent); break
                                 }
                             }
                         }
@@ -247,6 +252,11 @@ ApplicationWindow {
             Component {
                 id: headsetControlPaneComponent
                 HeadsetControlPane {}
+            }
+
+            Component {
+                id: deviceRenamingPaneComponent
+                DeviceRenamingPane {}
             }
 
             Component {

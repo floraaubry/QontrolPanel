@@ -457,6 +457,33 @@
     </message>
 </context>
 <context>
+    <name>DeviceRenamingPane</name>
+    <message>
+        <source>Renaming</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Streams</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DevicesListView</name>
     <message>
         <source>Rename Device</source>
@@ -879,6 +906,10 @@ Puoi abilitarlo nella scheda Generale.</translation>
     <message>
         <source>Components</source>
         <translation>Componenti</translation>
+    </message>
+    <message>
+        <source>Renaming</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Debug</source>

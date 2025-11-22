@@ -80,5 +80,6 @@
         <file>component.svg</file>
         <file>power.svg</file>
         <file>chip.svg</file>
+        <file>rename.svg</file>
     </qresource>
 </RCC>

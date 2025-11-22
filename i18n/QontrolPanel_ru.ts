@@ -505,6 +505,33 @@
     </message>
 </context>
 <context>
+    <name>DeviceRenamingPane</name>
+    <message>
+        <source>Renaming</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Streams</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DevicesListView</name>
     <message>
         <source>Rename Device</source>
@@ -989,6 +1016,10 @@ You can enable it in the General tab.</source>
     <message>
         <source>Shortcuts</source>
         <translation>Сочетания клавиш</translation>
+    </message>
+    <message>
+        <source>Renaming</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Language</source>
